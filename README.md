@@ -1,4 +1,4 @@
-<p style="align=center">
+<p align="center">
     <img src="https://github.com/Coenicorn/DeGroeneWeide/blob/main/assets/hansbastiaan.jpg" alt="Hans Bastiaan">
 </p>
 # De Groene Weide
