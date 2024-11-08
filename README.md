@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/Coenicorn/DeGroeneWeide/blob/main/assets/hansbastiaan.jpg" alt="Hans Bastiaan">
+    <img src="https://github.com/Coenicorn/DeGroeneWeide/blob/main/img/hansbastiaan.jpg" alt="Hans Bastiaan">
 </p>
 
 # De Groene Weide
