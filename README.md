@@ -1,5 +1,5 @@
 <p style="align=center">
-    ![Hans Bastiaan](https://github.com/Coenicorn/DeGroeneWeide/blob/main/assets/hansbastiaan.jpg)
+    <img src="https://github.com/Coenicorn/DeGroeneWeide/blob/main/assets/hansbastiaan.jpg" alt="Hans Bastiaan">
 </p>
 # De Groene Weide
 
