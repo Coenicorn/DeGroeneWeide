@@ -32,8 +32,11 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define RST_PIN         0           // Configurable, see typical pin layout above
-#define SS_PIN          15          // Configurable, see typical pin layout above
+#define RST_PIN         22           // Configurable, see typical pin layout above
+#define SS_PIN          5          // Configurable, see typical pin layout above
+#define GREEN_LED_PIN   2
+#define RED_LED_PIN     4
+
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
@@ -45,7 +48,10 @@ byte accessUID[4] = {0xA2, 0x2D, 0x7F, 0x51};
  * Initialize.
  */
 void setup() {
-    Serial.begin(9600); // Initialize serial communications with the PC
+    pinMode(GREEN_LED_PIN, OUTPUT);
+    pinMode(RED_LED_PIN, OUTPUT);
+
+    Serial.begin(115200); // Initialize serial communications with the PC
     while (!Serial);    // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
     SPI.begin();        // Init SPI bus
     mfrc522.PCD_Init(); // Init MFRC522 card
@@ -68,42 +74,41 @@ void setup() {
  * Main loop.
  */
 void loop() {
-    // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
-    if ( ! mfrc522.PICC_IsNewCardPresent())
-        return;
+
+  
+
+  // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
+  if ( ! mfrc522.PICC_IsNewCardPresent())
+    return;
 
     
 
-    // Select one of the cards
-    if ( ! mfrc522.PICC_ReadCardSerial())
-        return;
-      
-      Serial.print(F("Card UID:"));
-      dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
-      Serial.println(); 
-      Serial.println("********************************"); 
+  // Select one of the cards
+  if ( ! mfrc522.PICC_ReadCardSerial())
+    return;
 
-
-    if (!check_uid()) {
-      dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
-      Serial.println("access denied");
-    } else {
-      dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
-      Serial.println("access granted");
-    }
-
+  if (!check_uid()) {
+    Serial.println("access denied");
+    digitalWrite(RED_LED_PIN, HIGH);
     delay(1000);
+    digitalWrite(RED_LED_PIN, LOW);
+  } else {
+    Serial.println("access granted");
+    digitalWrite(GREEN_LED_PIN, HIGH);
+    delay(1000);
+    digitalWrite(GREEN_LED_PIN, LOW);
 
-    // Show some details of the PICC (that is: the tag/card)
-    
+  }
+
+  delay(1000);
 }
 
 void dump_byte_array(byte *buffer, byte bufferSize) {
-    for (byte i = 0; i < bufferSize; i++) {
-        Serial.print(buffer[i] < 0x10 ? " 0" : " ");
-        Serial.print(buffer[i], HEX);
-    }
-    Serial.println();
+  for (byte i = 0; i < bufferSize; i++) {
+    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
+    Serial.print(buffer[i], HEX);
+  }
+  Serial.println();
 }
 
 bool check_uid() {
