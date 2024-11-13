@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <EEPROM.h>
+#include <WiFi.h>
 
 #define RST_PIN         22
 #define SS_PIN          5
@@ -16,6 +17,10 @@ byte newToken[16];
 byte correctToken[16];
 byte buffer[18];
 
+const char* ssid = "WiFi";
+const char* password = "password";
+
+
 
 void setup() {
   pinMode(GREEN_LED_PIN, OUTPUT);
@@ -23,6 +28,7 @@ void setup() {
 
   Serial.begin(115200); // Initialize serial communications with the PC
   while (!Serial);    // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
+  delay(2000);
   SPI.begin();        // Init SPI bus
   mfrc522.PCD_Init(); // Init MFRC522 card
   EEPROM.begin(EEPROM_SIZE);
@@ -33,6 +39,7 @@ void setup() {
     key.keyByte[i] = 0xFF;
   }
   set_correct_token();
+  initWiFi();
 }
 
 
@@ -174,4 +181,15 @@ void set_correct_token(){
     EEPROM.commit();
 
   }
+}
+
+void initWiFi() {
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi ..");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
+  }
+  Serial.println(WiFi.localIP());
 }
