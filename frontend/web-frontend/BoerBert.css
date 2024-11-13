@@ -1,0 +1,44 @@
+  body {
+     background-image: url(../Pictures/family-camping-COVER.jpg);
+     background-repeat: no-repeat;
+     background-position: center;
+     margin-right: 200px;
+     background-attachment: fixed;
+  }
+  h1 {
+    color: blue;
+    text-align: center;
+  }
+  h2, h3, h4 {
+    color: blue;
+    font-family:  Helvetica;
+    font-size:  x-large;
+    border: blue;
+    padding: 30px;
+    text-align: left;
+  }
+  p {
+    color: white;
+    font-family:  helvetica;
+    font-size:  medium;
+    text-align: left;
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    float: center;
+  }
+  
+  li a {
+    display: block;
+    padding: 8px;
+  }
+  footer {
+    color: white;
+    text-align: right;
+  }
