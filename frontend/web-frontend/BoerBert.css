@@ -1,44 +1,53 @@
-  body {
-     background-image: url(../Pictures/family-camping-COVER.jpg);
-     background-repeat: no-repeat;
-     background-position: center;
-     margin-right: 200px;
-     background-attachment: fixed;
-  }
-  h1 {
-    color: blue;
-    text-align: center;
-  }
-  h2, h3, h4 {
-    color: blue;
-    font-family:  Helvetica;
-    font-size:  x-large;
-    border: blue;
-    padding: 30px;
-    text-align: left;
-  }
-  p {
-    color: white;
-    font-family:  helvetica;
-    font-size:  medium;
-    text-align: left;
-  }
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  
-  li {
-    float: center;
-  }
-  
-  li a {
-    display: block;
-    padding: 8px;
-  }
-  footer {
-    color: white;
-    text-align: right;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
+  background-color: #000;
+}
+
+li, a, button {
+  font-family: "sans-serif";
+  font-weight: 500;
+  font-size: 16px;
+  color: white;
+  text-decoration: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.nav__links {
+  list-style: none;
+}
+.nav__links li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+.nav__links li a {
+  transition: all 0.3s ease 0s;
+}
+.nav__links li a:hover {
+  color: #0088a9
+}
+
+button {
+  padding: 9px 25px;
+  background-color: rgba(0,136,169,1);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+button:hover {
+  background-color: rgba
+}
+
+*
