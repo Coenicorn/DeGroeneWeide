@@ -121,6 +121,9 @@ void dump_byte_array(byte *buffer, byte bufferSize)
 
 bool check_uid()
 {
+	Serial.print("Test if memcmp works: ");
+	Serial.println(memcmp(accessUID, mfrc522.uid.uidByte, sizeof(accessUID)));
+
 	bool checked = true;
 	for (int i = 0; i < sizeof(accessUID); i++)
 	{
