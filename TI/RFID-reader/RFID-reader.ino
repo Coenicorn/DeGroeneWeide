@@ -42,7 +42,6 @@ void setup() {
   EEPROM.begin(EEPROM_SIZE);        // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
   initWiFi();
 
-
   generate_key(); // genereert een key die nodig is om bij de data van de NFC-pas te komen
   set_correct_token(); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 }
@@ -87,6 +86,7 @@ void loop() {
 
 
   generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
+  write_mode(tokenBlock);
   write_block(tokenBlock, newToken); // Schrijft de nieuweToken naar de NFC-pas
 
 
