@@ -1,13 +1,8 @@
-<<<<<<< Updated upstream
 #include <SPI.h>
 #include <MFRC522.h>
 #include <EEPROM.h>
 #include <WiFi.h>
-=======
-#include <SPI.h>              // library voor de SPI bus
-#include <MFRC522.h>          // library voor de NFC-reader/writer
-#include <EEPROM.h>           // library voor de lokale storagae
->>>>>>> Stashed changes
+
 
 #define RST_PIN         22    // De pin die om de NFC-reader/writer te hard resetten
 #define SS_PIN          5     // De pin die aangesloten is op de SS van de NFC-reader/writer
@@ -34,45 +29,27 @@ const char* password = "password";
 
 void setup() {
 
-
   // definieren dat de pins van de led lampjes output pins zijn
   pinMode(GREEN_LED_PIN, OUTPUT); 
   pinMode(RED_LED_PIN, OUTPUT);
 
-<<<<<<< Updated upstream
-  Serial.begin(115200); // Initialize serial communications with the PC
-  while (!Serial);    // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
-  delay(2000);
-  SPI.begin();        // Init SPI bus
-  mfrc522.PCD_Init(); // Init MFRC522 card
-  EEPROM.begin(EEPROM_SIZE);
 
-  // Prepare the key (used both as key A and as key B)
-  // using FFFFFFFFFFFFh which is the default at chip delivery from the factory
-  for (byte i = 0; i < 6; i++) {
-    key.keyByte[i] = 0xFF;
-  }
-  set_correct_token();
-  initWiFi();
-=======
 
 
   Serial.begin(115200);             // Serial monitor starten zodat we output van de ESP32 kunnen lezen 
   SPI.begin();                      // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
   mfrc522.PCD_Init();               // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje 
   EEPROM.begin(EEPROM_SIZE);        // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-
-
-
+  // initWiFi();
 
 
   generate_key(); // genereert een key die nodig is om bij de data van de NFC-pas te komen
   set_correct_token(); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
->>>>>>> Stashed changes
 }
 
 
 void loop() {
+
   // Dit checkt om te zien of er een NFC-pas voor de reader/writer zit, zo niet dan start de loop functie opnieuw
   if ( ! mfrc522.PICC_IsNewCardPresent()) return;
     
@@ -177,7 +154,7 @@ void set_correct_token(){
   }
 }
 
-<<<<<<< Updated upstream
+
 void initWiFi() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -188,7 +165,7 @@ void initWiFi() {
   }
   Serial.println(WiFi.localIP());
 }
-=======
+
 
 
 
@@ -287,4 +264,3 @@ void generate_key(){
     key.keyByte[i] = 0xFF;
   }
 }
->>>>>>> Stashed changes
