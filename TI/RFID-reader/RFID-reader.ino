@@ -22,8 +22,8 @@ byte size = sizeof(buffer);   // Om later de grootte van de buffer mee te geven 
 byte tokenBlock = 4;           // Welk blok adres(16 bytes) er later uitgelezen wordt van de NFC-pas 
 
 
-const char* ssid = "WiFi";
-const char* password = "password";
+const char* ssid = "Cisco19073";
+const char* password = "kaassouflay";
 
 
 
@@ -40,7 +40,7 @@ void setup() {
   SPI.begin();                      // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
   mfrc522.PCD_Init();               // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje 
   EEPROM.begin(EEPROM_SIZE);        // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-  // initWiFi();
+  initWiFi();
 
 
   generate_key(); // genereert een key die nodig is om bij de data van de NFC-pas te komen
