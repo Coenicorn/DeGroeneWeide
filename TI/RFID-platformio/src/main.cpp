@@ -238,17 +238,27 @@ void loop()
 		return;
 
 	// maak buffer om de huidige token van de kaart in op te slaan
-	byte bufSize = 18;
-	byte buffer[bufSize];
+	byte tokenBufSize = 18;
+	byte tokenBuffer[tokenBufSize];
 
 	// lees de huidige token en sla op in buffer
-	read_block(TOKEN_BLOCK, buffer, &bufSize);
+	// read_block(TOKEN_BLOCK, buffer, &bufSize);
+	enter_read_mode(TOKEN_BLOCK);
+	MFRC522::StatusCode status = mfrc522.MIFARE_Read(TOKEN_BLOCK, tokenBuffer, &tokenBufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
+
+	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
+	{
+		Serial.print(F("PCD_Authenticate() failed: "));
+		Serial.println(mfrc522.GetStatusCodeName(status));
+
+		return;
+	}
 
 	// print data in de buffer
-	Serial.print(F("Data in token block: ")); print_byte_array(buffer, TOKEN_SIZE); Serial.println();
+	Serial.print(F("Data in token block: ")); print_byte_array(tokenBuffer, TOKEN_SIZE); Serial.println();
 
 	// check of de token geldig is
-	const bool isValidated = validate_token(buffer, 16);
+	const bool isValidated = validate_token(tokenBuffer, 16);
 
 	if (!isValidated)
 	{
