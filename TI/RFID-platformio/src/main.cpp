@@ -21,8 +21,8 @@ byte size = sizeof(buffer);   // Om later de grootte van de buffer mee te geven 
 byte tokenBlock = 4;           // Welk blok adres(16 bytes) er later uitgelezen wordt van de NFC-pas 
 
 
-const char* ssid = "Cisco19073";
-const char* password = "kaassouflay";
+static const char* ssid = "Cisco19073";
+static const char* password = "kaassouflay";
 
 // Print de gegeven byte_array naar de Serial monitor
 void dump_byte_array(byte *buffer, byte bufferSize) {
