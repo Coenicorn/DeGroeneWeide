@@ -9,21 +9,20 @@
 #define RED_LED_PIN 4	// De pin voor het rode led lampje
 #define EEPROM_SIZE 16	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
+#define TOKEN_BLOCK 4
+
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 MFRC522::MIFARE_Key key;		  // Een instancie van een key maken
 
 byte newToken[16];			// Dit is de variabele waarin de straks nieuwe gegenereerde token op wordt geslagen
 byte correctToken[16];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
-byte buffer[18];			// Dit is de buffer waar de gelezen data in op wordt geslagen zodat die daarna naar de Serial monitor geprint kan worden of opgeslagen kan worden (eerlijkgezegd geen idee waaom het 18 is ipv 16 maar anders doet hij het niet)
-byte size = sizeof(buffer); // Om later de grootte van de buffer mee te geven aan de read en write functie
-byte tokenBlock = 4;		// Welk blok adres(16 bytes) er later uitgelezen wordt van de NFC-pas
 
 // factory default for access token
 static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
 
 // shouldn't upload this to github ':)
-static constexpr char *ssid = "Cisco19073";
-static constexpr char *password = "kaassouflay";
+static constexpr char ssid[] = "Cisco19073";
+static constexpr char password[] = "kaassouflay";
 
 /**
  * Prints a byte array to serial
@@ -129,27 +128,25 @@ void enter_write_mode(byte blockAddr)
 	}
 }
 
-// Deze funcite is om de data van een aangegeven block uit te lezen en te printen naar de serial monitor,  logt in de Serial monitor als het uitlezen faalt en laat dan de statuscode weten
-void read_block(byte blockAddr)
-{
-	enter_read_mode(tokenBlock);
+// Deze functie is om de data van een aangegeven block uit te lezen en te printen naar de serial monitor,  logt in de Serial monitor als het uitlezen faalt en laat dan de statuscode weten
 
-	MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
+/**
+ * Reads data at blockAddr into buffer of size bufSize
+ * @param bufSize needs to be at least 18
+ */
+void read_block(byte blockAddr, byte *buffer, byte *bufSize)
+{
+	enter_read_mode(TOKEN_BLOCK);
+
+	MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, bufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
 
 	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
 	{
 		Serial.print(F("MIFARE_Read() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
-		Serial.println();
 
 		return;
 	}
-
-	Serial.print(F("Data in block "));
-	Serial.print(blockAddr);
-	Serial.println(F(":"));
-	print_byte_array(buffer, 16); // Print de data in buffer naar de serial monitor
-	Serial.println();
 }
 
 /**
@@ -158,7 +155,7 @@ void read_block(byte blockAddr)
  */
 MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 {
-	enter_write_mode(tokenBlock);
+	enter_write_mode(TOKEN_BLOCK);
 
 	Serial.print(F("writing data("));
 	print_byte_array(data, 16);
@@ -231,7 +228,12 @@ void loop()
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
 
-	read_block(tokenBlock); // Het uitlezen van de token
+	byte bufSize = 18;
+	byte buffer[bufSize];
+
+	read_block(TOKEN_BLOCK, buffer, &bufSize); // Het uitlezen van de token
+
+	Serial.print(F("Data in token block: ")); print_byte_array(buffer, bufSize); Serial.println();
 
 	const bool isValidated = validate_token(buffer, 16);
 
@@ -249,14 +251,14 @@ void loop()
 	}
 
 	generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
-	MFRC522::StatusCode status = write_block(tokenBlock, newToken);
+	MFRC522::StatusCode status = write_block(TOKEN_BLOCK, newToken);
 
 	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
 	mfrc522.PICC_HaltA();
 	mfrc522.PCD_StopCrypto1();
 
 	// probeer nieuwe token te schrijven naar tag
-	if (write_block(tokenBlock, newToken))
+	if (write_block(TOKEN_BLOCK, newToken))
 		Serial.println("write failed :(");
 
 	// Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
