@@ -24,13 +24,15 @@ byte tokenBlock = 4;           // Welk blok adres(16 bytes) er later uitgelezen 
 static const char* ssid = "Cisco19073";
 static const char* password = "kaassouflay";
 
-// Print de gegeven byte_array naar de Serial monitor
-void dump_byte_array(byte *buffer, byte bufferSize) {
-  for (byte i = 0; i < bufferSize; i++) {
+/**
+ * Prints a byte array to serial
+ * @note does not append new line
+ */
+void print_byte_array(byte *buffer, size_t bufferSize) {
+  for (size_t i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
     Serial.print(buffer[i], HEX);
   }
-  Serial.println();
 }
 
 
