@@ -219,28 +219,33 @@ void loop() {
 
 
 
+  const bool isValidated = validate_token(buffer, 16);
 
-  // Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
-  // als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
-  if (validate_token(buffer, 16)) 
-  { 
-    Serial.println("valid token");
-    digitalWrite(GREEN_LED_PIN, HIGH);
-    Serial.println();
-  } 
-  else 
+  if (!isValidated) 
   {
+    // verbreek verbinding
+    mfrc522.PICC_HaltA();
+    mfrc522.PCD_StopCrypto1();
+
     Serial.println("token invalid");
+
     digitalWrite(RED_LED_PIN, HIGH);
+
     delay(1000);
+
     digitalWrite(RED_LED_PIN, LOW);
     Serial.println();
 
     // verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
-    mfrc522.PICC_HaltA();
-    mfrc522.PCD_StopCrypto1();
     return;
-   }
+  }
+
+
+  // Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
+  // als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
+  Serial.println("valid token");
+  digitalWrite(GREEN_LED_PIN, HIGH);
+  Serial.println();
 
 
   generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
