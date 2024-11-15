@@ -194,6 +194,18 @@ void generate_key()
 	}
 }
 
+void flash_led(uint pin) {
+	
+	for (uint8_t i = 0; i < 5; i++) {
+		// timings completely arbitrary
+		digitalWrite(pin, HIGH);
+		delay(100);
+		digitalWrite(pin, LOW);
+		delay(100);
+	}
+
+}
+
 void setup()
 {
 
