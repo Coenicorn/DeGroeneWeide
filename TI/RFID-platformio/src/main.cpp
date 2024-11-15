@@ -18,6 +18,7 @@ byte buffer[18];			// Dit is de buffer waar de gelezen data in op wordt geslagen
 byte size = sizeof(buffer); // Om later de grootte van de buffer mee te geven aan de read en write functie
 byte tokenBlock = 4;		// Welk blok adres(16 bytes) er later uitgelezen wordt van de NFC-pas
 
+// shouldn't upload this to github ':)
 static const char *ssid = "Cisco19073";
 static const char *password = "kaassouflay";
 
@@ -29,8 +30,9 @@ void print_byte_array(byte *buffer, size_t bufferSize)
 {
 	for (size_t i = 0; i < bufferSize; i++)
 	{
-		Serial.print(buffer[i] < 0x10 ? " 0" : " ");
+		Serial.print(buffer[i] < 0x10 ? "0" : "");
 		Serial.print(buffer[i], HEX);
+		Serial.print(F(" "));
 	}
 }
 
@@ -162,7 +164,7 @@ void read_block(byte blockAddr)
  * Probeert data te schrijven naar een adres op de NFC tag
  * @returns true wanneer de functie faalt
  */
-bool write_block(byte blockAddr, byte data[16])
+MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 {
 
 	Serial.print(F("writing data("));
@@ -176,13 +178,13 @@ bool write_block(byte blockAddr, byte data[16])
 	{
 		Serial.print(F("MIFARE_Write() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
-		return true;
+	} else {
+		Serial.println();
+		save_new_token();	 // Slaat de nieuwe token op in de lokale opslag (EEPROM)
+		set_correct_token(); // Maakt de lokaal opgeslagen token de nieuwe correcte token
 	}
-	Serial.println();
-	save_new_token();	 // Slaat de nieuwe token op in de lokale opslag (EEPROM)
-	set_correct_token(); // Maakt de lokaal opgeslagen token de nieuwe correcte token
 
-	return false;
+	return status;
 }
 
 // Genereert de key nodig om toegang te krijgen tot de data, de fabrieksstandaard is FFFFFFFFFFFF
@@ -208,7 +210,6 @@ void flash_led(uint pin) {
 
 void setup()
 {
-
 	// definieren dat de pins van de led lampjes output pins zijn
 	pinMode(GREEN_LED_PIN, OUTPUT);
 	pinMode(RED_LED_PIN, OUTPUT);
@@ -247,41 +248,25 @@ void loop()
 
 		Serial.println("token invalid");
 
-		digitalWrite(RED_LED_PIN, HIGH);
+		flash_led(RED_LED_PIN);
 
-		delay(1000);
-
-		digitalWrite(RED_LED_PIN, LOW);
-		Serial.println();
-
-		// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
 		return;
 	}
 
 	generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
 	write_mode(tokenBlock);
+	MFRC522::StatusCode status = write_block(tokenBlock, newToken);
 
-	if (write_block(tokenBlock, newToken))
-	{
-		// write failed
-		Serial.println("write failed :(");
+	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
+	mfrc522.PICC_HaltA();
+	mfrc522.PCD_StopCrypto1();
 
-		return;
-	}
-	else
-	{
-		// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
-		mfrc522.PICC_HaltA();
-		mfrc522.PCD_StopCrypto1();
-	}
+	// probeer nieuwe token te schrijven naar tag
+	if (write_block(tokenBlock, newToken)) Serial.println("write failed :(");
 
 	// Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
 	// als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
 	Serial.println("valid token");
 
-	digitalWrite(GREEN_LED_PIN, HIGH);
-
-	delay(1000); // wacht een seconde voor het lampje
-
-	digitalWrite(GREEN_LED_PIN, LOW);
+	flash_led(GREEN_LED_PIN);
 }
