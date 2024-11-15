@@ -40,12 +40,14 @@ void print_byte_array(byte *buffer, size_t bufferSize) {
 // checkt of de gegeven token de 
 bool validate_token(byte *buffer, byte bufferSize) {
   bool checked = true;
+
   for(int i = 0; i < bufferSize; i++){
     if(buffer[i] != correctToken[i])
     {
       checked = false;
     }
   }
+
   return checked;
 }
 
@@ -144,7 +146,6 @@ void read_block(byte blockAddr){
 
   Serial.print(F("Reading data from block ")); Serial.print(blockAddr);
   Serial.println(F("..."));
-  Serial.println();
   
 
   MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele 
@@ -204,11 +205,11 @@ void setup() {
 
 
 
-  Serial.begin(115200);             // Serial monitor starten zodat we output van de ESP32 kunnen lezen 
+  Serial.begin(115200);
   SPI.begin();                      // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
   mfrc522.PCD_Init();               // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje 
   EEPROM.begin(EEPROM_SIZE);        // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-  initWiFi();
+  initWiFi(ssid, password);
 
   generate_key(); // genereert een key die nodig is om bij de data van de NFC-pas te komen
   set_correct_token(); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
@@ -268,16 +269,11 @@ void loop() {
 
 
   digitalWrite(GREEN_LED_PIN, HIGH);
-  Serial.println();
-
-
-  generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
-  write_mode(tokenBlock);
-  write_block(tokenBlock, newToken); // Schrijft de nieuweToken naar de NFC-pas
-
 
   delay(1000); // wacht een seconde voor het lampje
+
   digitalWrite(GREEN_LED_PIN, LOW);
+
 
   // verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
   mfrc522.PICC_HaltA();
