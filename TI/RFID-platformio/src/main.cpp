@@ -5,8 +5,10 @@
 
 #define RST_PIN 22		// De pin die om de NFC-reader/writer te hard resetten
 #define SS_PIN 5		// De pin die aangesloten is op de SS van de NFC-reader/writer
-#define GREEN_LED_PIN 2 // De pin voor het groene led lampje
-#define RED_LED_PIN 4	// De pin voor het rode led lampje
+
+#define GREEN_LED_PIN 25 // De pin voor het groene led lampje
+#define RED_LED_PIN 26	// De pin voor het rode led lampje
+
 #define EEPROM_SIZE 16	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 #define TOKEN_BLOCK 4
@@ -30,11 +32,14 @@ static constexpr char password[] = "kaassouflay";
  */
 void print_byte_array(byte *buffer, size_t bufferSize)
 {
-	for (size_t i = 0; i < bufferSize; i++)
+	// print first entry for nice formatting
+	Serial.print(F("0x")); Serial.print(buffer[0] < 0x10 ? "0" : ""); Serial.print(buffer[0], HEX);
+
+	for (size_t i = 1; i < bufferSize; i++)
 	{
+		Serial.print(F(", 0x"));
 		Serial.print(buffer[i] < 0x10 ? "0" : "");
 		Serial.print(buffer[i], HEX);
-		Serial.print(F(" "));
 	}
 }
 
@@ -68,7 +73,7 @@ void generate_random_token(byte dest[TOKEN_SIZE])
 }
 
 // slaat de nieuwe token op in de lokale opslag (EEPROM)
-void save_new_token_EEPROM(const byte token[TOKEN_SIZE])
+void write_new_token_EEPROM(const byte token[TOKEN_SIZE])
 {
 	for (int i = 0; i < 16; i++)
 	{
@@ -189,13 +194,13 @@ void generate_key()
 void flash_led(uint pin)
 {
 
-	for (uint8_t i = 0; i < 5; i++)
+	for (uint8_t i = 0; i < 6; i++)
 	{
 		// timings completely arbitrary
 		digitalWrite(pin, HIGH);
-		delay(100);
+		delay(50);
 		digitalWrite(pin, LOW);
-		delay(100);
+		delay(50);
 	}
 }
 
@@ -211,8 +216,14 @@ void setup()
 	EEPROM.begin(EEPROM_SIZE); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
 	initWiFi(ssid, password);
 
+	// DEBUG set correct token
+	const byte correctToken_debug[TOKEN_SIZE] = { 0x75, 0x44, 0x00, 0xE0, 0xC3, 0x98, 0x39, 0x84, 0x0D, 0x3D, 0x18, 0xA8, 0x32, 0x47, 0x4C, 0x7B };
+	write_new_token_EEPROM(correctToken_debug);
+
 	generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
+
+	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE); Serial.println();
 }
 
 void loop()
@@ -233,7 +244,8 @@ void loop()
 	// lees de huidige token en sla op in buffer
 	read_block(TOKEN_BLOCK, buffer, &bufSize);
 
-	Serial.print(F("Data in token block: ")); print_byte_array(buffer, bufSize); Serial.println();
+	// print data in de buffer
+	Serial.print(F("Data in token block: ")); print_byte_array(buffer, TOKEN_SIZE); Serial.println();
 
 	// check of de token geldig is
 	const bool isValidated = validate_token(buffer, 16);
@@ -254,16 +266,16 @@ void loop()
 	// token is geldig
 
 	// genereer een nieuwe token
-	byte newToken[TOKEN_SIZE];
-	generate_random_token(newToken);
+	// byte newToken[TOKEN_SIZE];
+	// generate_random_token(newToken);
 
-	save_new_token_EEPROM(newToken);
+	// // probeer de nieuwe token te writen naar de kaart
+	// MFRC522::StatusCode status = write_block(TOKEN_BLOCK, newToken);
 
-	MFRC522::StatusCode status = write_block(TOKEN_BLOCK, newToken);
-
-	// probeer nieuwe token te schrijven naar tag
-	if (status != MFRC522::STATUS_OK)
-		Serial.println("write failed :(");
+	// if (status != MFRC522::STATUS_OK)
+	// 	Serial.println("write failed :(");
+	// else 
+	// 	write_new_token_EEPROM(newToken); // sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
 
 	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
 	mfrc522.PICC_HaltA();
