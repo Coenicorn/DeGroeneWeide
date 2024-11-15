@@ -10,12 +10,12 @@
 #define EEPROM_SIZE 16	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 #define TOKEN_BLOCK 4
+#define TOKEN_SIZE 16
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 MFRC522::MIFARE_Key key;		  // Een instancie van een key maken
 
-byte newToken[16];			// Dit is de variabele waarin de straks nieuwe gegenereerde token op wordt geslagen
-byte correctToken[16];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
+static byte correctToken[16];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
 // factory default for access token
 static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
@@ -55,29 +55,33 @@ bool validate_token(byte *buffer, byte bufferSize)
 }
 
 // genereert een nieuwe 16 bytes lange token en slaat deze op in newToken
-void generate_new_token()
+/**
+ * generates new token
+ * @param buffer must be 16 bytes in size
+ */
+void generate_random_token(byte dest[TOKEN_SIZE])
 {
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < TOKEN_SIZE; i++)
 	{
-		newToken[i] = random(0, 255);
+		dest[i] = random(0, 255);
 	}
 }
 
 // slaat de nieuwe token op in de lokale opslag (EEPROM)
-void save_new_token()
+void save_new_token_EEPROM(const byte token[TOKEN_SIZE])
 {
 	for (int i = 0; i < 16; i++)
 	{
-		EEPROM.write(i, newToken[i]);
+		EEPROM.write(i, token[i]);
 	}
 }
 
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
-void set_correct_token()
+void read_correct_token_EEPROM(byte dest[TOKEN_SIZE])
 {
 	for (int i = 0; i < 16; i++)
 	{
-		correctToken[i] = EEPROM.read(i);
+		dest[i] = EEPROM.read(i);
 		EEPROM.commit();
 	}
 }
@@ -169,12 +173,6 @@ MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 		Serial.print(F("MIFARE_Write() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
 	}
-	else
-	{
-		Serial.println();
-		save_new_token();	 // Slaat de nieuwe token op in de lokale opslag (EEPROM)
-		set_correct_token(); // Maakt de lokaal opgeslagen token de nieuwe correcte token
-	}
 
 	return status;
 }
@@ -214,7 +212,7 @@ void setup()
 	initWiFi(ssid, password);
 
 	generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
-	set_correct_token(); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
+	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 }
 
 void loop()
@@ -228,13 +226,16 @@ void loop()
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
 
+	// maak buffer om de huidige token van de kaart in op te slaan
 	byte bufSize = 18;
 	byte buffer[bufSize];
 
-	read_block(TOKEN_BLOCK, buffer, &bufSize); // Het uitlezen van de token
+	// lees de huidige token en sla op in buffer
+	read_block(TOKEN_BLOCK, buffer, &bufSize);
 
 	Serial.print(F("Data in token block: ")); print_byte_array(buffer, bufSize); Serial.println();
 
+	// check of de token geldig is
 	const bool isValidated = validate_token(buffer, 16);
 
 	if (!isValidated)
@@ -250,16 +251,23 @@ void loop()
 		return;
 	}
 
-	generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
+	// token is geldig
+
+	// genereer een nieuwe token
+	byte newToken[TOKEN_SIZE];
+	generate_random_token(newToken);
+
+	save_new_token_EEPROM(newToken);
+
 	MFRC522::StatusCode status = write_block(TOKEN_BLOCK, newToken);
+
+	// probeer nieuwe token te schrijven naar tag
+	if (status != MFRC522::STATUS_OK)
+		Serial.println("write failed :(");
 
 	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
 	mfrc522.PICC_HaltA();
 	mfrc522.PCD_StopCrypto1();
-
-	// probeer nieuwe token te schrijven naar tag
-	if (write_block(TOKEN_BLOCK, newToken))
-		Serial.println("write failed :(");
 
 	// Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
 	// als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
