@@ -135,10 +135,6 @@ void read_block(byte blockAddr)
 	// enter read mode
 	enter_read_mode(tokenBlock);
 
-	Serial.print(F("Reading data from block "));
-	Serial.print(blockAddr);
-	Serial.println(F("..."));
-
 	MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
 
 	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
@@ -146,6 +142,7 @@ void read_block(byte blockAddr)
 		Serial.print(F("MIFARE_Read() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
 		Serial.println();
+
 		return;
 	}
 
@@ -174,7 +171,9 @@ MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 	{
 		Serial.print(F("MIFARE_Write() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
-	} else {
+	}
+	else
+	{
 		Serial.println();
 		save_new_token();	 // Slaat de nieuwe token op in de lokale opslag (EEPROM)
 		set_correct_token(); // Maakt de lokaal opgeslagen token de nieuwe correcte token
@@ -192,16 +191,17 @@ void generate_key()
 	}
 }
 
-void flash_led(uint pin) {
-	
-	for (uint8_t i = 0; i < 5; i++) {
+void flash_led(uint pin)
+{
+
+	for (uint8_t i = 0; i < 5; i++)
+	{
 		// timings completely arbitrary
 		digitalWrite(pin, HIGH);
 		delay(100);
 		digitalWrite(pin, LOW);
 		delay(100);
 	}
-
 }
 
 void setup()
@@ -257,7 +257,8 @@ void loop()
 	mfrc522.PCD_StopCrypto1();
 
 	// probeer nieuwe token te schrijven naar tag
-	if (write_block(tokenBlock, newToken)) Serial.println("write failed :(");
+	if (write_block(tokenBlock, newToken))
+		Serial.println("write failed :(");
 
 	// Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
 	// als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
