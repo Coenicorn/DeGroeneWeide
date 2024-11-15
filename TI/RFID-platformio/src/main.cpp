@@ -78,14 +78,24 @@ void set_correct_token(){
 }
 
 
-void initWiFi() {
+/**
+ * Start wifiverbinding
+ */
+void initWiFi(const char *ssid, const char *password) {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+
   Serial.print("Connecting to WiFi ..");
+
   while (WiFi.status() != WL_CONNECTED) {
+
     Serial.print('.');
     delay(1000);
+
   }
+
+  // DEBUG log ip
+  Serial.print(F("Got IP address "));
   Serial.println(WiFi.localIP());
 }
 
