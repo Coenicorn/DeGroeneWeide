@@ -164,25 +164,27 @@ void read_block(byte blockAddr){
 
 
 
-
-void write_block(byte blockAddr, byte data[16]) {
+/**
+ * Probeert data te schrijven naar een adres op de NFC tag
+ * @returns true wanneer de functie faalt
+ */
+bool write_block(byte blockAddr, byte data[16]) {
     
-  Serial.print(F("Writing data into block ")); Serial.print(blockAddr);
-  Serial.println(F(" ..."));
-  dump_byte_array(data, 16); // Print de mee gegeven data naar de serial monitor
-  Serial.println();
+  Serial.print(F("writing data(")); print_byte_array(data, 16); Serial.print(F(") to block ")); Serial.println(blockAddr);
 
   MFRC522::StatusCode status = mfrc522.MIFARE_Write(blockAddr, data, 16); // schrijft de gegeven data naar het gegeven block adres op de NFC-pas
 
   if (status != MFRC522::STATUS_OK) {
     Serial.print(F("MIFARE_Write() failed: "));
     Serial.println(mfrc522.GetStatusCodeName(status));
-    return;
+    return true;
   }
   Serial.println();
   save_new_token();  // Slaat de nieuwe token op in de lokale opslag (EEPROM)
   set_correct_token(); // Maakt de lokaal opgeslagen token de nieuwe correcte token
 
+
+  return false;
 }
 
 
