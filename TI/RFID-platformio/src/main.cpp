@@ -18,9 +18,12 @@ byte buffer[18];			// Dit is de buffer waar de gelezen data in op wordt geslagen
 byte size = sizeof(buffer); // Om later de grootte van de buffer mee te geven aan de read en write functie
 byte tokenBlock = 4;		// Welk blok adres(16 bytes) er later uitgelezen wordt van de NFC-pas
 
+// factory default for access token
+static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
+
 // shouldn't upload this to github ':)
-static const char *ssid = "Cisco19073";
-static const char *password = "kaassouflay";
+static constexpr char *ssid = "Cisco19073";
+static constexpr char *password = "kaassouflay";
 
 /**
  * Prints a byte array to serial
@@ -115,24 +118,20 @@ void enter_read_mode(byte blockAddr)
 }
 
 // hetzelfde als de functie enter_read_mode() alleen dan voor het schrijven van data in een aangegeven blok
-void write_mode(byte blockAddr)
+void enter_write_mode(byte blockAddr)
 {
-	Serial.println(F("Authenticating again using key B..."));
-
 	MFRC522::StatusCode status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, blockAddr, &key, &(mfrc522.uid));
 
 	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
 	{
 		Serial.print(F("PCD_Authenticate() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
-		return;
 	}
 }
 
 // Deze funcite is om de data van een aangegeven block uit te lezen en te printen naar de serial monitor,  logt in de Serial monitor als het uitlezen faalt en laat dan de statuscode weten
 void read_block(byte blockAddr)
 {
-	// enter read mode
 	enter_read_mode(tokenBlock);
 
 	MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
@@ -159,6 +158,7 @@ void read_block(byte blockAddr)
  */
 MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 {
+	enter_write_mode(tokenBlock);
 
 	Serial.print(F("writing data("));
 	print_byte_array(data, 16);
@@ -182,12 +182,12 @@ MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 	return status;
 }
 
-// Genereert de key nodig om toegang te krijgen tot de data, de fabrieksstandaard is FFFFFFFFFFFF
+// Genereert de key nodig om toegang te krijgen tot de data
 void generate_key()
 {
 	for (byte i = 0; i < 6; i++)
 	{
-		key.keyByte[i] = 0xFF;
+		key.keyByte[i] = defaultAuthKey[i];
 	}
 }
 
@@ -249,7 +249,6 @@ void loop()
 	}
 
 	generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
-	write_mode(tokenBlock);
 	MFRC522::StatusCode status = write_block(tokenBlock, newToken);
 
 	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
