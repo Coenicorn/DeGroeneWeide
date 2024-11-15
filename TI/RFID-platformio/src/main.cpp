@@ -251,9 +251,22 @@ void loop() {
   }
 
 
+  generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
+  write_mode(tokenBlock);
+
+  if (write_block(tokenBlock, newToken))
+  {
+    // write failed
+    Serial.println("write failed :(");
+
+    return;
+  }
+
   // Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
   // als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
   Serial.println("valid token");
+
+
   digitalWrite(GREEN_LED_PIN, HIGH);
   Serial.println();
 
