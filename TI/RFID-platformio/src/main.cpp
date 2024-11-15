@@ -13,7 +13,6 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 MFRC522::MIFARE_Key key;            // Een instancie van een key maken
-MFRC522::StatusCode status;         // Een instancie van de status maken zodat de status van processen opgehaald kan worden
 
 byte newToken[16];            // Dit is de variabele waarin de straks nieuwe gegenereerde token op wordt geslagen
 byte correctToken[16];        // Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
@@ -97,7 +96,7 @@ void read_mode(byte blockAddr){
   Serial.println(F("Authenticating using key A..."));
   Serial.println();
 
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockAddr, &key, &(mfrc522.uid));
+  MFRC522::StatusCode status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockAddr, &key, &(mfrc522.uid));
 
   if (status != MFRC522::STATUS_OK)  //checkt of de statuscode iets anders dan OK is
   {
@@ -115,8 +114,7 @@ void read_mode(byte blockAddr){
 void write_mode(byte blockAddr){
   Serial.println(F("Authenticating again using key B..."));
 
-  status = (MFRC522::StatusCode) // updaten naar huidige status 
-  mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, blockAddr, &key, &(mfrc522.uid));
+  MFRC522::StatusCode status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, blockAddr, &key, &(mfrc522.uid));
 
   if (status != MFRC522::STATUS_OK)  //checkt of de statuscode iets anders dan OK is
   {
@@ -137,8 +135,7 @@ void read_block(byte blockAddr){
   Serial.println();
   
 
-  status = (MFRC522::StatusCode)  // updaten naar huidige status
-  mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele 
+  MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele 
 
   if (status != MFRC522::STATUS_OK) //checkt of de statuscode iets anders dan OK is
   {
@@ -163,8 +160,7 @@ void write_block(byte blockAddr, byte data[16]) {
   dump_byte_array(data, 16); // Print de mee gegeven data naar de serial monitor
   Serial.println();
 
-  status = (MFRC522::StatusCode) // updaten naar huidige status 
-  mfrc522.MIFARE_Write(blockAddr, data, 16); // schrijft de gegeven data naar het gegeven block adres op de NFC-pas
+  MFRC522::StatusCode status = mfrc522.MIFARE_Write(blockAddr, data, 16); // schrijft de gegeven data naar het gegeven block adres op de NFC-pas
 
   if (status != MFRC522::STATUS_OK) {
     Serial.print(F("MIFARE_Write() failed: "));
