@@ -158,7 +158,7 @@ void read_block(byte blockAddr){
   }
 
   Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
-  dump_byte_array(buffer, 16); // Print de data in buffer naar de serial monitor
+  print_byte_array(buffer, 16); // Print de data in buffer naar de serial monitor
   Serial.println();
 }
 
