@@ -3,260 +3,297 @@
 #include <EEPROM.h>
 #include <WiFi.h>
 
+#define RST_PIN 22		// De pin die om de NFC-reader/writer te hard resetten
+#define SS_PIN 5		// De pin die aangesloten is op de SS van de NFC-reader/writer
 
-#define RST_PIN         22    // De pin die om de NFC-reader/writer te hard resetten
-#define SS_PIN          5     // De pin die aangesloten is op de SS van de NFC-reader/writer
-#define GREEN_LED_PIN   2     // De pin voor het groene led lampje
-#define RED_LED_PIN     4     // De pin voor het rode led lampje
-#define EEPROM_SIZE     16    // De aantal bytes die opgeslagen kunnen worden in de EEPROM
+#define GREEN_LED_PIN 25 // De pin voor het groene led lampje
+#define RED_LED_PIN 26	// De pin voor het rode led lampje
 
+#define EEPROM_SIZE 16	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
-MFRC522 mfrc522(SS_PIN, RST_PIN);   // Een instance van de NFC-reader/writer maken die op de goeie pins draait
-MFRC522::MIFARE_Key key;            // Een instancie van een key maken
-MFRC522::StatusCode status;         // Een instancie van de status maken zodat de status van processen opgehaald kan worden
+#define TOKEN_BLOCK 4
+#define TOKEN_SIZE 16
 
-byte newToken[16];            // Dit is de variabele waarin de straks nieuwe gegenereerde token op wordt geslagen
-byte correctToken[16];        // Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
-byte buffer[18];              // Dit is de buffer waar de gelezen data in op wordt geslagen zodat die daarna naar de Serial monitor geprint kan worden of opgeslagen kan worden (eerlijkgezegd geen idee waaom het 18 is ipv 16 maar anders doet hij het niet)
-byte size = sizeof(buffer);   // Om later de grootte van de buffer mee te geven aan de read en write functie
-byte tokenBlock = 4;           // Welk blok adres(16 bytes) er later uitgelezen wordt van de NFC-pas 
+MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
+MFRC522::MIFARE_Key key;		  // Een instancie van een key maken
 
+static byte correctToken[16];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
-const char* ssid = "Cisco19073";
-const char* password = "kaassouflay";
+// factory default for access token
+static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
 
-// Print de gegeven byte_array naar de Serial monitor
-void dump_byte_array(byte *buffer, byte bufferSize) {
-  for (byte i = 0; i < bufferSize; i++) {
-    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
-    Serial.print(buffer[i], HEX);
-  }
-  Serial.println();
+// shouldn't upload this to github ':)
+static constexpr char ssid[] = "Cisco19073";
+static constexpr char password[] = "kaassouflay";
+
+/**
+ * Prints a byte array to serial
+ * @note does not append new line
+ */
+void print_byte_array(byte *buffer, size_t bufferSize)
+{
+	// print first entry for nice formatting
+	Serial.print(F("0x")); Serial.print(buffer[0] < 0x10 ? "0" : ""); Serial.print(buffer[0], HEX);
+
+	for (size_t i = 1; i < bufferSize; i++)
+	{
+		Serial.print(F(", 0x"));
+		Serial.print(buffer[i] < 0x10 ? "0" : "");
+		Serial.print(buffer[i], HEX);
+	}
 }
 
+// checkt of de gegeven token de
+bool validate_token(byte *buffer, byte bufferSize)
+{
+	bool checked = true;
 
+	for (int i = 0; i < bufferSize; i++)
+	{
+		if (buffer[i] != correctToken[i])
+		{
+			checked = false;
+		}
+	}
 
-// checkt of de gegeven token de 
-bool validate_token(byte *buffer, byte bufferSize) {
-  bool checked = true;
-  for(int i = 0; i < bufferSize; i++){
-    if(buffer[i] != correctToken[i])
-    {
-      checked = false;
-    }
-  }
-  return checked;
+	return checked;
 }
-
-
 
 // genereert een nieuwe 16 bytes lange token en slaat deze op in newToken
-void generate_new_token(){
-  for (int i = 0; i < 16; i++){
-    newToken[i] = random(0, 255);
-  }
+/**
+ * generates new token
+ * @param buffer must be 16 bytes in size
+ */
+void generate_random_token(byte dest[TOKEN_SIZE])
+{
+	for (int i = 0; i < TOKEN_SIZE; i++)
+	{
+		dest[i] = random(0, 255);
+	}
 }
-
-
 
 // slaat de nieuwe token op in de lokale opslag (EEPROM)
-void save_new_token() {
-  for(int i = 0; i < 16; i++){
-    EEPROM.write(i, newToken[i]);
-  }
+void write_new_token_EEPROM(const byte token[TOKEN_SIZE])
+{
+	for (int i = 0; i < 16; i++)
+	{
+		EEPROM.write(i, token[i]);
+	}
 }
-
-
 
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
-void set_correct_token(){
-  for(int i = 0; i < 16; i++){
-    correctToken[i] = EEPROM.read(i);
-    EEPROM.commit();
-  }
+void read_correct_token_EEPROM(byte dest[TOKEN_SIZE])
+{
+	for (int i = 0; i < 16; i++)
+	{
+		dest[i] = EEPROM.read(i);
+		EEPROM.commit();
+	}
 }
 
+/**
+ * Start wifiverbinding
+ */
+void initWiFi(const char *ssid, const char *password)
+{
+	WiFi.mode(WIFI_STA);
+	WiFi.begin(ssid, password);
 
-void initWiFi() {
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi ..");
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print('.');
-    delay(1000);
-  }
-  Serial.println(WiFi.localIP());
+	Serial.print("Connecting to WiFi ..");
+
+	while (WiFi.status() != WL_CONNECTED)
+	{
+
+		Serial.print('.');
+		delay(1000);
+	}
+
+	// DEBUG log ip
+	Serial.print(F("Got IP address "));
+	Serial.println(WiFi.localIP());
 }
-
-
-
 
 // deze functie authenticate met de A key, de A key is nodig om data van de NFC-pas af te kunnen lezen, logt in de Serial monitor als het authenticaten faalt en laat dan de statuscode weten
-void read_mode(byte blockAddr){
-  
-  Serial.println(F("Authenticating using key A..."));
-  Serial.println();
+void enter_read_mode(byte blockAddr)
+{
+	MFRC522::StatusCode status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockAddr, &key, &(mfrc522.uid));
 
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockAddr, &key, &(mfrc522.uid));
-
-  if (status != MFRC522::STATUS_OK)  //checkt of de statuscode iets anders dan OK is
-  {
-    Serial.print(F("PCD_Authenticate() failed: "));
-    Serial.println(mfrc522.GetStatusCodeName(status));
-    Serial.println();
-    return;
-  }
+	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
+	{
+		Serial.print(F("PCD_Authenticate() failed: "));
+		Serial.println(mfrc522.GetStatusCodeName(status));
+	}
 }
 
+// hetzelfde als de functie enter_read_mode() alleen dan voor het schrijven van data in een aangegeven blok
+void enter_write_mode(byte blockAddr)
+{
+	MFRC522::StatusCode status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, blockAddr, &key, &(mfrc522.uid));
 
-
-
-// hetzelfde als de functie read_mode() alleen dan voor het schrijven van data in een aangegeven blok
-void write_mode(byte blockAddr){
-  Serial.println(F("Authenticating again using key B..."));
-
-  status = (MFRC522::StatusCode) // updaten naar huidige status 
-  mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, blockAddr, &key, &(mfrc522.uid));
-
-  if (status != MFRC522::STATUS_OK)  //checkt of de statuscode iets anders dan OK is
-  {
-    Serial.print(F("PCD_Authenticate() failed: "));
-    Serial.println(mfrc522.GetStatusCodeName(status));
-    return;
-  }
+	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
+	{
+		Serial.print(F("PCD_Authenticate() failed: "));
+		Serial.println(mfrc522.GetStatusCodeName(status));
+	}
 }
 
+// Deze functie is om de data van een aangegeven block uit te lezen en te printen naar de serial monitor,  logt in de Serial monitor als het uitlezen faalt en laat dan de statuscode weten
 
+/**
+ * Reads data at blockAddr into buffer of size bufSize
+ * @param bufSize needs to be at least 18
+ */
+void read_block(byte blockAddr, byte *buffer, byte *bufSize)
+{
+	enter_read_mode(TOKEN_BLOCK);
 
+	MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, bufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
 
-// Deze funcite is om de data van een aangegeven block uit te lezen en te printen naar de serial monitor,  logt in de Serial monitor als het uitlezen faalt en laat dan de statuscode weten
-void read_block(byte blockAddr){
+	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
+	{
+		Serial.print(F("MIFARE_Read() failed: "));
+		Serial.println(mfrc522.GetStatusCodeName(status));
 
-  Serial.print(F("Reading data from block ")); Serial.print(blockAddr);
-  Serial.println(F("..."));
-  Serial.println();
-  
-
-  status = (MFRC522::StatusCode)  // updaten naar huidige status
-  mfrc522.MIFARE_Read(blockAddr, buffer, &size); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele 
-
-  if (status != MFRC522::STATUS_OK) //checkt of de statuscode iets anders dan OK is
-  {
-    Serial.print(F("MIFARE_Read() failed: "));
-    Serial.println(mfrc522.GetStatusCodeName(status));
-    Serial.println();
-    return;
-  }
-
-  Serial.print(F("Data in block ")); Serial.print(blockAddr); Serial.println(F(":"));
-  dump_byte_array(buffer, 16); // Print de data in buffer naar de serial monitor
-  Serial.println();
+		return;
+	}
 }
 
+/**
+ * Probeert data te schrijven naar een adres op de NFC tag
+ * @returns true wanneer de functie faalt
+ */
+MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
+{
+	enter_write_mode(TOKEN_BLOCK);
 
+	Serial.print(F("writing data("));
+	print_byte_array(data, 16);
+	Serial.print(F(") to block "));
+	Serial.println(blockAddr);
 
+	MFRC522::StatusCode status = mfrc522.MIFARE_Write(blockAddr, data, 16); // schrijft de gegeven data naar het gegeven block adres op de NFC-pas
 
-void write_block(byte blockAddr, byte data[16]) {
-    
-  Serial.print(F("Writing data into block ")); Serial.print(blockAddr);
-  Serial.println(F(" ..."));
-  dump_byte_array(data, 16); // Print de mee gegeven data naar de serial monitor
-  Serial.println();
+	if (status != MFRC522::STATUS_OK)
+	{
+		Serial.print(F("MIFARE_Write() failed: "));
+		Serial.println(mfrc522.GetStatusCodeName(status));
+	}
 
-  status = (MFRC522::StatusCode) // updaten naar huidige status 
-  mfrc522.MIFARE_Write(blockAddr, data, 16); // schrijft de gegeven data naar het gegeven block adres op de NFC-pas
-
-  if (status != MFRC522::STATUS_OK) {
-    Serial.print(F("MIFARE_Write() failed: "));
-    Serial.println(mfrc522.GetStatusCodeName(status));
-    return;
-  }
-  Serial.println();
-  save_new_token();  // Slaat de nieuwe token op in de lokale opslag (EEPROM)
-  set_correct_token(); // Maakt de lokaal opgeslagen token de nieuwe correcte token
-
+	return status;
 }
 
-
-// Genereert de key nodig om toegang te krijgen tot de data, de fabrieksstandaard is FFFFFFFFFFFF
-void generate_key(){
-  for (byte i = 0; i < 6; i++) {
-    key.keyByte[i] = 0xFF;
-  }
+// Genereert de key nodig om toegang te krijgen tot de data
+void generate_key()
+{
+	for (byte i = 0; i < 6; i++)
+	{
+		key.keyByte[i] = defaultAuthKey[i];
+	}
 }
 
-void setup() {
+void flash_led(uint pin)
+{
 
-  // definieren dat de pins van de led lampjes output pins zijn
-  pinMode(GREEN_LED_PIN, OUTPUT); 
-  pinMode(RED_LED_PIN, OUTPUT);
-
-
-
-
-  Serial.begin(115200);             // Serial monitor starten zodat we output van de ESP32 kunnen lezen 
-  SPI.begin();                      // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
-  mfrc522.PCD_Init();               // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje 
-  EEPROM.begin(EEPROM_SIZE);        // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-  initWiFi();
-
-  generate_key(); // genereert een key die nodig is om bij de data van de NFC-pas te komen
-  set_correct_token(); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
+	for (uint8_t i = 0; i < 6; i++)
+	{
+		// timings completely arbitrary
+		digitalWrite(pin, HIGH);
+		delay(50);
+		digitalWrite(pin, LOW);
+		delay(50);
+	}
 }
 
+void setup()
+{
+	// definieren dat de pins van de led lampjes output pins zijn
+	pinMode(GREEN_LED_PIN, OUTPUT);
+	pinMode(RED_LED_PIN, OUTPUT);
 
-void loop() {
+	Serial.begin(115200);
+	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
+	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
+	EEPROM.begin(EEPROM_SIZE); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
+	initWiFi(ssid, password);
 
-  // Dit checkt om te zien of er een NFC-pas voor de reader/writer zit, zo niet dan start de loop functie opnieuw
-  if ( ! mfrc522.PICC_IsNewCardPresent()) return;
-    
-  // Checkt of de NFC-pas ze UID succesvol gelezen kan worden, zo niet dan begint loop opnieuw
-  if ( ! mfrc522.PICC_ReadCardSerial()) return;
-    
+	// DEBUG set correct token
+	const byte correctToken_debug[TOKEN_SIZE] = { 0x75, 0x44, 0x00, 0xE0, 0xC3, 0x98, 0x39, 0x84, 0x0D, 0x3D, 0x18, 0xA8, 0x32, 0x47, 0x4C, 0x7B };
+	write_new_token_EEPROM(correctToken_debug);
 
-  read_mode(tokenBlock);    // Naar key A switchen zodat we van de pas kunnen readen
-  read_block(tokenBlock);   // Het uitlezen van de token
+	generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
+	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
+	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE); Serial.println();
+}
 
+void loop()
+{
 
-  const bool isValidated = validate_token(buffer, 16);
+	// Dit checkt om te zien of er een NFC-pas voor de reader/writer zit, zo niet dan start de loop functie opnieuw
+	if (!mfrc522.PICC_IsNewCardPresent())
+		return;
 
-  if (!isValidated) 
-  {
-    // verbreek verbinding
-    mfrc522.PICC_HaltA();
-    mfrc522.PCD_StopCrypto1();
+	// Checkt of de NFC-pas ze UID succesvol gelezen kan worden, zo niet dan begint loop opnieuw
+	if (!mfrc522.PICC_ReadCardSerial())
+		return;
 
-    Serial.println("token invalid");
+	// maak buffer om de huidige token van de kaart in op te slaan
+	byte tokenBufSize = 18;
+	byte tokenBuffer[tokenBufSize];
 
-    digitalWrite(RED_LED_PIN, HIGH);
+	// lees de huidige token en sla op in buffer
+	// read_block(TOKEN_BLOCK, buffer, &bufSize);
+	enter_read_mode(TOKEN_BLOCK);
+	MFRC522::StatusCode status = mfrc522.MIFARE_Read(TOKEN_BLOCK, tokenBuffer, &tokenBufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
 
-    delay(1000);
+	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
+	{
+		Serial.print(F("PCD_Authenticate() failed: "));
+		Serial.println(mfrc522.GetStatusCodeName(status));
 
-    digitalWrite(RED_LED_PIN, LOW);
-    Serial.println();
+		return;
+	}
 
-    // verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
-    return;
-  }
+	// print data in de buffer
+	Serial.print(F("Data in token block: ")); print_byte_array(tokenBuffer, TOKEN_SIZE); Serial.println();
 
+	// check of de token geldig is
+	const bool isValidated = validate_token(tokenBuffer, 16);
 
-  // Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
-  // als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
-  Serial.println("valid token");
-  digitalWrite(GREEN_LED_PIN, HIGH);
-  Serial.println();
+	if (!isValidated)
+	{
+		// verbreek verbinding
+		mfrc522.PICC_HaltA();
+		mfrc522.PCD_StopCrypto1();
 
+		Serial.println("token invalid");
 
-  generate_new_token(); // genereert de nieuwe token en slaat deze op in het variabele newToken
-  write_mode(tokenBlock);
-  write_block(tokenBlock, newToken); // Schrijft de nieuweToken naar de NFC-pas
+		flash_led(RED_LED_PIN);
 
+		return;
+	}
 
-  delay(1000); // wacht een seconde voor het lampje
-  digitalWrite(GREEN_LED_PIN, LOW);
+	// token is geldig
 
-  // verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
-  mfrc522.PICC_HaltA();
-  mfrc522.PCD_StopCrypto1();
+	// genereer een nieuwe token
+	// byte newToken[TOKEN_SIZE];
+	// generate_random_token(newToken);
+
+	// // probeer de nieuwe token te writen naar de kaart
+	// MFRC522::StatusCode status = write_block(TOKEN_BLOCK, newToken);
+
+	// if (status != MFRC522::STATUS_OK)
+	// 	Serial.println("write failed :(");
+	// else 
+	// 	write_new_token_EEPROM(newToken); // sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
+
+	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
+	mfrc522.PICC_HaltA();
+	mfrc522.PCD_StopCrypto1();
+
+	// Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
+	// als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
+	Serial.println("valid token");
+
+	flash_led(GREEN_LED_PIN);
 }
