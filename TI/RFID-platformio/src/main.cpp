@@ -103,24 +103,18 @@ void initWiFi(const char *ssid, const char *password)
 }
 
 // deze functie authenticate met de A key, de A key is nodig om data van de NFC-pas af te kunnen lezen, logt in de Serial monitor als het authenticaten faalt en laat dan de statuscode weten
-void read_mode(byte blockAddr)
+void enter_read_mode(byte blockAddr)
 {
-
-	Serial.println(F("Authenticating using key A..."));
-	Serial.println();
-
 	MFRC522::StatusCode status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockAddr, &key, &(mfrc522.uid));
 
 	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
 	{
 		Serial.print(F("PCD_Authenticate() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
-		Serial.println();
-		return;
 	}
 }
 
-// hetzelfde als de functie read_mode() alleen dan voor het schrijven van data in een aangegeven blok
+// hetzelfde als de functie enter_read_mode() alleen dan voor het schrijven van data in een aangegeven blok
 void write_mode(byte blockAddr)
 {
 	Serial.println(F("Authenticating again using key B..."));
@@ -138,6 +132,8 @@ void write_mode(byte blockAddr)
 // Deze funcite is om de data van een aangegeven block uit te lezen en te printen naar de serial monitor,  logt in de Serial monitor als het uitlezen faalt en laat dan de statuscode weten
 void read_block(byte blockAddr)
 {
+	// enter read mode
+	enter_read_mode(tokenBlock);
 
 	Serial.print(F("Reading data from block "));
 	Serial.print(blockAddr);
@@ -235,7 +231,6 @@ void loop()
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
 
-	read_mode(tokenBlock);	// Naar key A switchen zodat we van de pas kunnen readen
 	read_block(tokenBlock); // Het uitlezen van de token
 
 	const bool isValidated = validate_token(buffer, 16);
