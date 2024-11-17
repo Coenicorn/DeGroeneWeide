@@ -187,13 +187,13 @@ MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 }
 
 // Genereert de key nodig om toegang te krijgen tot de data
-void generate_key()
-{
-	for (byte i = 0; i < 6; i++)
-	{
-		key.keyByte[i] = defaultAuthKey[i];
-	}
-}
+// void generate_key()
+// {
+// 	for (byte i = 0; i < 6; i++)
+// 	{
+// 		key.keyByte[i] = defaultAuthKey[i];
+// 	}
+// }
 
 void flash_led(uint pin)
 {
