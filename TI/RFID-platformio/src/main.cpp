@@ -330,9 +330,7 @@ void loop()
 	}
 
 	// check of de token geldig is
-	isValidated = validate_token(tokenBuffer, 16);
-
-	if (isValidated) {
+	if (validate_token(tokenBuffer)) {
 
 		Serial.println(F("token valid"));
 
