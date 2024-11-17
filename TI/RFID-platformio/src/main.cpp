@@ -5,15 +5,15 @@
 
 #include "pins.h"
 
-#define EEPROM_SIZE 16	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
+#define TOKEN_MEM_ADDR 0x04
+#define TOKEN_SIZE_BYTES 16
 
-#define TOKEN_BLOCK 4
-#define TOKEN_SIZE 16
+#define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 MFRC522::MIFARE_Key key;		  // Een instancie van een key maken
 
-static byte correctToken[16];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
+static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
 // factory default for access token
 static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
@@ -141,7 +141,7 @@ void enter_write_mode(byte blockAddr)
  */
 void read_block(byte blockAddr, byte *buffer, byte *bufSize)
 {
-	enter_read_mode(TOKEN_BLOCK);
+	enter_read_mode(TOKEN_MEM_ADDR);
 
 	MFRC522::StatusCode status = mfrc522.MIFARE_Read(blockAddr, buffer, bufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
 
@@ -160,7 +160,7 @@ void read_block(byte blockAddr, byte *buffer, byte *bufSize)
  */
 MFRC522::StatusCode write_block(byte blockAddr, byte data[16])
 {
-	enter_write_mode(TOKEN_BLOCK);
+	enter_write_mode(TOKEN_MEM_ADDR);
 
 	Serial.print(F("writing data("));
 	print_byte_array(data, 16);
@@ -223,17 +223,17 @@ void setup()
 	Serial.begin(115200);
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
-	EEPROM.begin(EEPROM_SIZE); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
+	EEPROM.begin(EEPROM_SIZE_BYTES); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
 	// initWiFi(ssid, password);
 
 	// DEBUG set correct token
-	const byte correctToken_debug[TOKEN_SIZE] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
+	const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
 	write_new_token_EEPROM(correctToken_debug);
 
 	generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
-	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE); Serial.println();
+	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
 
 	// initial led available
 	digitalWrite(BLUE_LED_PIN, HIGH);
@@ -263,8 +263,8 @@ void loop()
 
 	// lees de huidige token en sla op in buffer
 	// read_block(TOKEN_BLOCK, buffer, &bufSize);
-	enter_read_mode(TOKEN_BLOCK);
-	MFRC522::StatusCode status = mfrc522.MIFARE_Read(TOKEN_BLOCK, tokenBuffer, &tokenBufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
+	enter_read_mode(TOKEN_MEM_ADDR);
+	MFRC522::StatusCode status = mfrc522.MIFARE_Read(TOKEN_MEM_ADDR, tokenBuffer, &tokenBufSize); // Uitlezen van gegeven blockAddr en de gelezen data scrijven naar de buffer variabele
 
 	if (status != MFRC522::STATUS_OK) // checkt of de statuscode iets anders dan OK is
 	{
@@ -279,17 +279,17 @@ void loop()
 	}
 
 	// print data in de buffer
-	Serial.print(F("Data in token block: ")); print_byte_array(tokenBuffer, TOKEN_SIZE); Serial.println();
+	Serial.print(F("Data in token block: ")); print_byte_array(tokenBuffer, TOKEN_SIZE_BYTES); Serial.println();
 
 	if (toolWipePressed)
 	{
 		// wipe current card
-		byte newData[TOKEN_SIZE];
-		memset(newData, 0x00, TOKEN_SIZE);
+		byte newData[TOKEN_SIZE_BYTES];
+		memset(newData, 0x00, TOKEN_SIZE_BYTES);
 
-		Serial.print("Clearing card by writing: "); print_byte_array(newData, TOKEN_SIZE); Serial.println();
+		Serial.print("Clearing card by writing: "); print_byte_array(newData, TOKEN_SIZE_BYTES); Serial.println();
 
-		status = write_block(TOKEN_BLOCK, newData);
+		status = write_block(TOKEN_MEM_ADDR, newData);
 
 		disconnect_nfc();
 
@@ -306,7 +306,7 @@ void loop()
 
 	if (toolNewTokenPressed)
 	{
-		Serial.print("Setting "); print_byte_array(tokenBuffer, TOKEN_SIZE); Serial.println(" as new correct token...");
+		Serial.print("Setting "); print_byte_array(tokenBuffer, TOKEN_SIZE_BYTES); Serial.println(" as new correct token...");
 		
 		// store new current token
 		write_new_token_EEPROM(tokenBuffer);
@@ -329,11 +329,12 @@ void loop()
 		Serial.println(F("token valid"));
 
 		// genereer een nieuwe token
-		byte newToken[TOKEN_SIZE];
-		generate_random_token(newToken);
+		byte newToken[TOKEN_SIZE_BYTES];
+		// write TOKEN_SIZE random bytes into new token
+		get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
 		// probeer de nieuwe token te writen naar de kaart
-		status = write_block(TOKEN_BLOCK, newToken);
+		status = write_block(TOKEN_MEM_ADDR, newToken);
 
 		if (status != MFRC522::STATUS_OK)
 			Serial.println("write failed, not saving new token");
