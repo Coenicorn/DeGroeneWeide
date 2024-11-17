@@ -267,8 +267,6 @@ void loop()
 	byte tokenBufSize = 18;
 	byte tokenBuffer[tokenBufSize];
 
-	bool isValidated = false;
-
 	// lees de huidige token en sla op in buffer
 	// read_block(TOKEN_BLOCK, buffer, &bufSize);
 	enter_read_mode(TOKEN_MEM_ADDR);
