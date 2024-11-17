@@ -11,7 +11,8 @@
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
-MFRC522::MIFARE_Key key;		  // Een instancie van een key maken
+// this might work, idk though
+MFRC522::MIFARE_Key key = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };		  // Een instancie van een key maken
 
 static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
@@ -230,7 +231,7 @@ void setup()
 	const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
 	write_new_token_EEPROM(correctToken_debug);
 
-	generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
+	// generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
