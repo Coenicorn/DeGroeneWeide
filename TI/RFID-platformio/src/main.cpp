@@ -3,11 +3,7 @@
 #include <EEPROM.h>
 #include <WiFi.h>
 
-#define RST_PIN 22		// De pin die om de NFC-reader/writer te hard resetten
-#define SS_PIN 5		// De pin die aangesloten is op de SS van de NFC-reader/writer
-
-#define GREEN_LED_PIN 25 // De pin voor het groene led lampje
-#define RED_LED_PIN 26	// De pin voor het rode led lampje
+#include "pins.h"
 
 #define EEPROM_SIZE 16	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
@@ -193,42 +189,58 @@ void generate_key()
 
 void flash_led(uint pin)
 {
-
-	for (uint8_t i = 0; i < 6; i++)
+	for (uint8_t i = 0; i < 3; i++)
 	{
 		// timings completely arbitrary
 		digitalWrite(pin, HIGH);
-		delay(50);
+		delay(100);
 		digitalWrite(pin, LOW);
-		delay(50);
+		delay(100);
 	}
+}
+
+void disconnect_nfc(void) {
+	// verbreek verbinding
+	mfrc522.PICC_HaltA();
+	mfrc522.PCD_StopCrypto1();
+}
+
+void initPins(void) {
+	// definieren dat de pins van de led lampjes output pins zijn
+	pinMode(GREEN_LED_PIN, OUTPUT);
+	pinMode(RED_LED_PIN, OUTPUT);
+	pinMode(BLUE_LED_PIN, OUTPUT);
+
+	// tool pins
+	pinMode(PIN_TOOL_WIPE, INPUT);
+	pinMode(PIN_TOOL_NEW_CORRECT_TOKEN, INPUT);
 }
 
 void setup()
 {
-	// definieren dat de pins van de led lampjes output pins zijn
-	pinMode(GREEN_LED_PIN, OUTPUT);
-	pinMode(RED_LED_PIN, OUTPUT);
+	initPins();
 
 	Serial.begin(115200);
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
 	EEPROM.begin(EEPROM_SIZE); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-	initWiFi(ssid, password);
+	// initWiFi(ssid, password);
 
 	// DEBUG set correct token
-	const byte correctToken_debug[TOKEN_SIZE] = { 0x75, 0x44, 0x00, 0xE0, 0xC3, 0x98, 0x39, 0x84, 0x0D, 0x3D, 0x18, 0xA8, 0x32, 0x47, 0x4C, 0x7B };
+	const byte correctToken_debug[TOKEN_SIZE] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
 	write_new_token_EEPROM(correctToken_debug);
 
 	generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE); Serial.println();
+
+	// initial led available
+	digitalWrite(BLUE_LED_PIN, HIGH);
 }
 
 void loop()
 {
-
 	// Dit checkt om te zien of er een NFC-pas voor de reader/writer zit, zo niet dan start de loop functie opnieuw
 	if (!mfrc522.PICC_IsNewCardPresent())
 		return;
@@ -237,9 +249,17 @@ void loop()
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
 
+	digitalWrite(BLUE_LED_PIN, LOW);
+
+	int
+		toolWipePressed = digitalRead(PIN_TOOL_WIPE),
+		toolNewTokenPressed = digitalRead(PIN_TOOL_NEW_CORRECT_TOKEN);
+
 	// maak buffer om de huidige token van de kaart in op te slaan
 	byte tokenBufSize = 18;
 	byte tokenBuffer[tokenBufSize];
+
+	bool isValidated = false;
 
 	// lees de huidige token en sla op in buffer
 	// read_block(TOKEN_BLOCK, buffer, &bufSize);
@@ -251,49 +271,100 @@ void loop()
 		Serial.print(F("PCD_Authenticate() failed: "));
 		Serial.println(mfrc522.GetStatusCodeName(status));
 
+		flash_led(RED_LED_PIN);
+
+		disconnect_nfc();
+
 		return;
 	}
 
 	// print data in de buffer
 	Serial.print(F("Data in token block: ")); print_byte_array(tokenBuffer, TOKEN_SIZE); Serial.println();
 
-	// check of de token geldig is
-	const bool isValidated = validate_token(tokenBuffer, 16);
-
-	if (!isValidated)
+	if (toolWipePressed)
 	{
-		// verbreek verbinding
-		mfrc522.PICC_HaltA();
-		mfrc522.PCD_StopCrypto1();
+		// wipe current card
+		byte newData[TOKEN_SIZE];
+		memset(newData, 0x00, TOKEN_SIZE);
 
-		Serial.println("token invalid");
+		Serial.print("Clearing card by writing: "); print_byte_array(newData, TOKEN_SIZE); Serial.println();
 
-		flash_led(RED_LED_PIN);
+		status = write_block(TOKEN_BLOCK, newData);
 
-		return;
+		disconnect_nfc();
+
+		if (status != MFRC522::STATUS_OK)
+		{
+			Serial.print("Error writing to card while clearing: "); Serial.println(MFRC522::GetStatusCodeName(status));	
+		} else {
+			// signal succes
+			flash_led(BLUE_LED_PIN);
+		}
+
+		goto delay_and_blue_led;
 	}
 
-	// token is geldig
+	if (toolNewTokenPressed)
+	{
+		Serial.print("Setting "); print_byte_array(tokenBuffer, TOKEN_SIZE); Serial.println(" as new correct token...");
+		
+		// store new current token
+		write_new_token_EEPROM(tokenBuffer);
 
-	// genereer een nieuwe token
-	// byte newToken[TOKEN_SIZE];
-	// generate_random_token(newToken);
+		// store new token in current correct token
+		read_correct_token_EEPROM(correctToken);
 
-	// // probeer de nieuwe token te writen naar de kaart
-	// MFRC522::StatusCode status = write_block(TOKEN_BLOCK, newToken);
+		disconnect_nfc();
 
-	// if (status != MFRC522::STATUS_OK)
-	// 	Serial.println("write failed :(");
-	// else 
-	// 	write_new_token_EEPROM(newToken); // sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
+		flash_led(BLUE_LED_PIN);
 
-	// verbreekt de verbinding met de kaart zodat er weer een nieuwe gescant kan worden
-	mfrc522.PICC_HaltA();
-	mfrc522.PCD_StopCrypto1();
+		goto delay_and_blue_led;
+	}
 
-	// Als de token geldig is dan laat die een groen lampje branden en gaat de rest van de code verder
-	// als hij ongeldig is dan laat die een rood lampje branden en restart de loop functie weer
-	Serial.println("valid token");
+	// check of de token geldig is
+	isValidated = validate_token(tokenBuffer, 16);
 
-	flash_led(GREEN_LED_PIN);
+	if (isValidated) {
+
+		Serial.println(F("token valid"));
+
+		// genereer een nieuwe token
+		byte newToken[TOKEN_SIZE];
+		generate_random_token(newToken);
+
+		// probeer de nieuwe token te writen naar de kaart
+		status = write_block(TOKEN_BLOCK, newToken);
+
+		if (status != MFRC522::STATUS_OK)
+			Serial.println("write failed, not saving new token");
+		else 
+		{
+			// sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
+			write_new_token_EEPROM(newToken);
+			read_correct_token_EEPROM(correctToken);
+		}
+
+		disconnect_nfc();
+		flash_led(GREEN_LED_PIN);
+
+	} else {
+
+		Serial.println(F("token invalid"));
+
+		disconnect_nfc();
+		flash_led(RED_LED_PIN);
+
+	}
+
+	// quirky subroutine
+	delay_and_blue_led:
+
+	// nice newline between loops
+	Serial.println();
+
+	// take some time between cards
+	delay(1000);
+
+	// reset available LED
+	digitalWrite(BLUE_LED_PIN, HIGH);
 }
