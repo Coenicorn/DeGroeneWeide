@@ -41,22 +41,24 @@ void print_byte_array(byte *buffer, size_t bufferSize)
 }
 
 // checkt of de gegeven token de
-bool validate_token(byte *buffer, byte bufferSize)
+bool validate_token(byte *buffer)
 {
-	bool checked = true;
+	// bool checked = true;
 
-	for (int i = 0; i < bufferSize; i++)
-	{
-		if (buffer[i] != correctToken[i])
-		{
-			checked = false;
-		}
-	}
+	// for (int i = 0; i < bufferSize; i++)
+	// {
+	// 	if (buffer[i] != correctToken[i])
+	// 	{
+	// 		checked = false;
+	// 	}
+	// }
 
-	return checked;
+	// return checked;
+
+	// compare buffer with correctToken, memcpy returns 0 if they are equal
+	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES) == 0);
 }
 
-// genereert een nieuwe 16 bytes lange token en slaat deze op in newToken
 /**
  * generates new token
  * @param buffer must be 16 bytes in size
