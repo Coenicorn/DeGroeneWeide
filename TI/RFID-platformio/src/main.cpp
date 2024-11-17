@@ -72,26 +72,31 @@ void get_random_bytes(byte *dest, byte maxLen)
 }
 
 // slaat de nieuwe token op in de lokale opslag (EEPROM)
-void write_new_token_EEPROM(const byte token[TOKEN_SIZE])
+void write_new_token_EEPROM(const byte token[TOKEN_SIZE_BYTES])
 {
-	for (int i = 0; i < 16; i++)
-	{
-		EEPROM.write(i, token[i]);
-	}
+	EEPROM.writeBytes(TOKEN_MEM_ADDR, token, TOKEN_SIZE_BYTES);
+
+	// for (int i = 0; i < TOKEN_SIZE_BYTES; i++)
+	// {
+	// 	EEPROM.write(i, token[i]);
+	// }
 }
 
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
-void read_correct_token_EEPROM(byte dest[TOKEN_SIZE])
+void read_correct_token_EEPROM(byte dest[TOKEN_SIZE_BYTES])
 {
-	for (int i = 0; i < 16; i++)
-	{
-		dest[i] = EEPROM.read(i);
+	EEPROM.readBytes(TOKEN_MEM_ADDR, dest, TOKEN_SIZE_BYTES);
 		EEPROM.commit();
-	}
+
+	// for (int i = 0; i < 16; i++)
+	// {
+	// 	dest[i] = EEPROM.read(i);
+	// 	EEPROM.commit();
+	// }
 }
 
 /**
- * Start wifiverbinding
+ * Start wifiverbinding, wacht niet op verbinding
  */
 void initWiFi(const char *ssid, const char *password)
 {
