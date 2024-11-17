@@ -9,9 +9,16 @@
 
 #define GREEN_LED_PIN 25 // De pin voor het groene led lampje
 #define RED_LED_PIN 26	// De pin voor het rode led lampje
-// used to signal you can hold a card in front
-#define BLUE_LED_PIN 33
 
 #define PIN_TOOL_WIPE 34
 #define PIN_TOOL_NEW_CORRECT_TOKEN 35
 #define PIN_TOOL_TEMP000 32
+
+// als je geen dev board hebt, comment deze line
+#define IS_DEV_BOARD
+
+#ifdef IS_DEV_BOARD
+
+    #define BLUE_LED_PIN 33
+
+#endif
