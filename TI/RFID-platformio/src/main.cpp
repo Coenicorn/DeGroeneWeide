@@ -5,6 +5,17 @@
 
 #include "config.h"
 
+/*
+	Dit bestand staat in de .gitignore
+	Maak een bestand aan: RFID-platformio/src/secret.h en plak dit erin:
+
+	static constexpr char ssid[] = REPLACEME;
+	static constexpr char password[] = REPLACEME;
+
+	Vervang REPLACEME met het ssid en wachtwoord :)
+*/
+#include "secret.h"
+
 #define TOKEN_MEM_ADDR 0x04
 #define TOKEN_SIZE_BYTES 16
 
@@ -18,10 +29,6 @@ static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin d
 
 // factory default for access token
 static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
-
-// shouldn't upload this to github ':)
-static constexpr char ssid[] = "Cisco19073";
-static constexpr char password[] = "kaassouflay";
 
 /**
  * Prints a byte array to serial
