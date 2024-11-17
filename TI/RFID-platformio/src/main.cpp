@@ -60,12 +60,12 @@ bool validate_token(byte *buffer)
 }
 
 /**
- * generates new token
- * @param buffer must be 16 bytes in size
+ * generates random serie of bytes
+ * @param dest If dest IS NOT of size maxLen, this function results in a buffer overflow and undefined behaviour
  */
-void generate_random_token(byte dest[TOKEN_SIZE])
+void get_random_bytes(byte *dest, byte maxLen)
 {
-	for (int i = 0; i < TOKEN_SIZE; i++)
+	for (int i = 0; i < maxLen; i++)
 	{
 		dest[i] = random(0, 255);
 	}
