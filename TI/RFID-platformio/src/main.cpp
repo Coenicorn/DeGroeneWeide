@@ -65,7 +65,7 @@ bool validate_token(byte *buffer)
 	// return checked;
 
 	// compare buffer with correctToken, memcpy returns 0 if they are equal
-	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES) == 0);
+	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES));
 }
 
 /**
@@ -360,7 +360,7 @@ void loop()
 #endif
 
 	// check of de token geldig is
-	if (validate_token(tokenBuffer) == false)
+	if (validate_token(tokenBuffer))
 	{
 		Serial.println(F("token invalid"));
 
