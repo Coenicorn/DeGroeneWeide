@@ -214,15 +214,6 @@ int write_block(byte blockAddr, byte data[16])
 	return 0;
 }
 
-// Genereert de key nodig om toegang te krijgen tot de data
-// void generate_key()
-// {
-// 	for (byte i = 0; i < 6; i++)
-// 	{
-// 		key.keyByte[i] = defaultAuthKey[i];
-// 	}
-// }
-
 void flash_led(uint pin)
 {
 	for (uint8_t i = 0; i < 3; i++)
@@ -276,10 +267,9 @@ void setup()
 	// initWiFi(ssid, password);
 
 	// DEBUG set correct token
-	const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
-	write_new_token_EEPROM(correctToken_debug);
+	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
+	// write_new_token_EEPROM(correctToken_debug);
 
-	// generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
@@ -374,22 +364,22 @@ void loop()
 	// token is geldig
 	Serial.println(F("token valid"));
 
-	// // genereer en schrijf een nieuwe token
-	// byte newToken[TOKEN_SIZE_BYTES];
-	// get_random_bytes(newToken, TOKEN_SIZE_BYTES);
+	// genereer en schrijf een nieuwe token
+	byte newToken[TOKEN_SIZE_BYTES];
+	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
-	// if (write_block(TOKEN_MEM_ADDR, newToken))
-	// {
-	// 	Serial.print("write failed, not saving new token: "); Serial.println(MFRC522::GetStatusCodeName(status));
+	if (write_block(TOKEN_MEM_ADDR, newToken))
+	{
+		Serial.print("write failed, not saving new token: "); Serial.println(MFRC522::GetStatusCodeName(status));
 
-	// 	flash_led(RED_LED_PIN);
+		flash_led(RED_LED_PIN);
 
-	// 	goto prepare_new_card;
-	// }
+		goto prepare_new_card;
+	}
 
-	// // sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
-	// write_new_token_EEPROM(newToken);
-	// read_correct_token_EEPROM(correctToken);
+	// sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
+	write_new_token_EEPROM(newToken);
+	read_correct_token_EEPROM(correctToken);
 
 	flash_led(GREEN_LED_PIN);
 
