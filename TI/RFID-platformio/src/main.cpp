@@ -9,6 +9,8 @@
 	Dit bestand staat in de .gitignore
 	Maak een bestand aan: RFID-platformio/src/secret.h en plak dit erin:
 
+	#pragma once
+
 	static constexpr char ssid[] = REPLACEME;
 	static constexpr char password[] = REPLACEME;
 
@@ -23,7 +25,7 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 // this might work, idk though
-MFRC522::MIFARE_Key key = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; // Een instancie van een key maken
+MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instancie van een key maken
 
 static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
