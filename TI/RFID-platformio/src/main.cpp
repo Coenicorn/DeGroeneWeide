@@ -349,8 +349,6 @@ void loop()
 	}
 #endif
 
-	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
-
 	// check of de token geldig is
 	if (validate_token(tokenBuffer))
 	{
