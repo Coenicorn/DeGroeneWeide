@@ -18,7 +18,7 @@
 */
 #include "secret.h"
 
-#define TOKEN_MEM_ADDR 0x04
+#define TOKEN_MEM_ADDR 4
 #define TOKEN_SIZE_BYTES 16
 
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
@@ -30,7 +30,7 @@ MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instanc
 static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
 // factory default for access token
-static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
+// static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
 
 /**
  * Prints a byte array to serial
@@ -211,7 +211,7 @@ int write_block(byte blockAddr, byte data[16])
 		return 1;
 	}
 
-	return 1;
+	return 0;
 }
 
 // Genereert de key nodig om toegang te krijgen tot de data
@@ -372,22 +372,22 @@ void loop()
 	// token is geldig
 	Serial.println(F("token valid"));
 
-	// genereer en schrijf een nieuwe token
-	byte newToken[TOKEN_SIZE_BYTES];
-	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
+	// // genereer en schrijf een nieuwe token
+	// byte newToken[TOKEN_SIZE_BYTES];
+	// get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
-	if (write_block(TOKEN_MEM_ADDR, newToken))
-	{
-		Serial.print("write failed, not saving new token: "); Serial.println(MFRC522::GetStatusCodeName(status));
+	// if (write_block(TOKEN_MEM_ADDR, newToken))
+	// {
+	// 	Serial.print("write failed, not saving new token: "); Serial.println(MFRC522::GetStatusCodeName(status));
 
-		flash_led(RED_LED_PIN);
+	// 	flash_led(RED_LED_PIN);
 
-		goto prepare_new_card;
-	}
+	// 	goto prepare_new_card;
+	// }
 
-	// sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
-	write_new_token_EEPROM(newToken);
-	read_correct_token_EEPROM(correctToken);
+	// // sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
+	// write_new_token_EEPROM(newToken);
+	// read_correct_token_EEPROM(correctToken);
 
 	flash_led(GREEN_LED_PIN);
 
