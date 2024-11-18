@@ -36,7 +36,7 @@ static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin d
  * Prints a byte array to serial
  * @note does not append new line
  */
-void print_byte_array(byte *buffer, size_t bufferSize)
+void print_byte_array(const byte *buffer, size_t bufferSize)
 {
 	// print first entry for nice formatting
 	Serial.print(F("0x")); Serial.print(buffer[0] < 0x10 ? "0" : ""); Serial.print(buffer[0], HEX);
@@ -81,9 +81,10 @@ void get_random_bytes(byte *dest, byte maxLen)
 }
 
 // slaat de nieuwe token op in de lokale opslag (EEPROM)
-void write_new_token_EEPROM(const byte token[TOKEN_SIZE_BYTES])
+void write_new_token_EEPROM(const byte* token)
 {
-	EEPROM.writeBytes(TOKEN_MEM_ADDR, token, TOKEN_SIZE_BYTES);
+	EEPROM.writeBytes(0x00, token, TOKEN_SIZE_BYTES);
+	bool stat = EEPROM.commit();
 
 	// for (int i = 0; i < TOKEN_SIZE_BYTES; i++)
 	// {
@@ -94,8 +95,7 @@ void write_new_token_EEPROM(const byte token[TOKEN_SIZE_BYTES])
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
 void read_correct_token_EEPROM(byte dest[TOKEN_SIZE_BYTES])
 {
-	EEPROM.readBytes(TOKEN_MEM_ADDR, dest, TOKEN_SIZE_BYTES);
-	EEPROM.commit();
+	EEPROM.readBytes(0x00, dest, TOKEN_SIZE_BYTES);
 
 	// for (int i = 0; i < 16; i++)
 	// {
@@ -358,6 +358,8 @@ void loop()
 		goto prepare_new_card;
 	}
 #endif
+
+	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
 
 	// check of de token geldig is
 	if (validate_token(tokenBuffer))
