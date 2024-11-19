@@ -7,26 +7,148 @@
 </head>
 <link rel="stylesheet" href="BoerBert.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-<header>
-  <img class="logo" src="" alt="logo">
-  <nav>
-    <ul class="nav__links">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Faciliteiten</a></li>
-      <li><a href="#">Accommodaties</a></li>
-      <li><a href="#">Locatie</a></li>
+<section class="header">
+<nav>
+<a href="index.html"><img src="logo"></a>
+  <div class="nav-links" id="navLinks">
+    <i class="fa fa-times" onclick="hideMenu()"></i>
+    <ul>
+      <li><a href="">Home</a></li>
+      <li><a href="">Faciliteiten</a></li>
+      <li><a href="">Accommodaties</a></li>
+      <li><a href="">Locatie</a></li>
     </ul>
-  </nav>
-<a class="cta" href="#"><button>Boeken</button></a>
-<h1>De Groene Weide</h1>
-<p>Onze Visie</p>
-</header>
+  </div>
+  <i class="fa fa-bars" onclick="showMenu()"></i>
+</nav>
 
+<div class="text-box">
+  <h1>De Groene Weide</h1>
+  <p>Het idee dat Bert nu koestert, is om een boerencamping te beginnen met ongeveer 50 kampeerplekken.
+    Deze camping zou een mix kunnen zijn van traditionele kampeerplekken voor caravans en tenten, maar ook luxe tenten voor glamping, compleet met comfortabele bedden, elektriciteit en privé-sanitair.</p>
+  <a href="" class="hero-btn">Klik voor meer informatie</a>
+</div>
 
-<footer class="footer">
+</section>
+
+<script>
+
+  var navlinks = document.getElementById("navLinks");
+  function showMenu() {
+    navlinks.style.right ="0";
+  }
+  function hideMenu(){
+    navLinks.style.right ="-200px";
+  }
+
+</script>
+
+<section class="Onze-Doelen">
+<h1>Onze Doelen</h1>
+<p></p>
+
+<div class="row">
+  <div class="Doelen-col">
+    <h3>Visie</h3>
+    <p>Bij Boerencamping "De Groene Weide" hebben we een diepgewortelde toewijding aan het creëren van een unieke en gastvrije ervaring voor al onze kampeerders.
+      Bij "De Groene Weide" is onze visie niet slechts een doel, maar een levensstijl die we koesteren.
+      Welkom op onze boerencamping, waar duurzaamheid, innovatie en plezier samenkomen voor een onvergetelijke ervaring.
+    </p>
+  </div>
+  <div class="Doelen-col">
+    <h3>duurzaamheid</h3>
+    <p>Wij geloven in de harmonie tussen mens en natuur.
+      Daarom streven we ernaar om een duurzame omgeving te creëren waarin onze gasten niet alleen kunnen genieten van het buitenleven, maar ook kunnen bijdragen aan het behoud ervan.
+      Van milieuvriendelijke voorzieningen tot educatieve initiatieven, we zetten ons in voor een groenere toekomst.
+    </p>
+  </div>
+  <div class="Doelen-col">
+    <h3>innovatie</h3>
+    <p>Als boerderij die de overstap maakt naar een boerencamping, omarmen we vernieuwing.
+      Ons streven naar innovatie vertaalt zich in het boerencampingbeheersysteem dat we ontwikkelen.
+      We integreren technologie om het verblijf voor onze gasten te verbeteren, van intuïtieve boekingssystemen tot slimme oplossingen voor het monitoren van faciliteiten.
+    </p>
+  </div>
+</div>
+
+</section>
+
+<section class="Faciliteiten">
+  <h1>Onze Faciliteiten</h1>
+  <p></p>
+
+<div class="row">
+    <div class="Faciliteiten-col">
+      <img src="">
+      <div class="layer">
+        <h3>Zwembad</h3>
+      </div>
+  </div>
+  <div class="Faciliteiten-col">
+    <img src="">
+    <div class="layer">
+      <h3>WC's/Douches</h3>
+    </div>
+  </div>
+  <div class="Faciliteiten-col">
+    <img src="">
+    <div class="layer">
+      <h3>Speeltuin</h3>
+    </div>
+  </div>
+
+</div>
+
+</section>
+
+<section class="Accommodaties">
+  <h1>Onze Accommodaties</h1>
+  <p></p>
+
+  <div class="row">
+    <div class="Accommodaties-col">
+      <img src="">
+      <h3>Ouderwets Lodge</h3>
+      <p></p>
+    </div>
+    <div class="Accommodaties-col">
+      <img src="">
+      <h3>Sta caravans/Camping vans</h3>
+      <p></p>
+    </div>
+    <div class="Accommodaties-col">
+      <img src="">
+      <h3>Luxe Chalet</h3>
+      <p></p>
+    </div>
+  </div>
+
+</section>
+
+<section class="Locatie">
+  <h1>Locatie</h1>
+  <p></p>
+
+  <div class="row">
+    <div class="Locatie-col">
+      <img src="">
+      <h3></h3>
+      <p></p>
+      </div>
+      <div class="Locatie-col">
+      <img src="">
+      <h3></h3>
+      <p></p>  
+    </div>
+  </div>
+
+</section>
+
+<section class="footer">
   <div class="container">
     <div class="row">
       <div class="footer-col">
@@ -65,6 +187,8 @@
       <a href="#"><i class="fab fa-instagram"></i></a>
       <a href="#"><i class="fab fa-linkedin-in"></i></a>
   </div>
-</footer>
+  <p>Made by <i class="fa fa-heart-o"></i> Team SchocoMellow</p>
+
+</section>
 </body>
 </html>
