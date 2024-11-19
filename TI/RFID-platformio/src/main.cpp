@@ -9,6 +9,8 @@
 	Dit bestand staat in de .gitignore
 	Maak een bestand aan: RFID-platformio/src/secret.h en plak dit erin:
 
+	#pragma once
+
 	static constexpr char ssid[] = REPLACEME;
 	static constexpr char password[] = REPLACEME;
 
@@ -16,25 +18,25 @@
 */
 #include "secret.h"
 
-#define TOKEN_MEM_ADDR 0x04
+#define TOKEN_MEM_ADDR 4
 #define TOKEN_SIZE_BYTES 16
 
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 // this might work, idk though
-MFRC522::MIFARE_Key key = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; // Een instancie van een key maken
+MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instancie van een key maken
 
 static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
 // factory default for access token
-static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
+// static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
 
 /**
  * Prints a byte array to serial
  * @note does not append new line
  */
-void print_byte_array(byte *buffer, size_t bufferSize)
+void print_byte_array(const byte *buffer, size_t bufferSize)
 {
 	// print first entry for nice formatting
 	Serial.print(F("0x")); Serial.print(buffer[0] < 0x10 ? "0" : ""); Serial.print(buffer[0], HEX);
@@ -63,7 +65,7 @@ bool validate_token(byte *buffer)
 	// return checked;
 
 	// compare buffer with correctToken, memcpy returns 0 if they are equal
-	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES) == 0);
+	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES));
 }
 
 /**
@@ -79,9 +81,10 @@ void get_random_bytes(byte *dest, byte maxLen)
 }
 
 // slaat de nieuwe token op in de lokale opslag (EEPROM)
-void write_new_token_EEPROM(const byte token[TOKEN_SIZE_BYTES])
+void write_new_token_EEPROM(const byte* token)
 {
-	EEPROM.writeBytes(TOKEN_MEM_ADDR, token, TOKEN_SIZE_BYTES);
+	EEPROM.writeBytes(0x00, token, TOKEN_SIZE_BYTES);
+	bool stat = EEPROM.commit();
 
 	// for (int i = 0; i < TOKEN_SIZE_BYTES; i++)
 	// {
@@ -92,8 +95,7 @@ void write_new_token_EEPROM(const byte token[TOKEN_SIZE_BYTES])
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
 void read_correct_token_EEPROM(byte dest[TOKEN_SIZE_BYTES])
 {
-	EEPROM.readBytes(TOKEN_MEM_ADDR, dest, TOKEN_SIZE_BYTES);
-	EEPROM.commit();
+	EEPROM.readBytes(0x00, dest, TOKEN_SIZE_BYTES);
 
 	// for (int i = 0; i < 16; i++)
 	// {
@@ -209,17 +211,8 @@ int write_block(byte blockAddr, byte data[16])
 		return 1;
 	}
 
-	return 1;
+	return 0;
 }
-
-// Genereert de key nodig om toegang te krijgen tot de data
-// void generate_key()
-// {
-// 	for (byte i = 0; i < 6; i++)
-// 	{
-// 		key.keyByte[i] = defaultAuthKey[i];
-// 	}
-// }
 
 void flash_led(uint pin)
 {
@@ -267,17 +260,16 @@ void setup()
 {
 	initPins();
 
-	Serial.begin(115200);
+	// Serial.begin(115200);
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
 	EEPROM.begin(EEPROM_SIZE_BYTES); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
 	// initWiFi(ssid, password);
 
 	// DEBUG set correct token
-	const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
-	write_new_token_EEPROM(correctToken_debug);
+	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
+	// write_new_token_EEPROM(correctToken_debug);
 
-	// generate_key();		 // genereert een key die nodig is om bij de data van de NFC-pas te komen
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
@@ -292,6 +284,8 @@ void loop()
 	// Checkt of de NFC-pas ze UID succesvol gelezen kan worden, zo niet dan begint loop opnieuw
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
+
+	delay(100);
 
 #ifdef IS_DEV_BOARD
 	// slaat op of er een functietoets is gebruikt
@@ -358,7 +352,7 @@ void loop()
 #endif
 
 	// check of de token geldig is
-	if (validate_token(tokenBuffer) == false)
+	if (validate_token(tokenBuffer))
 	{
 		Serial.println(F("token invalid"));
 
