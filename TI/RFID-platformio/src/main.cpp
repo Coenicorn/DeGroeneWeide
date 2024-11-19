@@ -260,7 +260,7 @@ void setup()
 {
 	initPins();
 
-	Serial.begin(115200);
+	// Serial.begin(115200);
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
 	EEPROM.begin(EEPROM_SIZE_BYTES); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
@@ -284,6 +284,8 @@ void loop()
 	// Checkt of de NFC-pas ze UID succesvol gelezen kan worden, zo niet dan begint loop opnieuw
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
+
+	delay(100);
 
 #ifdef IS_DEV_BOARD
 	// slaat op of er een functietoets is gebruikt
