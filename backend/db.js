@@ -85,3 +85,20 @@ export function initializeDB() {
         `);
     });
 }
+
+export function getAllCards() {
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM cards", [], (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {}
+            resolve(rows);
+        })
+    })
+}
+
+export function insertCard(card) {
+    try {
+        const query = // hier verder met kaart inserten
+    }
+}
