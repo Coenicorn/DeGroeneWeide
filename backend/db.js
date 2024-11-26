@@ -5,10 +5,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dbPath = path.resolve(__dirname, 'feeds.db');
+const dbPath = path.resolve(__dirname, 'data.db');
 const db = new sqlite3.Database(dbPath);
 
-function initializeDB() {
+export function initializeDB() {
     db.serialize(() => {
         db.run(`CREATE TABLE IF NOT EXISTS customers (
                 Id TEXT PRIMARY KEY,
@@ -38,6 +38,7 @@ function initializeDB() {
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
                 Id TEXT PRIMARY KEY,
+                card_uuid VARCHAR(10),
                 booking_Id TEXT,
                 token VARCHAR(256),
                 blocked BOOLEAN,
