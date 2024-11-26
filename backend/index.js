@@ -19,8 +19,9 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '../backend')));
 
+// Zorg ervoor dat gebruiker naar de gebruikelijke site wordt geleidt.
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/web-fronted/BoerBert.html'));
+    res.sendFile(path.join(__dirname, '../frontend/web-fronted/BoerBert.html')); // path naar normale site
 })
 
 app.listen(PORT, () => {
