@@ -39,7 +39,7 @@ export function initializeDB() {
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
                 Id TEXT PRIMARY KEY,
-                card_uuid VARCHAR(10),
+                card_uuid VARCHAR(16),
                 booking_Id TEXT,
                 token VARCHAR(256),
                 blocked BOOLEAN,
