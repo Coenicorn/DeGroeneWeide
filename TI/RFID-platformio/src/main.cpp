@@ -2,6 +2,7 @@
 #include <MFRC522.h>
 #include <EEPROM.h>
 #include <WiFi.h>
+#include <esp_wifi.h>
 
 #include "config.h"
 
@@ -28,6 +29,28 @@ MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken
 MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instancie van een key maken
 
 static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
+
+// Reads and returns esp's mac-address
+String readMacAddress(){
+  uint8_t baseMac[6];
+  String macAddress = "";
+  esp_err_t ret = esp_wifi_get_mac(WIFI_IF_STA, baseMac);
+  if (ret == ESP_OK) {
+    for(int i = 0; i < sizeof(baseMac); i ++){
+		if(i != 0){
+			macAddress += ":";
+		}
+		macAddress += String(baseMac[i], 16);
+	}
+  } else {
+    Serial.println("Failed to read MAC address");
+  }
+
+  return macAddress;
+}
+
+static String macAddress; 	// Dit is het mac-address van de esp, deze wordt gebruikt om hem te identificeren in de database
+
 
 // factory default for access token
 // static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
@@ -85,23 +108,12 @@ void write_new_token_EEPROM(const byte* token)
 {
 	EEPROM.writeBytes(0x00, token, TOKEN_SIZE_BYTES);
 	bool stat = EEPROM.commit();
-
-	// for (int i = 0; i < TOKEN_SIZE_BYTES; i++)
-	// {
-	// 	EEPROM.write(i, token[i]);
-	// }
 }
 
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
 void read_correct_token_EEPROM(byte dest[TOKEN_SIZE_BYTES])
 {
 	EEPROM.readBytes(0x00, dest, TOKEN_SIZE_BYTES);
-
-	// for (int i = 0; i < 16; i++)
-	// {
-	// 	dest[i] = EEPROM.read(i);
-	// 	EEPROM.commit();
-	// }
 }
 
 /**
@@ -121,10 +133,17 @@ void initWiFi(const char *ssid, const char *password)
 		delay(1000);
 	}
 
+	macAddress = readMacAddress();
+
 	// DEBUG log ip
 	Serial.print(F("Got IP address "));
 	Serial.println(WiFi.localIP());
+
+	// DEBUG log mac-address
+	Serial.print("ESP32 Board MAC Address: ");
+  	Serial.println(macAddress);
 }
+
 
 // deze functie authenticate met de A key, de A key is nodig om data van de NFC-pas af te kunnen lezen, logt in de Serial monitor als het authenticaten faalt en laat dan de statuscode weten
 // returnt 0 als de functie slaagt, anders een niet-nul nummer
@@ -256,21 +275,27 @@ void initPins(void) {
 #endif
 }
 
+// returns true if card's rank is lower than that of the reader
+bool checkAccess(char received_card_level, char received_reader_level){
+	return received_card_level < received_reader_level;
+}
+
 void setup()
 {
 	initPins();
 
-	// Serial.begin(115200);
+	Serial.begin(115200);
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
 	EEPROM.begin(EEPROM_SIZE_BYTES); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-	// initWiFi(ssid, password);
+	initWiFi(ssid, password);
 
-	// DEBUG set correct token
-	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x61, 0xAC, 0xAE, 0xE6, 0x78, 0xA2, 0xCD, 0x8A, 0x88, 0xEF, 0xDF, 0xDD, 0x2F, 0x27, 0x64, 0x7A };
+	// // DEBUG set correct token
+	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x6B, 0x8C, 0x5C, 0x9E, 0x91, 0xAB, 0xC3, 0x10, 0xEF, 0x79, 0xBE, 0xF2, 0xC2, 0x4D, 0xF1, 0xFA };
 	// write_new_token_EEPROM(correctToken_debug);
 
 	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
+
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
 }
@@ -364,9 +389,24 @@ void loop()
 	// token is geldig
 	Serial.println(F("token valid"));
 
+
+	// Check if rank is high enough
+	if (checkAccess(1,0))
+	{
+		Serial.println("Access denied, card rank too low");
+
+		flash_led(RED_LED_PIN);
+
+		goto prepare_new_card;
+	}
+
+	// Rank is high enough
+	Serial.println("Acces granted");
+
 	// genereer en schrijf een nieuwe token
 	byte newToken[TOKEN_SIZE_BYTES];
 	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
+
 
 	if (write_block(TOKEN_MEM_ADDR, newToken))
 	{
