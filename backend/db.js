@@ -98,7 +98,5 @@ export function getAllCards() {
 }
 
 export function insertCard(card) {
-    try {
-        const query = // hier verder met kaart inserten
-    }
+
 }
