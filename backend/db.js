@@ -96,6 +96,25 @@ export function initializeDB() {
     });
 }
 
+export function deleteCards(confirm){
+
+    if(!confirm){
+        return false;
+    }
+
+    return new Promise((res, rej) => {
+        db.run("DELETE FROM cards", (err) => {
+            if (err) {
+                console.log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
+                rej(false);
+            } else {
+                console.log("Succesvol alle cards verwijdert uit database.");
+                res(true);
+            }
+        })
+    });
+}
+
 export function getAllCards() {
     return new Promise((resolve, reject) => {
         db.all("SELECT * FROM cards", [], (err, rows) => {
@@ -107,6 +126,13 @@ export function getAllCards() {
     })
 }
 
-export function insertCard(card) {
+export async function insertCard(Id, card_uuid, booking_Id, token, blocked) {
+
+    try {
+        const query = "INSERT INTO cards (Id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
+        return await db.run(query, [Id, card_uuid, booking_Id, token, blocked]);
+    } catch (error) {
+        throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
+    }
 
 }
