@@ -83,6 +83,16 @@ export function initializeDB() {
                 FOREIGN KEY (booking_Id) REFERENCES bookings (Id)
             )
         `);
+
+        db.run(`CREATE TABLE IF NOT EXISTS readers (
+                Id TEXT PRIMARY KEY,
+                macAddress VARCHAR(18),
+                level SMALLINT,
+                location VARCHAR(50),
+                battery INTEGER,
+                active BOOLEAN
+            )
+        `);
     });
 }
 
