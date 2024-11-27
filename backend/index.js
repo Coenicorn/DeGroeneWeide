@@ -31,8 +31,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// use api router
-
 app.use(APIRouter);
 
 app.listen(PORT, () => {
