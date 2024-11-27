@@ -136,3 +136,50 @@ export async function insertCard(Id, card_uuid, booking_Id, token, blocked) {
     }
 
 }
+
+export async function removeCardByUUID(uuid){
+
+    try{
+        const query = "DELETE FROM cards WHERE card_uuid = ?";
+        return await db.run(query, [uuid]);
+    } catch (error) {
+        throw new Error("Error tijdens het verwijderen van de kaart met uuid " + uuid + ": " + error.message);
+    }
+
+}
+
+export async function removeCardByID(id) {
+    try {
+        const query = "DELETE FROM cards WHERE id = ?";
+        return await db.run(query, [id]);
+    } catch (error) {
+        throw new Error("Error tijdens het verwijderen van de kaart met entry ID " + id + ": " + error.message);
+    }
+}
+
+export async function getCardByUUID(uuid){
+    try {
+        const query = "SELECT * FROM cards WHERE cards_uuid = ?";
+        return await db.run(query, [uuid]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van informatie met kaart uuid " + uuid + ": " + error.message);
+    }
+}
+
+export async function getCardById(id){
+    try {
+        const query = "SELECT * FROM cards WHERE id = ?";
+        return await db.run(query, [id]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van informatie met de kaart entry id " + id + ": " + error.message);
+    }
+}
+
+export async function getCardTokenByCardUuid(card_uuid){
+    try {
+        const query = "SELECT token FROM cards WHERE cards_uuid = ?";
+        return await db.run(query, [card_uuid]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van de kaart token met card uuid " + card_uuid + ": " + error.message);
+    }
+}

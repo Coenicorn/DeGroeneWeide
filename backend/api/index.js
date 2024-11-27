@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import CardsRouter from "./cards/index.js";
+import CardsRouter from "./cards/cards.js";
 
-const APIRouter = new Router("/api");
+const APIRouter = Router();
 
 APIRouter.use(CardsRouter);
 
