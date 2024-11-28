@@ -176,6 +176,10 @@ void initWiFi(const char *ssid, const char *password)
 	// DEBUG log mac-address
 	Serial.print("ESP32 Board MAC Address: ");
   	Serial.println(macAddress);
+
+	Serial.print("server host: "); Serial.println(SERVER_HOST);
+	Serial.print("server port: "); Serial.println(SERVER_PORT);
+	Serial.print("server base uri: "); Serial.println(SERVER_URI_BASE);
 }
 
 
