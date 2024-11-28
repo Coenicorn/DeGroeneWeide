@@ -95,7 +95,8 @@ export async function initializeDB() {
                 level SMALLINT,
                 location VARCHAR(50),
                 battery INTEGER,
-                active BOOLEAN
+                active BOOLEAN,
+                lastUpdate TEXT DEFAULT CURRENT_TIMESTAMP
             )
         `);
     });
@@ -134,18 +135,33 @@ export async function registerReader(
 /**
  * @throws
  */
-export async function updateReaderActiveStatus(isActive, readerId) {
+export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
     
     const query = `
-        UPDATE readers SET active=? WHERE Id=?
+        UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE Id=?
     `;
 
     try {
-        await db.run(query, [isActive, readerId]);
-        info_log("reader " + readerId + "set to " + isActive);
+        await db.run(query, [isActive, batteryLevel, readerId]);
+        info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
     } catch(e) {
         throw new Error("error updating reader activity  " + readerId + " to " + isActive);
     }
+
+}
+
+export async function getAllReaders() {
+
+    const query = `
+        SELECT * FROM readers
+    `;
+    
+    return new Promise((resolve, reject) => {
+        db.all(query, (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
 
 }
 
@@ -164,16 +180,30 @@ export async function getReader(id) {
         SELECT * FROM readers WHERE Id = ?
     `
 
-    try {
-        return new Promise((resolve, reject) => {
-            db.all(query, [id], (err, result) => {
-                if (err) reject(err.message)
-                resolve(result);
-            })
+    return new Promise((resolve, reject) => {
+        db.get(query, [id], (err, result) => {
+            if (err) reject(err.message)
+            resolve(result);
         })
-    } catch(e) {
-        throw new Error("something went wrong trying to fetch ")
-    }
+    })
+}
+
+/**
+ * @throws
+ */
+export async function readerFailedPingSetInactive() {
+
+    await db.run(
+        `
+        UPDATE readers
+        SET active = 0
+        WHERE (strftime('%s', 'now') - strftime('%s', lastUpdate)) / 60 > 1 AND active = 1;
+        `,
+        function (err) {
+            if (err) throw err;
+            info_log(`rows affected: ${this.changes}`);
+        }
+    );
 
 }
 

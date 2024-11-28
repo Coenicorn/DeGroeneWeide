@@ -1,6 +1,6 @@
 import { Router, json } from "express";
-import { err_log, md5hash, refuseNonJSON } from "../../util.js";
-import { getReader, registerReader } from "../../db.js";
+import { debug_log, err_log, md5hash, refuseNonJSON } from "../../util.js";
+import { getAllReaders, getReader, pingReaderIsAlive, registerReader } from "../../db.js";
 
 const ReadersRouter = new Router();
 
@@ -27,7 +27,9 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         return;
     }
 
-    if (reader.length == 0) {
+    debug_log(`got reader ${JSON.stringify(reader)}`);
+
+    if (reader == undefined) {
         // no reader with this id exists, create it
         try {
             await registerReader(macAddress, "front gate");
@@ -37,8 +39,21 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         }
     }
 
+    try {
+        await pingReaderIsAlive(1, readerId, battery);
+    } catch(e) {
+        next(e);
+        return;
+    }
+
     res.send("success");
 
+});
+
+ReadersRouter.get("/getAllReaders", async (req, res, next) => {
+    const readers = await getAllReaders();
+
+    res.json(readers);
 });
 
 export default ReadersRouter;

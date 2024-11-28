@@ -1,6 +1,6 @@
 import express from "express";
 import APIRouter from "./api/index.js";
-import { initializeDB } from "./db.js";
+import { readerFailedPingSetInactive, initializeDB } from "./db.js";
 import { info_log, refuseNonJSON, err_log } from "./util.js";
 
 // private api
@@ -24,9 +24,22 @@ app.use((req, res, next) => {
 // error handling
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
-    res.send({ message: err.message, err: err });
+    res.json({ message: err.message, err: err });
 })
 
 app.listen(port, () => {
     info_log(`Started API server on port ${port}`);
+
+    periodicActivityUpdate();
 });
+
+// periodically update the inactive readers
+async function periodicActivityUpdate() {
+
+    info_log("periodic reader activity check...");
+
+    await readerFailedPingSetInactive();
+
+    setTimeout(periodicActivityUpdate, 300000);
+
+}
