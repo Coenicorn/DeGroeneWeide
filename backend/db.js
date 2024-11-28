@@ -16,6 +16,7 @@ export function initializeDB() {
                 firstName VARCHAR(100),
                 middleName VARCHAR(10),
                 lastName VARCHAR(100),
+                birthDate VARCHAR(20),
                 maySave BOOLEAN,
                 creationDate DATETIME,
                 blacklisted BOOLEAN,
