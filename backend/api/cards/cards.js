@@ -3,6 +3,14 @@ import {deleteCards, getAllCards, getCardById, getCardByUUID, getCardTokenByCard
 
 const CardsRouter = express.Router();
 
+/*
+    Alles returned standaard met:
+    {"bericht":"SYSTEEM BERICHT",""}
+
+
+
+    /api/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
+ */
 CardsRouter.get("/getAllCards", async (req, res) => {
     try {
         const cards = await getAllCards();
@@ -13,6 +21,11 @@ CardsRouter.get("/getAllCards", async (req, res) => {
     }
 });
 
+/*
+       /api/getCard GET Request. Specifieke kaart kan opgevraagd worden op basis van Database entry ID of de UUID die op de NFC kaart staat.
+       Body voorbeeld:
+       '{"card_uuid":"UUID HIER"}' of '{"entryId":"1"}' of een opsomming van beide
+ */
 CardsRouter.get("/getCard", async (req, res) => {
     try {
         const info = req.body;
@@ -32,6 +45,12 @@ CardsRouter.get("/getCard", async (req, res) => {
 
 });
 
+/*
+   /api/getCardTokenByCardUuid GET Request. Vraag een token op van een kaart, op basis de uuid op de NFC kaart.
+   Body voorbeeld:
+   '{"card_uuid":"UUID HIER"}'
+
+ */
 CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
     try {
         const info = req.body;
@@ -50,6 +69,7 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
         res.status(500).send("Er is iets mis gegaan tijdens het ophalen van de token.");
     }
 });
+
 
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
