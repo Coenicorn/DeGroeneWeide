@@ -9,7 +9,7 @@ const dbPath = path.resolve(__dirname, 'data.db');
 const db = new sqlite3.Database(dbPath);
 
 // Wordt uitgevoerd zodra de server gerunned wordt.
-export function initializeDB() {
+export async function initializeDB() {
     db.serialize(() => {
         db.run(`CREATE TABLE IF NOT EXISTS customers (
                 Id TEXT PRIMARY KEY,
