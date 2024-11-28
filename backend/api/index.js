@@ -4,6 +4,6 @@ import CardsRouter from "./cards/cards.js";
 
 const APIRouter = Router();
 
-APIRouter.use(CardsRouter);
+APIRouter.use("/api", CardsRouter);
 
 export default APIRouter;

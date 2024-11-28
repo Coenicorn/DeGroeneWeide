@@ -5,9 +5,10 @@ const CardsRouter = express.Router();
 
 /*
     Alles returned standaard met:
-    {"bericht":"SYSTEEM BERICHT",""}
+    {"bericht":"SYSTEEM BERICHT","resultaat":"result"}
 
-
+     bericht - Berichtgeving voor systeem operaties
+     resultaat - Het resultaat van de request in JSON, check altijd eerst op NULL.
 
     /api/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
  */
@@ -70,7 +71,9 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
     }
 });
 
-
+/*
+       /api/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: Id, card_uuid, booking_Id, token en blocked
+ */
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
         const card = req.body;
