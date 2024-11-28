@@ -1,7 +1,8 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { err_log, info_log, md5hash } from './util';
+import { err_log, info_log, md5hash } from './util.js';
+import { type } from 'os';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,6 +87,8 @@ export async function initializeDB() {
             )
         `);
 
+        // Id is currently the md5 hash of the mac address
+
         db.run(`CREATE TABLE IF NOT EXISTS readers (
                 Id TEXT PRIMARY KEY,
                 macAddress VARCHAR(18),
@@ -99,21 +102,20 @@ export async function initializeDB() {
 }
 
 /**
- * @throws error on fail
+ * @throws
  */
 export async function registerReader(
-    macAddress, authLevel, location
+    macAddress, location
 ) {
     if (
         typeof(macAddress) !== 'string' || macAddress.length == 0 ||
-        typeof(authLevel) !== 'number' ||
         typeof(location) !== 'string' || location.length == 0
     ) {
-        err_log("registerReader was called with the wrong argument types!");
-        return;
+        throw new Error(`registerReader was called with the wrong argument types: ${typeof(macAddress)} (${macAddress}), ${typeof(location)} (${location})\
+        `);
     }
 
-    // store reader as inactive and empty battery by default
+    // store reader as inactive and empty battery by default, with auth level 0 by default
     const query = `
         INSERT INTO readers (Id, macAddress, level, location, battery, active) VALUES (?,?,?,?,?,?)
     `;
@@ -122,14 +124,57 @@ export async function registerReader(
     let idFromMacAddress = md5hash(macAddress);
     
     try {
-        await db.run(query, [idFromMacAddress, macAddress, authLevel, location, 0, false]);
+        await db.run(query, [idFromMacAddress, macAddress, 0, location, 0, false]);
         info_log(`added new reader with id ${idFromMacAddress}`);
     } catch(e) {
-        err_log(`error inserting new reader into databast: ${e.message}`);
-
-        // propogate error
-        throw e;
+        throw new Error(`error inserting new reader into databast: ${e.message}`);
     }
+}
+
+/**
+ * @throws
+ */
+export async function updateReaderActiveStatus(isActive, readerId) {
+    
+    const query = `
+        UPDATE readers SET active=? WHERE Id=?
+    `;
+
+    try {
+        await db.run(query, [isActive, readerId]);
+        info_log("reader " + readerId + "set to " + isActive);
+    } catch(e) {
+        throw new Error("error updating reader activity  " + readerId + " to " + isActive);
+    }
+
+}
+
+/**
+ * @throws
+ */
+export async function getReader(id) {
+
+    if (
+        typeof(id) !== 'string' || id.length == 0
+    ) {
+        throw new Error(`getReader was called with wrong argument types: ${typeof(id)} (${id})`);
+    }
+
+    const query = `
+        SELECT * FROM readers WHERE Id = ?
+    `
+
+    try {
+        return new Promise((resolve, reject) => {
+            db.all(query, [id], (err, result) => {
+                if (err) reject(err.message)
+                resolve(result);
+            })
+        })
+    } catch(e) {
+        throw new Error("something went wrong trying to fetch ")
+    }
+
 }
 
 export function deleteCards(confirm){

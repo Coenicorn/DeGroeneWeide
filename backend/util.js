@@ -16,7 +16,7 @@ export function md5hash(str) {
     return createHash("md5").update(str).digest('hex');
 }
 
-export function refuseJson(req, res, next) {
+export function refuseNonJSON(req, res, next) {
     if (req.headers["content-type"] !== "application/json") {
         res.status(400).json({ error: "Content-Type must be application/json" });
     }
