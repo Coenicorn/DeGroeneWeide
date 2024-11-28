@@ -1,8 +1,10 @@
 import cors from 'cors';
-import {getAllCards, initializeDB} from './db.js';
+import {deleteCards, getAllCards, initializeDB, insertCard} from './db.js';
 import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
+
+import APIRouter from './api/index.js';
 
 const app = express();
 const PORT = 3000;
@@ -29,18 +31,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use("/api", APIRouter);
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-// API hieronder
-
-app.get("/api/cards", async (req, res) => {
-    try {
-        const cards = await getAllCards();
-        res.json(cards);
-    } catch (error) {
-        console.log("Error while getting cards from server: " + error);
-        res.status(500).send("Sorry! Er heeft een interne fout opgetreden.")
-    }
 });

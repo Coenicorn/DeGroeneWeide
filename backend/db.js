@@ -39,7 +39,7 @@ export function initializeDB() {
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
                 Id TEXT PRIMARY KEY,
-                card_uuid VARCHAR(10),
+                card_uuid VARCHAR(16),
                 booking_Id TEXT,
                 token VARCHAR(256),
                 blocked BOOLEAN,
@@ -83,6 +83,35 @@ export function initializeDB() {
                 FOREIGN KEY (booking_Id) REFERENCES bookings (Id)
             )
         `);
+
+        db.run(`CREATE TABLE IF NOT EXISTS readers (
+                Id TEXT PRIMARY KEY,
+                macAddress VARCHAR(18),
+                level SMALLINT,
+                location VARCHAR(50),
+                battery INTEGER,
+                active BOOLEAN
+            )
+        `);
+    });
+}
+
+export function deleteCards(confirm){
+
+    if(!confirm){
+        return false;
+    }
+
+    return new Promise((res, rej) => {
+        db.run("DELETE FROM cards", (err) => {
+            if (err) {
+                console.log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
+                rej(false);
+            } else {
+                console.log("Succesvol alle cards verwijdert uit database.");
+                res(true);
+            }
+        })
     });
 }
 
@@ -97,8 +126,60 @@ export function getAllCards() {
     })
 }
 
-export function insertCard(card) {
+export async function insertCard(Id, card_uuid, booking_Id, token, blocked) {
+
     try {
-        const query = // hier verder met kaart inserten
+        const query = "INSERT INTO cards (Id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
+        return await db.run(query, [Id, card_uuid, booking_Id, token, blocked]);
+    } catch (error) {
+        throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
+    }
+
+}
+
+export async function removeCardByUUID(uuid){
+
+    try{
+        const query = "DELETE FROM cards WHERE card_uuid = ?";
+        return await db.run(query, [uuid]);
+    } catch (error) {
+        throw new Error("Error tijdens het verwijderen van de kaart met uuid " + uuid + ": " + error.message);
+    }
+
+}
+
+export async function removeCardByID(id) {
+    try {
+        const query = "DELETE FROM cards WHERE id = ?";
+        return await db.run(query, [id]);
+    } catch (error) {
+        throw new Error("Error tijdens het verwijderen van de kaart met entry ID " + id + ": " + error.message);
+    }
+}
+
+export async function getCardByUUID(uuid){
+    try {
+        const query = "SELECT * FROM cards WHERE cards_uuid = ?";
+        return await db.run(query, [uuid]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van informatie met kaart uuid " + uuid + ": " + error.message);
+    }
+}
+
+export async function getCardById(id){
+    try {
+        const query = "SELECT * FROM cards WHERE id = ?";
+        return await db.run(query, [id]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van informatie met de kaart entry id " + id + ": " + error.message);
+    }
+}
+
+export async function getCardTokenByCardUuid(card_uuid){
+    try {
+        const query = "SELECT token FROM cards WHERE cards_uuid = ?";
+        return await db.run(query, [card_uuid]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van de kaart token met card uuid " + card_uuid + ": " + error.message);
     }
 }
