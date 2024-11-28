@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { err_log, info_log, md5hash } from './util';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -97,6 +98,40 @@ export async function initializeDB() {
     });
 }
 
+/**
+ * @throws error on fail
+ */
+export async function registerReader(
+    macAddress, authLevel, location
+) {
+    if (
+        typeof(macAddress) !== 'string' || macAddress.length == 0 ||
+        typeof(authLevel) !== 'number' ||
+        typeof(location) !== 'string' || location.length == 0
+    ) {
+        err_log("registerReader was called with the wrong argument types!");
+        return;
+    }
+
+    // store reader as inactive and empty battery by default
+    const query = `
+        INSERT INTO readers (Id, macAddress, level, location, battery, active) VALUES (?,?,?,?,?,?)
+    `;
+
+    // generate id from hash
+    let idFromMacAddress = md5hash(macAddress);
+    
+    try {
+        await db.run(query, [idFromMacAddress, macAddress, authLevel, location, 0, false]);
+        info_log(`added new reader with id ${idFromMacAddress}`);
+    } catch(e) {
+        err_log(`error inserting new reader into databast: ${e.message}`);
+
+        // propogate error
+        throw e;
+    }
+}
+
 export function deleteCards(confirm){
 
     if(!confirm){
@@ -106,10 +141,10 @@ export function deleteCards(confirm){
     return new Promise((res, rej) => {
         db.run("DELETE FROM cards", (err) => {
             if (err) {
-                console.log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
+                err_log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
                 rej(false);
             } else {
-                console.log("Succesvol alle cards verwijdert uit database.");
+                info_log("Succesvol alle cards verwijdert uit database.");
                 res(true);
             }
         })
