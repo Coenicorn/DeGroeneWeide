@@ -31,8 +31,8 @@ export async function initializeDB() {
                 duePayments INTEGER,
                 startDate DATETIME,
                 endDate DATETIME,
-                amountChildren SMALLINT,
-                amountAdults SMALLINT,
+                amountChildren INTEGER,
+                amountAdults INTEGER,
                 expectedArrival TIME,
                 FOREIGN KEY (customer_Id) REFERENCES customers (Id)
             )
@@ -88,7 +88,7 @@ export async function initializeDB() {
         db.run(`CREATE TABLE IF NOT EXISTS readers (
                 Id TEXT PRIMARY KEY,
                 macAddress VARCHAR(18),
-                level SMALLINT,
+                level INTEGER,
                 location VARCHAR(50),
                 battery INTEGER,
                 active BOOLEAN
