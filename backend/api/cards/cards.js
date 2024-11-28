@@ -1,7 +1,16 @@
 import express, { Router } from "express";
 import {deleteCards, getAllCards, getCardById, getCardByUUID, getCardTokenByCardUuid, insertCard} from "../../db.js";
 
-const CardsRouter = express.Router("/cards");
+const CardsRouter = express.Router();
+
+/*
+    Alles returned standaard met:
+    {"bericht":"SYSTEEM BERICHT",""}
+
+
+
+    /api/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
+ */
 
 CardsRouter.get("/getAllCards", async (req, res) => {
     try {
@@ -13,6 +22,11 @@ CardsRouter.get("/getAllCards", async (req, res) => {
     }
 });
 
+/*
+       /api/getCard GET Request. Specifieke kaart kan opgevraagd worden op basis van Database entry ID of de UUID die op de NFC kaart staat.
+       Body voorbeeld:
+       '{"card_uuid":"UUID HIER"}' of '{"entryId":"1"}' of een opsomming van beide
+ */
 CardsRouter.get("/getCard", async (req, res) => {
     try {
         const info = req.body;
@@ -32,6 +46,12 @@ CardsRouter.get("/getCard", async (req, res) => {
 
 });
 
+/*
+   /api/getCardTokenByCardUuid GET Request. Vraag een token op van een kaart, op basis de uuid op de NFC kaart.
+   Body voorbeeld:
+   '{"card_uuid":"UUID HIER"}'
+
+ */
 CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
     try {
         const info = req.body;

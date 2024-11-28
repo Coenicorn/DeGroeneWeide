@@ -3,7 +3,6 @@ import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
 import { info_log } from './util.js';
-
 import "./api.js";
 
 // exposed to public
@@ -29,5 +28,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-    info_log(`started public server on port ${port}`);
+    info_log(`started public server on http://localhost:${port}`);
 });

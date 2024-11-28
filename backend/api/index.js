@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import CardsRouter from "./cards/cards.js";
 
-const APIRouter = Router("/api");
+const APIRouter = Router();
 
 APIRouter.use(CardsRouter);
 
