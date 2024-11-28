@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import {deleteCards, getAllCards, getCardById, getCardByUUID, getCardTokenByCardUuid, insertCard} from "../../db.js";
 
-const CardsRouter = express.Router();
+const CardsRouter = express.Router("/cards");
 
 CardsRouter.get("/getAllCards", async (req, res) => {
     try {
