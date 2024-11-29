@@ -5,9 +5,10 @@ import path from "path";
 import { info_log } from './util.js';
 import "./api.js";
 
+import config from './config.js';
+
 // exposed to public
 const app = express();
-const port = 3000;
 
 app.use(cors());
 
@@ -27,6 +28,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.listen(port, () => {
+app.listen(config.publicServerPort, () => {
     info_log(`started public server on http://localhost:${port}`);
 });

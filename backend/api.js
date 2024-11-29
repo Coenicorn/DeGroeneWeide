@@ -3,9 +3,10 @@ import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB } from "./db.js";
 import { info_log, refuseNonJSON, err_log } from "./util.js";
 
+import config from "./config.js";
+
 // private api
 const app = express();
-const port = 3001;
 
 app.use(express.json());
 app.use(refuseNonJSON);
@@ -13,7 +14,7 @@ app.use(refuseNonJSON);
 await initializeDB(); info_log("initialized database");
 
 app.use("/api", APIRouter);
-
+  
 // 404 fallthrough
 app.use((req, res, next) => {
     let err = new Error("route not found");
@@ -27,7 +28,7 @@ app.use((err, req, res, next) => {
     res.json({ message: err.message, err: err });
 })
 
-app.listen(port, () => {
+app.listen(config.privateServerPort, () => {
     info_log(`Started API server on port ${port}`);
 
     periodicActivityUpdate();
