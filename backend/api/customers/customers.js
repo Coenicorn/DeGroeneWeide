@@ -70,4 +70,4 @@ function isValidDate(stringDate) {
     return !isNaN(Date.parse(stringDate));
 }
 
-export default CustomersRouter();
+export default CustomersRouter;

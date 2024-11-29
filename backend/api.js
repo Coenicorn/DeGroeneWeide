@@ -29,7 +29,7 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(config.privateServerPort, () => {
-    info_log(`Started API server on port ${port}`);
+    info_log(`Started API server on port ${config.privateServerPort}`);
 
     periodicActivityUpdate();
 });
