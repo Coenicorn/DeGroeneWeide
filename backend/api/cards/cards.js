@@ -12,6 +12,7 @@ const CardsRouter = express.Router();
 
     /api/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
  */
+
 CardsRouter.get("/getAllCards", async (req, res) => {
     try {
         const cards = await getAllCards();

@@ -1,19 +1,15 @@
 import cors from 'cors';
-import {deleteCards, getAllCards, initializeDB, insertCard} from './db.js';
 import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
+import { info_log } from './util.js';
+import "./api.js";
 
-import APIRouter from './api/index.js';
-
+// exposed to public
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
 app.use(cors());
-app.use(express.json());
-
-initializeDB();
-console.log("Database create queries klaar");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,12 +23,10 @@ app.get("/", (req, res) => {
 
 // Alle requests printen voor debug
 app.use((req, res, next) => {
-    console.log(`Request for: ${req.path}`);
+    info_log(`Request for: ${req.path}`);
     next();
 });
 
-app.use("/api", APIRouter);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+    info_log(`started public server on http://localhost:${port}`);
 });
