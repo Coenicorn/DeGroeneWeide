@@ -1,6 +1,8 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { err_log, info_log, md5hash } from './util.js';
+import { type } from 'os';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -85,16 +87,124 @@ export async function initializeDB() {
             )
         `);
 
+        // Id is currently the md5 hash of the mac address
+
         db.run(`CREATE TABLE IF NOT EXISTS readers (
                 Id TEXT PRIMARY KEY,
                 macAddress VARCHAR(18),
                 level INTEGER,
                 location VARCHAR(50),
                 battery INTEGER,
-                active BOOLEAN
+                active BOOLEAN,
+                lastUpdate TEXT DEFAULT CURRENT_TIMESTAMP
             )
         `);
     });
+}
+
+/**
+ * @throws
+ */
+export async function registerReader(
+    macAddress, location
+) {
+    if (
+        typeof(macAddress) !== 'string' || macAddress.length == 0 ||
+        typeof(location) !== 'string' || location.length == 0
+    ) {
+        throw new Error(`registerReader was called with the wrong argument types: ${typeof(macAddress)} (${macAddress}), ${typeof(location)} (${location})\
+        `);
+    }
+
+    // store reader as inactive and empty battery by default, with auth level 0 by default
+    const query = `
+        INSERT INTO readers (Id, macAddress, level, location, battery, active) VALUES (?,?,?,?,?,?)
+    `;
+
+    // generate id from hash
+    let idFromMacAddress = md5hash(macAddress);
+    
+    try {
+        await db.run(query, [idFromMacAddress, macAddress, 0, location, 0, false]);
+        info_log(`added new reader with id ${idFromMacAddress}`);
+    } catch(e) {
+        throw new Error(`error inserting new reader into databast: ${e.message}`);
+    }
+}
+
+/**
+ * @throws
+ */
+export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
+    
+    const query = `
+        UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE Id=?
+    `;
+
+    try {
+        await db.run(query, [isActive, batteryLevel, readerId]);
+        info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
+    } catch(e) {
+        throw new Error("error updating reader activity  " + readerId + " to " + isActive);
+    }
+
+}
+
+export async function getAllReaders() {
+
+    const query = `
+        SELECT * FROM readers
+    `;
+    
+    return new Promise((resolve, reject) => {
+        db.all(query, (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+
+}
+
+/**
+ * @throws
+ */
+export async function getReader(id) {
+
+    if (
+        typeof(id) !== 'string' || id.length == 0
+    ) {
+        throw new Error(`getReader was called with wrong argument types: ${typeof(id)} (${id})`);
+    }
+
+    const query = `
+        SELECT * FROM readers WHERE Id = ?
+    `
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [id], (err, result) => {
+            if (err) reject(err.message)
+            resolve(result);
+        })
+    })
+}
+
+/**
+ * @throws
+ */
+export async function readerFailedPingSetInactive() {
+
+    await db.run(
+        `
+        UPDATE readers
+        SET active = 0
+        WHERE (strftime('%s', 'now') - strftime('%s', lastUpdate)) / 60 > 1 AND active = 1;
+        `,
+        function (err) {
+            if (err) throw err;
+            info_log(`rows affected: ${this.changes}`);
+        }
+    );
+
 }
 
 export function deleteCards(confirm){
@@ -106,10 +216,10 @@ export function deleteCards(confirm){
     return new Promise((res, rej) => {
         db.run("DELETE FROM cards", (err) => {
             if (err) {
-                console.log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
+                err_log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
                 rej(false);
             } else {
-                console.log("Succesvol alle cards verwijdert uit database.");
+                info_log("Succesvol alle cards verwijdert uit database.");
                 res(true);
             }
         })
