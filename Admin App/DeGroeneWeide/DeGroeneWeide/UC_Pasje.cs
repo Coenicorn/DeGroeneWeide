@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DeGroeneWeide
 {
-    public partial class UC_PasjesPagina : UserControl
+    public partial class UC_Pasje : UserControl
     {
-        public UC_PasjesPagina()
+        public UC_Pasje()
         {
             InitializeComponent();
         }

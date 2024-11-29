@@ -4,6 +4,9 @@
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="UC_Pasje.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="UC_PasjesPagina.cs">
       <SubType>UserControl</SubType>
     </Compile>
