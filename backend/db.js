@@ -21,7 +21,7 @@ export async function initializeDB() {
                 creationDate DATETIME,
                 blacklisted BOOLEAN,
                 phoneNumber VARCHAR(20),
-                mailAdress VARCHAR(300)
+                mailAddress VARCHAR(300)
             )
         `);
 
@@ -182,5 +182,76 @@ export async function getCardTokenByCardUuid(card_uuid){
         return await db.run(query, [card_uuid]);
     } catch (error) {
         throw new Error("Error tijdens het verkrijgen van de kaart token met card uuid " + card_uuid + ": " + error.message);
+    }
+}
+
+export async function getCustomerByEmail(email){
+    try {
+        const query = "SELECT * FROM customers WHERE mailAdress = ?";
+        return await db.run(query, [email]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van customer data dmv mail.");
+    }
+}
+
+export async function getCustomerByPhone(phone){
+    try {
+        const query = "SELECT * FROM customers WHERE phoneNumber = ?";
+        return await db.run(query, [phone]);
+    } catch (error) {
+        throw new Error("Error tijdens het verkrijgen van customer data dmv tel nummer")
+    }
+}
+
+export async function getAllCustomers(){
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM customers", [], (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {}
+            resolve(rows);
+        })
+    });
+}
+
+export async function getCustomerById(id){
+    try {
+        return await db.run("SELECT * FROM customers WHERE id = ?", [id]);
+    } catch (error){
+        throw new Error("Error tijdens het verkrijgen van customer data dmv db entry ID");
+    }
+}
+
+export async function insertCustomer(Id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
+    try {
+        const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birtDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        return await db.run(query, [Id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
+    } catch (error) {
+        throw new Error("Er ging iets mis tijdens het inserten van een nieuwe customer.")
+    }
+
+}
+
+export async function blacklistCustomer(mailAddress, active) {
+    try {
+        db.run(`UPDATE customers
+        SET blacklisted = ?
+        WHERE Id = ?`,
+            [active, mailAddress],
+            (error) => {
+                if (error) {
+                    console.error('Error updating blacklisted value:', error.message);
+                }
+            });
+    } catch (error) {
+        throw new Error("Er ging iets mis tijdens het blacklisten van de gebruiker.")
+    }
+}
+
+export async function deleteCustomer(mailAddress){
+    try {
+        return await db.run(`DELETE FROM customers WHERE mailAddress = ?`, [mailAddress]);
+    } catch (error) {
+        throw new Error("Er ging iets mis tijdens het verwijderen van de gebruiker.")
     }
 }
