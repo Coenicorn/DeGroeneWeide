@@ -231,7 +231,7 @@ export function getAllCards() {
         db.all("SELECT * FROM cards", [], (err, rows) => {
             if (err) {
                 reject(err);
-            } else {}
+            }
             resolve(rows);
         })
     })
@@ -295,6 +295,16 @@ export async function getCardTokenByCardUuid(card_uuid){
     }
 }
 
+export async function removeCardByBookingId(booking_id){
+    try {
+        const query = "DELETE FROM cards WHERE booking_id = ?";
+        return await db.run(query, [booking_id]);
+    } catch (error){
+        throw new Error("Error tijdens het verwijderen van kaart dmv booking id")
+    }
+}
+
+
 export async function getCustomerByEmail(email){
     try {
         const query = "SELECT * FROM customers WHERE mailAdress = ?";
@@ -344,7 +354,7 @@ export async function insertCustomer(Id, firstName, middleName, lastName, birthD
 
 export async function blacklistCustomer(mailAddress, active) {
     try {
-        db.run(`UPDATE customers
+        return await db.run(`UPDATE customers
         SET blacklisted = ?
         WHERE Id = ?`,
             [active, mailAddress],
