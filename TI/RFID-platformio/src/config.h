@@ -14,10 +14,6 @@
 #define PIN_TOOL_NEW_CORRECT_TOKEN 35
 #define PIN_TOOL_PINGALIVE 32
 
-#define SERVER_HOST F("192.168.1.2")
-#define SERVER_PORT 3001
-#define SERVER_URI_BASE F("/api/readers")
-
 // als je geen dev board hebt, comment deze line
 #define IS_DEV_BOARD
 
