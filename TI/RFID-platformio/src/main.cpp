@@ -3,6 +3,7 @@
 #include <EEPROM.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
+#include <HTTPClient.h>
 
 #include "config.h"
 
@@ -70,6 +71,39 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 		Serial.print(buffer[i] < 0x10 ? "0" : "");
 		Serial.print(buffer[i], HEX);
 	}
+}
+
+void sendPostRequest(String payload)
+{
+	// not written by chatgpt how dare you
+
+	HTTPClient http;
+
+	// Begin the HTTP connection
+	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive")); // Specify the URL
+	http.addHeader("Content-Type", "application/json");  // Add any necessary headers
+
+	// Send POST request
+	int httpResponseCode = http.POST(payload);  // Send POST with payload
+
+	// Check response
+	if (httpResponseCode > 0) {
+	Serial.println("HTTP POST request sent successfully");
+	Serial.print("Response code: ");
+	Serial.println(httpResponseCode);
+	String response = http.getString();  // Get the response body
+	Serial.println(response);
+	} else {
+	Serial.print("Error sending POST request: ");
+	Serial.println(httpResponseCode);
+	}
+
+	// End HTTP connection
+	http.end();
+}
+
+void sendAlivePing() {
+	sendPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(0) + "}");
 }
 
 // checkt of de gegeven token de
@@ -142,6 +176,10 @@ void initWiFi(const char *ssid, const char *password)
 	// DEBUG log mac-address
 	Serial.print("ESP32 Board MAC Address: ");
   	Serial.println(macAddress);
+
+	Serial.print("server host: "); Serial.println(SERVER_HOST);
+	Serial.print("server port: "); Serial.println(SERVER_PORT);
+	Serial.print("server base uri: "); Serial.println(SERVER_URI_BASE);
 }
 
 
@@ -272,6 +310,7 @@ void initPins(void) {
 	// tool pins
 	pinMode(PIN_TOOL_WIPE, INPUT);
 	pinMode(PIN_TOOL_NEW_CORRECT_TOKEN, INPUT);
+	pinMode(PIN_TOOL_PINGALIVE, INPUT);
 #endif
 }
 
@@ -298,10 +337,28 @@ void setup()
 
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
+
+	sendAlivePing();
 }
+
+static unsigned long previousMilliseconds = 0;
+const unsigned long interval = 500000;
 
 void loop()
 {
+	int toolSendAlivePingPressed = digitalRead(PIN_TOOL_PINGALIVE);
+
+	// periodically send an alive ping to the server
+	unsigned long currentMilliseconds = millis();
+	if (currentMilliseconds - previousMilliseconds >= interval || toolSendAlivePingPressed)
+	{
+		previousMilliseconds = currentMilliseconds;
+
+		sendAlivePing();
+	
+		if (toolSendAlivePingPressed) delay(1000);
+	}
+
 	// Dit checkt om te zien of er een NFC-pas voor de reader/writer zit, zo niet dan start de loop functie opnieuw
 	if (!mfrc522.PICC_IsNewCardPresent())
 		return;
