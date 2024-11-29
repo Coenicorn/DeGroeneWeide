@@ -10,5 +10,8 @@
     <Compile Update="UC_PasjesPagina.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="UC_ScannersPagina.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
