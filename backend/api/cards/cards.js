@@ -1,5 +1,13 @@
 import express, { Router } from "express";
-import {deleteCards, getAllCards, getCardById, getCardByUUID, getCardTokenByCardUuid, insertCard} from "../../db.js";
+import {
+    deleteCards,
+    getAllCards,
+    getCardById,
+    getCardByUUID,
+    getCardTokenByCardUuid,
+    insertCard,
+    removeCardByBookingId, removeCardByID
+} from "../../db.js";
 
 const CardsRouter = express.Router();
 
@@ -10,7 +18,7 @@ const CardsRouter = express.Router();
      bericht - Berichtgeving voor systeem operaties
      resultaat - Het resultaat van de request in JSON, check altijd eerst op NULL.
 
-    /api/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
+    /api/cards/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
  */
 
 CardsRouter.get("/getAllCards", async (req, res) => {
@@ -24,7 +32,7 @@ CardsRouter.get("/getAllCards", async (req, res) => {
 });
 
 /*
-       /api/getCard GET Request. Specifieke kaart kan opgevraagd worden op basis van Database entry ID of de UUID die op de NFC kaart staat.
+       /cards/getCard GET Request. Specifieke kaart kan opgevraagd worden op basis van Database entry ID of de UUID die op de NFC kaart staat.
        Body voorbeeld:
        '{"card_uuid":"UUID HIER"}' of '{"entryId":"1"}' of een opsomming van beide
  */
@@ -48,10 +56,9 @@ CardsRouter.get("/getCard", async (req, res) => {
 });
 
 /*
-   /api/getCardTokenByCardUuid GET Request. Vraag een token op van een kaart, op basis de uuid op de NFC kaart.
+   /cards/getCardTokenByCardUuid GET Request. Vraag een token op van een kaart, op basis de uuid op de NFC kaart.
    Body voorbeeld:
    '{"card_uuid":"UUID HIER"}'
-
  */
 CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
     try {
@@ -73,7 +80,8 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 });
 
 /*
-       /api/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: Id, card_uuid, booking_Id, token en blocked
+       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: Id, card_uuid, booking_Id, token en blocked
+       Body voorbeeld: '{"Id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
  */
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
@@ -98,6 +106,12 @@ CardsRouter.post("/insertCard", async (req, res) => {
     }
 });
 
+/*
+       /cards/deleteAllCards POST Request. Verwijder alle kaarten uit de tabel. Vereist veld: confirm
+       Voorbeeld body:
+       '{"confirm":"false"}'
+
+ */
 CardsRouter.post("/deleteAllCards", async (req, res) => {
     const deletion = req.body;
 
@@ -112,6 +126,11 @@ CardsRouter.post("/deleteAllCards", async (req, res) => {
     res.status(200).json({bericht:"Alle kaarten zijn verwijderd.",resultaat: result});
 });
 
+/*
+    /cards/removeCardByCardUuid POST Request. Verwijder een kaart op card_uuid. Vereist veld: card_uuid
+    Voorbeeld body:
+    '{"card_uuid":"CARD UUID HIER"}'
+ */
 CardsRouter.post("/removeCardByCardUuid", async (req, res) => {
     const card = req.body;
 
@@ -121,20 +140,30 @@ CardsRouter.post("/removeCardByCardUuid", async (req, res) => {
 
 });
 
+/*
+    /cards/removeCardByBookingId POST Request. Verwijder kaart bij boeking ID. Vereist veld: booking_id
+    Voorbeeld body:
+    '{"booking_uuid":"ID HIER"}'
+ */
 CardsRouter.post("/removeCardByBookingId", async (req, res) => {
     const card = req.body;
-
     if(card.booking_id == null)  {
         return res.status(400).send("Booking ID is vereiste.");
     }
+    return await removeCardByBookingId(card.booking_id);
 });
 
+/*
+    /cards/removeCardByEntryId POST Request. Verwijder een kaart op basis van een database entry id. Vereist veld: entryId
+    Voorbeeld body:
+    '{"entryId":"ID HIER"}'
+ */
 CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     const card = req.body;
-
     if(card.entryId == null){
         return res.status(400).send("EntryId is vereiste.");
     }
+    return await removeCardByID(card.entryId);
 });
 
 export default CardsRouter;
