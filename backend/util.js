@@ -20,5 +20,4 @@ export function refuseNonJSON(req, res, next) {
     if (req.headers["content-type"] !== "application/json") {
         res.status(400).json({ error: "Content-Type must be application/json" });
     }
-    next();
 }
