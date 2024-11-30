@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { err_log, info_log, md5hash } from './util.js';
+import { debug_log, err_log, info_log, md5hash } from './util.js';
 import { type } from 'os';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -102,9 +102,6 @@ export async function initializeDB() {
     });
 }
 
-/**
- * @throws
- */
 export async function registerReader(
     macAddress, location
 ) {
@@ -124,29 +121,32 @@ export async function registerReader(
     // generate id from hash
     let idFromMacAddress = md5hash(macAddress);
     
-    try {
-        await db.run(query, [idFromMacAddress, macAddress, 0, location, 0, false]);
-        info_log(`added new reader with id ${idFromMacAddress}`);
-    } catch(e) {
-        throw new Error(`error inserting new reader into databast: ${e.message}`);
-    }
+    return new Promise((resolve, reject) => {
+        db.run(query, [idFromMacAddress, macAddress, 0, location, 0, false], (err) => {
+            if (err) reject(err);
+
+            info_log(`registered new reader with id ${idFromMacAddress}`);
+
+            resolve();
+        });
+    })
 }
 
-/**
- * @throws
- */
 export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
     
     const query = `
         UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE Id=?
     `;
+    
+    return new Promise((resolve, reject) => {
+        db.run(query, [isActive, batteryLevel, readerId], (err) => {
+            if (err) reject(err);
 
-    try {
-        await db.run(query, [isActive, batteryLevel, readerId]);
-        info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
-    } catch(e) {
-        throw new Error("error updating reader activity  " + readerId + " to " + isActive);
-    }
+            debug_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
+
+            resolve();
+        });
+    });
 
 }
 
@@ -165,9 +165,6 @@ export async function getAllReaders() {
 
 }
 
-/**
- * @throws
- */
 export async function getReader(id) {
 
     if (
@@ -178,11 +175,11 @@ export async function getReader(id) {
 
     const query = `
         SELECT * FROM readers WHERE Id = ?
-    `
+    `;
 
     return new Promise((resolve, reject) => {
         db.get(query, [id], (err, result) => {
-            if (err) reject(err.message)
+            if (err) reject(err);
             resolve(result);
         })
     })
@@ -191,20 +188,19 @@ export async function getReader(id) {
 /**
  * @throws
  */
-export async function readerFailedPingSetInactive() {
+export async function storeInactiveReaders() {
 
-    await db.run(
-        `
-        UPDATE readers
-        SET active = 0
-        WHERE (strftime('%s', 'now') - strftime('%s', lastUpdate)) / 60 > 1 AND active = 1;
-        `,
-        function (err) {
-            if (err) throw err;
-            info_log(`rows affected: ${this.changes}`);
-        }
-    );
+    const query = `UPDATE readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastUpdate)) / 60 > 1 AND active = 1;`; /* set active = 0 for all readers that have not pinged for more than a minute */
 
+    return new Promise((resolve, reject) => {
+        db.run(query, function /* weird syntax, if the callback is an arrow function then the `this` object is not propogated correctly */(err) {
+            if (err) reject(err);
+
+            info_log(`reader activity check found ${this.changes} inactive readers`);
+
+            resolve();
+        });
+    });
 }
 
 export function deleteCards(confirm){
@@ -239,88 +235,108 @@ export function getAllCards() {
 
 export async function insertCard(Id, card_uuid, booking_Id, token, blocked) {
 
-    try {
-        const query = "INSERT INTO cards (Id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
-        return await db.run(query, [Id, card_uuid, booking_Id, token, blocked]);
-    } catch (error) {
-        throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
-    }
+    const query = "INSERT INTO cards (Id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [Id, card_uuid, booking_Id, token, blocked], (err) => {
+            if (err) reject(err);
+            resolve();
+        });
+    });
 
 }
 
 export async function removeCardByUUID(uuid){
 
-    try{
-        const query = "DELETE FROM cards WHERE card_uuid = ?";
-        return await db.run(query, [uuid]);
-    } catch (error) {
-        throw new Error("Error tijdens het verwijderen van de kaart met uuid " + uuid + ": " + error.message);
-    }
+    const query = "DELETE FROM cards WHERE card_uuid = ?";
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [uuid], (err) => {
+            if (err) reject(err);
+            resolve();
+        });
+    });
 
 }
 
 export async function removeCardByID(id) {
-    try {
-        const query = "DELETE FROM cards WHERE id = ?";
-        return await db.run(query, [id]);
-    } catch (error) {
-        throw new Error("Error tijdens het verwijderen van de kaart met entry ID " + id + ": " + error.message);
-    }
+
+    const query = "DELETE FROM cards WHERE id = ?";
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [id], (err) => {
+            if (err) reject(err);
+            resolve();
+        });
+    });
 }
 
 export async function getCardByUUID(uuid){
-    try {
-        const query = "SELECT * FROM cards WHERE cards_uuid = ?";
-        return await db.run(query, [uuid]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van informatie met kaart uuid " + uuid + ": " + error.message);
-    }
+
+    const query = "SELECT * FROM cards WHERE cards_uuid = ?";
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [uuid], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        })
+    });
 }
 
 export async function getCardById(id){
-    try {
-        const query = "SELECT * FROM cards WHERE id = ?";
-        return await db.run(query, [id]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van informatie met de kaart entry id " + id + ": " + error.message);
-    }
+    const query = "SELECT * FROM cards WHERE id = ?";
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [id], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
 }
 
 export async function getCardTokenByCardUuid(card_uuid){
-    try {
-        const query = "SELECT token FROM cards WHERE cards_uuid = ?";
-        return await db.run(query, [card_uuid]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van de kaart token met card uuid " + card_uuid + ": " + error.message);
-    }
+    const query = "SELECT token FROM cards WHERE cards_uuid = ?";
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [card_uuid], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
 }
 
 export async function removeCardByBookingId(booking_id){
-    try {
-        const query = "DELETE FROM cards WHERE booking_id = ?";
-        return await db.run(query, [booking_id]);
-    } catch (error){
-        throw new Error("Error tijdens het verwijderen van kaart dmv booking id")
-    }
+    const query = "DELETE FROM cards WHERE booking_id = ?";
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [booking_id], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
 }
 
 
 export async function getCustomerByEmail(email){
-    try {
-        const query = "SELECT * FROM customers WHERE mailAdress = ?";
-        return await db.run(query, [email]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van customer data dmv mail.");
-    }
+    const query = "SELECT * FROM customers WHERE mailAdress = ?";
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [email], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
 }
 
 export async function getCustomerByPhone(phone){
-    try {
-        const query = "SELECT * FROM customers WHERE phoneNumber = ?";
-        return await db.run(query, [phone]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van customer data dmv tel nummer")
-    }
+    const query = "SELECT * FROM customers WHERE phoneNumber = ?";
+
+    return new Promise((resolve, reject) => {
+        db.get(query, [phone], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        });
+    });
 }
 
 export async function getAllCustomers(){
@@ -336,42 +352,48 @@ export async function getAllCustomers(){
 
 export async function getCustomerById(id){
     try {
-        return await db.run("SELECT * FROM customers WHERE id = ?", [id]);
+        return new Promise((resolve, reject) => {
+            db.get("SELECT * FROM customers WHERE Id = ?", [id], (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
     } catch (error){
         throw new Error("Error tijdens het verkrijgen van customer data dmv db entry ID");
     }
 }
 
 export async function insertCustomer(Id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
-    try {
-        const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birtDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        return await db.run(query, [Id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
-    } catch (error) {
-        throw new Error("Er ging iets mis tijdens het inserten van een nieuwe customer.")
-    }
+    const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    return new Promise((resolve, reject) => {
+        db.run(query, [Id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress], (err) => {
+            if (err) reject(err);
+            resolve();
+        });
+    });
 
 }
 
 export async function blacklistCustomer(mailAddress, active) {
-    try {
-        return await db.run(`UPDATE customers
-        SET blacklisted = ?
-        WHERE Id = ?`,
-            [active, mailAddress],
-            (error) => {
-                if (error) {
-                    console.error('Error updating blacklisted value:', error.message);
-                }
-            });
-    } catch (error) {
-        throw new Error("Er ging iets mis tijdens het blacklisten van de gebruiker.")
-    }
+    const query = `UPDATE customers
+    SET blacklisted = ?
+    WHERE Id = ?`;
+    
+    return new Promise((resolve, reject) => {
+        db.run(query, [active, mailAddress], (err) => {
+            if (err) reject(err);
+            resolve();
+        });
+    });
 }
 
 export async function deleteCustomer(mailAddress){
-    try {
-        return await db.run(`DELETE FROM customers WHERE mailAddress = ?`, [mailAddress]);
-    } catch (error) {
-        throw new Error("Er ging iets mis tijdens het verwijderen van de gebruiker.")
-    }
+    const query = `DELETE FROM customers WHERE mailAddress = ?`;
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [mailAddress], (err) => {
+            if (err) reject(err);
+            resolve();
+        });
+    });
 }
