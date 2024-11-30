@@ -8,6 +8,7 @@ import {
     insertCard,
     removeCardByBookingId, removeCardByID
 } from "../../db.js";
+import { err_log } from "../../util.js";
 
 const CardsRouter = express.Router();
 
@@ -26,7 +27,7 @@ CardsRouter.get("/getAllCards", async (req, res) => {
         const cards = await getAllCards();
         res.json(cards);
     } catch (error) {
-        console.log("Error while getting cards from server: " + error);
+        err_log("Error while getting cards from server: " + error);
         res.status(500).send("Sorry! Er heeft een interne fout opgetreden.")
     }
 });
@@ -101,7 +102,7 @@ CardsRouter.post("/insertCard", async (req, res) => {
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
-        console.log("Error tijdens het kaart toevoegen: " + error.message);
+        err_log("Error tijdens het kaart toevoegen: " + error.message);
         res.status(500).send("Er is iets fout gegaan tijdens het toevoegen van de kaart.")
     }
 });

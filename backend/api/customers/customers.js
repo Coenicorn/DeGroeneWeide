@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import {getAllCustomers, insertCustomer} from "../../db.js";
+import { err_log } from "../../util.js";
 
 const CustomersRouter = express.Router();
 
@@ -22,7 +23,7 @@ CustomersRouter.get("/getAllCustomers", async (req, res) => {
         const customers = await getAllCustomers();
         res.json(customers);
     } catch (error) {
-        console.log("Error while getting customers from server: " + error);
+        err_log("Error while getting customers from server: " + error);
         res.status(500).send("Error while getting customers from server: " + error);
     }
 });

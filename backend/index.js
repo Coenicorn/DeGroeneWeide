@@ -5,6 +5,7 @@ import path from "path";
 import { info_log } from './util.js';
 import config from './config.js';
 import { verifyCorrectConfiguration } from './config.js';
+
 verifyCorrectConfiguration();
 
 // start the api server first
@@ -12,7 +13,6 @@ verifyCorrectConfiguration();
 await (async ()=>{
     info_log("importing api.js...");
     await import("./api.js");
-    info_log("api.js finished importing");
 })();
 
 // exposed to public
@@ -35,6 +35,10 @@ app.use((req, res, next) => {
     info_log(`Request for: ${req.path}`);
     next();
 });
+
+
+
+
 
 app.listen(config.publicServerPort, () => {
     info_log(`started public server on http://localhost:${config.publicServerPort}`);

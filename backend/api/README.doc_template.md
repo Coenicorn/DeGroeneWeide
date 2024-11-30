@@ -11,7 +11,7 @@ CHANGEME TO DESCRIPTION
 
 ```
 
-## response
+## responses
 
 #### `200_CHANGEMEIFNECESSARY` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
 

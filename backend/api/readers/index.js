@@ -1,8 +1,8 @@
-import { Router, json } from "express";
+import { Router } from "express";
 import { debug_log, err_log, md5hash, refuseNonJSON } from "../../util.js";
 import { getAllReaders, getReader, pingReaderIsAlive, registerReader } from "../../db.js";
 
-const ReadersRouter = new Router();
+const ReadersRouter = Router();
 
 ReadersRouter.post("/imalive", async (req, res, next) => {
 
@@ -14,7 +14,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     try {
         if (macAddress == undefined || typeof(macAddress) !== 'string' || macAddress.length == 0) throw new Error("macAddress invalid type");
         if (battery == undefined || typeof(battery) !== 'number') throw new Error("battery wrong type");
-    } catch(e) { err_log(`refuse request to /imalive: ${e.message}`); res.status(400).send(e.message); return; }
+    } catch(e) { err_log(`refuse request to /imalive: ${e.message}`); res.status(400).json({status: e.message}); return; }
 
     const readerId = md5hash(macAddress);
 
@@ -23,11 +23,8 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     try {
         reader = await getReader(readerId);
     } catch(e) {
-        next();
-        return;
+        throw new Error(`Error getting reader ${readerId}: ${e.message}`);
     }
-
-    debug_log(`got reader ${JSON.stringify(reader)}`);
 
     if (reader == undefined) {
         // no reader with this id exists, create it
@@ -39,14 +36,9 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         }
     }
 
-    try {
-        await pingReaderIsAlive(1, readerId, battery);
-    } catch(e) {
-        next(e);
-        return;
-    }
+    await pingReaderIsAlive(1, readerId, battery);
 
-    res.send("success");
+    res.end();
 
 });
 
@@ -54,6 +46,33 @@ ReadersRouter.get("/getAllReaders", async (req, res, next) => {
     const readers = await getAllReaders();
 
     res.json(readers);
+});
+
+ReadersRouter.get("/getReader", async (req, res, next) => {
+    const jsondata = req.body;
+
+    const id = jsondata.Id;
+
+    if (
+        typeof(id) !== "string" || id.length == 0
+    ) {
+        res.status(400).json({status: "id has incorrect type or value"});
+        return;
+    }
+
+    let reader;
+
+    try {
+        reader = await getReader(id);
+    } catch(e) {
+        next(e);
+    }
+
+    if (reader === undefined) {
+        res.status(200).json({status: "no reader matching " + id});
+    } else {
+        res.status(200).json(reader);
+    }
 });
 
 export default ReadersRouter;

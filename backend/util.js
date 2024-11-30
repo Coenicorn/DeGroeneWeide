@@ -5,16 +5,13 @@ import { abort } from "process";
 function log_with_title(str, title) {
     let d = new Date();
 
-    if (config.environment === 'dev')
-        console.log(`[${d.toLocaleDateString()}_${d.toLocaleTimeString()}] ${title} ${str}`);
-    else
-        console.log(`${title} ${str}`);    
+    console.log(`${title} ${str}`);
 }
 
 export function debug_log(msg) {
     if (config.environment !== "dev") return;
 
-    log_with_title(msg, "[DEBUG]")
+    log_with_title(msg, "[DEBUG]");
 }
 
 export function info_log(msg) {
@@ -31,6 +28,9 @@ export function fatal_log(msg) {
     abort();
 }
 
+
+
+
 export function md5hash(str) {
     return createHash("md5").update(str).digest('hex');
 }
@@ -38,6 +38,5 @@ export function md5hash(str) {
 export function refuseNonJSON(req, res, next) {
     if (req.headers["content-type"] !== "application/json") {
         res.status(400).json({ error: "Content-Type must be application/json" });
-    }
-    next();
+    } else next();
 }
