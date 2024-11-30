@@ -1,15 +1,34 @@
 import { createHash } from "crypto";
+import config from "./config.js";
+import { abort } from "process";
+
+function log_with_title(str, title) {
+    let d = new Date();
+
+    if (config.environment === 'dev')
+        console.log(`[${d.toLocaleDateString()}_${d.toLocaleTimeString()}] ${title} ${str}`);
+    else
+        console.log(`${title} ${str}`);    
+}
 
 export function debug_log(msg) {
-    console.log(`[DEBUG] ${msg}`);
+    if (config.environment !== "dev") return;
+
+    log_with_title(msg, "[DEBUG]")
 }
 
 export function info_log(msg) {
-    console.log(`[INFO] ${msg}`);
+    log_with_title(msg, "[INFO]");
 }
 
 export function err_log(msg) {
-    console.log(`[ERROR] ${msg}`);
+    log_with_title(msg, "[ERROR]");
+}
+
+/* logs error and aborts */
+export function fatal_log(msg) {
+    log_with_title(msg, "[FATAL]");
+    abort();
 }
 
 export function md5hash(str) {
