@@ -26,7 +26,7 @@ Request all known readers
 ```json
 [
   {
-    "Id": string, /* internal reader ID */
+    "id": string, /* internal reader ID */
     "macAddress": string, /* mac address of the reader */
     "level": number, /* authorization level required */
     "location": string, /* location on premises */
@@ -45,7 +45,7 @@ Request single reader by ID
 
 ```json
 {
-    "Id": string
+    "id": string
 }
 ```
 
@@ -55,7 +55,7 @@ Request single reader by ID
 
 ```json
 {
-    "Id": string, /* internal reader ID */
+    "id": string, /* internal reader ID */
     "macAddress": string, /* mac address of the reader */
     "level": number, /* authorization level required */
     "location": string, /* location on premises */
