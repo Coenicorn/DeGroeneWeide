@@ -21,5 +21,4 @@ export function hastoAcceptJson(req, res, next) {
         res.status(400).send("'Accept' headers must be application/json");
         return;
     }
-    next();
 }

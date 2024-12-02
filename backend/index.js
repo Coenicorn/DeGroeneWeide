@@ -29,5 +29,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(config.publicServerPort, () => {
-    info_log(`started public server on http://localhost:${config.publicServerPort}`);
+    info_log(`Started public server on http://localhost:${config.publicServerPort}`);
 });
