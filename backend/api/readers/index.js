@@ -1,5 +1,5 @@
 import { Router, json } from "express";
-import { debug_log, err_log, md5hash, refuseNonJSON } from "../../util.js";
+import { debug_log, err_log, md5hash } from "../../util.js";
 import { getAllReaders, getReader, pingReaderIsAlive, registerReader } from "../../db.js";
 
 const ReadersRouter = new Router();
