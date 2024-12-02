@@ -207,7 +207,7 @@ export async function readerFailedPingSetInactive() {
 
 }
 
-export function deleteCards(confirm){
+export async function deleteCards(confirm){
 
     if(!confirm){
         return false;
@@ -226,7 +226,7 @@ export function deleteCards(confirm){
     });
 }
 
-export function getAllCards() {
+export async function getAllCards() {
     return new Promise((resolve, reject) => {
         db.all("SELECT * FROM cards", [], (err, rows) => {
             if (err) {
