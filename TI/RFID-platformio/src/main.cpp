@@ -81,21 +81,22 @@ void sendPostRequest(String payload)
 
 	// Begin the HTTP connection
 	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive")); // Specify the URL
-	http.addHeader("Accept", "application/json");  // Add any necessary headers
+	http.addHeader("accept", "application/json");  // Add any necessary headers
 
 	// Send POST request
 	int httpResponseCode = http.POST(payload);  // Send POST with payload
 
 	// Check response
 	if (httpResponseCode > 0) {
-	Serial.println("HTTP POST request sent successfully");
-	Serial.print("Response code: ");
-	Serial.println(httpResponseCode);
-	String response = http.getString();  // Get the response body
-	Serial.println(response);
+		Serial.println("HTTP POST request sent successfully");
+		Serial.print("Response code: ");
+		Serial.println(httpResponseCode);
+		String response = http.getString();  // Get the response body
+		Serial.println(response);
 	} else {
-	Serial.print("Error sending POST request: ");
-	Serial.println(httpResponseCode);
+		Serial.print("Error sending POST request: ");
+		Serial.println(httpResponseCode);
+		digitalWrite(WIFI_STATUS_PIN, HIGH);
 	}
 
 	// End HTTP connection
@@ -305,6 +306,7 @@ void initPins(void) {
 	// definieren dat de pins van de led lampjes output pins zijn
 	pinMode(GREEN_LED_PIN, OUTPUT);
 	pinMode(RED_LED_PIN, OUTPUT);
+	pinMode(WIFI_STATUS_PIN, OUTPUT);
 
 #ifdef IS_DEV_BOARD
 	// tool pins
@@ -312,6 +314,9 @@ void initPins(void) {
 	pinMode(PIN_TOOL_NEW_CORRECT_TOKEN, INPUT);
 	pinMode(PIN_TOOL_PINGALIVE, INPUT);
 #endif
+
+	digitalWrite(WIFI_STATUS_PIN, LOW);
+
 }
 
 // returns true if card's rank is lower than that of the reader
