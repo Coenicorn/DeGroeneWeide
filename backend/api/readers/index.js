@@ -14,7 +14,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     try {
         if (macAddress == undefined || typeof(macAddress) !== 'string' || macAddress.length == 0) throw new Error("macAddress invalid type");
         if (battery == undefined || typeof(battery) !== 'number') throw new Error("battery wrong type");
-    } catch(e) { err_log(`refuse request to /imalive: ${e.message}`); res.status(400).send(e.message); return; }
+    } catch(e) { err_log(`refuse request to /imalive: ${e.message}`); res.status(400).json({ status: e.message }); return; }
 
     const readerId = md5hash(macAddress);
 
@@ -23,6 +23,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     try {
         reader = await getReader(readerId);
     } catch(e) {
+        err_log("failure getting reader with id " + readerId);
         next();
         return;
     }
@@ -46,7 +47,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         return;
     }
 
-    res.send("success");
+    res.send({ status: "success" });
 
 });
 
