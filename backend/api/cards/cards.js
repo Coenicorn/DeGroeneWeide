@@ -43,7 +43,7 @@ CardsRouter.get("/getCard", async (req, res) => {
 
         if(info.entryId != null){
             const result = await getCardById(info.entryId);
-            return res.status(200).json({bericht:"Kaart gevonden door entry Id",resultaat: result});
+            return res.status(200).json({bericht:"Kaart gevonden door entry id",resultaat: result});
         } else if (info.card_uuid != null){
             const result = await getCardByUUID(info.card_uuid);
             return res.status(200).json({bericht:"Kaart gevonden door card uuid", resultaat: result});
@@ -81,17 +81,16 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 });
 
 /*
-       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: Id, card_uuid, booking_Id, token en blocked
-       Body voorbeeld: '{"Id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
+       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_Id, token en blocked
+       Body voorbeeld: '{"id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
  */
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
         const card = req.body;
         console.log(card);
 
-        console.log("Card ID: " + card.Id);
         if (
-            !card.Id ||
+            !card.id ||
             !card.card_uuid ||
             !card.booking_Id ||
             !card.token
@@ -99,12 +98,7 @@ CardsRouter.post("/insertCard", async (req, res) => {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        let isBlocked = card.blocked;
-        if(isBlocked == null){
-            isBlocked = false;
-        }
-
-        const result = await insertCard(card.Id, card.card_uuid, card.booking_Id, card.token, isBlocked);
+        const result = await insertCard(card.Id, card.card_uuid, card.booking_Id, card.token, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {

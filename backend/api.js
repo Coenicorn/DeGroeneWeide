@@ -1,15 +1,25 @@
 import express from "express";
 import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB } from "./db.js";
-import { info_log, refuseNonJSON, err_log } from "./util.js";
+import { info_log, hastoAcceptJson, err_log, resfailwithstatus, routesFromApp } from "./util.js";
 
 import config from "./config.js";
 
 // private api
 const app = express();
+let routes;
+
+app.use((req, res, next) => {
+    if (config.environment !== "dev") {
+        next();
+        return;
+    }
+    info_log("got request for " + req.url);
+    next();
+});
 
 app.use(express.json());
-//app.use(refuseNonJSON);
+app.use(refuseNonJSON);
 
 await initializeDB(); info_log("initialized database");
 
@@ -17,19 +27,22 @@ app.use("/api", APIRouter);
   
 // 404 fallthrough
 app.use((req, res, next) => {
-    let err = new Error("Route not found. Hier niks gevonden man, volgende keer beter");
+    let err = new Error("route not found");
     err.status = 404;
     next(err);
 });
 
 // error handling
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({ message: err.message, err: err });
-})
+    err_log("caught error with message: " + err.message);
+
+    resfailwithstatus(res, err.status || 500, err.message);
+});
 
 app.listen(config.privateServerPort, () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
+
+    if (config.environment === "dev") routes = routesFromApp(app);
 
     periodicActivityUpdate();
 });
