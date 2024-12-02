@@ -344,7 +344,7 @@ export async function getCustomerById(id){
 
 export async function insertCustomer(Id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
     try {
-        const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birtDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
         return await db.run(query, [Id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
     } catch (error) {
         throw new Error("Er ging iets mis tijdens het inserten van een nieuwe customer.")
