@@ -40,10 +40,15 @@ app.use((req, res, next) => {
 });
 
 // error handling
+// try to catch and handle errors in your code, this should never be used, and instead is there as a fail safe to not crash the server or expose implementation details to the client
 app.use((err, req, res, next) => {
-    err_log("caught error with message: " + err.message);
+    let str;
+    if (config.environment === "dev") str = err.message;
+    else str = "something went wrong!";
 
-    respondwithstatus(res, err.status || 500, err.message);
+    err_log("caught error with message: " + str);
+
+    respondwithstatus(res, err.status || 500, str);
 });
 
 app.listen(config.privateServerPort, () => {
