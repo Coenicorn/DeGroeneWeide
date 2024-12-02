@@ -1,5 +1,5 @@
 import { Router, json } from "express";
-import { debug_log, err_log, md5hash, resfailwithstatus } from "../../util.js";
+import { err_log, md5hash, respondwithstatus } from "../../util.js";
 import { getAllReaders, getReader, pingReaderIsAlive, registerReader } from "../../db.js";
 
 const ReadersRouter = new Router();
@@ -27,8 +27,6 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         next();
         return;
     }
-
-    debug_log(`got reader ${JSON.stringify(reader)}`);
 
     if (reader == undefined) {
         // no reader with this id exists, create it
@@ -61,15 +59,11 @@ ReadersRouter.get("/getReader", async (req, res, next) => {
     const id = req.body.id;
 
     if (id === undefined) {
-        resfailwithstatus(res, 400, "id is undefined");
+        respondwithstatus(res, 400, "id is undefined");
         return;
     }
     if (typeof(id) !== "string") {
-        resfailwithstatus(res, 400, "type of id is incorrect: " + typeof(id));
-        return;
-    }
-    if (id.length === 0) {
-        resfailwithstatus(res, 400, "id is of size 0");
+        respondwithstatus(res, 400, "type of id is incorrect: " + typeof(id));
         return;
     }
 
@@ -78,7 +72,7 @@ ReadersRouter.get("/getReader", async (req, res, next) => {
     try {
         reader = await getReader(id);
     } catch(e) {
-        resfailwithstatus(res, 500, "something went wrong");
+        respondwithstatus(res, 500, "something went wrong");
         return;
     }
 
@@ -86,8 +80,6 @@ ReadersRouter.get("/getReader", async (req, res, next) => {
         res.json({});
         return;
     }
-
-    debug_log(`sent reader: ${reader.id}`);
 
     res.json(reader);
 });
