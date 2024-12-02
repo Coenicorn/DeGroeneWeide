@@ -1,7 +1,7 @@
 import express from "express";
 import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB } from "./db.js";
-import { info_log, refuseNonJSON, err_log } from "./util.js";
+import { info_log, hastoAcceptJson, err_log } from "./util.js";
 
 import config from "./config.js";
 
@@ -9,7 +9,7 @@ import config from "./config.js";
 const app = express();
 
 app.use(express.json());
-app.use(refuseNonJSON);
+app.use(hastoAcceptJson);
 
 await initializeDB(); info_log("initialized database");
 
