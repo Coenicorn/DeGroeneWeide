@@ -17,7 +17,7 @@ GenericRouter.post("/setNewestCarsToWrite", (req, res, next) => {
         return;
     }
 
-    const card = 
+    const card = getCardById(id);
     
 });
 
