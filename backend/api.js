@@ -1,7 +1,7 @@
 import express from "express";
 import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB } from "./db.js";
-import { info_log, hastoAcceptJson, err_log, resfailwithstatus, routesFromApp } from "./util.js";
+import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp } from "./util.js";
 
 import config from "./config.js";
 
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(refuseNonJSON);
+app.use(hastoAcceptJson);
 
 await initializeDB(); info_log("initialized database");
 
@@ -27,7 +27,14 @@ app.use("/api", APIRouter);
   
 // 404 fallthrough
 app.use((req, res, next) => {
-    let err = new Error("route not found");
+    let err;
+
+    let finalRoute = req.url.split("/").pop();
+    if (routes.includes(finalRoute) && config.environment === "dev") {
+        err = new Error("Route exists but failed, did you use the right method?");
+    } else {
+        err = new Error("Route not found. Hier niks gevonden man, volgende keer beter");
+    }
     err.status = 404;
     next(err);
 });
@@ -36,7 +43,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     err_log("caught error with message: " + err.message);
 
-    resfailwithstatus(res, err.status || 500, err.message);
+    respondwithstatus(res, err.status || 500, err.message);
 });
 
 app.listen(config.privateServerPort, () => {

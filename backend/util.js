@@ -1,9 +1,5 @@
 import { createHash } from "crypto";
 
-export function debug_log(msg) {
-    console.log(`[DEBUG] ${msg}`);
-}
-
 export function info_log(msg) {
     console.log(`[INFO] ${msg}`);
 }
@@ -24,7 +20,7 @@ export function hastoAcceptJson(req, res, next) {
     next();
 }
 
-export function resfailwithstatus(res, statusCode, statusMsg, additionalObject) {
+export function respondwithstatus(res, statusCode, statusMsg, additionalObject) {
     let ret = {};
 
     ret.status = statusMsg;
