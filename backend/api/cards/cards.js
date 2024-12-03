@@ -190,8 +190,12 @@ CardsRouter.post("/updateCard", async (req, res) => {
     }
 
     // remove old card if it exists
-    await removeCardByID(id);
-    await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+    try {
+        await removeCardByID(id);
+        await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+    } catch(e) {
+        next(e);
+    }
 
     respondwithstatus(res, 200, "updated card");
 });
