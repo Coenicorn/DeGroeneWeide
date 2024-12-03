@@ -241,3 +241,48 @@ Verwijdert een kaart op basis van `entryId`.
     ```json
     "EntryId is vereiste."
     ```
+---
+
+### `GET /api/cards/getAllExtensiveCards`
+Haalt kaart informatie op met de daarbijhorende boekingsinformatie.
+
+#### Responses
+- **`200 OK`**
+    ```json
+    {
+        "id": TEXT,
+        "card_uuid": VARCHAR(16),
+        "booking_id": TEXT,
+        "token": VARCHAR(256),
+        "blocked": BOOLEAN,
+        "customer_id": TEXT,
+        "duePayments": INTEGER,
+        "startDate": DATETIME,
+        "endDate": DATETIME,
+        "amountChildren": INTEGER,
+        "amountAdults": INTEGER,
+        "expectedArrival": TIME,
+        "firstName": VARCHAR(100),
+        "middleName": VARCHAR(10),
+        "lastName": VARCHAR(100),
+        "birthDate": VARCHAR(20),
+        "maySave": BOOLEAN,
+        "creationDate": DATETIME,
+        "blacklisted": BOOLEAN,
+        "phoneNumber": VARCHAR(20),
+        "mailAddress": VARCHAR(300)
+    },
+  ...
+    ```
+
+- **`400 Bad Request`**
+    ```json
+    "Card_uuid is vereiste."
+    ```
+
+- **`500 Internal Server Error`**
+    ```json
+    "Er is iets mis gegaan tijdens het ophalen van de token."
+    ```
+
+---
