@@ -4,7 +4,11 @@ import { err_log, respondwithstatus } from "../../util.js";
 
 const GenericRouter = Router();
 
-GenericRouter.post("/setNewestCarsToWrite", (req, res, next) => {
+// this can be just a variable, doesn't need to live in a database
+// can be reset at any time
+let latestScannedCardToWriteID;
+
+GenericRouter.post("/setNewestCardToWrite", (req, res, next) => {
 
     const id = req.body.id;
 
@@ -17,13 +21,32 @@ GenericRouter.post("/setNewestCarsToWrite", (req, res, next) => {
         return;
     }
 
-    const card = getCardById(id);
-    
+    let card;
+
+    try {
+        card = getCardById(id);
+    } catch(e) {
+        err_log("failed to get card with id " + id);
+
+        respondwithstatus(res, 500, "something went wrong");
+
+        return;
+    }
+
+    latestScannedCardToWriteID = card.id;
+
+    res.end();
+
 });
 
 GenericRouter.get("/getNewestCardToWrite", (req, res, next) => {
 
+    if (latestScannedCardToWriteID === undefined) {
+        res.json({});
+        return;
+    }
 
+    
 
 });
 

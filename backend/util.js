@@ -14,7 +14,11 @@ export function md5hash(str) {
 
 export function hastoAcceptJson(req, res, next) {
     if (req.headers["accept"] !== "application/json") {
-        res.status(400).send("'Accept' headers must be application/json");
+        respondwithstatus(res, 400, "'Accept' header must be 'application/json'");
+        return;
+    }
+    if (req.headers["content-type"] !== "application/json") {
+        respondwithstatus(res, 400, "'Content-Type' header must be 'application/json'")
         return;
     }
     next();

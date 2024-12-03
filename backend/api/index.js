@@ -14,6 +14,6 @@ APIRouter.use("/customers", CustomersRouter)
 APIRouter.use("/readers", ReadersRouter);
 APIRouter.use("/auth", AuthRouter);
 APIRouter.use("/booking", BookingRouter);
-APIRouter.use("/generic", GenericRouter);
+APIRouter.use("/", GenericRouter);
 
 export default APIRouter;
