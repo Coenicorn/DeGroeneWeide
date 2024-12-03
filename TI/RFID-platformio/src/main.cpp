@@ -82,6 +82,7 @@ void sendPostRequest(String payload)
 	// Begin the HTTP connection
 	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive")); // Specify the URL
 	http.addHeader("accept", "application/json");  // Add any necessary headers
+	http.addHeader("content-type", "application/json");  // Add any necessary headers
 
 	// Send POST request
 	int httpResponseCode = http.POST(payload);  // Send POST with payload

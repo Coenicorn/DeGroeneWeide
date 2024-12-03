@@ -30,4 +30,6 @@ We're not bad at writing code, we're *learning*
 
 ## Route paths
 
-Whenever a `README.md` mentions a route (i.e. `/getAllReaders`), it is referring to the full directory as a route (`/api/readers/getAllReaders`), which is of course prepended by the host (i.e. `www.thiswebsiteissoawesome.com/api/readers/getAllReaders`).
+Whenever a `README.md` mentions a route (i.e. `/getAllReaders`), it is referring to the full directory as a route (`/api/readers/getAllReaders`), which is of course prepended by the host (i.e. `www.host.com/api/readers/getAllReaders`).
+
+An important exception to this rule is `./generic/`, which lives at the root of the api (`www.host.com/api/`). A route `testRoute` defined in the `generic` folder can thus be accessed through `www.host.com/api/testRoute`.
