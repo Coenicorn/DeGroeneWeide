@@ -41,12 +41,12 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
-                id TEXT PRIMARY KEY,
-                card_uuid VARCHAR(16),
-                booking_id TEXT,
-                token VARCHAR(256),
-                level INT,
-                blocked BOOLEAN,
+                id TEXT PRIMARY KEY NOT NULL,
+                card_uuid VARCHAR(16) NOT NULL,
+                booking_id TEXT NOT NULL,
+                token VARCHAR(256) NOT NULL,
+                level INT NOT NULL,
+                blocked BOOLEAN NOT NULL,
                 last_update INTEGER DEFAULT (strftime('%s', 'now')),
                 FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
