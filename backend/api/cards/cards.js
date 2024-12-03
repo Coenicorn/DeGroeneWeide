@@ -244,12 +244,19 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
 
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
 
-    let d = new Date();
-    let epoch = d.now();
+    let epoch = Date.now();
+
+    let cardEpoch = latestScannedCardToWriteID.last_update;
+
+    if (epoch - cardEpoch > 60) {
+        return res.json({ card: undefined });
+    }
 
     if (latestScannedCardToWriteID === undefined) {
         return res.json({ card: undefined });
     }
+
+
 
     res.json({ card: latestScannedCardToWriteID });
 });

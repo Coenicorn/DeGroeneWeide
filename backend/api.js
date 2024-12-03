@@ -1,6 +1,6 @@
 import express from "express";
 import APIRouter from "./api/index.js";
-import { readerFailedPingSetInactive, initializeDB, insertCard } from "./db.js";
+import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp } from "./util.js";
 
 import config from "./config.js";
@@ -52,17 +52,21 @@ app.use((err, req, res, next) => {
     respondwithstatus(res, err.status || 500, str);
 });
 
-app.listen(config.privateServerPort, () => {
+app.listen(config.privateServerPort, async () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
 
     if (config.environment === "dev") routes = routesFromApp(app);
 
-    // add a few mockup cards
-    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+
+    // add a few mockup values
+    const cards = await getAllCards();
+    if (cards.length === 0) {
+        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+    }
 
     periodicActivityUpdate();
 });
