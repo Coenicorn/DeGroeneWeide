@@ -8,7 +8,7 @@ import {
     insertCard,
     removeCardByBookingId, removeCardByID
 } from "../../db.js";
-import { respondwithstatus } from "../../util.js";
+import { respondwithstatus, err_log, info_log } from "../../util.js";
 
 const CardsRouter = express.Router();
 
@@ -204,32 +204,25 @@ CardsRouter.post("/updateCard", async (req, res) => {
 // can be reset at any time
 let latestScannedCardToWriteID;
 
-CardsRouter.post("/setNewestCardToWrite", (req, res, next) => {
+CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
 
-    const id = req.body.id;
+    const card = req.body.card;
 
-    if (id == undefined) {
-        respondwithstatus(res, 400, "id is undefined");
-        return;
+    if (card === undefined) {
+        return respondwithstatus(res, 400, "missing card object");
     }
-    if (typeof(id) !== "string") {
-        respondwithstatus(res, 400, "type of id is not correct: " + typeof(id));
-        return;
-    }
-
-    let card;
 
     try {
-        card = getCardById(id);
+        let existingCard = await getCardById(card.id);
+        if (existingCard === undefined) {
+            info_log("no card yet exists with id " + card.id + "! inserting it into database...");
+            await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+        }
     } catch(e) {
-        err_log("failed to get card with id " + id);
-
-        respondwithstatus(res, 500, "something went wrong");
-
-        return;
+        next(e);
     }
 
-    latestScannedCardToWriteID = card.id;
+    latestScannedCardToWriteID = card;
 
     res.end();
 
@@ -238,12 +231,10 @@ CardsRouter.post("/setNewestCardToWrite", (req, res, next) => {
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
 
     if (latestScannedCardToWriteID === undefined) {
-        res.json({});
-        return;
+        return res.json({ card: undefined });
     }
 
-    
-
+    res.json({ card: latestScannedCardToWriteID });
 });
 
 export default CardsRouter;

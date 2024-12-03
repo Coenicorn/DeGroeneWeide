@@ -281,7 +281,12 @@ export async function getCardByUUID(uuid){
 export async function getCardById(id){
     try {
         const query = "SELECT * FROM cards WHERE id = ?";
-        return await db.run(query, [id]);
+        return new Promise((res, rej) => {
+            db.get(query, [id], (err, result) => {
+                if (err) rej(err);
+                res(result);
+            });
+        })
     } catch (error) {
         throw new Error("Error tijdens het verkrijgen van informatie met de kaart entry id " + id + ": " + error.message);
     }
