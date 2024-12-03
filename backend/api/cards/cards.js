@@ -6,8 +6,10 @@ import {
     getCardByUUID,
     getCardTokenByCardUuid,
     insertCard,
-    removeCardByBookingId, removeCardByID
+    removeCardByBookingId, removeCardByID,
+    updateCard
 } from "../../db.js";
+import { respondwithstatus, err_log, info_log } from "../../util.js";
 
 const CardsRouter = express.Router();
 
@@ -96,7 +98,7 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 });
 
 /*
-       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_Id, token en blocked
+       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_id, token en blocked
        Body voorbeeld: '{"id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
  */
 CardsRouter.post("/insertCard", async (req, res) => {
@@ -104,22 +106,18 @@ CardsRouter.post("/insertCard", async (req, res) => {
         const card = req.body;
         console.log(card);
 
-        console.log("Card ID: " + card.Id);
         if (
             !card.id ||
             !card.card_uuid ||
-            !card.booking_Id ||
-            !card.token
+            card.level === undefined ||
+            !card.booking_id ||
+            !card.token ||
+            card.blocked === undefined
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        let isBlocked = card.blocked;
-        if(isBlocked == null){
-            isBlocked = false;
-        }
-
-        const result = await insertCard(card.Id, card.card_uuid, card.booking_Id, card.token, isBlocked);
+        const result = await insertCard(card.id, card.card_uuid, card.booking_id, card.token, card.level, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
@@ -188,6 +186,87 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     }
     const result = await removeCardByID(card.entryId);
     return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result})
+});
+
+CardsRouter.post("/updateCard", async (req, res, next) => {
+    const card = req.body.card;
+
+    if (card === undefined) {
+        return respondwithstatus(res, 400, "Missing card object");
+    }
+
+    const id = card.id;
+
+    if (id === undefined) {
+        return respondwithstatus(res, 400, "Card has no id, probably malformed");
+    }
+
+    if (
+        card.uuid === undefined ||
+        card.booking_id === undefined ||
+        card.token === undefined ||
+        card.level === undefined ||
+        card.blocked === undefined
+    ) {
+        return respondwithstatus(res, 400, "missing one or more properties");
+    }
+
+    // remove old card if it exists
+    try {
+        const dbres = await updateCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+        if (dbres === 0) {
+            // no matching cards found
+            return respondwithstatus(res, 400, "no matching cards found");
+        }
+    } catch(e) {
+        next(e);
+    }
+
+    respondwithstatus(res, 200, "updated card");
+});
+
+// this can be just a variable, doesn't need to live in a database
+// can be reset at any time
+let latestScannedCardToWriteID;
+
+CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
+
+    const card = req.body.card;
+
+    if (card === undefined) {
+        return respondwithstatus(res, 400, "missing card object");
+    }
+
+    try {
+        let existingCard = await getCardById(card.id);
+        if (existingCard === undefined) {
+            info_log("no card yet exists with id " + card.id + "! inserting it into database...");
+            await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+        }
+    } catch(e) {
+        if (e.errno !== undefined && e.errno === 19) {
+            // not null failed
+            return respondwithstatus(res, 400, "some values weren't defined");
+        }
+        next(e);
+    }
+
+    latestScannedCardToWriteID = card;
+
+    res.end();
+
+});
+
+CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
+
+    let d = new Date();
+    let epoch = d.now();
+
+    if (latestScannedCardToWriteID === undefined) {
+        return res.json({ card: undefined });
+    }
+
+    res.json({ card: latestScannedCardToWriteID });
 });
 
 export default CardsRouter;

@@ -1,6 +1,6 @@
 import express from "express";
 import APIRouter from "./api/index.js";
-import { readerFailedPingSetInactive, initializeDB } from "./db.js";
+import { readerFailedPingSetInactive, initializeDB, insertCard } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp } from "./util.js";
 
 import config from "./config.js";
@@ -56,6 +56,13 @@ app.listen(config.privateServerPort, () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
 
     if (config.environment === "dev") routes = routesFromApp(app);
+
+    // add a few mockup cards
+    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+    insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
 
     periodicActivityUpdate();
 });
