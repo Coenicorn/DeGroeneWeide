@@ -228,6 +228,8 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
             info_log("no card yet exists with id " + card.id + "! inserting it into database...");
             await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
         }
+        // double database call -0-
+        latestScannedCardToWriteID = await getCardById(card.id);
     } catch(e) {
         if (e.errno !== undefined && e.errno === 19) {
             // not null failed
@@ -235,8 +237,6 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
         }
         next(e);
     }
-
-    latestScannedCardToWriteID = req.body.card;
 
     res.end();
 
@@ -251,6 +251,9 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
     let epoch = Date.now();
 
     let cardEpoch = latestScannedCardToWriteID.last_update;
+
+    console.log(epoch);
+    console.log(cardEpoch);
 
     if (epoch - cardEpoch > 60) {
         return res.json({ card: undefined });

@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
 import { type } from 'os';
+import config from './config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -250,6 +251,9 @@ export async function getAllCards() {
     })
 }
 
+/**
+ * @throws
+ */
 export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
     const query = "UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?";
     return new Promise((res, rej) => {
