@@ -43,10 +43,10 @@ export async function initializeDB() {
         db.run(`CREATE TABLE IF NOT EXISTS cards (
                 id TEXT PRIMARY KEY,
                 card_uuid VARCHAR(16),
-                booking_Id TEXT,
+                booking_id TEXT,
                 token VARCHAR(256),
                 blocked BOOLEAN,
-                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
         `);
 
@@ -59,7 +59,7 @@ export async function initializeDB() {
         db.run(`CREATE TABLE IF NOT EXISTS cardsauthlevels (
                 card_Id TEXT,
                 level INTEGER,
-                FOREIGN KEY (card_Id) REFERENCES cards (id),
+                FOREIGN KEY (card_id) REFERENCES cards (id),
                 FOREIGN KEY (level) REFERENCES authlevels (id)
             )
         `);
@@ -71,10 +71,10 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS bookingamenities (
-                booking_Id TEXT,
+                booking_id TEXT,
                 type VARCHAR(20),
                 FOREIGN KEY (type) REFERENCES amentitytypes (type),
-                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
         `);
 
@@ -82,8 +82,8 @@ export async function initializeDB() {
                 id TEXT PRIMARY KEY,
                 rawName VARCHAR(50),
                 formattedName VARCHAR(50),
-                booking_Id TEXT,
-                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
+                booking_id TEXT,
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
         `);
 
@@ -235,6 +235,18 @@ export async function getAllCards() {
             resolve(rows);
         })
     })
+}
+
+export async function getAllExtensiveCards(){
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id", [], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(rows);
+        })
+
+    });
 }
 
 export async function insertCard(id, card_uuid, booking_Id, token, blocked) {
