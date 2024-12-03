@@ -5,7 +5,6 @@ dotenvx.config();
 
 const config = {};
 
-
 config.environment = process.env.ENVIRONMENT;
 
 config.publicServerPort = process.env.PUBLIC_SERVER_PORT;
