@@ -41,6 +41,7 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
+
                 id TEXT PRIMARY KEY NOT NULL,
                 card_uuid VARCHAR(16) NOT NULL,
                 booking_id TEXT NOT NULL,
@@ -70,9 +71,9 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS cardsauthlevels (
-                card_Id TEXT,
+                card_id TEXT,
                 level INTEGER,
-                FOREIGN KEY (card_Id) REFERENCES cards (id),
+                FOREIGN KEY (card_id) REFERENCES cards (id),
                 FOREIGN KEY (level) REFERENCES authlevels (id)
             )
         `);
@@ -250,6 +251,18 @@ export async function getAllCards() {
     })
 }
 
+export async function getAllExtensiveCards(){
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id", [], (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(rows);
+        })
+
+    });
+}
+
 export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
     const query = "UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?";
     return new Promise((res, rej) => {
@@ -260,8 +273,7 @@ export async function updateCard(id, card_uuid, booking_id, token, level, blocke
     });
 }
 
-export async function insertCard(id, card_uuid, booking_id, token, level, blocked) {
-
+export async function insertCard(id, card_uuid, booking_id, token, level, blocked) 
     try {
         const query = "INSERT INTO cards (id, card_uuid, booking_id, token, level, blocked) VALUES (?,?,?,?,?,?)";
         return new Promise((res, rej) => {
