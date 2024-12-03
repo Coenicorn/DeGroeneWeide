@@ -94,18 +94,15 @@ CardsRouter.post("/insertCard", async (req, res) => {
         if (
             !card.id ||
             !card.card_uuid ||
+            card.level === undefined ||
             !card.booking_id ||
-            !card.token
+            !card.token ||
+            card.blocked === undefined
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        let isBlocked = card.blocked;
-        if(isBlocked == null){
-            isBlocked = false;
-        }
-
-        const result = await insertCard(card.id, card.card_uuid, card.booking_id, card.token, isBlocked);
+        const result = await insertCard(card.id, card.card_uuid, card.booking_id, card.token, card.level, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
@@ -232,6 +229,10 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
             await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
         }
     } catch(e) {
+        if (e.errno !== undefined && e.errno === 19) {
+            // not null failed
+            return respondwithstatus(res, 400, "some values weren't defined");
+        }
         next(e);
     }
 
@@ -242,6 +243,9 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
 });
 
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
+
+    let d = new Date();
+    let epoch = d.now();
 
     if (latestScannedCardToWriteID === undefined) {
         return res.json({ card: undefined });
