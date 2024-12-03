@@ -14,7 +14,7 @@ const db = new sqlite3.Database(dbPath);
 export async function initializeDB() {
     db.serialize(() => {
         db.run(`CREATE TABLE IF NOT EXISTS customers (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 firstName VARCHAR(100),
                 middleName VARCHAR(10),
                 lastName VARCHAR(100),
@@ -28,7 +28,7 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS bookings (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 customer_Id TEXT,
                 duePayments INTEGER,
                 startDate DATETIME,
@@ -36,22 +36,22 @@ export async function initializeDB() {
                 amountChildren INTEGER,
                 amountAdults INTEGER,
                 expectedArrival TIME,
-                FOREIGN KEY (customer_Id) REFERENCES customers (Id)
+                FOREIGN KEY (customer_Id) REFERENCES customers (id)
             )
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 card_uuid VARCHAR(16),
                 booking_Id TEXT,
                 token VARCHAR(256),
                 blocked BOOLEAN,
-                FOREIGN KEY (booking_Id) REFERENCES bookings (Id)
+                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
             )
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS authlevels (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 level VARCHAR(20)
             )
         `);
@@ -59,13 +59,13 @@ export async function initializeDB() {
         db.run(`CREATE TABLE IF NOT EXISTS cardsauthlevels (
                 card_Id TEXT,
                 level INTEGER,
-                FOREIGN KEY (card_Id) REFERENCES cards (Id),
-                FOREIGN KEY (level) REFERENCES authlevels (Id)
+                FOREIGN KEY (card_Id) REFERENCES cards (id),
+                FOREIGN KEY (level) REFERENCES authlevels (id)
             )
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS amentitytypes (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 type VARCHAR(20)
             )
         `);
@@ -74,23 +74,23 @@ export async function initializeDB() {
                 booking_Id TEXT,
                 type VARCHAR(20),
                 FOREIGN KEY (type) REFERENCES amentitytypes (type),
-                FOREIGN KEY (booking_Id) REFERENCES bookings (Id)
+                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
             )
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS standingplaces (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 rawName VARCHAR(50),
                 formattedName VARCHAR(50),
                 booking_Id TEXT,
-                FOREIGN KEY (booking_Id) REFERENCES bookings (Id)
+                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
             )
         `);
 
-        // Id is currently the md5 hash of the mac address
+        // id is currently the md5 hash of the mac address
 
         db.run(`CREATE TABLE IF NOT EXISTS readers (
-                Id TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
                 macAddress VARCHAR(18),
                 level INTEGER,
                 location VARCHAR(50),
@@ -118,7 +118,7 @@ export async function registerReader(
 
     // store reader as inactive and empty battery by default, with auth level 0 by default
     const query = `
-        INSERT INTO readers (Id, macAddress, level, location, battery, active) VALUES (?,?,?,?,?,?)
+        INSERT INTO readers (id, macAddress, level, location, battery, active) VALUES (?,?,?,?,?,?)
     `;
 
     // generate id from hash
@@ -138,7 +138,7 @@ export async function registerReader(
 export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
     
     const query = `
-        UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE Id=?
+        UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?
     `;
 
     try {
@@ -155,7 +155,7 @@ export async function getAllReaders() {
     const query = `
         SELECT * FROM readers
     `;
-    
+
     return new Promise((resolve, reject) => {
         db.all(query, (err, rows) => {
             if (err) reject(err);
@@ -177,7 +177,7 @@ export async function getReader(id) {
     }
 
     const query = `
-        SELECT * FROM readers WHERE Id = ?
+        SELECT * FROM readers WHERE id = ?
     `
 
     return new Promise((resolve, reject) => {
@@ -207,7 +207,7 @@ export async function readerFailedPingSetInactive() {
 
 }
 
-export function deleteCards(confirm){
+export async function deleteCards(confirm){
 
     if(!confirm){
         return false;
@@ -226,7 +226,7 @@ export function deleteCards(confirm){
     });
 }
 
-export function getAllCards() {
+export async function getAllCards() {
     return new Promise((resolve, reject) => {
         db.all("SELECT * FROM cards", [], (err, rows) => {
             if (err) {
@@ -237,11 +237,11 @@ export function getAllCards() {
     })
 }
 
-export async function insertCard(Id, card_uuid, booking_Id, token, blocked) {
+export async function insertCard(id, card_uuid, booking_Id, token, blocked) {
 
     try {
-        const query = "INSERT INTO cards (Id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
-        return await db.run(query, [Id, card_uuid, booking_Id, token, blocked]);
+        const query = "INSERT INTO cards (id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
+        return await db.run(query, [id, card_uuid, booking_Id, token, blocked]);
     } catch (error) {
         throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
     }
@@ -342,10 +342,10 @@ export async function getCustomerById(id){
     }
 }
 
-export async function insertCustomer(Id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
+export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
     try {
-        const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birtDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        return await db.run(query, [Id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
+        const query = "INSERT INTO customers (id, firstName, middleName, lastName, birtDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        return await db.run(query, [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
     } catch (error) {
         throw new Error("Er ging iets mis tijdens het inserten van een nieuwe customer.")
     }
@@ -356,7 +356,7 @@ export async function blacklistCustomer(mailAddress, active) {
     try {
         return await db.run(`UPDATE customers
         SET blacklisted = ?
-        WHERE Id = ?`,
+        WHERE id = ?`,
             [active, mailAddress],
             (error) => {
                 if (error) {

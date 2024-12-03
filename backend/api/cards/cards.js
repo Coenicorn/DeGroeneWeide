@@ -19,6 +19,7 @@ const CardsRouter = express.Router();
      resultaat - Het resultaat van de request in JSON, check altijd eerst op NULL.
 
     /api/cards/getAllCards GET Request. Geeft alle opgeslagen kaarten in de tabel `cards` in JSON format.
+    Invoke-WebRequest -Uri http://localhost:3001/api/cards/getAllCards -Method GET -ContentType "application/json"
  */
 
 CardsRouter.get("/getAllCards", async (req, res) => {
@@ -42,7 +43,7 @@ CardsRouter.get("/getCard", async (req, res) => {
 
         if(info.entryId != null){
             const result = await getCardById(info.entryId);
-            return res.status(200).json({bericht:"Kaart gevonden door entry Id",resultaat: result});
+            return res.status(200).json({bericht:"Kaart gevonden door entry id",resultaat: result});
         } else if (info.card_uuid != null){
             const result = await getCardByUUID(info.card_uuid);
             return res.status(200).json({bericht:"Kaart gevonden door card uuid", resultaat: result});
@@ -80,29 +81,35 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 });
 
 /*
-       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: Id, card_uuid, booking_Id, token en blocked
-       Body voorbeeld: '{"Id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
+       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_Id, token en blocked
+       Body voorbeeld: '{"id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
  */
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
         const card = req.body;
+        console.log(card);
 
+        console.log("Card ID: " + card.id);
         if (
-            !card.Id ||
+            !card.id ||
             !card.card_uuid ||
             !card.booking_Id ||
-            !card.token ||
-            typeof card.blocked !== 'boolean'
+            !card.token
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        const result = await insertCard(card.Id, card.card_uuid, card.booking_Id, card.token, card.blocked);
-        res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
+        let isBlocked = card.blocked;
+        if(isBlocked == null){
+            isBlocked = false;
+        }
+
+        const result = await insertCard(card.id, card.card_uuid, card.booking_Id, card.token, isBlocked);
+res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
         console.log("Error tijdens het kaart toevoegen: " + error.message);
-        res.status(500).send("Er is iets fout gegaan tijdens het toevoegen van de kaart.")
+        res.status(500).send("Er is iets fout gegaan tijdens het toevoegen van de kaart.");
     }
 });
 
@@ -150,7 +157,8 @@ CardsRouter.post("/removeCardByBookingId", async (req, res) => {
     if(card.booking_id == null)  {
         return res.status(400).send("Booking ID is vereiste.");
     }
-    return await removeCardByBookingId(card.booking_id);
+    const result = await removeCardByBookingId(card.booking_id);
+    return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result});
 });
 
 /*
@@ -163,7 +171,8 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     if(card.entryId == null){
         return res.status(400).send("EntryId is vereiste.");
     }
-    return await removeCardByID(card.entryId);
+    const result = await removeCardByID(card.entryId);
+    return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result})
 });
 
 export default CardsRouter;
