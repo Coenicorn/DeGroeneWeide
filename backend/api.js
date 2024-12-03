@@ -27,23 +27,29 @@ app.use("/api", APIRouter);
   
 // 404 fallthrough
 app.use((req, res, next) => {
-    let err;
+    let str;
 
     let finalRoute = req.url.split("/").pop();
     if (routes.includes(finalRoute) && config.environment === "dev") {
-        err = new Error("Route exists but failed, did you use the right method?");
+        str = "Route exists but failed, did you use the right method?";
     } else {
-        err = new Error("Route not found. Hier niks gevonden man, volgende keer beter");
+        str = "Route not found. Hier niks gevonden man, volgende keer beter";
     }
-    err.status = 404;
-    next(err);
+    res.status(404).send(str);
 });
 
 // error handling
+// try to catch and handle errors in your code, this should never be used, and instead is there as a fail safe to not crash the server or expose implementation details to the client
 app.use((err, req, res, next) => {
-    err_log("caught error with message: " + err.message);
+    let str;
+    if (config.environment === "dev") str = err.message;
+    else str = "something went wrong!";
 
-    respondwithstatus(res, err.status || 500, err.message);
+    err_log("caught error with message: " + err.message);
+    // log full error, this is fine because it does not send it to the client
+    console.log(err);
+
+    respondwithstatus(res, err.status || 500, str);
 });
 
 app.listen(config.privateServerPort, () => {
