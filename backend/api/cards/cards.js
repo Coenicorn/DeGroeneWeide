@@ -6,7 +6,8 @@ import {
     getCardByUUID,
     getCardTokenByCardUuid,
     insertCard,
-    removeCardByBookingId, removeCardByID
+    removeCardByBookingId, removeCardByID,
+    updateCard
 } from "../../db.js";
 import { respondwithstatus, err_log, info_log } from "../../util.js";
 
@@ -82,7 +83,7 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 });
 
 /*
-       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_Id, token en blocked
+       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_id, token en blocked
        Body voorbeeld: '{"id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
  */
 CardsRouter.post("/insertCard", async (req, res) => {
@@ -90,11 +91,10 @@ CardsRouter.post("/insertCard", async (req, res) => {
         const card = req.body;
         console.log(card);
 
-        console.log("Card ID: " + card.Id);
         if (
             !card.id ||
             !card.card_uuid ||
-            !card.booking_Id ||
+            !card.booking_id ||
             !card.token
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
@@ -105,7 +105,7 @@ CardsRouter.post("/insertCard", async (req, res) => {
             isBlocked = false;
         }
 
-        const result = await insertCard(card.Id, card.card_uuid, card.booking_Id, card.token, isBlocked);
+        const result = await insertCard(card.id, card.card_uuid, card.booking_id, card.token, isBlocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
@@ -176,7 +176,7 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result})
 });
 
-CardsRouter.post("/updateCard", async (req, res) => {
+CardsRouter.post("/updateCard", async (req, res, next) => {
     const card = req.body.card;
 
     if (card === undefined) {
@@ -189,10 +189,23 @@ CardsRouter.post("/updateCard", async (req, res) => {
         return respondwithstatus(res, 400, "Card has no id, probably malformed");
     }
 
+    if (
+        card.uuid === undefined ||
+        card.booking_id === undefined ||
+        card.token === undefined ||
+        card.level === undefined ||
+        card.blocked === undefined
+    ) {
+        return respondwithstatus(res, 400, "missing one or more properties");
+    }
+
     // remove old card if it exists
     try {
-        await removeCardByID(id);
-        await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+        const dbres = await updateCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+        if (dbres === 0) {
+            // no matching cards found
+            return respondwithstatus(res, 400, "no matching cards found");
+        }
     } catch(e) {
         next(e);
     }
