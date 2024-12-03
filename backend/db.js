@@ -41,13 +41,26 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
-                id TEXT PRIMARY KEY,
-                card_uuid VARCHAR(16),
-                booking_Id TEXT,
-                token VARCHAR(256),
-                blocked BOOLEAN,
-                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
+                id TEXT PRIMARY KEY NOT NULL,
+                card_uuid VARCHAR(16) NOT NULL,
+                booking_id TEXT NOT NULL,
+                token VARCHAR(256) NOT NULL,
+                level INT NOT NULL,
+                blocked BOOLEAN NOT NULL,
+                last_update INTEGER DEFAULT (strftime('%s', 'now')),
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
+        `);
+        // trigger to set the last_update to the current epoch second on cards
+        db.run(`
+            CREATE TRIGGER IF NOT EXISTS update_last_update
+            BEFORE UPDATE ON cards
+            FOR EACH ROW
+            BEGIN
+                UPDATE cards
+                SET last_update = strftime('%s', 'now')
+                WHERE rowid = NEW.rowid;
+            END;
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS authlevels (
@@ -71,10 +84,10 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS bookingamenities (
-                booking_Id TEXT,
+                booking_id TEXT,
                 type VARCHAR(20),
                 FOREIGN KEY (type) REFERENCES amentitytypes (type),
-                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
         `);
 
@@ -82,8 +95,8 @@ export async function initializeDB() {
                 id TEXT PRIMARY KEY,
                 rawName VARCHAR(50),
                 formattedName VARCHAR(50),
-                booking_Id TEXT,
-                FOREIGN KEY (booking_Id) REFERENCES bookings (id)
+                booking_id TEXT,
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
             )
         `);
 
@@ -237,11 +250,26 @@ export async function getAllCards() {
     })
 }
 
-export async function insertCard(id, card_uuid, booking_Id, token, blocked) {
+export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
+    const query = "UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?";
+    return new Promise((res, rej) => {
+        db.run(query, [card_uuid, booking_id, token, level, blocked, id], function (err) {
+            if (err) rej(err);
+            res(this.changes);
+        });
+    });
+}
+
+export async function insertCard(id, card_uuid, booking_id, token, level, blocked) {
 
     try {
-        const query = "INSERT INTO cards (id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
-        return await db.run(query, [id, card_uuid, booking_Id, token, blocked]);
+        const query = "INSERT INTO cards (id, card_uuid, booking_id, token, level, blocked) VALUES (?,?,?,?,?,?)";
+        return new Promise((res, rej) => {
+            db.run(query, [id, card_uuid, booking_id, token, level, blocked], (err) => {
+                if (err) rej(err);
+                res();
+            });
+        }) 
     } catch (error) {
         throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
     }
@@ -280,7 +308,12 @@ export async function getCardByUUID(uuid){
 export async function getCardById(id){
     try {
         const query = "SELECT * FROM cards WHERE id = ?";
-        return await db.run(query, [id]);
+        return new Promise((res, rej) => {
+            db.get(query, [id], (err, result) => {
+                if (err) rej(err);
+                res(result);
+            });
+        })
     } catch (error) {
         throw new Error("Error tijdens het verkrijgen van informatie met de kaart entry id " + id + ": " + error.message);
     }
@@ -344,8 +377,8 @@ export async function getCustomerById(id){
 
 export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
     try {
-        const query = "INSERT INTO customers (Id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        return await db.run(query, [Id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
+        const query = "INSERT INTO customers (id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        return await db.run(query, [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
     } catch (error) {
         throw new Error("Er ging iets mis tijdens het inserten van een nieuwe customer.")
     }
