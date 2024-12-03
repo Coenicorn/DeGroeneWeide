@@ -29,14 +29,14 @@ export async function initializeDB() {
 
         db.run(`CREATE TABLE IF NOT EXISTS bookings (
                 id TEXT PRIMARY KEY,
-                customer_Id TEXT,
+                customer_id TEXT,
                 duePayments INTEGER,
                 startDate DATETIME,
                 endDate DATETIME,
                 amountChildren INTEGER,
                 amountAdults INTEGER,
                 expectedArrival TIME,
-                FOREIGN KEY (customer_Id) REFERENCES customers (id)
+                FOREIGN KEY (customer_id) REFERENCES customers (id)
             )
         `);
 
@@ -253,7 +253,7 @@ export async function getAllCards() {
 
 export async function getAllExtensiveCards(){
     return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id", [], (err, rows) => {
+        db.all("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id JOIN customers ON bookings.customer_id = customers.id", [], (err, rows) => {
             if (err) {
                 reject(err);
             }
@@ -273,7 +273,7 @@ export async function updateCard(id, card_uuid, booking_id, token, level, blocke
     });
 }
 
-export async function insertCard(id, card_uuid, booking_id, token, level, blocked) 
+export async function insertCard(id, card_uuid, booking_id, token, level, blocked) {
     try {
         const query = "INSERT INTO cards (id, card_uuid, booking_id, token, level, blocked) VALUES (?,?,?,?,?,?)";
         return new Promise((res, rej) => {
@@ -281,7 +281,7 @@ export async function insertCard(id, card_uuid, booking_id, token, level, blocke
                 if (err) rej(err);
                 res();
             });
-        }) 
+        })
     } catch (error) {
         throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
     }
