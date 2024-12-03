@@ -200,4 +200,50 @@ CardsRouter.post("/updateCard", async (req, res) => {
     respondwithstatus(res, 200, "updated card");
 });
 
+// this can be just a variable, doesn't need to live in a database
+// can be reset at any time
+let latestScannedCardToWriteID;
+
+CardsRouter.post("/setNewestCardToWrite", (req, res, next) => {
+
+    const id = req.body.id;
+
+    if (id == undefined) {
+        respondwithstatus(res, 400, "id is undefined");
+        return;
+    }
+    if (typeof(id) !== "string") {
+        respondwithstatus(res, 400, "type of id is not correct: " + typeof(id));
+        return;
+    }
+
+    let card;
+
+    try {
+        card = getCardById(id);
+    } catch(e) {
+        err_log("failed to get card with id " + id);
+
+        respondwithstatus(res, 500, "something went wrong");
+
+        return;
+    }
+
+    latestScannedCardToWriteID = card.id;
+
+    res.end();
+
+});
+
+CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
+
+    if (latestScannedCardToWriteID === undefined) {
+        res.json({});
+        return;
+    }
+
+    
+
+});
+
 export default CardsRouter;
