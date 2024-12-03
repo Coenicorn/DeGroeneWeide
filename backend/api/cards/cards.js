@@ -236,7 +236,7 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
         next(e);
     }
 
-    latestScannedCardToWriteID = card;
+    latestScannedCardToWriteID = req.body.card;
 
     res.end();
 
