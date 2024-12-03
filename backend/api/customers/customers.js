@@ -30,7 +30,7 @@ CustomersRouter.get("/getAllCustomers", async (req, res) => {
 /*
     /customers/insertCustomer POST Request. Voeg een customer toe aan de database. Vereiste: id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber en mailAddress
     Voorbeeld body:
-    {"id":"ID HIER","firstName":"Johnnie","middleName":"","lastName":"Doe","birthDate":"31-10-2006","maySave":"false","creationDate":"29-11-2024 15:03","blacklisted":"false","phoneNumber":"06123456789","mailAddress":"test@gmail.com"}
+    {"Id":"ID HIER","firstName":"Johnnie","middleName":"","lastName":"Doe","birthDate":"2005-03-10T11:35:00+01:00","maySave":"false","creationDate":"2005-03-10T11:35:00+01:00","blacklisted":"false","phoneNumber":"06123456789","mailAddress":"test@gmail.com"}
  */
 CustomersRouter.post("/insertCustomer", async (req, res) => {
 
@@ -40,7 +40,6 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
         if (
             !customer.id ||
             !customer.firstName ||
-            !customer.middleName ||
             !customer.lastName ||
             !customer.birthDate ||
             !customer.maySave ||
