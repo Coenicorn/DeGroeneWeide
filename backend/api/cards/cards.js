@@ -244,6 +244,10 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
 
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
 
+    if (latestScannedCardToWriteID === undefined) {
+        return res.json({ card: undefined });
+    }
+
     let epoch = Date.now();
 
     let cardEpoch = latestScannedCardToWriteID.last_update;
@@ -251,12 +255,6 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
     if (epoch - cardEpoch > 60) {
         return res.json({ card: undefined });
     }
-
-    if (latestScannedCardToWriteID === undefined) {
-        return res.json({ card: undefined });
-    }
-
-
 
     res.json({ card: latestScannedCardToWriteID });
 });
