@@ -45,6 +45,7 @@ export async function initializeDB() {
                 card_uuid VARCHAR(16),
                 booking_Id TEXT,
                 token VARCHAR(256),
+                level INT,
                 blocked BOOLEAN,
                 FOREIGN KEY (booking_Id) REFERENCES bookings (id)
             )
@@ -237,11 +238,11 @@ export async function getAllCards() {
     })
 }
 
-export async function insertCard(id, card_uuid, booking_Id, token, blocked) {
+export async function insertCard(id, card_uuid, booking_Id, token, level, blocked) {
 
     try {
-        const query = "INSERT INTO cards (id, card_uuid, booking_Id, token, blocked) VALUES (?,?,?,?,?)";
-        return await db.run(query, [id, card_uuid, booking_Id, token, blocked]);
+        const query = "INSERT INTO cards (id, card_uuid, booking_Id, token, level, blocked) VALUES (?,?,?,?,?,?)";
+        return await db.run(query, [id, card_uuid, booking_Id, token, level, blocked]);
     } catch (error) {
         throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
     }

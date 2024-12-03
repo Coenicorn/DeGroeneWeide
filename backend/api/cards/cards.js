@@ -8,6 +8,7 @@ import {
     insertCard,
     removeCardByBookingId, removeCardByID
 } from "../../db.js";
+import { respondwithstatus } from "../../util.js";
 
 const CardsRouter = express.Router();
 
@@ -173,6 +174,26 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     }
     const result = await removeCardByID(card.entryId);
     return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result})
+});
+
+CardsRouter.post("/updateCard", async (req, res) => {
+    const card = req.body.card;
+
+    if (card === undefined) {
+        return respondwithstatus(res, 400, "Missing card object");
+    }
+
+    const id = card.id;
+
+    if (id === undefined) {
+        return respondwithstatus(res, 400, "Card has no id, probably malformed");
+    }
+
+    // remove old card if it exists
+    await removeCardByID(id);
+    await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+
+    respondwithstatus(res, 200, "updated card");
 });
 
 export default CardsRouter;
