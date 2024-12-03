@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Pasje));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            bookings_date = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            bookings_number = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            bookings_name = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2ImageButton1 = new Guna.UI2.WinForms.Guna2ImageButton();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            level_name = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            level_color = new Guna.UI2.WinForms.Guna2Panel();
             guna2Panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -51,53 +51,53 @@
             // 
             guna2Panel1.BackColor = Color.Transparent;
             guna2Panel1.BorderRadius = 10;
-            guna2Panel1.Controls.Add(guna2HtmlLabel7);
-            guna2Panel1.Controls.Add(guna2HtmlLabel6);
-            guna2Panel1.Controls.Add(guna2HtmlLabel5);
+            guna2Panel1.Controls.Add(bookings_date);
+            guna2Panel1.Controls.Add(bookings_number);
+            guna2Panel1.Controls.Add(bookings_name);
             guna2Panel1.Controls.Add(guna2HtmlLabel4);
             guna2Panel1.Controls.Add(guna2HtmlLabel3);
             guna2Panel1.Controls.Add(guna2HtmlLabel2);
             guna2Panel1.Controls.Add(guna2ImageButton1);
-            guna2Panel1.Controls.Add(guna2HtmlLabel1);
-            guna2Panel1.Controls.Add(guna2Panel2);
-            guna2Panel1.CustomizableEdges = customizableEdges4;
+            guna2Panel1.Controls.Add(level_name);
+            guna2Panel1.Controls.Add(level_color);
+            guna2Panel1.CustomizableEdges = customizableEdges9;
             guna2Panel1.FillColor = Color.White;
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Margin = new Padding(30, 3, 3, 3);
             guna2Panel1.Name = "guna2Panel1";
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges5;
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2Panel1.Size = new Size(350, 220);
             guna2Panel1.TabIndex = 0;
             // 
-            // guna2HtmlLabel7
+            // bookings_date
             // 
-            guna2HtmlLabel7.BackColor = Color.Transparent;
-            guna2HtmlLabel7.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel7.Location = new Point(80, 152);
-            guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            guna2HtmlLabel7.Size = new Size(185, 19);
-            guna2HtmlLabel7.TabIndex = 8;
-            guna2HtmlLabel7.Text = "Van 28-11-2024 tot 05-12-2024";
+            bookings_date.BackColor = Color.Transparent;
+            bookings_date.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bookings_date.Location = new Point(80, 152);
+            bookings_date.Name = "bookings_date";
+            bookings_date.Size = new Size(185, 19);
+            bookings_date.TabIndex = 8;
+            bookings_date.Text = "Van 28-11-2024 tot 05-12-2024";
             // 
-            // guna2HtmlLabel6
+            // bookings_number
             // 
-            guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel6.Location = new Point(111, 127);
-            guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(67, 19);
-            guna2HtmlLabel6.TabIndex = 7;
-            guna2HtmlLabel6.Text = "#13245745";
+            bookings_number.BackColor = Color.Transparent;
+            bookings_number.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bookings_number.Location = new Point(111, 127);
+            bookings_number.Name = "bookings_number";
+            bookings_number.Size = new Size(67, 19);
+            bookings_number.TabIndex = 7;
+            bookings_number.Text = "#13245745";
             // 
-            // guna2HtmlLabel5
+            // bookings_name
             // 
-            guna2HtmlLabel5.BackColor = Color.Transparent;
-            guna2HtmlLabel5.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel5.Location = new Point(75, 104);
-            guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(63, 19);
-            guna2HtmlLabel5.TabIndex = 6;
-            guna2HtmlLabel5.Text = "J. Blankers";
+            bookings_name.BackColor = Color.Transparent;
+            bookings_name.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bookings_name.Location = new Point(75, 104);
+            bookings_name.Name = "bookings_name";
+            bookings_name.Size = new Size(63, 19);
+            bookings_name.TabIndex = 6;
+            bookings_name.Text = "J. Blankers";
             // 
             // guna2HtmlLabel4
             // 
@@ -139,30 +139,30 @@
             guna2ImageButton1.Location = new Point(323, 3);
             guna2ImageButton1.Name = "guna2ImageButton1";
             guna2ImageButton1.PressedState.ImageSize = new Size(64, 64);
-            guna2ImageButton1.ShadowDecoration.CustomizableEdges = customizableEdges1;
+            guna2ImageButton1.ShadowDecoration.CustomizableEdges = customizableEdges6;
             guna2ImageButton1.Size = new Size(24, 24);
             guna2ImageButton1.TabIndex = 2;
             // 
-            // guna2HtmlLabel1
+            // level_name
             // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 26.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.Location = new Point(89, 22);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(73, 49);
-            guna2HtmlLabel1.TabIndex = 1;
-            guna2HtmlLabel1.Text = "Gast";
+            level_name.BackColor = Color.Transparent;
+            level_name.Font = new Font("Segoe UI Semibold", 26.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            level_name.Location = new Point(89, 22);
+            level_name.Name = "level_name";
+            level_name.Size = new Size(73, 49);
+            level_name.TabIndex = 1;
+            level_name.Text = "Gast";
             // 
-            // guna2Panel2
+            // level_color
             // 
-            guna2Panel2.BorderRadius = 35;
-            guna2Panel2.CustomizableEdges = customizableEdges2;
-            guna2Panel2.FillColor = Color.Green;
-            guna2Panel2.Location = new Point(13, 12);
-            guna2Panel2.Name = "guna2Panel2";
-            guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges3;
-            guna2Panel2.Size = new Size(70, 70);
-            guna2Panel2.TabIndex = 0;
+            level_color.BorderRadius = 35;
+            level_color.CustomizableEdges = customizableEdges7;
+            level_color.FillColor = Color.Green;
+            level_color.Location = new Point(13, 12);
+            level_color.Name = "level_color";
+            level_color.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            level_color.Size = new Size(70, 70);
+            level_color.TabIndex = 0;
             // 
             // UC_Pasje
             // 
@@ -180,14 +180,14 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
+        private Guna.UI2.WinForms.Guna2Panel level_color;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
+        private Guna.UI2.WinForms.Guna2HtmlLabel level_name;
+        private Guna.UI2.WinForms.Guna2HtmlLabel bookings_number;
+        private Guna.UI2.WinForms.Guna2HtmlLabel bookings_name;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel7;
+        private Guna.UI2.WinForms.Guna2HtmlLabel bookings_date;
     }
 }
