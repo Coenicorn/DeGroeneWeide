@@ -3,9 +3,12 @@ import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
 import { info_log } from './util.js';
-import "./api.js";
+import config, { verifyCorrectConfiguration } from './config.js';
 
-import config from './config.js';
+await verifyCorrectConfiguration();
+
+// function variant so await works correctly
+import("./api.js");
 
 // exposed to public
 const app = express();

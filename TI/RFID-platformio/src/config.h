@@ -10,6 +10,8 @@
 #define GREEN_LED_PIN 25 // De pin voor het groene led lampje
 #define RED_LED_PIN 26	// De pin voor het rode led lampje
 
+#define WIFI_STATUS_PIN 2
+
 #define PIN_TOOL_WIPE 34
 #define PIN_TOOL_NEW_CORRECT_TOKEN 35
 #define PIN_TOOL_PINGALIVE 32
