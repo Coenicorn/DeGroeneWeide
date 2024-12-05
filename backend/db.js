@@ -11,6 +11,36 @@ const __dirname = path.dirname(__filename);
 const dbPath = path.resolve(__dirname, 'data.db');
 const db = new sqlite3.Database(dbPath);
 
+/**
+ * Queries the database
+ * @param {string} query sqlite query
+ * @param {any} params 
+ * @returns {Promise<Error|Any[]>} database return value
+ */
+export async function db_query(query, params) {
+    return new Promise((resolve, reject) => {
+        db.all(query, params, (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+}
+
+/**
+ * Runs a query on the database. Does not return data
+ * @param {string} query sqlite query
+ * @param {any} params 
+ * @returns {Promise<Error|Any[]>}
+ */
+export async function db_execute(query, params) {
+    return new Promise((resolve, reject) => {
+        db.all(query, params, (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+}
+
 // Wordt uitgevoerd zodra de server gerunned wordt.
 export async function initializeDB() {
     db.serialize(() => {
