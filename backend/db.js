@@ -41,6 +41,8 @@ export async function initializeDB() {
             )
         `);
 
+            // WHY IS IT CALLED card_uuid IT IS ALREADY IN A CARD RAAAAAAH
+
         db.run(`CREATE TABLE IF NOT EXISTS cards (
                 id TEXT PRIMARY KEY NOT NULL,
                 card_uuid VARCHAR(16) NOT NULL,
@@ -255,9 +257,10 @@ export async function getAllCards() {
  * @throws
  */
 export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
-    const query = "UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?";
+    const query = "UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=?, last_update=? WHERE id=?";
+    const epoch = Date.now();
     return new Promise((res, rej) => {
-        db.run(query, [card_uuid, booking_id, token, level, blocked, id], function (err) {
+        db.run(query, [card_uuid, booking_id, token, level, blocked, epoch, id], function (err) {
             if (err) rej(err);
             res(this.changes);
         });
