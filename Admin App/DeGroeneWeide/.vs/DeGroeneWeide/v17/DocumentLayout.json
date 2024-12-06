@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\uc_scannerspagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_scannerspagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,20 +19,20 @@
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\classes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\classes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -70,33 +74,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\Form1.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
-              "RelativeToolTip": "DeGroeneWeide\\Form1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T12:36:24.233Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ApiCalls.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls.cs",
               "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls.cs",
               "RelativeToolTip": "DeGroeneWeide\\ApiCalls.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAwwGAAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAYwC0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T09:07:07.656Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T09:07:07.656Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "UC_Pasje.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_Pasje.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\UC_Pasje.cs",
@@ -108,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\Form1.cs",
@@ -120,54 +110,77 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
+              "Title": "UC_PasjesPagina.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_PasjesPagina.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\UC_PasjesPagina.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_PasjesPagina.cs",
+              "RelativeToolTip": "DeGroeneWeide\\UC_PasjesPagina.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAuwEMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T12:26:09.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Form1.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
+              "RelativeToolTip": "DeGroeneWeide\\Form1.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwA8AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T12:36:24.233Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UC_ScannersPagina.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_ScannersPagina.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\UC_ScannersPagina.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_ScannersPagina.cs [Design]",
+              "RelativeToolTip": "DeGroeneWeide\\UC_ScannersPagina.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T14:24:20.091Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "UC_PasjesPagina.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_PasjesPagina.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\UC_PasjesPagina.cs",
               "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_PasjesPagina.cs [Design]",
               "RelativeToolTip": "DeGroeneWeide\\UC_PasjesPagina.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-28T12:11:13.37Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2024-11-28T12:11:13.37Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "UC_Pasje.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_Pasje.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\UC_Pasje.cs",
               "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_Pasje.cs",
               "RelativeToolTip": "DeGroeneWeide\\UC_Pasje.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAwwBQAAABYAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAwwDMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-29T09:14:43.301Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Classes.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Classes.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\Classes.cs",
               "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Classes.cs",
               "RelativeToolTip": "DeGroeneWeide\\Classes.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAA3wEgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAgwEAAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-02T10:10:17.796Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UC_PasjesPagina.cs",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_PasjesPagina.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\UC_PasjesPagina.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\UC_PasjesPagina.cs",
-              "RelativeToolTip": "DeGroeneWeide\\UC_PasjesPagina.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAowDcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-28T12:26:09.748Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-02T10:10:17.796Z"
             }
           ]
         }

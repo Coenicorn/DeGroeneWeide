@@ -61,59 +61,11 @@ namespace DeGroeneWeide
         public int? level { get; set; }
 
         [JsonPropertyName("blocked")]
-        [JsonConverter(typeof(NullableBoolJsonConverter))]
-        public bool? blocked { get; set; }
+        public int? blocked { get; set; }
 
         public void DumpInfo()
         {
             Debug.WriteLine($"Id: {id}, card uuid: {card_uuid}, booking id: {booking_id}, token: {token}, level: {level}, blocked: {blocked}");
-        }
-    }
-
-
-    // Een class die zorgt dat een boolean convert kan worden vanuit een json
-    public class NullableBoolJsonConverter : JsonConverter<bool?>
-    {
-        public override bool? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            if (reader.TokenType == JsonTokenType.True || reader.TokenType == JsonTokenType.False)
-            {
-                // Handle boolean values
-                return reader.GetBoolean();
-            }
-            else if (reader.TokenType == JsonTokenType.String)
-            {
-                // Handle string values
-                var stringValue = reader.GetString();
-                if (bool.TryParse(stringValue, out var result))
-                {
-                    return result;
-                }
-            }
-            else if (reader.TokenType == JsonTokenType.Number)
-            {
-                // Handle numeric values
-                if (reader.TryGetInt32(out var intValue))
-                {
-                    // Assume non-zero values represent `true`
-                    return intValue != 0;
-                }
-            }
-
-            // If parsing fails, return null
-            return null;
-        }
-
-        public override void Write(Utf8JsonWriter writer, bool? value, JsonSerializerOptions options)
-        {
-            if (value.HasValue)
-            {
-                writer.WriteBooleanValue(value.Value);
-            }
-            else
-            {
-                writer.WriteNullValue();
-            }
         }
     }
 }
