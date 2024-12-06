@@ -57,7 +57,6 @@ app.listen(config.privateServerPort, async () => {
 
     if (config.environment === "dev") routes = routesFromApp(app);
 
-
     // add a few mockup values
     const cards = await getAllCards();
     if (cards.length === 0) {

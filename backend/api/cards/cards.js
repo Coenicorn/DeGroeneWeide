@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import {
     deleteCards,
-    getAllCards,
+    getAllCards, getAllExtensiveCards,
     getCardById,
     getCardByUUID,
     getCardTokenByCardUuid,
@@ -30,7 +30,22 @@ CardsRouter.get("/getAllCards", async (req, res) => {
         res.json(cards);
     } catch (error) {
         console.log("Error while getting cards from server: " + error);
-        res.status(500).send("Sorry! Er heeft een interne fout opgetreden.")
+        res.status(500).send("Sorry! Er heeft een interne fout opgetreden.");
+    }
+});
+
+
+/*
+    Geeft op basis van boeking nummer alle kaarten informatie plus relevante boeking informatie
+
+    /api/cards/getAllExtensiveCards.
+ */
+CardsRouter.get("/getAllExtensiveCards", async (req, res) => {
+    try {
+        const cards = await getAllExtensiveCards();
+        res.json(cards);
+    } catch (error) {
+        throw new Error("Sorry! Er heeft een interne fout opgetreden.");
     }
 });
 
@@ -239,13 +254,13 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
         }
         next(e);
     }
-
+  
     res.end();
 
 });
 
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
-
+  
     if (latestScannedCardToWriteID === undefined) {
         return res.json({ card: undefined });
     }
