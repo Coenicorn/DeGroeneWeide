@@ -202,7 +202,7 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
     }
 
     if (
-        card.uuid === undefined ||
+        card.card_uuid === undefined ||
         card.booking_id === undefined ||
         card.token === undefined ||
         card.level === undefined ||
@@ -213,7 +213,7 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
 
     // remove old card if it exists
     try {
-        const dbres = await updateCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+        const dbres = await updateCard(card.id, card.card_uuid, card.booking_id, card.token, card.level, card.blocked);
         if (dbres === 0) {
             // no matching cards found
             return respondwithstatus(res, 400, "no matching cards found");
@@ -241,8 +241,12 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
         let existingCard = await getCardById(card.id);
         if (existingCard === undefined) {
             info_log("no card yet exists with id " + card.id + "! inserting it into database...");
-            await insertCard(card.id, card.uuid, card.booking_id, card.token, card.level, card.blocked);
+            return respondwithstatus(res, 400, "no card exists with id " + card.id);
         }
+        // double database call -0-
+        console.log(existingCard);
+        await updateCard(existingCard.id, existingCard.card_uuid, existingCard.booking_id, existingCard.token, existingCard.level, existingCard.blocked);
+        latestScannedCardToWriteID = await getCardById(card.id);
     } catch(e) {
         if (e.errno !== undefined && e.errno === 19) {
             // not null failed
@@ -250,19 +254,25 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
         }
         next(e);
     }
-
-    latestScannedCardToWriteID = card;
-
+  
     res.end();
 
 });
 
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
-
-    let d = new Date();
-    let epoch = d.now();
-
+  
     if (latestScannedCardToWriteID === undefined) {
+        return res.json({ card: undefined });
+    }
+
+    let epoch = Date.now();
+
+    let cardEpoch = latestScannedCardToWriteID.last_update;
+
+    console.log(epoch);
+    console.log(cardEpoch);
+
+    if (Math.round((epoch - cardEpoch) / 1000) > 60) {
         return res.json({ card: undefined });
     }
 

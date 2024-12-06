@@ -3,12 +3,43 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
 import { type } from 'os';
+import config from './config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const dbPath = path.resolve(__dirname, 'data.db');
 const db = new sqlite3.Database(dbPath);
+
+/**
+ * Queries the database
+ * @param {string} query sqlite query
+ * @param {any} params 
+ * @returns {Promise<Error|Any[]>} database return value
+ */
+export async function db_query(query, params) {
+    return new Promise((resolve, reject) => {
+        db.all(query, params, (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+}
+
+/**
+ * Runs a query on the database. Does not return data
+ * @param {string} query sqlite query
+ * @param {any} params 
+ * @returns {Promise<Error|Any[]>}
+ */
+export async function db_execute(query, params) {
+    return new Promise((resolve, reject) => {
+        db.all(query, params, (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+}
 
 // Wordt uitgevoerd zodra de server gerunned wordt.
 export async function initializeDB() {
@@ -40,8 +71,9 @@ export async function initializeDB() {
             )
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS cards (
+            // WHY IS IT CALLED card_uuid IT IS ALREADY IN A CARD RAAAAAAH
 
+        db.run(`CREATE TABLE IF NOT EXISTS cards (
                 id TEXT PRIMARY KEY NOT NULL,
                 card_uuid VARCHAR(16) NOT NULL,
                 booking_id TEXT NOT NULL,
@@ -281,7 +313,7 @@ export async function insertCard(id, card_uuid, booking_id, token, level, blocke
                 if (err) rej(err);
                 res();
             });
-        })
+        }) 
     } catch (error) {
         throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
     }
