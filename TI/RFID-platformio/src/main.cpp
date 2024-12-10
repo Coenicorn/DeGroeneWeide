@@ -1,9 +1,19 @@
+/*
+
+
+If I were to write this code again, I'd write in FreeRTOS because of the subroutines that run at intervals. Shit
+
+
+ */
+
+
 #include <SPI.h>
 #include <MFRC522.h>
 #include <EEPROM.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
 #include <HTTPClient.h>
+#include <Arduino.h>
 
 #include "config.h"
 
@@ -19,11 +29,6 @@
 	Vervang REPLACEME met het ssid en wachtwoord :)
 */
 #include "secret.h"
-
-#define TOKEN_MEM_ADDR 4
-#define TOKEN_SIZE_BYTES 16
-
-#define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 // this might work, idk though
@@ -53,8 +58,6 @@ String readMacAddress(){
 static String macAddress; 	// Dit is het mac-address van de esp, deze wordt gebruikt om hem te identificeren in de database
 
 
-// factory default for access token
-// static constexpr byte defaultAuthKey[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; 
 
 /**
  * Prints a byte array to serial
@@ -76,6 +79,12 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 void sendPostRequest(String payload)
 {
 	// not written by chatgpt how dare you
+
+	if (!WiFi.isConnected()) {
+		Serial.println("not connected :(");
+		digitalWrite(WIFI_STATUS_PIN, HIGH);
+		return;
+	}
 
 	HTTPClient http;
 
@@ -104,8 +113,8 @@ void sendPostRequest(String payload)
 	http.end();
 }
 
-void sendAlivePing() {
-	sendPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(0) + "}");
+void sendAlivePing(uint8_t batteryPercentage) {
+	sendPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(batteryPercentage) + "}");
 }
 
 // checkt of de gegeven token de
@@ -182,6 +191,8 @@ void initWiFi(const char *ssid, const char *password)
 	Serial.print("server host: "); Serial.println(SERVER_HOST);
 	Serial.print("server port: "); Serial.println(SERVER_PORT);
 	Serial.print("server base uri: "); Serial.println(SERVER_URI_BASE);
+
+	sendAlivePing(100);
 }
 
 
@@ -308,6 +319,7 @@ void initPins(void) {
 	pinMode(GREEN_LED_PIN, OUTPUT);
 	pinMode(RED_LED_PIN, OUTPUT);
 	pinMode(WIFI_STATUS_PIN, OUTPUT);
+	pinMode(BATTERY_MEASURE_PIN, INPUT);
 
 #ifdef IS_DEV_BOARD
 	// tool pins
@@ -343,12 +355,10 @@ void setup()
 
 
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
-
-	sendAlivePing();
 }
 
 static unsigned long previousMilliseconds = 0;
-const unsigned long interval = 500000;
+static const unsigned long interval = MILLIS_IN_DAY;
 
 void loop()
 {
@@ -358,9 +368,22 @@ void loop()
 	unsigned long currentMilliseconds = millis();
 	if (currentMilliseconds - previousMilliseconds >= interval || toolSendAlivePingPressed)
 	{
+		// this is all so fucking jank
+
 		previousMilliseconds = currentMilliseconds;
 
-		sendAlivePing();
+		uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
+
+		// convert reading to actual read voltage
+		const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
+
+		Serial.print("analog reading: "); Serial.println(analogValue);
+		Serial.print("battery voltage: "); Serial.println(voltage);
+
+		uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
+		Serial.print("battery percentage "); Serial.println(percentage);
+
+		sendAlivePing(percentage);
 	
 		if (toolSendAlivePingPressed) delay(1000);
 	}
@@ -496,5 +519,6 @@ void loop()
 	Serial.println();
 
 	// take some time between cards
-	delay(1000);
+	// redundant, we check if there's a new card at the top of loop(), otherwise return
+	// delay(1000);
 }
