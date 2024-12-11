@@ -182,20 +182,21 @@ export async function registerReader(
 /**
  * @throws
  */
-export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
+// export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
     
-    const query = `
-        UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?
-    `;
+//     const query = `
+//         UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?
+//     `;
 
-    try {
-        await db.run(query, [isActive, batteryLevel, readerId]);
-        info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
-    } catch(e) {
-        throw new Error("error updating reader activity  " + readerId + " to " + isActive);
-    }
+//     try {
+//         await db.run(query, [isActive, batteryLevel, readerId]);
+//         info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
+//     } catch(e) {
+//         throw new Error("error updating reader activity  " + readerId + " to " + isActive);
+//     }
+    
 
-}
+// }
 
 export async function getAllReaders() {
 
