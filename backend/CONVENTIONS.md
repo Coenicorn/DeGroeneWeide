@@ -20,7 +20,9 @@ Should an error occur in a route, the server **must** respond with an error code
 try {
     ...
 } catch(e) {
-    respondwithstatus(
+    err_log("error doing" /* or some other message */, e);
+    // make sure to add 'return', execution MUST stop here
+    return respondwithstatus(
         res, 
         500 /* or some other error code */, 
         "something went wrong doing ..." /* or some other message */
