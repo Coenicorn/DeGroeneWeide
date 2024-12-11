@@ -199,16 +199,18 @@ export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
 
 export async function getAllReaders() {
 
-    const query = `
-        SELECT * FROM readers
-    `;
+    // const query = `
+    //     SELECT * FROM readers
+    // `;
 
-    return new Promise((resolve, reject) => {
-        db.all(query, (err, rows) => {
-            if (err) reject(err);
-            resolve(rows);
-        });
-    });
+    // return new Promise((resolve, reject) => {
+    //     db.all(query, (err, rows) => {
+    //         if (err) reject(err);
+    //         resolve(rows);
+    //     });
+    // });
+
+    return db_query("SELECT * FROM readers");
 
 }
 
@@ -223,16 +225,17 @@ export async function getReader(id) {
         throw new Error(`getReader was called with wrong argument types: ${typeof(id)} (${id})`);
     }
 
-    const query = `
-        SELECT * FROM readers WHERE id = ?
-    `
+    // const query = `
+    //     SELECT * FROM readers WHERE id = ?
+    // `
 
-    return new Promise((resolve, reject) => {
-        db.get(query, [id], (err, result) => {
-            if (err) reject(err.message)
-            resolve(result);
-        })
-    })
+    // return new Promise((resolve, reject) => {
+    //     db.get(query, [id], (err, result) => {
+    //         if (err) reject(err.message)
+    //         resolve(result);
+    //     })
+    // })
+    return db_query("SELECT * FROM readers WHERE id = ?", [id]);
 }
 
 /**
