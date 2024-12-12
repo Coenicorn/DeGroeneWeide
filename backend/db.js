@@ -42,109 +42,107 @@ export async function db_execute(query, params) {
 // Wordt uitgevoerd zodra de server gerunned wordt.
 export async function initializeDB() {
     db.serialize(() => {
-        db.run(`CREATE TABLE IF NOT EXISTS customers (
-                id TEXT PRIMARY KEY,
-                firstName VARCHAR(100),
-                middleName VARCHAR(10),
-                lastName VARCHAR(100),
+        db.run(`
+            CREATE TABLE IF NOT EXISTS Customers (
+                id TEXT PRIMARY KEY NOT NULL,
+                firstName TEXT NOT NULL,
+                middleName TEXT,
+                lastName TEXT NOT NULL,
                 maySave BOOLEAN,
                 birthDate TEXT,
-                creationDate DATETIME,
+                creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 blacklisted BOOLEAN,
-                phoneNumber TEXT,
-                mailAddress TEXT
+                phoneNumber TEXT NOT NULL,
+                mailAddress TEXT NOT NULL
             )
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS bookings (
-                id TEXT PRIMARY KEY,
-                customer_id TEXT, 
-                startDate DATETIME,
-                endDate DATETIME,
-                amountPeople INTEGER,
-                FOREIGN KEY (customer_id) REFERENCES customers (id)
+        db.run(`
+            CREATE TABLE IF NOT EXISTS Bookings (
+                id TEXT PRIMARY KEY NOT NULL,
+                customerId TEXT NOT NULL, 
+                startDate DATETIME NOT NULL,
+                endDate DATETIME NOT NULL,
+                amountPeople INT NOT NULL,
+                FOREIGN KEY (customerId) REFERENCES Customers (id)
             )
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS payments (
-                booking_id TEXT,
-                amount INT,
-                status BOOLEAN,
+        db.run(`CREATE TABLE IF NOT EXISTS Payments (
+                id TEXT PRIMARY KEY NOT NULL
+                bookingId TEXT NOT NULL,
+                amount INT NOT NULL,
+                hasPaid BOOLEAN NOT NUL,
                 note TEXT,
-                FOREIGN KEY (booking_id) REFERENCES bookings (id)
+                FOREIGN KEY (bookingId) REFERENCES Bookings (id)
         )`);
 
-            // WHY IS IT CALLED card_uuid IT IS ALREADY IN A CARD RAAAAAAH
-            // `card_uuid` vervangen door `cardAddress`
-
-        db.run(`CREATE TABLE IF NOT EXISTS cards (
+        // id is the uuid on the card
+        db.run(`
+            CREATE TABLE IF NOT EXISTS Cards (
                 id TEXT PRIMARY KEY NOT NULL,
-                cardAddress TEXT NOT NULL,
-                booking_id TEXT NOT NULL,
+                bookingId TEXT NOT NULL,
                 token TEXT NOT NULL,
-                levelId INT NOT NULL,
                 blocked BOOLEAN NOT NULL,
-                last_update INTEGER DEFAULT (strftime('%s', 'now')),
-                FOREIGN KEY (booking_id) REFERENCES bookings (id),
-                FOREIGN KEY (levelId) REFERENCES authLevels (id)
+                FOREIGN KEY (bookingId) REFERENCES Bookings (id)
             )
         `);
-        // trigger to set the last_update to the current epoch second on cards
+        
+        // trigger to set lastPing to the current epoch second on cards
         db.run(`
-            CREATE TABLE IF NOT EXISTS update_last_update
-            BEFORE UPDATE ON cards
+            CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
+            AFTER UPDATE ON Readers
             FOR EACH ROW
             BEGIN
-                UPDATE cards
-                SET last_update = strftime('%s', 'now')
+                UPDATE Readers
+                SET lastPing = strftime('%s', 'now')
                 WHERE rowid = NEW.rowid;
             END;
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS authlevels (
-                id TEXT PRIMARY KEY,
-                level INT,
-                name TEXT
+        db.run(`
+            CREATE TABLE IF NOT EXISTS AuthLevels (
+                id TEXT PRIMARY KEY NOT NULL,
+                name TEXT NOT NULL
             )
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS amenityauthjunctions (
-                amenity_id TEXT,
-                authlevel_id TEXT,
-                FOREIGN KEY (amenity_id) REFERENCES amenitytypes (id),
-                FOREIGN KEY (authlevel_id) REFERENCES authlevels (id)
-            )`)
-
-        db.run(`CREATE TABLE IF NOT EXISTS amenitytypes (
-                id TEXT PRIMARY KEY,
-                name TEXT,
+        db.run(`
+            CREATE TABLE IF NOT EXISTS AmenityTypes (
+                id TEXT PRIMARY KEY NOT NULL,
+                name TEXT NOT NULL
             )
         `);
 
-        // id is currently the md5 hash of the mac address
-
-        db.run(`CREATE TABLE IF NOT EXISTS readers (
-                id TEXT PRIMARY KEY,
-                authLevel_id TEXT,
-                amenity_id TEXT,
-                lastPing TEXT DEFAULT CURRENT_TIMESTAMP,
-                location TEXT,
+        // id is currently the md5 hash of a reader's mac address
+        db.run(`
+            CREATE TABLE IF NOT EXISTS Readers (
+                id TEXT PRIMARY KEY NOT NULL,
                 batteryPercentage INT,
-                active BOOLEAN
+                amenityId TEXT NOT NULL,
+                lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                name TEXT NOT NULL,
+                FOREIGN KEY (amenityId) REFERENCES AmenityTypes
+            )
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS shelterType (
-                id TEXT,
-                name TEXT,
-                surface INT
-        )`)
+        // surfaceArea wordt nu niet gebruikt, idk waarom we die nu hebben
+        db.run(`
+            CREATE TABLE IF NOT EXISTS ShelterTypes (
+                id TEXT NOT NULL,
+                name TEXT NOT NULL,
+                surfaceArea INT NOT NULL
+            )
+        `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS shelterBooking (
-                shelter_id TEXT,
-                booking_id TEXT,
-                FOREIGN KEY (shelter_id) REFERENCES shelterType (id),
-                FOREIGN KEY (booking_id) REFERENCES bookings (id)
-            )`)
+        db.run(`
+            CREATE TABLE IF NOT EXISTS ShelterBookingJunctions (
+                shelterId TEXT NOT NULL,
+                bookingId TEXT NOT NULL,
+                FOREIGN KEY (shelterId) REFERENCES ShelterTypes (id),
+                FOREIGN KEY (bookingId) REFERENCES Bookings (id)
+            )
+        `);
     });
 }
 
@@ -178,37 +176,7 @@ export async function registerReader(
     }
 }
 
-/**
- * @throws
- */
-// export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
-    
-//     const query = `
-//         UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?
-//     `;
-
-//     try {
-//         await db.run(query, [isActive, batteryLevel, readerId]);
-//         info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
-//     } catch(e) {
-//         throw new Error("error updating reader activity  " + readerId + " to " + isActive);
-//     }
-    
-
-// }
-
 export async function getAllReaders() {
-
-    // const query = `
-    //     SELECT * FROM readers
-    // `;
-
-    // return new Promise((resolve, reject) => {
-    //     db.all(query, (err, rows) => {
-    //         if (err) reject(err);
-    //         resolve(rows);
-    //     });
-    // });
 
     return db_query("SELECT * FROM readers", []);
 
@@ -239,15 +207,15 @@ export async function getReader(id) {
 }
 
 /**
- * @throws
+ * Flag readers that have not sent a ping for more than 24 hours as inactive
  */
 export async function readerFailedPingSetInactive() {
 
     await db.run(
         `
-        UPDATE readers
+        UPDATE Readers
         SET active = 0
-        WHERE (strftime('%s', 'now') - strftime('%s', lastUpdate)) / 60 > 1 AND active = 1;
+        WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > 24 * 60 * 60 AND active = 1;
         `,
         function (err) {
             if (err) throw err;
@@ -271,7 +239,7 @@ export async function getAllCards() {
 }
 
 export async function getAllExtensiveCards(){
-    return db_query("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id JOIN customers ON bookings.customer_id = customers.id", []);
+    return db_query("SELECT * FROM cards JOIN Bookings ON cards.booking_id = Bookings.id JOIN Customers ON Bookings.customer_id = Customers.id", []);
 }
 
 export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
@@ -308,29 +276,29 @@ export async function removeCardByBookingId(booking_id){
 
 
 export async function getCustomerByEmail(email){
-    return db_query("SELECT * FROM customers WHERE mailAddress = ?", [email]);
+    return db_query("SELECT * FROM Customers WHERE mailAddress = ?", [email]);
 }
 
 export async function getCustomerByPhone(phone){
-    return db_query("SELECT * FROM customers WHERE phoneNumber = ?", [phone]);
+    return db_query("SELECT * FROM Customers WHERE phoneNumber = ?", [phone]);
 }
 
 export async function getAllCustomers(){
-    return db_query("SELECT * FROM customers", []);
+    return db_query("SELECT * FROM Customers", []);
 }
 
 export async function getCustomerById(id){
-    return db_query("SELECT * FROM customers WHERE id = ?", []);
+    return db_query("SELECT * FROM Customers WHERE id = ?", []);
 }
 
 export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
-    return db_execute("INSERT INTO customers (id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)", [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
+    return db_execute("INSERT INTO Customers (id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)", [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
 }
 
 export async function blacklistCustomer(mailAddress, active) {
-    return db_execute("UPDATE customers SET blacklisted = ? WHERE id = ?", [active, mailAddress]);
+    return db_execute("UPDATE Customers SET blacklisted = ? WHERE id = ?", [active, mailAddress]);
 }
 
 export async function deleteCustomer(mailAddress){
-    return db_execute("DELETE FROM customers WHERE mailAddress = ?", [mailAddress]);
+    return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
 }
