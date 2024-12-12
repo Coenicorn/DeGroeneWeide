@@ -12,7 +12,7 @@ const db = new sqlite3.Database(dbPath);
 /**
  * Queries the database
  * @param {string} query sqlite query
- * @param {any} params sequentially replace '?' in query with value
+ * @param {any[]} params sequentially replace '?' in query with value
  * @returns {Promise<Error|any[]>}
  */
 export async function db_query(query, params) {
