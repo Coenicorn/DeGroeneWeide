@@ -69,10 +69,10 @@ export async function initializeDB() {
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS Payments (
-                id TEXT PRIMARY KEY NOT NULL
+                id TEXT PRIMARY KEY NOT NULL,
                 bookingId TEXT NOT NULL,
                 amount INT NOT NULL,
-                hasPaid BOOLEAN NOT NUL,
+                hasPaid BOOLEAN NOT NULL,
                 note TEXT,
                 FOREIGN KEY (bookingId) REFERENCES Bookings (id)
         )`);
@@ -80,24 +80,13 @@ export async function initializeDB() {
         // id is the uuid on the card
         db.run(`
             CREATE TABLE IF NOT EXISTS Cards (
+                card_uuid TEXT,
                 id TEXT PRIMARY KEY NOT NULL,
                 bookingId TEXT NOT NULL,
                 token TEXT NOT NULL,
                 blocked BOOLEAN NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES Bookings (id)
             )
-        `);
-        
-        // trigger to set lastPing to the current epoch second on cards
-        db.run(`
-            CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
-            AFTER UPDATE ON Readers
-            FOR EACH ROW
-            BEGIN
-                UPDATE Readers
-                SET lastPing = strftime('%s', 'now')
-                WHERE rowid = NEW.rowid;
-            END;
         `);
 
         db.run(`
@@ -142,6 +131,18 @@ export async function initializeDB() {
                 FOREIGN KEY (shelterId) REFERENCES ShelterTypes (id),
                 FOREIGN KEY (bookingId) REFERENCES Bookings (id)
             )
+        `);
+
+        // trigger to set lastPing to the current epoch second on cards
+        db.run(`
+            CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
+            AFTER UPDATE ON Readers
+            FOR EACH ROW
+            BEGIN
+                UPDATE Readers
+                SET lastPing = strftime('%s', 'now')
+                WHERE rowid = NEW.rowid;
+            END;
         `);
     });
 }
@@ -229,15 +230,15 @@ export async function getAllCards() {
 }
 
 export async function getAllExtensiveCards(){
-    return db_query("SELECT * FROM cards JOIN Bookings ON cards.booking_id = Bookings.id JOIN Customers ON Bookings.customer_id = Customers.id", []);
+    return db_query("SELECT * FROM cards JOIN Bookings ON cards.bookingId = Bookings.id JOIN Customers ON Bookings.customer_id = Customers.id", []);
 }
 
-export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
-    return db_execute("UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?", [card_uuid, booking_id, token, level, blocked, id]);
+export async function updateCard(id, card_uuid, bookingId, token, level, blocked) {
+    return db_execute("UPDATE cards SET card_uuid=?, bookingId=?, token=?, level=?, blocked=? WHERE id=?", [card_uuid, bookingId, token, level, blocked, id]);
 
 }
-export async function insertCard(id, card_uuid, booking_id, token, level, blocked) {
-    return db_execute("INSERT INTO cards (id, card_uuid, booking_id, token, level, blocked) VALUES (?,?,?,?,?,?)", [id, card_uuid, booking_id, token, level, blocked]);
+export async function insertCard(id, card_uuid, bookingId, token, level, blocked) {
+    return db_execute("INSERT INTO cards (id, card_uuid, bookingId, token, level, blocked) VALUES (?,?,?,?,?,?)", [id, card_uuid, bookingId, token, level, blocked]);
 }
 
 export async function removeCardByUUID(uuid){
@@ -260,8 +261,8 @@ export async function getCardTokenByCardUuid(card_uuid){
    return db_query("SELECT token FROM cards WHERE card_uuid = ?", [card_uuid]);
 }
 
-export async function removeCardByBookingId(booking_id){
-    return db_execute("DELETE FROM cards WHERE booking_id = ?", [booking_id]);
+export async function removeCardByBookingId(bookingId){
+    return db_execute("DELETE FROM cards WHERE bookingId = ?", [bookingId]);
 }
 
 
