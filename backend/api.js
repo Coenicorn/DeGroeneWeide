@@ -73,9 +73,9 @@ app.listen(config.privateServerPort, async () => {
 // periodically update the inactive readers
 async function periodicActivityUpdate() {
 
-    info_log("periodic reader activity check...");
+    const rows = await readerFailedPingSetInactive();
 
-    await readerFailedPingSetInactive();
+    if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
 
     setTimeout(periodicActivityUpdate, 300000);
 

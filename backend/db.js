@@ -211,19 +211,7 @@ export async function getReader(id) {
  */
 export async function readerFailedPingSetInactive() {
 
-    await db.run(
-        `
-        UPDATE Readers
-        SET active = 0
-        WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > 24 * 60 * 60 AND active = 1;
-        `,
-        function (err) {
-            if (err) throw err;
-            info_log(`rows affected: ${this.changes}`);
-        }
-    );
-
-    return db_execute("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > 24 * 60 * 60 AND active = 1");
+    return db_query("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > 24 * 60 * 60 AND active = 1");
 
 }
 
