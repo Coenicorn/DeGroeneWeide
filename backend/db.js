@@ -2,9 +2,6 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
-import { type } from 'os';
-import config from './config.js';
-import customers from "./api/customers/customers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -156,8 +153,8 @@ export async function registerReader(
     macAddress, location
 ) {
     if (
-        typeof(macAddress) !== 'string' || macAddress.length == 0 ||
-        typeof(location) !== 'string' || location.length == 0
+        typeof(macAddress) !== 'string' || macAddress.length === 0 ||
+        typeof(location) !== 'string' || location.length === 0
     ) {
         throw new Error(`registerReader was called with the wrong argument types: ${typeof(macAddress)} (${macAddress}), ${typeof(location)} (${location})\
         `);
@@ -175,7 +172,7 @@ export async function registerReader(
         await db.run(query, [idFromMacAddress, macAddress, 0, location, 0, false]);
         info_log(`added new reader with id ${idFromMacAddress}`);
     } catch(e) {
-        throw new Error(`error inserting new reader into databast: ${e.message}`);
+        throw new Error(`error inserting new reader into database: ${e.message}`);
     }
 }
 
@@ -211,7 +208,7 @@ export async function getAllReaders() {
     //     });
     // });
 
-    return db_query("SELECT * FROM readers");
+    return db_query("SELECT * FROM readers", []);
 
 }
 
@@ -221,7 +218,7 @@ export async function getAllReaders() {
 export async function getReader(id) {
 
     if (
-        typeof(id) !== 'string' || id.length == 0
+        typeof(id) !== 'string' || id.length === 0
     ) {
         throw new Error(`getReader was called with wrong argument types: ${typeof(id)} (${id})`);
     }
@@ -258,23 +255,13 @@ export async function readerFailedPingSetInactive() {
 
 }
 
-export async function deleteCards(confirm){
+export async function deleteCards(confirm) {
 
-    if(!confirm){
+    if (!confirm) {
         return false;
     }
 
-    return new Promise((res, rej) => {
-        db.run("DELETE FROM cards", (err) => {
-            if (err) {
-                err_log("Error heeft zich opgetreden tijdens deleteCards(): "+err.message);
-                rej(false);
-            } else {
-                info_log("Succesvol alle cards verwijdert uit database.");
-                res(true);
-            }
-        })
-    });
+    return db_execute("DELETE FROM cards", []);
 }
 
 export async function getAllCards() {
@@ -286,162 +273,62 @@ export async function getAllExtensiveCards(){
 }
 
 export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
-    const query = "UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?";
-    return new Promise((res, rej) => {
-        db.run(query, [card_uuid, booking_id, token, level, blocked, id], function (err) {
-            if (err) rej(err);
-            res(this.changes);
-        });
-    });
-
-    db_execute("UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?", [card_uuid, booking_id, token, level, blocked, id])
+    return db_execute("UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?", [card_uuid, booking_id, token, level, blocked, id]);
 
 }
-
 export async function insertCard(id, card_uuid, booking_id, token, level, blocked) {
-    try {
-        const query = "INSERT INTO cards (id, card_uuid, booking_id, token, level, blocked) VALUES (?,?,?,?,?,?)";
-        return new Promise((res, rej) => {
-            db.run(query, [id, card_uuid, booking_id, token, level, blocked], (err) => {
-                if (err) rej(err);
-                res();
-            });
-        }) 
-    } catch (error) {
-        throw new Error("Error tijdens het toevoegen van nieuwe kaart: " + error.message);
-    }
-
+    return db_execute("INSERT INTO cards (id, card_uuid, booking_id, token, level, blocked) VALUES (?,?,?,?,?,?)", [id, card_uuid, booking_id, token, level, blocked]);
 }
 
 export async function removeCardByUUID(uuid){
-
-    try{
-        const query = "DELETE FROM cards WHERE card_uuid = ?";
-        return await db.run(query, [uuid]);
-    } catch (error) {
-        throw new Error("Error tijdens het verwijderen van de kaart met uuid " + uuid + ": " + error.message);
-    }
-
+    return db_execute("DELETE FROM cards WHERE card_uuid = ?", [uuid]);
 }
 
 export async function removeCardByID(id) {
-    try {
-        const query = "DELETE FROM cards WHERE id = ?";
-        return await db.run(query, [id]);
-    } catch (error) {
-        throw new Error("Error tijdens het verwijderen van de kaart met entry ID " + id + ": " + error.message);
-    }
+    return db_execute("DELETE FROM cards WHERE id = ?", [id]);
 }
 
 export async function getCardByUUID(uuid){
-    try {
-        const query = "SELECT * FROM cards WHERE cards_uuid = ?";
-        return await db.run(query, [uuid]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van informatie met kaart uuid " + uuid + ": " + error.message);
-    }
+    return db_query("SELECT * FROM cards WHERE cards_uuid = ?", [uuid]);
 }
 
 export async function getCardById(id){
-    try {
-        const query = "SELECT * FROM cards WHERE id = ?";
-        return new Promise((res, rej) => {
-            db.get(query, [id], (err, result) => {
-                if (err) rej(err);
-                res(result);
-            });
-        })
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van informatie met de kaart entry id " + id + ": " + error.message);
-    }
+    return db_query("SELECT * FROM cards WHERE id = ?", [id]);
 }
 
 export async function getCardTokenByCardUuid(card_uuid){
-    try {
-        const query = "SELECT token FROM cards WHERE cards_uuid = ?";
-        return await db.run(query, [card_uuid]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van de kaart token met card uuid " + card_uuid + ": " + error.message);
-    }
+   return db_query("SELECT token FROM cards WHERE card_uuid = ?", [card_uuid]);
 }
 
 export async function removeCardByBookingId(booking_id){
-    try {
-        const query = "DELETE FROM cards WHERE booking_id = ?";
-        return await db.run(query, [booking_id]);
-    } catch (error){
-        throw new Error("Error tijdens het verwijderen van kaart dmv booking id")
-    }
+    return db_execute("DELETE FROM cards WHERE booking_id = ?", [booking_id]);
 }
 
 
 export async function getCustomerByEmail(email){
-    try {
-        const query = "SELECT * FROM customers WHERE mailAdress = ?";
-        return await db.run(query, [email]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van customer data dmv mail.");
-    }
+    return db_query("SELECT * FROM customers WHERE mailAddress = ?", [email]);
 }
 
 export async function getCustomerByPhone(phone){
-    try {
-        const query = "SELECT * FROM customers WHERE phoneNumber = ?";
-        return await db.run(query, [phone]);
-    } catch (error) {
-        throw new Error("Error tijdens het verkrijgen van customer data dmv tel nummer")
-    }
+    return db_query("SELECT * FROM customers WHERE phoneNumber = ?", [phone]);
 }
 
 export async function getAllCustomers(){
-    return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM customers", [], (err, rows) => {
-            if (err) {
-                reject(err);
-            } else {}
-            resolve(rows);
-        })
-    });
+    return db_query("SELECT * FROM customers", []);
 }
 
 export async function getCustomerById(id){
-    try {
-        return await db.run("SELECT * FROM customers WHERE id = ?", [id]);
-    } catch (error){
-        throw new Error("Error tijdens het verkrijgen van customer data dmv db entry ID");
-    }
+    return db_query("SELECT * FROM customers WHERE id = ?", []);
 }
 
 export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
-    try {
-        const query = "INSERT INTO customers (id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)";
-        return await db.run(query, [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
-    } catch (error) {
-        throw new Error("Er ging iets mis tijdens het inserten van een nieuwe customer.")
-    }
-
+    return db_execute("INSERT INTO customers (id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)", [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
 }
 
 export async function blacklistCustomer(mailAddress, active) {
-    try {
-        return await db.run(`UPDATE customers
-        SET blacklisted = ?
-        WHERE id = ?`,
-            [active, mailAddress],
-            (error) => {
-                if (error) {
-                    console.error('Error updating blacklisted value:', error.message);
-                }
-            });
-    } catch (error) {
-        throw new Error("Er ging iets mis tijdens het blacklisten van de gebruiker.")
-    }
+    return db_execute("UPDATE customers SET blacklisted = ? WHERE id = ?", [active, mailAddress]);
 }
 
 export async function deleteCustomer(mailAddress){
-    try {
-        return await db.run(`DELETE FROM customers WHERE mailAddress = ?`, [mailAddress]);
-    } catch (error) {
-        throw new Error("Er ging iets mis tijdens het verwijderen van de gebruiker.")
-    }
+    return db_execute("DELETE FROM customers WHERE mailAddress = ?", [mailAddress]);
 }
