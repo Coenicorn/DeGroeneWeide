@@ -12,8 +12,8 @@ const db = new sqlite3.Database(dbPath);
 /**
  * Queries the database
  * @param {string} query sqlite query
- * @param {any} params 
- * @returns {Promise<Error|Any[]>} database return value
+ * @param {any} params sequentially replace '?' in query with value
+ * @returns {Promise<Error|any[]>}
  */
 export async function db_query(query, params) {
     return new Promise((resolve, reject) => {
@@ -27,14 +27,14 @@ export async function db_query(query, params) {
 /**
  * Runs a query on the database. Does not return data
  * @param {string} query sqlite query
- * @param {any} params 
- * @returns {Promise<Error|Any[]>}
+ * @param {any[]} params sequentially replace '?' in query with value
+ * @returns {Promise<Error|null>}
  */
 export async function db_execute(query, params) {
     return new Promise((resolve, reject) => {
         db.run(query, params, (err, rows) => {
             if (err) reject(err);
-            resolve(rows);
+            resolve(null);
         });
     });
 }
@@ -222,6 +222,8 @@ export async function readerFailedPingSetInactive() {
             info_log(`rows affected: ${this.changes}`);
         }
     );
+
+    return db_execute("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > 24 * 60 * 60 AND active = 1");
 
 }
 
