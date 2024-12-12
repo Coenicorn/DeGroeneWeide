@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
 import { type } from 'os';
 import config from './config.js';
+import customers from "./api/customers/customers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,7 +35,7 @@ export async function db_query(query, params) {
  */
 export async function db_execute(query, params) {
     return new Promise((resolve, reject) => {
-        db.all(query, params, (err, rows) => {
+        db.run(query, params, (err, rows) => {
             if (err) reject(err);
             resolve(rows);
         });
@@ -181,33 +182,36 @@ export async function registerReader(
 /**
  * @throws
  */
-export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
+// export async function pingReaderIsAlive(isActive, readerId, batteryLevel) {
     
-    const query = `
-        UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?
-    `;
+//     const query = `
+//         UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?
+//     `;
 
-    try {
-        await db.run(query, [isActive, batteryLevel, readerId]);
-        info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
-    } catch(e) {
-        throw new Error("error updating reader activity  " + readerId + " to " + isActive);
-    }
+//     try {
+//         await db.run(query, [isActive, batteryLevel, readerId]);
+//         info_log(`reader ${readerId} updated: { active: ${isActive}, battery: ${batteryLevel}}`);
+//     } catch(e) {
+//         throw new Error("error updating reader activity  " + readerId + " to " + isActive);
+//     }
+    
 
-}
+// }
 
 export async function getAllReaders() {
 
-    const query = `
-        SELECT * FROM readers
-    `;
+    // const query = `
+    //     SELECT * FROM readers
+    // `;
 
-    return new Promise((resolve, reject) => {
-        db.all(query, (err, rows) => {
-            if (err) reject(err);
-            resolve(rows);
-        });
-    });
+    // return new Promise((resolve, reject) => {
+    //     db.all(query, (err, rows) => {
+    //         if (err) reject(err);
+    //         resolve(rows);
+    //     });
+    // });
+
+    return db_query("SELECT * FROM readers");
 
 }
 
@@ -222,16 +226,17 @@ export async function getReader(id) {
         throw new Error(`getReader was called with wrong argument types: ${typeof(id)} (${id})`);
     }
 
-    const query = `
-        SELECT * FROM readers WHERE id = ?
-    `
+    // const query = `
+    //     SELECT * FROM readers WHERE id = ?
+    // `
 
-    return new Promise((resolve, reject) => {
-        db.get(query, [id], (err, result) => {
-            if (err) reject(err.message)
-            resolve(result);
-        })
-    })
+    // return new Promise((resolve, reject) => {
+    //     db.get(query, [id], (err, result) => {
+    //         if (err) reject(err.message)
+    //         resolve(result);
+    //     })
+    // })
+    return db_query("SELECT * FROM readers WHERE id = ?", [id]);
 }
 
 /**
@@ -273,26 +278,11 @@ export async function deleteCards(confirm){
 }
 
 export async function getAllCards() {
-    return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM cards", [], (err, rows) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(rows);
-        })
-    })
+        return db_query("SELECT * FROM cards", []);
 }
 
 export async function getAllExtensiveCards(){
-    return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id JOIN customers ON bookings.customer_id = customers.id", [], (err, rows) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(rows);
-        })
-
-    });
+    return db_query("SELECT * FROM cards JOIN bookings ON cards.booking_id = bookings.id JOIN customers ON bookings.customer_id = customers.id", []);
 }
 
 export async function updateCard(id, card_uuid, booking_id, token, level, blocked) {
@@ -303,6 +293,9 @@ export async function updateCard(id, card_uuid, booking_id, token, level, blocke
             res(this.changes);
         });
     });
+
+    db_execute("UPDATE cards SET card_uuid=?, booking_id=?, token=?, level=?, blocked=? WHERE id=?", [card_uuid, booking_id, token, level, blocked, id])
+
 }
 
 export async function insertCard(id, card_uuid, booking_id, token, level, blocked) {

@@ -1,13 +1,13 @@
 ## `POST /imalive`
 
-Laat de server weten dat een lezer actief is
+Lets the server know that a reader is active
 
 ## request
 
 ```json
 {
     "macAddress": string,
-    "battery": number // 0-100
+    "battery": number // 0-100 in procent
 }
 
 ```

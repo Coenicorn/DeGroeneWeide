@@ -1,6 +1,6 @@
 import { Router, json } from "express";
 import { err_log, md5hash, respondwithstatus } from "../../util.js";
-import { getAllReaders, getReader, pingReaderIsAlive, registerReader } from "../../db.js";
+import { db_execute, getAllReaders, getReader, registerReader } from "../../db.js";
 
 const ReadersRouter = new Router();
 
@@ -11,11 +11,14 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
 
     let macAddress = jsondata.macAddress, battery = jsondata.battery;
 
-    try {
-        if (macAddress == undefined || typeof(macAddress) !== 'string' || macAddress.length == 0) throw new Error("macAddress invalid type");
-        if (battery == undefined || typeof(battery) !== 'number') throw new Error("battery wrong type");
-    } catch(e) { err_log(`refuse request to ${req.url}: ${e.message}`); res.status(400).json({ status: e.message }); return; }
-
+    // I hate writing these >:(
+    if (macAddress === undefined) return respondwithstatus(res, 400, "macAddress is not defined");
+    if (typeof(macAddress) !== "string") return respondwithstatus(res, 400, "macAddress is not a string", { type: typeof(macAddress) });
+    if (macAddress.length === 0) return respondwithstatus(res, 400, "length of macAddress is 0");
+    
+    if (battery === undefined) return respondwithstatus(res, 400, "battery is not defined");
+    if (typeof(battery) !== "number") return respondwithstatus(res, 400, "battery is not a number", { type: typeof(battery) });
+    
     const readerId = md5hash(macAddress);
 
     let reader;
@@ -23,9 +26,8 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     try {
         reader = await getReader(readerId);
     } catch(e) {
-        err_log("failure getting reader with id " + readerId);
-        next();
-        return;
+        err_log("error getting reader", e);
+        return respondwithstatus(res, 500, "error getting reader");
     }
 
     if (reader == undefined) {
@@ -33,15 +35,17 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         try {
             await registerReader(macAddress, "front gate");
         } catch(e) {
-            next(e);
-            return;
+            err_log("error registering new reader", e);
+            return respondwithstatus(res, 500, "something went wrong");
         }
     }
 
     try {
-        await pingReaderIsAlive(1, readerId, battery);
+        // await pingReaderIsAlive(1, readerId, battery);
+        await db_execute("UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?", [readerId]);
     } catch(e) {
-        next(e);
+        err_log("error updating reader", e);
+        respondwithstatus(res, 500, "something went wrong");
         return;
     }
 
@@ -49,36 +53,34 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
 
 });
 
-ReadersRouter.get("/getAllReaders", async (req, res, next) => {
-    const readers = await getAllReaders();
+ReadersRouter.get("/getAllReaders", async (req, res) => {
+    try {
+        const readers = await getAllReaders();
 
-    res.json(readers);
+        res.json(readers);
+    } catch(e) {
+        respondwithstatus(res, 500, "couldn't get all readers");
+        err_log("error in /getAllReaders", e);
+    }
 });
 
-ReadersRouter.get("/getReader", async (req, res, next) => {
+ReadersRouter.get("/getReader", async (req, res) => {
     const id = req.body.id;
 
-    if (id === undefined) {
-        respondwithstatus(res, 400, "id is undefined");
-        return;
-    }
-    if (typeof(id) !== "string") {
-        respondwithstatus(res, 400, "type of id is incorrect: " + typeof(id));
-        return;
-    }
+    if (id === undefined) return respondwithstatus(res, 400, "id is undefined");
+    if (typeof(id) !== "string") return respondwithstatus(res, 400, "type of id is incorrect: " + typeof(id));
 
     let reader;
 
     try {
         reader = await getReader(id);
     } catch(e) {
-        respondwithstatus(res, 500, "something went wrong");
-        return;
+        err_log("error getting reader", e);
+        return respondwithstatus(res, 500, "couldn't get reader");
     }
 
     if (reader === undefined) {
-        res.json({});
-        return;
+        return res.json({});
     }
 
     res.json(reader);

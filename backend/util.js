@@ -1,11 +1,25 @@
+import config from "./config.js";
 import { createHash } from "crypto";
 
-export function info_log(msg) {
-    console.log(`[INFO] ${msg}`);
+/** logs '[$type] $msg' to console */
+function _log(msg, type) {
+    if (config.environment === "dev") {
+        let d = new Date();
+        console.log(`[${d.toLocaleDateString()}][${type}] ${msg}`);
+    } else {
+        console.log(`[${type}] ${msg}`);
+    }
 }
 
-export function err_log(msg) {
-    console.log(`[ERROR] ${msg}`);
+export function info_log(msg) {
+    // console.log(`[INFO] ${msg}`);
+    _log(msg, "INFO");
+}
+
+export function err_log(msg, err = null) {
+    // console.log(`[ERROR] ${msg}`);
+    _log(msg, "ERROR");
+    if (err) console.error(err);
 }
 
 export function md5hash(str) {
