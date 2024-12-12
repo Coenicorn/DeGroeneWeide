@@ -47,44 +47,51 @@ export async function initializeDB() {
                 firstName VARCHAR(100),
                 middleName VARCHAR(10),
                 lastName VARCHAR(100),
-                birthDate VARCHAR(20),
                 maySave BOOLEAN,
+                birthDate TEXT,
                 creationDate DATETIME,
                 blacklisted BOOLEAN,
-                phoneNumber VARCHAR(20),
-                mailAddress VARCHAR(300)
+                phoneNumber TEXT,
+                mailAddress TEXT
             )
         `);
 
         db.run(`CREATE TABLE IF NOT EXISTS bookings (
                 id TEXT PRIMARY KEY,
-                customer_id TEXT,
-                duePayments INTEGER,
+                customer_id TEXT, 
                 startDate DATETIME,
                 endDate DATETIME,
-                amountChildren INTEGER,
-                amountAdults INTEGER,
-                expectedArrival TIME,
+                amountPeople INTEGER,
                 FOREIGN KEY (customer_id) REFERENCES customers (id)
             )
         `);
 
+        db.run(`CREATE TABLE IF NOT EXISTS payments (
+                booking_id TEXT,
+                amount INT,
+                status BOOLEAN,
+                note TEXT,
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
+        )`);
+
             // WHY IS IT CALLED card_uuid IT IS ALREADY IN A CARD RAAAAAAH
+            // `card_uuid` vervangen door `cardAddress`
 
         db.run(`CREATE TABLE IF NOT EXISTS cards (
                 id TEXT PRIMARY KEY NOT NULL,
-                card_uuid VARCHAR(16) NOT NULL,
+                cardAddress TEXT NOT NULL,
                 booking_id TEXT NOT NULL,
-                token VARCHAR(256) NOT NULL,
-                level INT NOT NULL,
+                token TEXT NOT NULL,
+                levelId INT NOT NULL,
                 blocked BOOLEAN NOT NULL,
                 last_update INTEGER DEFAULT (strftime('%s', 'now')),
-                FOREIGN KEY (booking_id) REFERENCES bookings (id)
+                FOREIGN KEY (booking_id) REFERENCES bookings (id),
+                FOREIGN KEY (levelId) REFERENCES authLevels (id)
             )
         `);
         // trigger to set the last_update to the current epoch second on cards
         db.run(`
-            CREATE TRIGGER IF NOT EXISTS update_last_update
+            CREATE TABLE IF NOT EXISTS update_last_update
             BEFORE UPDATE ON cards
             FOR EACH ROW
             BEGIN
@@ -96,38 +103,21 @@ export async function initializeDB() {
 
         db.run(`CREATE TABLE IF NOT EXISTS authlevels (
                 id TEXT PRIMARY KEY,
-                level VARCHAR(20)
+                level INT,
+                name TEXT
             )
         `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS cardsauthlevels (
-                card_id TEXT,
-                level INTEGER,
-                FOREIGN KEY (card_id) REFERENCES cards (id),
-                FOREIGN KEY (level) REFERENCES authlevels (id)
-            )
-        `);
+        db.run(`CREATE TABLE IF NOT EXISTS amenityauthjunctions (
+                amenity_id TEXT,
+                authlevel_id TEXT,
+                FOREIGN KEY (amenity_id) REFERENCES amenitytypes (id),
+                FOREIGN KEY (authlevel_id) REFERENCES authlevels (id)
+            )`)
 
-        db.run(`CREATE TABLE IF NOT EXISTS amentitytypes (
+        db.run(`CREATE TABLE IF NOT EXISTS amenitytypes (
                 id TEXT PRIMARY KEY,
-                type VARCHAR(20)
-            )
-        `);
-
-        db.run(`CREATE TABLE IF NOT EXISTS bookingamenities (
-                booking_id TEXT,
-                type VARCHAR(20),
-                FOREIGN KEY (type) REFERENCES amentitytypes (type),
-                FOREIGN KEY (booking_id) REFERENCES bookings (id)
-            )
-        `);
-
-        db.run(`CREATE TABLE IF NOT EXISTS standingplaces (
-                id TEXT PRIMARY KEY,
-                rawName VARCHAR(50),
-                formattedName VARCHAR(50),
-                booking_id TEXT,
-                FOREIGN KEY (booking_id) REFERENCES bookings (id)
+                name TEXT,
             )
         `);
 
@@ -135,14 +125,26 @@ export async function initializeDB() {
 
         db.run(`CREATE TABLE IF NOT EXISTS readers (
                 id TEXT PRIMARY KEY,
-                macAddress VARCHAR(18),
-                level INTEGER,
-                location VARCHAR(50),
-                battery INTEGER,
-                active BOOLEAN,
-                lastUpdate TEXT DEFAULT CURRENT_TIMESTAMP
-            )
+                authLevel_id TEXT,
+                amenity_id TEXT,
+                lastPing TEXT DEFAULT CURRENT_TIMESTAMP,
+                location TEXT,
+                batteryPercentage INT,
+                active BOOLEAN
         `);
+
+        db.run(`CREATE TABLE IF NOT EXISTS shelterType (
+                id TEXT,
+                name TEXT,
+                surface INT
+        )`)
+
+        db.run(`CREATE TABLE IF NOT EXISTS shelterBooking (
+                shelter_id TEXT,
+                booking_id TEXT,
+                FOREIGN KEY (shelter_id) REFERENCES shelterType (id),
+                FOREIGN KEY (booking_id) REFERENCES bookings (id)
+            )`)
     });
 }
 
