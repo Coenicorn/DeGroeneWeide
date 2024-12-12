@@ -24,7 +24,8 @@
 #define PIN_TOOL_NEW_CORRECT_TOKEN 35
 #define PIN_TOOL_PINGALIVE 32
 
-#define MILLIS_IN_DAY (1000*60*60*24)
+// temporarily send a ping every hour for testing
+#define MILLIS_IN_DAY (1000*60*60*1)
 
 #define TOKEN_MEM_ADDR 4
 #define TOKEN_SIZE_BYTES 16
