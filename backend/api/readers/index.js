@@ -41,8 +41,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     }
 
     try {
-        // await pingReaderIsAlive(1, readerId, battery);
-        await db_execute("UPDATE readers SET active=?, battery=?, lastUpdate=CURRENT_TIMESTAMP WHERE id=?", [readerId]);
+        await db_execute("UPDATE Readers SET active=?, battery=? WHERE id=?", [1, battery, readerId]);
     } catch(e) {
         err_log("error updating reader", e);
         respondwithstatus(res, 500, "something went wrong");
