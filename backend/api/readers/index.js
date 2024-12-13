@@ -1,4 +1,4 @@
-import { Router, json } from "express";
+import { Router } from "express";
 import { err_log, md5hash, respondwithstatus } from "../../util.js";
 import { db_execute, getAllReaders, getReader, registerReader } from "../../db.js";
 
@@ -33,7 +33,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     if (reader == undefined) {
         // no reader with this id exists, create it
         try {
-            await registerReader(macAddress, "front gate");
+            await registerReader(macAddress, "no name assigned");
         } catch(e) {
             err_log("error registering new reader", e);
             return respondwithstatus(res, 500, "something went wrong");
