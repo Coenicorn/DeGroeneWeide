@@ -5,8 +5,6 @@ import { err_log, info_log, md5hash } from './util.js';
 import config from './config.js';
 import * as fs from "fs";
 import { abort } from 'process';
-import axios from 'axios';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
