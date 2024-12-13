@@ -41,7 +41,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     }
 
     try {
-        await db_execute("UPDATE Readers SET active=?, battery=? WHERE id=?", [1, battery, readerId]);
+        await db_execute("UPDATE Readers SET active=?, batteryPercentage=? WHERE id=?", [1, battery, readerId]);
     } catch(e) {
         err_log("error updating reader", e);
         respondwithstatus(res, 500, "something went wrong");
