@@ -2,12 +2,16 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
+import config from './config.js';
+import * as fs from "fs";
+import { abort } from 'process';
+import axios from 'axios';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const dbPath = path.resolve(__dirname, 'data.db');
-const db = new sqlite3.Database(dbPath);
+let db = new sqlite3.Database(dbPath);
 
 /**
  * Queries the database
@@ -80,9 +84,8 @@ export async function initializeDB() {
         // id is the uuid on the card
         db.run(`
             CREATE TABLE IF NOT EXISTS Cards (
-                card_uuid TEXT,
                 id TEXT PRIMARY KEY NOT NULL,
-                bookingId TEXT NOT NULL,
+                bookingId TEXT,
                 token TEXT NOT NULL,
                 blocked BOOLEAN NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES Bookings (id)
@@ -104,16 +107,27 @@ export async function initializeDB() {
         `);
 
         // id is currently the md5 hash of a reader's mac address
+        // amenityId can be null for when a reader is first initialized
         db.run(`
             CREATE TABLE IF NOT EXISTS Readers (
                 id TEXT PRIMARY KEY NOT NULL,
                 batteryPercentage INT,
-                amenityId TEXT NOT NULL,
+                amenityId TEXT,
                 lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 name TEXT NOT NULL,
-                FOREIGN KEY (amenityId) REFERENCES AmenityTypes
+                active BOOLEAN,
+                FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
             )
         `);
+
+        db.run(`
+            CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
+                readerId TEXT NOT NULL,
+                authLevelId TEXT NOT NULL,
+                FOREIGN KEY (readerId) REFERENCES Readers (id),
+                FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id)
+            )    
+        `)
 
         // surfaceArea wordt nu niet gebruikt, idk waarom we die nu hebben
         db.run(`
@@ -133,48 +147,49 @@ export async function initializeDB() {
             )
         `);
 
-        // trigger to set lastPing to the current epoch second on cards
+        /* triggers */
+
         db.run(`
             CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
+            AFTER INSERT ON Readers
+            FOR EACH ROW
+            BEGIN
+                UPDATE Readers
+                SET lastPing = strftime('%s', 'now')
+                WHERE rowid = new.rowid;
+            END
+        `);
+
+        db.run(`
+            CREATE TRIGGER IF NOT EXISTS updateLastPingOnUpdate
             AFTER UPDATE ON Readers
             FOR EACH ROW
             BEGIN
                 UPDATE Readers
                 SET lastPing = strftime('%s', 'now')
-                WHERE rowid = NEW.rowid;
-            END;
+                WHERE rowid = new.rowid;
+            END
         `);
     });
 }
 
 /**
- * @throws
+ * 
+ * @param {string} idFromMacAddress Expected to be the hash of the mac address
+ * @param {string} name
  */
 export async function registerReader(
-    macAddress, location
+    idFromMacAddress, name
 ) {
-    if (
-        typeof(macAddress) !== 'string' || macAddress.length === 0 ||
-        typeof(location) !== 'string' || location.length === 0
-    ) {
-        throw new Error(`registerReader was called with the wrong argument types: ${typeof(macAddress)} (${macAddress}), ${typeof(location)} (${location})\
-        `);
-    }
-
-    // store reader as inactive and empty battery by default, with auth level 0 by default
+    // store reader as inactive and empty battery by default
     const query = `
-        INSERT INTO readers (id, macAddress, level, location, battery, active) VALUES (?,?,?,?,?,?)
+        INSERT INTO Readers (id, batteryPercentage, name, active) VALUES (?,?,?,?)
     `;
 
     // generate id from hash
-    let idFromMacAddress = md5hash(macAddress);
+    // let idFromMacAddress = md5hash(macAddress);
     
-    try {
-        await db.run(query, [idFromMacAddress, macAddress, 0, location, 0, false]);
-        info_log(`added new reader with id ${idFromMacAddress}`);
-    } catch(e) {
-        throw new Error(`error inserting new reader into database: ${e.message}`);
-    }
+    return db_execute(query, [idFromMacAddress, 0, name, 0]);
 }
 
 export async function getAllReaders() {
@@ -183,62 +198,44 @@ export async function getAllReaders() {
 
 }
 
-/**
- * @throws
- */
 export async function getReader(id) {
 
-    if (
-        typeof(id) !== 'string' || id.length === 0
-    ) {
-        throw new Error(`getReader was called with wrong argument types: ${typeof(id)} (${id})`);
-    }
-
-    // const query = `
-    //     SELECT * FROM readers WHERE id = ?
-    // `
-
-    // return new Promise((resolve, reject) => {
-    //     db.get(query, [id], (err, result) => {
-    //         if (err) reject(err.message)
-    //         resolve(result);
-    //     })
-    // })
     return db_query("SELECT * FROM readers WHERE id = ?", [id]);
 }
 
 /**
  * Flag readers that have not sent a ping for more than 24 hours as inactive
  */
-export async function readerFailedPingSetInactive() {
+export async function readerFailedPingSetInactive(maxInactiveSeconds) {
 
-    return db_query("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > 24 * 60 * 60 AND active = 1");
+    return db_query("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > ? AND active = 1", [maxInactiveSeconds]);
 
 }
 
-export async function deleteCards(confirm) {
+export async function deleteCards() {
 
-    if (!confirm) {
-        return false;
-    }
-
-    return db_execute("DELETE FROM cards", []);
+    return db_execute("DELETE FROM Cards", []);
 }
 
 export async function getAllCards() {
         return db_query("SELECT * FROM cards", []);
 }
 
+/**
+ * @note deze functie gebruikt LEFT JOIN, dus returnd ook cards zonder booking
+ * @returns Alle cards gejoind met hun booking en customer
+ */
 export async function getAllExtensiveCards(){
-    return db_query("SELECT * FROM cards JOIN Bookings ON cards.bookingId = Bookings.id JOIN Customers ON Bookings.customer_id = Customers.id", []);
+    return db_query("SELECT * FROM Cards LEFT JOIN Bookings ON Cards.bookingId = Bookings.id LEFT JOIN Customers ON Bookings.customerId = Customers.id", []);
 }
 
-export async function updateCard(id, card_uuid, bookingId, token, level, blocked) {
-    return db_execute("UPDATE cards SET card_uuid=?, bookingId=?, token=?, level=?, blocked=? WHERE id=?", [card_uuid, bookingId, token, level, blocked, id]);
+export async function updateCard(id, bookingId, token, blocked) {
+    return db_execute("UPDATE cards SET bookingId=?, token=?, blocked=? WHERE id=?", [bookingId, token, blocked, id]);
 
 }
-export async function insertCard(id, card_uuid, bookingId, token, level, blocked) {
-    return db_execute("INSERT INTO cards (id, card_uuid, bookingId, token, level, blocked) VALUES (?,?,?,?,?,?)", [id, card_uuid, bookingId, token, level, blocked]);
+
+export async function insertCard(id, bookingId, token, blocked) {
+    return db_execute("INSERT INTO cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
 }
 
 export async function removeCardByUUID(uuid){
@@ -292,4 +289,11 @@ export async function blacklistCustomer(mailAddress, active) {
 
 export async function deleteCustomer(mailAddress){
     return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
+}
+
+export async function delete_db_lmao() {
+    await new Promise((resolve) => db.close(() => resolve()));
+    fs.unlinkSync(dbPath);
+    db = new sqlite3.Database(dbPath);
+    await initializeDB();
 }
