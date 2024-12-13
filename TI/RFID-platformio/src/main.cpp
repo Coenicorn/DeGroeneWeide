@@ -30,9 +30,11 @@ If I were to write this code again, I'd write in FreeRTOS because of the subrout
 */
 #include "secret.h"
 
-MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
+static MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/writer maken die op de goeie pins draait
 // this might work, idk though
-MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instancie van een key maken
+static MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instancie van een key maken
+
+static HTTPClient http;
 
 static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
@@ -78,34 +80,26 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 
 void sendPostRequest(String payload)
 {
-	// not written by chatgpt how dare you
-
 	if (!WiFi.isConnected()) {
 		Serial.println("not connected :(");
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
 		return;
 	}
 
-	HTTPClient http;
+	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive"));
+	http.addHeader("accept", "application/json");
+	http.addHeader("content-type", "application/json"); // required by server for post
 
-	// Begin the HTTP connection
-	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive")); // Specify the URL
-	http.addHeader("accept", "application/json");  // Add any necessary headers
-	http.addHeader("content-type", "application/json");  // Add any necessary headers
+	int httpResponseCode = http.POST(payload); // Send POST with payload
 
-	// Send POST request
-	int httpResponseCode = http.POST(payload);  // Send POST with payload
-
-	// Check response
 	if (httpResponseCode > 0) {
-		Serial.println("HTTP POST request sent successfully");
-		Serial.print("Response code: ");
-		Serial.println(httpResponseCode);
-		String response = http.getString();  // Get the response body
+		// success
+		Serial.print("server response with code "); Serial.println(httpResponseCode);
+
+		String response = http.getString();
 		Serial.println(response);
 	} else {
-		Serial.print("Error sending POST request: ");
-		Serial.println(httpResponseCode);
+		Serial.print("http request error: "); Serial.println(http.errorToString(httpResponseCode));
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
 	}
 
