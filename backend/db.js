@@ -174,7 +174,7 @@ export async function initializeDB() {
 }
 
 /**
- * 
+ * @note updated to schema 13.dec.2024
  * @param {string} idFromMacAddress Expected to be the hash of the mac address
  * @param {string} name
  */
@@ -192,19 +192,26 @@ export async function registerReader(
     return db_execute(query, [idFromMacAddress, 0, name, 0]);
 }
 
+/**
+ * @note updated to schema 13.dec.2024
+ */
 export async function getAllReaders() {
 
     return db_query("SELECT * FROM readers", []);
 
 }
 
+/**
+ * @note updated to schema 13.dec.2024
+ */
 export async function getReader(id) {
 
-    return db_query("SELECT * FROM readers WHERE id = ?", [id]);
+    return db_query("SELECT * FROM Readers WHERE id = ?", [id]);
 }
 
 /**
  * Flag readers that have not sent a ping for more than 24 hours as inactive
+ * @note updated to schema 13.dec.2024
  */
 export async function readerFailedPingSetInactive(maxInactiveSeconds) {
 
@@ -212,16 +219,23 @@ export async function readerFailedPingSetInactive(maxInactiveSeconds) {
 
 }
 
+/**
+ * @note updated to schema 13.dec.2024
+ */
 export async function deleteCards() {
 
     return db_execute("DELETE FROM Cards", []);
 }
 
+/**
+ * @note updated to schema 13.dec.2024
+ */
 export async function getAllCards() {
-        return db_query("SELECT * FROM cards", []);
+        return db_query("SELECT * FROM Cards", []);
 }
 
 /**
+ * @note updated to schema 13.dec.2024
  * @note deze functie gebruikt LEFT JOIN, dus returnd ook cards zonder booking
  * @returns Alle cards gejoind met hun booking en customer
  */
@@ -229,13 +243,19 @@ export async function getAllExtensiveCards(){
     return db_query("SELECT * FROM Cards LEFT JOIN Bookings ON Cards.bookingId = Bookings.id LEFT JOIN Customers ON Bookings.customerId = Customers.id", []);
 }
 
+/**
+ * @note updated to schema 13.dec.2024
+ */
 export async function updateCard(id, bookingId, token, blocked) {
-    return db_execute("UPDATE cards SET bookingId=?, token=?, blocked=? WHERE id=?", [bookingId, token, blocked, id]);
+    return db_execute("UPDATE Cards SET bookingId=?, token=?, blocked=? WHERE id=?", [bookingId, token, blocked, id]);
 
 }
 
+/**
+ * @note updated to schema 13.dec.2024
+ */
 export async function insertCard(id, bookingId, token, blocked) {
-    return db_execute("INSERT INTO cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
+    return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
 }
 
 export async function removeCardByUUID(uuid){
