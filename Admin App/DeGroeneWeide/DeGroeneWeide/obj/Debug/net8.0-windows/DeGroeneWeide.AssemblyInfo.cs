@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DeGroeneWeide")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb64fe23322768959f2a025ccb633fee9139a759")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bf2be258baef70e0eab8a2e3ee857a228899f1c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DeGroeneWeide")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DeGroeneWeide")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
