@@ -1,9 +1,11 @@
 import express from "express";
 import APIRouter from "./api/index.js";
-import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards } from "./db.js";
+import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, delete_db_lmao, updateCard, deleteCards, removeCardByID } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp } from "./util.js";
+import * as fs from "fs";
 
 import config from "./config.js";
+import path from "path";
 
 // private api
 const app = express();
@@ -55,16 +57,27 @@ app.use((err, req, res, next) => {
 app.listen(config.privateServerPort, async () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
 
-    if (config.environment === "dev") routes = routesFromApp(app);
+    if (config.environment === "dev") {
+        routes = routesFromApp(app);
 
-    // add a few mockup values
-    const cards = await getAllCards();
-    if (cards.length === 0) {
-        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
-        insertCard(Math.floor(Math.random() * 100), 0, 0, 0, 0, false);
+        // tests
+
+        // DELETES ENTIRE DB
+        // await delete_db_lmao();
+
+        // // add mockup cards
+        // info_log("running tests...\n\n\n");
+        // console.log("adding cards");
+        // await insertCard("cardid1", null, "cardtoken1", false);
+        // await insertCard("cardid2", null, "cardtoken2", false);
+        // await insertCard("cardid3", null, "cardtoken3", false);
+
+        // console.log("all cards:");
+        // let cards = await getAllCards();
+        // console.log(cards);
+
+
+
     }
 
     periodicActivityUpdate();
@@ -73,9 +86,9 @@ app.listen(config.privateServerPort, async () => {
 // periodically update the inactive readers
 async function periodicActivityUpdate() {
 
-    info_log("periodic reader activity check...");
+    const rows = await readerFailedPingSetInactive(24 * 60 * 60);
 
-    await readerFailedPingSetInactive();
+    if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
 
     setTimeout(periodicActivityUpdate, 300000);
 
