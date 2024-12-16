@@ -257,27 +257,27 @@ export async function insertCard(id, bookingId, token, blocked) {
 }
 
 export async function removeCardByUUID(uuid){
-    return db_execute("DELETE FROM cards WHERE card_uuid = ?", [uuid]);
+    return db_execute("DELETE FROM Cards WHERE card_uuid = ?", [uuid]);
 }
 
 export async function removeCardByID(id) {
-    return db_execute("DELETE FROM cards WHERE id = ?", [id]);
+    return db_execute("DELETE FROM Cards WHERE id = ?", [id]);
 }
 
 export async function getCardByUUID(uuid){
-    return db_query("SELECT * FROM cards WHERE cards_uuid = ?", [uuid]);
+    return db_query("SELECT * FROM Cards WHERE cards_uuid = ?", [uuid]);
 }
 
 export async function getCardById(id){
-    return db_query("SELECT * FROM cards WHERE id = ?", [id]);
+    return db_query("SELECT * FROM Cards WHERE id = ?", [id]);
 }
 
 export async function getCardTokenByCardUuid(card_uuid){
-   return db_query("SELECT token FROM cards WHERE card_uuid = ?", [card_uuid]);
+   return db_query("SELECT token FROM Cards WHERE card_uuid = ?", [card_uuid]);
 }
 
 export async function removeCardByBookingId(bookingId){
-    return db_execute("DELETE FROM cards WHERE bookingId = ?", [bookingId]);
+    return db_execute("DELETE FROM Cards WHERE bookingId = ?", [bookingId]);
 }
 
 
