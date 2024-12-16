@@ -1,4 +1,11 @@
-import sqlite3 from 'sqlite3';
+/*
+
+sqlite error codes: https://www.sqlite.org/rescode.html
+might be convenient
+
+*/
+
+import Database from "better-sqlite3"
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
@@ -9,20 +16,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const dbPath = path.resolve(__dirname, 'data.db');
-let db = new sqlite3.Database(dbPath);
+const db = new Database(dbPath);
+db.pragma('journal_mode = WAL');
 
 /**
  * Queries the database
  * @param {string} query sqlite query
  * @param {any[]} params sequentially replace '?' in query with value
- * @returns {Promise<Error|any[]>}
+ * @returns {Promise<Database.SqliteError|any[]>}
  */
 export async function db_query(query, params) {
     return new Promise((resolve, reject) => {
-        db.all(query, params, (err, rows) => {
-            if (err) reject(err);
-            resolve(rows);
-        });
+        try {
+            if (params === undefined) params = [];
+            resolve(db.prepare(query).all(...params));
+        } catch(e) {
+            reject(e);
+        }
     });
 }
 
@@ -30,145 +40,145 @@ export async function db_query(query, params) {
  * Runs a query on the database. Does not return data
  * @param {string} query sqlite query
  * @param {any[]} params sequentially replace '?' in query with value
- * @returns {Promise<Error|null>}
+ * @returns {Promise<Database.SqliteError|null>}
  */
 export async function db_execute(query, params) {
     return new Promise((resolve, reject) => {
-        db.run(query, params, (err, rows) => {
-            if (err) reject(err);
-            resolve(null);
-        });
+        try {
+            if (params === undefined) params = [];
+            resolve(db.prepare(query).run(...params));
+        } catch(e) {
+            reject(e);
+        }
     });
 }
 
 // Wordt uitgevoerd zodra de server gerunned wordt.
 export async function initializeDB() {
-    db.serialize(() => {
-        db.run(`
-            CREATE TABLE IF NOT EXISTS Customers (
-                id TEXT PRIMARY KEY NOT NULL,
-                firstName TEXT NOT NULL,
-                middleName TEXT,
-                lastName TEXT NOT NULL,
-                maySave BOOLEAN,
-                birthDate TEXT,
-                creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                blacklisted BOOLEAN,
-                phoneNumber TEXT NOT NULL,
-                mailAddress TEXT NOT NULL
-            )
-        `);
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS Customers (
+            id TEXT PRIMARY KEY NOT NULL,
+            firstName TEXT NOT NULL,
+            middleName TEXT,
+            lastName TEXT NOT NULL,
+            maySave BOOLEAN,
+            birthDate TEXT,
+            creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            blacklisted BOOLEAN,
+            phoneNumber TEXT NOT NULL,
+            mailAddress TEXT NOT NULL
+        )
+    `);
 
-        db.run(`
-            CREATE TABLE IF NOT EXISTS Bookings (
-                id TEXT PRIMARY KEY NOT NULL,
-                customerId TEXT NOT NULL, 
-                startDate DATETIME NOT NULL,
-                endDate DATETIME NOT NULL,
-                amountPeople INT NOT NULL,
-                FOREIGN KEY (customerId) REFERENCES Customers (id)
-            )
-        `);
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS Bookings (
+            id TEXT PRIMARY KEY NOT NULL,
+            customerId TEXT NOT NULL, 
+            startDate DATETIME NOT NULL,
+            endDate DATETIME NOT NULL,
+            amountPeople INT NOT NULL,
+            FOREIGN KEY (customerId) REFERENCES Customers (id)
+        )
+    `);
 
-        db.run(`CREATE TABLE IF NOT EXISTS Payments (
-                id TEXT PRIMARY KEY NOT NULL,
-                bookingId TEXT NOT NULL,
-                amount INT NOT NULL,
-                hasPaid BOOLEAN NOT NULL,
-                note TEXT,
-                FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-        )`);
+    await db_execute(`CREATE TABLE IF NOT EXISTS Payments (
+            id TEXT PRIMARY KEY NOT NULL,
+            bookingId TEXT NOT NULL,
+            amount INT NOT NULL,
+            hasPaid BOOLEAN NOT NULL,
+            note TEXT,
+            FOREIGN KEY (bookingId) REFERENCES Bookings (id)
+    )`);
 
-        // id is the uuid on the card
-        db.run(`
-            CREATE TABLE IF NOT EXISTS Cards (
-                id TEXT PRIMARY KEY NOT NULL,
-                bookingId TEXT,
-                token TEXT NOT NULL,
-                blocked BOOLEAN NOT NULL,
-                FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-            )
-        `);
+    // id is the uuid on the card
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS Cards (
+            id TEXT PRIMARY KEY NOT NULL,
+            bookingId TEXT,
+            token TEXT NOT NULL,
+            blocked BOOLEAN NOT NULL,
+            FOREIGN KEY (bookingId) REFERENCES Bookings (id)
+        )
+    `);
 
-        db.run(`
-            CREATE TABLE IF NOT EXISTS AuthLevels (
-                id TEXT PRIMARY KEY NOT NULL,
-                name TEXT NOT NULL
-            )
-        `);
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS AuthLevels (
+            id TEXT PRIMARY KEY NOT NULL,
+            name TEXT NOT NULL UNIQUE
+        )
+    `);
 
-        db.run(`
-            CREATE TABLE IF NOT EXISTS AmenityTypes (
-                id TEXT PRIMARY KEY NOT NULL,
-                name TEXT NOT NULL
-            )
-        `);
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS AmenityTypes (
+            id TEXT PRIMARY KEY NOT NULL,
+            name TEXT NOT NULL
+        )
+    `);
 
-        // id is currently the md5 hash of a reader's mac address
-        // amenityId can be null for when a reader is first initialized
-        db.run(`
-            CREATE TABLE IF NOT EXISTS Readers (
-                id TEXT PRIMARY KEY NOT NULL,
-                batteryPercentage INT,
-                amenityId TEXT,
-                lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                name TEXT NOT NULL,
-                active BOOLEAN,
-                FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
-            )
-        `);
+    // id is currently the md5 hash of a reader's mac address
+    // amenityId can be null for when a reader is first initialized
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS Readers (
+            id TEXT PRIMARY KEY NOT NULL,
+            batteryPercentage INT,
+            amenityId TEXT,
+            lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            name TEXT NOT NULL,
+            active BOOLEAN,
+            FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
+        )
+    `);
 
-        db.run(`
-            CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
-                readerId TEXT NOT NULL,
-                authLevelId TEXT NOT NULL,
-                FOREIGN KEY (readerId) REFERENCES Readers (id),
-                FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id)
-            )    
-        `)
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
+            readerId TEXT NOT NULL,
+            authLevelId TEXT NOT NULL,
+            FOREIGN KEY (readerId) REFERENCES Readers (id) ON DELETE CASCADE,
+            FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
+        )
+    `)
 
-        // surfaceArea wordt nu niet gebruikt, idk waarom we die nu hebben
-        db.run(`
-            CREATE TABLE IF NOT EXISTS ShelterTypes (
-                id TEXT NOT NULL,
-                name TEXT NOT NULL,
-                surfaceArea INT NOT NULL
-            )
-        `);
+    // surfaceArea wordt nu niet gebruikt, idk waarom we die nu hebben
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS ShelterTypes (
+            id TEXT NOT NULL,
+            name TEXT NOT NULL,
+            surfaceArea INT NOT NULL
+        )
+    `);
 
-        db.run(`
-            CREATE TABLE IF NOT EXISTS ShelterBookingJunctions (
-                shelterId TEXT NOT NULL,
-                bookingId TEXT NOT NULL,
-                FOREIGN KEY (shelterId) REFERENCES ShelterTypes (id),
-                FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-            )
-        `);
+    await db_execute(`
+        CREATE TABLE IF NOT EXISTS ShelterBookingJunctions (
+            shelterId TEXT NOT NULL,
+            bookingId TEXT NOT NULL,
+            FOREIGN KEY (shelterId) REFERENCES ShelterTypes (id),
+            FOREIGN KEY (bookingId) REFERENCES Bookings (id)
+        )
+    `);
 
-        /* triggers */
+    /* triggers */
 
-        db.run(`
-            CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
-            AFTER INSERT ON Readers
-            FOR EACH ROW
-            BEGIN
-                UPDATE Readers
-                SET lastPing = strftime('%s', 'now')
-                WHERE rowid = new.rowid;
-            END
-        `);
+    await db_execute(`
+        CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
+        AFTER INSERT ON Readers
+        FOR EACH ROW
+        BEGIN
+            UPDATE Readers
+            SET lastPing = strftime('%s', 'now')
+            WHERE rowid = new.rowid;
+        END
+    `);
 
-        db.run(`
-            CREATE TRIGGER IF NOT EXISTS updateLastPingOnUpdate
-            AFTER UPDATE ON Readers
-            FOR EACH ROW
-            BEGIN
-                UPDATE Readers
-                SET lastPing = strftime('%s', 'now')
-                WHERE rowid = new.rowid;
-            END
-        `);
-    });
+    await db_execute(`
+        CREATE TRIGGER IF NOT EXISTS updateLastPingOnUpdate
+        AFTER UPDATE ON Readers
+        FOR EACH ROW
+        BEGIN
+            UPDATE Readers
+            SET lastPing = strftime('%s', 'now')
+            WHERE rowid = new.rowid;
+        END
+    `);
 }
 
 /**
@@ -213,7 +223,7 @@ export async function getReader(id) {
  */
 export async function readerFailedPingSetInactive(maxInactiveSeconds) {
 
-    return db_query("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > ? AND active = 1", [maxInactiveSeconds]);
+    return db_execute("UPDATE Readers SET active = 0 WHERE (strftime('%s', 'now') - strftime('%s', lastPing)) > ? AND active = 1", [maxInactiveSeconds]);
 
 }
 
@@ -307,11 +317,4 @@ export async function blacklistCustomer(mailAddress, active) {
 
 export async function deleteCustomer(mailAddress){
     return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
-}
-
-export async function delete_db_lmao() {
-    await new Promise((resolve) => db.close(() => resolve()));
-    fs.unlinkSync(dbPath);
-    db = new sqlite3.Database(dbPath);
-    await initializeDB();
 }
