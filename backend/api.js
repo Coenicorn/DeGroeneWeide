@@ -2,8 +2,10 @@ import express from "express";
 import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, delete_db_lmao, updateCard, deleteCards, removeCardByID } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp } from "./util.js";
+import * as fs from "fs";
 
 import config from "./config.js";
+import path from "path";
 
 // private api
 const app = express();
