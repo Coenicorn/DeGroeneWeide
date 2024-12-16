@@ -5,7 +5,7 @@ import { createHash } from "crypto";
 function _log(msg, type) {
     if (config.environment === "dev") {
         let d = new Date();
-        console.log(`[${d.toLocaleDateString()}][${type}] ${msg}`);
+        console.log(`[${d.toLocaleTimeString()}][${type}] ${msg}`);
     } else {
         console.log(`[${type}] ${msg}`);
     }
