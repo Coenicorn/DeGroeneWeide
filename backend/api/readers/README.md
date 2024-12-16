@@ -60,16 +60,15 @@ Request single reader by ID
 
 ## `POST /updateReader`
 
-Update editable fields of a reader in the database
+Update editable fields of a reader in the database.
+The only editable fields are listed below
 
 ## request
 
 ```json
 {
-  "reader": {
-    "id": string,
-    "name": string | null,
-    "amenityId": string | null
-  }
+  "id": string,
+  "name": string | null,
+  "amenityId": string | null
 }
 ```
