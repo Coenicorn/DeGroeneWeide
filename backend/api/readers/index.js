@@ -90,12 +90,12 @@ ReadersRouter.post("/getReader", async (req, res) => {
 });
 
 ReadersRouter.post("/updateReader", async (req, res) => {
-    const reader = req.body.reader;
+    const reader = req.body;
 
     if (reader === undefined) return respondwithstatus(res, 400, "body is missing 'reader' object");
     if (reader.id === undefined) return respondwithstatus(res, 400, "reader.id is not defined");
-    if (reader.name === undefined) return respondwithstatus(res, 400, "reader.name is not defined");
-    if (reader.amenityId === undefined) return respondwithstatus(res, 400, "reader.amenityId is not defined");
+    if (reader.name === undefined) return respondwithstatus(res, 400, "reader.name is not defined, when not needed use 'null'");
+    if (reader.amenityId === undefined) return respondwithstatus(res, 400, "reader.amenityId is not defined, when not needed use 'null'");
 
     try {
 
