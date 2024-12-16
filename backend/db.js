@@ -119,7 +119,7 @@ export async function initializeDB() {
     // amenityId can be null for when a reader is first initialized
     await db_execute(`
         CREATE TABLE IF NOT EXISTS Readers (
-            id TEXT PRIMARY KEY NOT NULL,
+            id TEXT PRIMARY KEY NOT NULL UNIQUE,
             batteryPercentage INT,
             amenityId TEXT,
             lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -130,9 +130,20 @@ export async function initializeDB() {
     `);
 
     await db_execute(`
+        CREATE TABLE IF NOT EXISTS CardAuthJunctions (
+            cardId TEXT NOT NULL,
+            authLevelId TEXT NOT NULL,
+            PRIMARY KEY (cardId, authLevelId),
+            FOREIGN KEY (cardId) REFERENCES Cards (id) ON DELETE CASCADE,
+            FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
+        )
+    `)
+
+    await db_execute(`
         CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
             readerId TEXT NOT NULL,
             authLevelId TEXT NOT NULL,
+            UNIQUE (readerId, authLevelId),
             FOREIGN KEY (readerId) REFERENCES Readers (id) ON DELETE CASCADE,
             FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
         )

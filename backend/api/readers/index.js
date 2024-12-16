@@ -47,7 +47,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         return respondwithstatus(res, 500, "something went wrong");
     }
 
-    respondwithstatus(res, 200, "OK");
+    respondwithstatus(res, 200, "OK", { id: readerId });
 
 });
 
