@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 using System.Text;
 
 namespace DeGroeneWeide
@@ -14,7 +9,7 @@ namespace DeGroeneWeide
         public static List<Reader>? Readers;
         public static List<Card>? Cards;
 
-        // Haalt alle readers uit de database op.
+        // Haalt alle readers uit de database op.    
         public static void GetReaders()
         {
             using var client = new HttpClient();
@@ -115,5 +110,30 @@ namespace DeGroeneWeide
 
             var response = client.PostAsync(endpoint, content);
         }
+
+        // Je kunt alleen 'name' en 'amenityId' wijzigen.
+        public static void EditReader(Reader reader)
+        {
+            //test om te kijken of hij het aanpast
+            reader.SetAmenity(10);
+
+            using HttpClient client = new HttpClient();
+
+            Uri endpoint = new Uri("http://92.108.61.219:13999/api/readers/updateReader");
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+            var data = new
+            {
+                name = reader.location,
+                reader.amenityId
+            };
+
+            var json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = client.PostAsync(endpoint.ToString(), content);
+
+
+        }
+
     }
 }

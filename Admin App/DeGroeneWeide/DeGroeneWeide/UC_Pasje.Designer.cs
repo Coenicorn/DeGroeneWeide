@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Pasje));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             bookings_date = new Guna.UI2.WinForms.Guna2HtmlLabel();
             bookings_number = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -60,14 +60,15 @@
             guna2Panel1.Controls.Add(guna2ImageButton1);
             guna2Panel1.Controls.Add(level_name);
             guna2Panel1.Controls.Add(level_color);
-            guna2Panel1.CustomizableEdges = customizableEdges9;
+            guna2Panel1.CustomizableEdges = customizableEdges4;
             guna2Panel1.FillColor = Color.White;
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Margin = new Padding(30, 3, 3, 3);
             guna2Panel1.Name = "guna2Panel1";
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges5;
             guna2Panel1.Size = new Size(350, 220);
             guna2Panel1.TabIndex = 0;
+            guna2Panel1.Paint += guna2Panel1_Paint;
             // 
             // bookings_date
             // 
@@ -139,7 +140,7 @@
             guna2ImageButton1.Location = new Point(323, 3);
             guna2ImageButton1.Name = "guna2ImageButton1";
             guna2ImageButton1.PressedState.ImageSize = new Size(64, 64);
-            guna2ImageButton1.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            guna2ImageButton1.ShadowDecoration.CustomizableEdges = customizableEdges1;
             guna2ImageButton1.Size = new Size(24, 24);
             guna2ImageButton1.TabIndex = 2;
             // 
@@ -156,11 +157,11 @@
             // level_color
             // 
             level_color.BorderRadius = 35;
-            level_color.CustomizableEdges = customizableEdges7;
+            level_color.CustomizableEdges = customizableEdges2;
             level_color.FillColor = Color.Green;
             level_color.Location = new Point(13, 12);
             level_color.Name = "level_color";
-            level_color.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            level_color.ShadowDecoration.CustomizableEdges = customizableEdges3;
             level_color.Size = new Size(70, 70);
             level_color.TabIndex = 0;
             // 

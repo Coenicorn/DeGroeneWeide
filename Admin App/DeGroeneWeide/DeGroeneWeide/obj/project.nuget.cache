@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "79Z63sw0Zho=",
+  "dgSpecHash": "+IctEfE9otU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\DeGroeneWeide.csproj",
+  "projectFilePath": "C:\\Users\\tobia\\source\\repos\\Coenicorn\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\DeGroeneWeide.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\jurre\\.nuget\\packages\\guna.ui2.winforms\\2.0.4.6\\guna.ui2.winforms.2.0.4.6.nupkg.sha512",
-    "C:\\Users\\jurre\\.nuget\\packages\\system.codedom\\7.0.0\\system.codedom.7.0.0.nupkg.sha512",
-    "C:\\Users\\jurre\\.nuget\\packages\\system.management\\7.0.0\\system.management.7.0.0.nupkg.sha512"
+    "C:\\Users\\tobia\\.nuget\\packages\\guna.ui2.winforms\\2.0.4.6\\guna.ui2.winforms.2.0.4.6.nupkg.sha512",
+    "C:\\Users\\tobia\\.nuget\\packages\\system.codedom\\7.0.0\\system.codedom.7.0.0.nupkg.sha512",
+    "C:\\Users\\tobia\\.nuget\\packages\\system.management\\7.0.0\\system.management.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

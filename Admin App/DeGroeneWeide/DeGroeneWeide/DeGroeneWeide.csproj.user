@@ -10,7 +10,10 @@
     <Compile Update="UC_PasjesPagina.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="UC_ScannersPagina.cs">
+    <Compile Update="UC_ScannerPagina.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UC_Scanners.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
