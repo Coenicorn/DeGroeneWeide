@@ -111,5 +111,63 @@ AuthRouter.post("/linkReaderAuth", async (req, res) => {
 
 });
 
+AuthRouter.post("/linkCardAuth", async (req, res) => {
+
+    const authLevelId = req.body.authLevelId;
+
+    if (authLevelId === undefined) return respondwithstatus(res, 400, "authLevelId is not defined");
+    if (typeof(authLevelId) !== "string") return respondwithstatus(res, 400, "authLevelId is not of type 'string'");
+
+    const cardId = req.body.cardId;
+
+    if (cardId === undefined) return respondwithstatus(res, 400, "cardId is not defined");
+    if (typeof(cardId) !== "string") return respondwithstatus(res, 400, "cardId is not of type 'string'");
+
+    try {
+
+        await db_execute(`
+            INSERT INTO CardAuthJunctions (cardId, authLevelId) VALUES (?,?)  
+        `, [cardId, authLevelId]);
+
+        return respondwithstatus(res, 200, "OK");
+
+    } catch(e) {
+        err_log("error in /linkReaderAuth", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
+
+});
+
+AuthRouter.post("/authenticateCard", async (req, res) => {
+
+    const readerId = req.body.readerId;
+
+    if (readerId === undefined) return respondwithstatus(res, 400, "readerId is not defined");
+    if (typeof(readerId) !== "string") return respondwithstatus(res, 400, "reader is not of type 'string'");
+
+    const cardId = req.body.cardId;
+
+    if (cardId === undefined) return respondwithstatus(res, 400, "cardId is not defined");
+    if (typeof(cardId) !== "string") return respondwithstatus(res, 400, "cardId is not of type 'string'");
+
+    try {
+        const matches = await db_query(`
+            SELECT DISTINCT Cards.id, Readers.id
+            FROM Cards
+            JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
+            JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
+            JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
+            JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
+        `);
+        console.log(matches);
+        respondwithstatus(res, 200, "OK");
+    } catch(e) {
+        err_log("error in /authenticateCard", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
+});
+
 
 export default AuthRouter;

@@ -12,6 +12,18 @@ Lets the server know that a reader is active
 
 ```
 
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
+
+Responds with the id the server has given the reader
+
+```json
+{
+  "id": string
+}
+```
+
 ## `GET /getAllReaders`
 
 Request all known readers

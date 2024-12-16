@@ -104,24 +104,20 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
         const card = req.body;
-        console.log(card);
 
         if (
             !card.id ||
-            !card.card_uuid ||
-            card.level === undefined ||
-            !card.booking_id ||
             !card.token ||
             card.blocked === undefined
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        const result = await insertCard(card.id, card.card_uuid, card.booking_id, card.token, card.level, card.blocked);
+        const result = await insertCard(card.id, card.bookingId, card.token, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
-        console.log("Error tijdens het kaart toevoegen: " + error.message);
+        err_log("Error tijdens het kaart toevoegen", error);
         res.status(500).send("Er is iets fout gegaan tijdens het toevoegen van de kaart.");
     }
 });
