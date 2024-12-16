@@ -266,6 +266,10 @@ export async function insertCard(id, bookingId, token, blocked) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
 }
 
+export async function insertReader(id, batteryPercentage, amenityId, lastPing, name, active) {
+    return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?,?,?)", [id, batteryPercentage, amenityId, lastPing, name, active]);
+}
+
 export async function removeCardByUUID(uuid){
     return db_execute("DELETE FROM Cards WHERE card_uuid = ?", [uuid]);
 }
