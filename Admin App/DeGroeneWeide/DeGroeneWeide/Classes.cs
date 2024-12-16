@@ -35,9 +35,17 @@ namespace DeGroeneWeide
         [JsonPropertyName("lastUpdate")]
         public string? lastUpdate { get; set; }
 
+        [JsonPropertyName("amenityId")]
+        public int? amenityId { get; set; }
+
         public void DumpInfo()
         {
             Debug.WriteLine($"Id: {id}, Mac: {macAddress}, Location: {location}, Battery: {battery}, Active: {active}, Last Update: {lastUpdate}");
+        }
+
+        public void SetAmenity(int i)
+        {
+            amenityId = i;
         }
     }
 

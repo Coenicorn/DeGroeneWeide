@@ -124,7 +124,7 @@
             btn_ScannersPagina.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btn_ScannersPagina.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btn_ScannersPagina.FillColor = Color.Empty;
-            btn_ScannersPagina.Font = new Font("Segoe UI Black", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_ScannersPagina.Font = new Font("Arial Narrow", 10.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_ScannersPagina.ForeColor = Color.FromArgb(26, 46, 28);
             btn_ScannersPagina.Location = new Point(195, 5);
             btn_ScannersPagina.Margin = new Padding(2);
@@ -150,7 +150,7 @@
             btn_PasjesPagina.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btn_PasjesPagina.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btn_PasjesPagina.FillColor = Color.Empty;
-            btn_PasjesPagina.Font = new Font("Segoe UI Black", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_PasjesPagina.Font = new Font("Arial Narrow", 10.125F, FontStyle.Bold);
             btn_PasjesPagina.ForeColor = Color.FromArgb(26, 46, 28);
             btn_PasjesPagina.Location = new Point(82, 5);
             btn_PasjesPagina.Margin = new Padding(2);
@@ -169,6 +169,7 @@
             pagina_container.Name = "pagina_container";
             pagina_container.Size = new Size(1920, 998);
             pagina_container.TabIndex = 2;
+            pagina_container.Paint += pagina_container_Paint;
             // 
             // Form1
             // 

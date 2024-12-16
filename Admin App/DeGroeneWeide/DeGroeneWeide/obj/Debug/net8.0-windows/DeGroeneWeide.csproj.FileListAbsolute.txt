@@ -24,3 +24,29 @@ C:\Users\jurre\OneDrive\ICT-Onedrive\Boer Bert\DeGroeneWeide\Admin App\DeGroeneW
 C:\Users\jurre\OneDrive\ICT-Onedrive\Boer Bert\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.UC_Pasje.resources
 C:\Users\jurre\OneDrive\ICT-Onedrive\Boer Bert\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.Properties.Resources.resources
 C:\Users\jurre\OneDrive\ICT-Onedrive\Boer Bert\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.UC_ScannersPagina.resources
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\DeGroeneWeide.exe
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\DeGroeneWeide.deps.json
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\DeGroeneWeide.runtimeconfig.json
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\DeGroeneWeide.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\DeGroeneWeide.pdb
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\Guna.UI2.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\System.Management.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.csproj.AssemblyReference.cache
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.Form1.resources
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.Properties.Resources.resources
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.UC_Pasje.resources
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.UC_PasjesPagina.resources
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.csproj.GenerateResource.cache
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.AssemblyInfoInputs.cache
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.AssemblyInfo.cs
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.csproj.CoreCompileInputs.cache
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.sourcelink.json
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroene.CC91FE34.Up2Date
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\refint\DeGroeneWeide.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.pdb
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.genruntimeconfig.cache
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\ref\DeGroeneWeide.dll
+C:\Users\tobia\source\repos\Coenicorn\DeGroeneWeide\Admin App\DeGroeneWeide\DeGroeneWeide\obj\Debug\net8.0-windows\DeGroeneWeide.UC_Scanners.resources

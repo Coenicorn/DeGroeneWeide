@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DeGroeneWeide
+﻿namespace DeGroeneWeide
 {
     public partial class UC_Pasje : UserControl
     {
@@ -25,7 +15,7 @@ namespace DeGroeneWeide
 
             switch (card.level)
             {
-                case 0: 
+                case 0:
                     level_color.FillColor = Color.Green;
                     level_name.Text = "Gast";
                     break;
@@ -46,6 +36,11 @@ namespace DeGroeneWeide
             bookings_name.Text = "Hier komt voor letter + achternaam";
             bookings_number.Text = $"#{card.booking_id}";
             bookings_date.Text = $"van begin datum tot eind datum";
+        }
+
+        private void guna2Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
