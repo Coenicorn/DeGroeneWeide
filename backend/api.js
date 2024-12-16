@@ -61,7 +61,9 @@ app.listen(config.privateServerPort, async () => {
     if (config.environment === "dev") {
         routes = routesFromApp(app);
 
-        await fetch("http://localhost:3001/api/readers/imalive", {
+        const host = "http://localhost:" + config.privateServerPort;
+
+        await fetch(host+"/api/readers/imalive", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -72,7 +74,7 @@ app.listen(config.privateServerPort, async () => {
                 macAddress: "testmacaddress"
             })
         });
-        await fetch("http://localhost:3001/api/cards/insertCard", {
+        await fetch(host+"/api/cards/insertCard", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -85,7 +87,7 @@ app.listen(config.privateServerPort, async () => {
                 blocked: 0
             })
         });
-        await fetch("http://localhost:3001/api/auth/addAuthLevel", {
+        await fetch(host+"/api/auth/addAuthLevel", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -96,9 +98,9 @@ app.listen(config.privateServerPort, async () => {
             })
         });
 
-        const levels = await fetch("http://localhost:3001/api/auth/getAllAuthLevels").then(data=>data.json());
+        const levels = await fetch(host+"/api/auth/getAllAuthLevels").then(data=>data.json());
 
-        const lrar = await fetch("http://localhost:3001/api/auth/linkReaderAuth", {
+        await fetch(host+"/api/auth/linkReaderAuth", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -110,10 +112,10 @@ app.listen(config.privateServerPort, async () => {
             })
         });
 
-        const cards = await fetch("http://localhost:3001/api/cards/getAllCards").then(data=>data.json());
+        const cards = await fetch(host+"/api/cards/getAllCards").then(data=>data.json());
 
     
-        await fetch("http://localhost:3001/api/auth/linkCardAuth", {
+        await fetch(host+"/api/auth/linkCardAuth", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

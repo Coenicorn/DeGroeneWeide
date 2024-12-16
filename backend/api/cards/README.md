@@ -1,5 +1,5 @@
 ### `GET /api/cards/getAllCards`
-Verkrijgt alle kaarten in JSON-indeling.
+Requests all cards
 
 #### Responses
 
