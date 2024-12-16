@@ -61,7 +61,6 @@ app.listen(config.privateServerPort, async () => {
     if (config.environment === "dev") {
         routes = routesFromApp(app);
 
-
         await fetch("http://localhost:3001/api/readers/imalive", {
             method: "POST",
             headers: {
