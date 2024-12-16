@@ -15,11 +15,12 @@
   "private": true,
   "dependencies": {
     "@dotenvx/dotenvx": "^1.25.1",
+    "better-sqlite3": "^11.7.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.21.1",
     "path": "^0.12.7",
-    "sqlite3": "^5.1.7"
+    "uid": "^2.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

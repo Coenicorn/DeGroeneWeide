@@ -1,6 +1,6 @@
 import express from "express";
 import APIRouter from "./api/index.js";
-import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, delete_db_lmao, updateCard, deleteCards, removeCardByID } from "./db.js";
+import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp } from "./util.js";
 import * as fs from "fs";
 
@@ -60,21 +60,6 @@ app.listen(config.privateServerPort, async () => {
     if (config.environment === "dev") {
         routes = routesFromApp(app);
 
-        // tests
-
-        // DELETES ENTIRE DB
-        // await delete_db_lmao();
-
-        // // add mockup cards
-        // info_log("running tests...\n\n\n");
-        // console.log("adding cards");
-        // await insertCard("cardid1", null, "cardtoken1", false);
-        // await insertCard("cardid2", null, "cardtoken2", false);
-        // await insertCard("cardid3", null, "cardtoken3", false);
-
-        // console.log("all cards:");
-        // let cards = await getAllCards();
-        // console.log(cards);
 
 
 
