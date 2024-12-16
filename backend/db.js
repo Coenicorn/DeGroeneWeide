@@ -195,7 +195,7 @@ export async function registerReader(
  */
 export async function getAllReaders() {
 
-    return db_query("SELECT * FROM readers", []);
+    return db_query("SELECT * FROM Readers", []);
 
 }
 

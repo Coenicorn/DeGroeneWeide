@@ -1,6 +1,6 @@
-import { Router, json } from "express";
-import { err_log, md5hash, respondwithstatus } from "../../util.js";
-import { db_execute, getAllReaders, getReader, registerReader } from "../../db.js";
+import { Router } from "express";
+import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
+import { db_execute, db_query, getAllReaders, getReader, registerReader } from "../../db.js";
 
 const ReadersRouter = new Router();
 
@@ -30,10 +30,10 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         return respondwithstatus(res, 500, "error getting reader");
     }
 
-    if (reader == undefined) {
+    if (reader.length === 0) {
         // no reader with this id exists, create it
         try {
-            await registerReader(macAddress, "front gate");
+            await registerReader(readerId, "no name assigned");
         } catch(e) {
             err_log("error registering new reader", e);
             return respondwithstatus(res, 500, "something went wrong");
@@ -41,14 +41,13 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     }
 
     try {
-        await db_execute("UPDATE Readers SET active=?, battery=? WHERE id=?", [1, battery, readerId]);
+        await db_execute("UPDATE Readers SET active=?, batteryPercentage=? WHERE id=?", [1, battery, readerId]);
     } catch(e) {
         err_log("error updating reader", e);
-        respondwithstatus(res, 500, "something went wrong");
-        return;
+        return respondwithstatus(res, 500, "something went wrong");
     }
 
-    res.send({ status: "success" });
+    respondwithstatus(res, 200, "OK");
 
 });
 
@@ -63,7 +62,7 @@ ReadersRouter.get("/getAllReaders", async (req, res) => {
     }
 });
 
-ReadersRouter.get("/getReader", async (req, res) => {
+ReadersRouter.post("/getReader", async (req, res) => {
     const id = req.body.id;
 
     if (id === undefined) return respondwithstatus(res, 400, "id is undefined");
@@ -72,7 +71,12 @@ ReadersRouter.get("/getReader", async (req, res) => {
     let reader;
 
     try {
-        reader = await getReader(id);
+        // reader = await getReader(id);
+        reader = await db_query(`
+            SELECT * 
+            FROM Readers WHERE id = ?
+            LEFT JOIN booking    
+        `)
     } catch(e) {
         err_log("error getting reader", e);
         return respondwithstatus(res, 500, "couldn't get reader");
@@ -83,6 +87,30 @@ ReadersRouter.get("/getReader", async (req, res) => {
     }
 
     res.json(reader);
+});
+
+ReadersRouter.post("/updateReader", async (req, res) => {
+    const reader = req.body;
+
+    if (reader === undefined) return respondwithstatus(res, 400, "body is missing 'reader' object");
+    if (reader.id === undefined) return respondwithstatus(res, 400, "reader.id is not defined");
+    if (reader.name === undefined) return respondwithstatus(res, 400, "reader.name is not defined, when not needed use 'null'");
+    if (reader.amenityId === undefined) return respondwithstatus(res, 400, "reader.amenityId is not defined, when not needed use 'null'");
+
+    try {
+
+        await db_execute("UPDATE Readers SET name=?,amenityId=?", [reader.name, reader.amenityId]);
+
+    } catch(e) {
+        
+        err_log("/updateReader failed:");
+        console.error(e);
+        return respondwithstatus(res, 500, "something went wrong trying to update a reader");
+
+    }
+
+    respondwithstatus(res, 200, "OK");
+    
 });
 
 export default ReadersRouter;

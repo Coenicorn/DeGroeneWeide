@@ -28,13 +28,8 @@ export function md5hash(str) {
 
 export function hastoAcceptJson(req, res, next) {
     if (req.method !== "POST") return next();
-    if (req.headers["accept"] !== "application/json") {
-        respondwithstatus(res, 400, "'Accept' header must be 'application/json'");
-        return;
-    }
     if (req.headers["content-type"] !== "application/json") {
-        respondwithstatus(res, 400, "'Content-Type' header must be 'application/json'")
-        return;
+        return respondwithstatus(res, 400, "'Content-Type' header must be 'application/json'")
     }
     next();
 }
