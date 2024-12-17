@@ -33,7 +33,7 @@
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 
-/* battery discharge rate is not linear, use lookup table */
+/* battery discharge rate is not linear, use lookup table https://intofpv.com/t-lipo-voltage-quick-chart */
 static const uint8_t battery_percent_lookup[93] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 40, 40, 45, 45, 50, 55, 55, 60, 60, 60, 65, 65, 65, 65, 70, 70, 70, 75, 75, 75, 75, 80, 80, 80, 80, 80, 85, 85, 85, 85, 90, 90, 90, 90, 95, 95, 95, 95, 100, 100
 };
