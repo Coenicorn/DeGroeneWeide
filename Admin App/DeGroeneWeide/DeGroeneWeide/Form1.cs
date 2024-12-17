@@ -7,14 +7,14 @@ namespace DeGroeneWeide
     public partial class Form1 : Form
     {
         public UC_PasjesPagina pasjesPagina = new UC_PasjesPagina();
-        public UC_Scanners scannerPagina = new UC_Scanners();
+        //public UC_Scanners scannerPagina = new UC_Scanners();
 
         public Form1()
         {
             InitializeComponent();
             ApiCalls.GetReaders();
             ApiCalls.GetLastCard();
-            ApiCalls.EditReader(ApiCalls.Readers[0]);
+            //ApiCalls.EditReader(ApiCalls.Readers[0]);
             LoadPage(0);
         }
 
@@ -29,7 +29,7 @@ namespace DeGroeneWeide
             }
             else if (navIndex == 1)
             {
-                pagina_container.Controls.Add(scannerPagina);
+               // pagina_container.Controls.Add(scannerPagina);
             }
             else
             {
