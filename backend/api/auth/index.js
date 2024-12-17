@@ -156,6 +156,8 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
 
     const readerId = md5hash(macAddress);
 
+    info_log("authenticating with cardId " + cardId + " and readerId " + readerId + " and token " + token);
+
     try {
         const matches = await db_query(`
             SELECT DISTINCT Cards.id, Readers.id
