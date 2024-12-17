@@ -351,6 +351,22 @@ void setup()
 	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
 }
 
+uint8_t readBatteryPercentage()
+{
+	uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
+
+	// convert reading to actual read voltage
+	const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
+
+	Serial.print("analog reading: "); Serial.println(analogValue);
+	Serial.print("battery voltage: "); Serial.println(voltage);
+
+	uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
+	Serial.print("battery percentage "); Serial.println(percentage);
+
+	return percentage;
+}
+
 static unsigned long previousMilliseconds = 0;
 static const unsigned long interval = MILLIS_IN_DAY;
 
@@ -366,18 +382,7 @@ void loop()
 
 		previousMilliseconds = currentMilliseconds;
 
-		uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
-
-		// convert reading to actual read voltage
-		const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
-
-		Serial.print("analog reading: "); Serial.println(analogValue);
-		Serial.print("battery voltage: "); Serial.println(voltage);
-
-		uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
-		Serial.print("battery percentage "); Serial.println(percentage);
-
-		sendAlivePing(percentage);
+		sendAlivePing(readBatteryPercentage());
 	
 		if (toolSendAlivePingPressed) delay(1000);
 	}
