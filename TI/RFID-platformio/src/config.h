@@ -7,8 +7,8 @@
 #define RST_PIN 22		// De pin die om de NFC-reader/writer te hard resetten
 #define SS_PIN 5		// De pin die aangesloten is op de SS van de NFC-reader/writer
 
-#define GREEN_LED_PIN 25 // De pin voor het groene led lampje
-#define RED_LED_PIN 26	// De pin voor het rode led lampje
+#define GREEN_LED_PIN 4 // De pin voor het groene led lampje
+#define RED_LED_PIN 2	// De pin voor het rode led lampje
 
 #define BATTERY_MEASURE_PIN 36
 
@@ -51,6 +51,6 @@ inline static uint8_t getBatteryPercentageFromVoltage(float voltage) {
 
 #ifdef IS_DEV_BOARD
 
-    #define BLUE_LED_PIN 33
+    #define BLUE_LED_PIN 16
 
 #endif
