@@ -78,7 +78,7 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 	}
 }
 
-void sendPostRequest(String payload)
+int dumbPostRequest(String payload, String route)
 {
 	if (!WiFi.isConnected()) {
 		Serial.println("not connected :(");
@@ -86,11 +86,11 @@ void sendPostRequest(String payload)
 		return;
 	}
 
-	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive"));
+	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
 	http.addHeader("accept", "application/json");
 	http.addHeader("content-type", "application/json"); // required by server for post
 
-	int httpResponseCode = http.POST(payload); // Send POST with payload
+	int httpResponseCode = http.POST(payload), ret; // Send POST with payload
 
 	if (httpResponseCode > 0) {
 		// success
@@ -98,36 +98,23 @@ void sendPostRequest(String payload)
 
 		String response = http.getString();
 		Serial.println(response);
+		
+		ret = 0;
 	} else {
 		Serial.print("http request error: "); Serial.println(http.errorToString(httpResponseCode));
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
+
+		ret = 1;
 	}
 
 	// End HTTP connection
 	http.end();
+
+	return ret;
 }
 
-void sendAlivePing(uint8_t batteryPercentage) {
-	sendPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(batteryPercentage) + "}");
-}
-
-// checkt of de gegeven token de
-bool validate_token(byte *buffer)
-{
-	// bool checked = true;
-
-	// for (int i = 0; i < bufferSize; i++)
-	// {
-	// 	if (buffer[i] != correctToken[i])
-	// 	{
-	// 		checked = false;
-	// 	}
-	// }
-
-	// return checked;
-
-	// compare buffer with correctToken, memcpy returns 0 if they are equal
-	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES));
+int sendAlivePing(uint8_t batteryPercentage) {
+	return dumbPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(batteryPercentage) + "}", "/readers/imalive");
 }
 
 /**
@@ -326,11 +313,6 @@ void initPins(void) {
 
 }
 
-// returns true if card's rank is lower than that of the reader
-bool checkAccess(char received_card_level, char received_reader_level){
-	return received_card_level < received_reader_level;
-}
-
 void setup()
 {
 	initPins();
@@ -365,6 +347,11 @@ uint8_t readBatteryPercentage()
 	Serial.print("battery percentage "); Serial.println(percentage);
 
 	return percentage;
+}
+
+int authenticateToken(String token, String uuid) {
+
+	return dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
 }
 
 static unsigned long previousMilliseconds = 0;
@@ -461,8 +448,9 @@ void loop()
 	}
 #endif
 
-	// check of de token geldig is
-	if (validate_token(tokenBuffer))
+
+	// authenticate token with server
+	if (authenticateToken(/* TIM FIX DIT PLSSS */))
 	{
 		Serial.println(F("token invalid"));
 
@@ -471,19 +459,10 @@ void loop()
 		goto prepare_new_card;
 	}
 
+
+
 	// token is geldig
 	Serial.println(F("token valid"));
-
-
-	// Check if rank is high enough
-	if (checkAccess(1,0))
-	{
-		Serial.println("Access denied, card rank too low");
-
-		flash_led(RED_LED_PIN);
-
-		goto prepare_new_card;
-	}
 
 	// Rank is high enough
 	Serial.println("Acces granted");
