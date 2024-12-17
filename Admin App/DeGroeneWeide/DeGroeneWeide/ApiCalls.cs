@@ -64,11 +64,10 @@ namespace DeGroeneWeide
         {
             try
             {
-                using var client = new HttpClient();
+                HttpClient client = new();
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                var endpoint = new Uri("http://92.108.61.219:13999/api/cards/getAllCards");
-                var result = await client.GetAsync(endpoint);
+                var result = await client.GetAsync("http://92.108.61.219:13999/api/cards/getAllCards");
                 var json = await result.Content.ReadAsStringAsync();
                 Debug.WriteLine(json);
 
@@ -92,9 +91,8 @@ namespace DeGroeneWeide
         // Voegt een pasje toe aan de database
         public static void AddCard(int booking_Id, string card_Uuid)
         {
-            using var client = new HttpClient();
+            HttpClient client = new();
 
-            var endpoint = new Uri("http://example.com/api/data");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
             var data = new
@@ -108,7 +106,7 @@ namespace DeGroeneWeide
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = client.PostAsync(endpoint, content);
+            var response = client.PostAsync("http://example.com/api/data", content);
         }
 
         // Je kunt alleen 'name' en 'amenityId' wijzigen.
