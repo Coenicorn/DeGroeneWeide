@@ -8,12 +8,13 @@ If I were to write this code again, I'd write in FreeRTOS because of the subrout
 
 
 #include <SPI.h>
-#include <MFRC522.h>
+#include <MFRC522.h> 
 #include <EEPROM.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
 #include <HTTPClient.h>
 #include <Arduino.h>
+
 
 #include "config.h"
 
@@ -83,7 +84,7 @@ int dumbPostRequest(String payload, String route)
 	if (!WiFi.isConnected()) {
 		Serial.println("not connected :(");
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
-		return;
+		return 1;
 	}
 
 	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
@@ -301,6 +302,7 @@ void initPins(void) {
 	pinMode(RED_LED_PIN, OUTPUT);
 	pinMode(WIFI_STATUS_PIN, OUTPUT);
 	pinMode(BATTERY_MEASURE_PIN, INPUT);
+	
 
 #ifdef IS_DEV_BOARD
 	// tool pins
@@ -358,7 +360,8 @@ static unsigned long previousMilliseconds = 0;
 static const unsigned long interval = MILLIS_IN_DAY;
 
 void loop()
-{
+{	
+
 	int toolSendAlivePingPressed = digitalRead(PIN_TOOL_PINGALIVE);
 
 	// periodically send an alive ping to the server
@@ -450,7 +453,7 @@ void loop()
 
 
 	// authenticate token with server
-	if (authenticateToken(/* TIM FIX DIT PLSSS */))
+	if (authenticateToken("2", "8e8ac493744ddd291959be919027f8aa"))
 	{
 		Serial.println(F("token invalid"));
 
