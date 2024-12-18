@@ -44,6 +44,10 @@ export function respondwithstatus(res, statusCode, statusMsg, additionalObject) 
     res.status(statusCode).json(ret);
 }
 
+export function respondOK(res) {
+    respondwithstatus(res, 200, "OK");
+}
+
 function routeFromRegexp(regexpStr) {
     let str = "";
     if (typeof(regexpStr) === "string") str = regexpStr;
