@@ -140,7 +140,7 @@ int sendAlivePing(uint8_t batteryPercentage) {
 }
 
 int sendNewTokenToServer(String newToken, String cardId) {
-	int ret = dumbPostRequest("{\"id\":\"" + cardId + "\", \"token\":" + newToken + "}", "/cards/updateCardToken");
+	int ret = dumbPostRequest("{\"id\":\"" + cardId + "\", \"token\":\"" + newToken + "\"}", "/cards/updateCardToken");
 
 	if (ret < 0) return 1;
 	else if (ret == 200) return 0;
