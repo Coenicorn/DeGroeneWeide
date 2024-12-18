@@ -177,7 +177,6 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
         }
         
         info_log("access granted");
-
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /authenticateCard", e);

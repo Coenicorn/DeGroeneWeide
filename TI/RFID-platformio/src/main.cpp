@@ -424,6 +424,64 @@ int authenticateToken(String token, String uuid) {
 	else return 1;
 }
 
+uint8_t getBatteryPercentage() {
+    int analog_value = analogRead(BATTERY_MEASURE_PIN);
+
+    if (analog_value >= 0 && analog_value < 1900) {
+        return 0;
+    } else if (analog_value >= 1900 && analog_value < 2200) {
+        return 10;
+    } else if (analog_value >= 2200 && analog_value < 2220) {
+        return 20;
+    } else if (analog_value >= 2220 && analog_value < 2245) {
+        return 30;
+    } else if (analog_value >= 2245 && analog_value < 2260) {
+        return 40;
+    } else if (analog_value >= 2260 && analog_value < 2285) {
+        return 50;
+    } else if (analog_value >= 2285 && analog_value < 2305) {
+        return 60;
+    } else if (analog_value >= 2305 && analog_value < 2355) {
+        return 70;
+    } else if (analog_value >= 2355 && analog_value < 2395) {
+        return 80;
+    } else if (analog_value >= 2395 && analog_value < 2450) {
+        return 90;
+    } else if (analog_value >= 2450) {
+        return 100;
+    } else {
+        // Return -1 to indicate an invalid analog value
+        return -1;
+    }
+}
+
+uint8_t readBatteryPercentage()
+{
+	uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
+
+	// convert reading to actual read voltage
+	const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
+
+	Serial.print("analog reading: "); Serial.println(analogValue);
+	Serial.print("battery voltage: "); Serial.println(voltage);
+
+	uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
+	Serial.print("battery percentage "); Serial.println(percentage);
+
+	return percentage;
+}
+
+/**
+ * @returns 1 on failure, 0 on success
+ */
+int authenticateToken(String token, String uuid) {
+	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
+
+	if (ret < 0) return 1;
+	else if (ret == 200) return 0;
+	else return 1;
+}
+
 static unsigned long previousMilliseconds = 0;
 static const unsigned long interval = MILLIS_IN_DAY;
 
@@ -490,7 +548,6 @@ void loop()
 	authRet = authenticateToken(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
 
 	Serial.print("auth return value: "); Serial.println(authRet);
-	
 	// authenticate token with server
 	if (authRet)
 	{
@@ -500,8 +557,6 @@ void loop()
 
 		goto prepare_new_card;
 	}
-
-
 
 	// token is geldig
 	Serial.println(F("token valid, access granted"));
@@ -515,10 +570,8 @@ void loop()
 		// send failed, can't reach server, don't update token
 		Serial.println(F("womp womp no connection, not updating token on card"));
 
-		flash_led(RED_LED_PIN);
-
-		goto prepare_new_card;
-	}
+	// token is geldig
+	Serial.println(F("token valid"));
 
 	// token updated on server, now update on card
 

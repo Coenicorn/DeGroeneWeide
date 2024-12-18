@@ -55,4 +55,3 @@ inline static uint8_t getBatteryPercentageFromVoltage(float voltage) {
     #define BLUE_LED_PIN 16
 
 #endif
-
