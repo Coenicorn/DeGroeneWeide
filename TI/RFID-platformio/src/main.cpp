@@ -60,7 +60,26 @@ String readMacAddress(){
 
 static String macAddress; 	// Dit is het mac-address van de esp, deze wordt gebruikt om hem te identificeren in de database
 
+String get_token_string(const byte *buffer, size_t bufferSize) 
+{
+    String token = "";
+    for(int i = 0; i < bufferSize; i++)
+    {
+        token += buffer[i];
+    }
+    return token;
+}
 
+String get_uid_string()
+{
+    String uid = "";
+    for (byte i = 0; i < mfrc522.uid.size; i++) 
+    {
+        uid += mfrc522.uid.uidByte[i];   
+    } 
+    return uid;
+}
+    
 
 /**
  * Prints a byte array to serial
@@ -492,7 +511,7 @@ void loop()
 #endif
 
 
-	authRet = authenticateToken("2", "8e8ac493744ddd291959be919027f8aa");
+	authRet = authenticateToken(get_token_string(tokenBuffer, tokenBufSize), get_uid_string());
 	Serial.print("auth return value: "); Serial.println(authRet);
 	// authenticate token with server
 	if (authRet)
@@ -510,7 +529,7 @@ void loop()
 	Serial.println(F("token valid"));
 
 	// Rank is high enough
-	Serial.println("Acces granted");
+	Serial.println("Access granted");
 
 	// genereer en schrijf een nieuwe token
 	byte newToken[TOKEN_SIZE_BYTES];

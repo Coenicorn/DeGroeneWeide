@@ -48,7 +48,7 @@ inline static uint8_t getBatteryPercentageFromVoltage(float voltage) {
 
 
 // als je geen dev board hebt, comment deze line
-#define IS_DEV_BOARD
+// #define IS_DEV_BOARD
 
 #ifdef IS_DEV_BOARD
 
