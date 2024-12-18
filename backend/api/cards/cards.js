@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import {
+    db_query,
     db_execute,
     deleteCards,
     getAllCards, getAllExtensiveCards,
@@ -275,6 +276,30 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
     res.json({ card: latestScannedCardToWriteID });
 });
 
+CardsRouter.post("/getAllAuthLevels", async (req, res) => {
+    const cardId = req.body.id;
+
+    if (cardId === undefined) return respondwithstatus(res, 400, "cardId is not defined");
+
+    try {
+
+        const authLevels = await db_query(`
+            SELECT AuthLevels.*
+            FROM Cards
+            JOIN CardAuthJunctions ON CardAuthJunctions.cardId = Cards.id
+            JOIN AuthLevels ON AuthLevels.id = CardAuthJunctions.authLevelId
+            WHERE Cards.id = ?
+        `, [cardId]);
+
+        return res.json(authLevels);
+
+    } catch(e) {
+        err_log("error in /getAllAuthLevels (cards)", e);
+        
+        return respondwithstatus(res, 500, "something went wrong");
+    }
+});
+
 CardsRouter.post("/updateCardToken", async (req, res) => {
     const cardId = req.body.id;
     const newToken = req.body.token;
@@ -291,6 +316,7 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /updateCardToken", e);
+      
         return respondwithstatus(res, 500, "something went wrong");
     }
 });
