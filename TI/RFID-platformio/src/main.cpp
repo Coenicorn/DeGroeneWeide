@@ -79,12 +79,16 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 	}
 }
 
+/**
+ * @returns httpresponsecode OR -1 on fail
+ */
 int dumbPostRequest(String payload, String route)
 {
 	if (!WiFi.isConnected()) {
 		Serial.println("not connected :(");
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
-		return 1;
+
+		return -1;
 	}
 
 	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
@@ -99,19 +103,17 @@ int dumbPostRequest(String payload, String route)
 
 		String response = http.getString();
 		Serial.println(response);
-		
-		ret = 0;
 	} else {
 		Serial.print("http request error: "); Serial.println(http.errorToString(httpResponseCode));
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
 
-		ret = 1;
+		return -1;
 	}
 
 	// End HTTP connection
 	http.end();
 
-	return ret;
+	return httpResponseCode;
 }
 
 int sendAlivePing(uint8_t batteryPercentage) {
@@ -382,9 +384,15 @@ uint8_t readBatteryPercentage()
 	return percentage;
 }
 
+/**
+ * @returns 1 on failure, 0 on success
+ */
 int authenticateToken(String token, String uuid) {
+	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
 
-	return dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
+	if (ret < 0) return 1;
+	else if (ret == 200) return 0;
+	else return 1;
 }
 
 static unsigned long previousMilliseconds = 0;
@@ -482,8 +490,10 @@ void loop()
 #endif
 
 
+	const int authRet = authenticateToken("2", "8e8ac493744ddd291959be919027f8aa");
+	Serial.print("auth return value: "); Serial.println(authRet);
 	// authenticate token with server
-	if (authenticateToken("2", "8e8ac493744ddd291959be919027f8aa"))
+	if (authRet)
 	{
 		Serial.println(F("token invalid"));
 
