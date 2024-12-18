@@ -34,3 +34,9 @@ try {
 Note that the `respondwithstatus` function takes one additional argument; an object. This object will, *in the dev environment*, be sent to the client and must thus be of value to the developer. **In production, this object is NOT sent to the client**, so make sure that it doesn't contain anything important to the client. Instead, send those in the status string.
 
 The status string **must not** contain any implementation-specific data, such as entire error objects (`Error`), error object status messages (`Error.message`) or anything that might give away some information about the backend.
+
+## Responding to requests in routes
+
+Whenever the server is responding to a client request with data, you may respond by directly calling the appropriate function on the `response` object (i.e. `res.json({ data: someDataObject })`). **IN ALL OTHER CASES** you **must** use the `respondwithstatus` function. This is to ensure that all server responses are similar, and reduces confusion among backend developers, as well as among the people who are calling the routes (i.e. Jurre). This way, we can standardize status messages and responses.
+
+An exception here is an empty `200` response. In this case, you **must** use the `respondOK` function in `util.js`. When you inspect this function, it is just a wrapper for `respondwithstatus(res, 200, "OK")`. Even so, it is good practice to standardize this response, because it is used quite often.
