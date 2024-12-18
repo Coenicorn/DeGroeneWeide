@@ -8,19 +8,30 @@ namespace DeGroeneWeide
     {
         public static List<Reader>? Readers;
         public static List<Card>? Cards;
+        public static HttpClient client = new(); 
 
         // Haalt alle readers uit de database op.    
-        public static void GetReaders()
+        public static async Task GetReaders()
         {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
 
-            var endpoint = new Uri("http://92.108.61.219:13999/api/readers/getAllReaders");
-            var result = client.GetAsync(endpoint).Result;
-            var json = result.Content.ReadAsStringAsync().Result;
-            Debug.WriteLine(json);
+            try
+            {
+                HttpResponseMessage result = await client.GetAsync("http://localhost:3001/api/readers/getAllReaders");
+                result.EnsureSuccessStatusCode();
 
-            Readers = JsonSerializer.Deserialize<List<Reader>>(json);
+                string json = await result.Content.ReadAsStringAsync();
+                Debug.WriteLine("Alle Readers: " + json);
+
+                Readers = JsonSerializer.Deserialize<List<Reader>>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
 
             if(Readers != null)
             {
@@ -37,7 +48,7 @@ namespace DeGroeneWeide
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            var endpoint = new Uri("http://92.108.61.219:13999/api/cards/getNewestCardToWrite");
+            var endpoint = new Uri("http://localhost:3001/api/cards/getNewestCardToWrite");
             var result = client.GetAsync(endpoint).Result;
             var json = result.Content.ReadAsStringAsync().Result;
             Debug.WriteLine(json);
@@ -67,7 +78,7 @@ namespace DeGroeneWeide
                 HttpClient client = new();
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                var result = await client.GetAsync("http://92.108.61.219:13999/api/cards/getAllCards");
+                var result = await client.GetAsync("http://localhost:3001/api/cards/getAllCards");
                 var json = await result.Content.ReadAsStringAsync();
                 Debug.WriteLine(json);
 
@@ -113,22 +124,19 @@ namespace DeGroeneWeide
         public static void EditReader(Reader reader)
         {
             //test om te kijken of hij het aanpast
-            reader.SetAmenity(10);
+            //reader.SetAmenity(10);
 
-            using HttpClient client = new HttpClient();
-
-            Uri endpoint = new Uri("http://92.108.61.219:13999/api/readers/updateReader");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
             var data = new
             {
-                name = reader.location,
+                name = reader.name,
                 reader.amenityId
             };
 
             var json = JsonSerializer.Serialize(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = client.PostAsync(endpoint.ToString(), content);
+            var response = client.PostAsync("http://localhost:3001/api/readers/updateReader".ToString(), content);
 
 
         }
