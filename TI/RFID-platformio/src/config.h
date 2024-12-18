@@ -7,8 +7,8 @@
 #define RST_PIN 22		// De pin die om de NFC-reader/writer te hard resetten
 #define SS_PIN 5		// De pin die aangesloten is op de SS van de NFC-reader/writer
 
-#define GREEN_LED_PIN 25 // De pin voor het groene led lampje
-#define RED_LED_PIN 26	// De pin voor het rode led lampje
+#define GREEN_LED_PIN 4 // De pin voor het groene led lampje
+#define RED_LED_PIN 2	// De pin voor het rode led lampje
 
 #define BATTERY_MEASURE_PIN 36
 
@@ -32,6 +32,7 @@
 
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
+#define BAT_ADC = 36
 
 /* battery discharge rate is not linear, use lookup table */
 static const uint8_t battery_percent_lookup[93] = {
@@ -47,10 +48,10 @@ inline static uint8_t getBatteryPercentageFromVoltage(float voltage) {
 
 
 // als je geen dev board hebt, comment deze line
-#define IS_DEV_BOARD
+// #define IS_DEV_BOARD
 
 #ifdef IS_DEV_BOARD
 
-    #define BLUE_LED_PIN 33
+    #define BLUE_LED_PIN 16
 
 #endif

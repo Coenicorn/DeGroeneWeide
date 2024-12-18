@@ -40,6 +40,10 @@ Responds with the internal ID of the new authLevel
 
 ```
 
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
+
 # `POST /deleteAuthLevel`
 
 ## request
@@ -75,9 +79,7 @@ Responds with the internal ID of the new authLevel
 ]
 ```
 
-# `GET /linkReaderAuth`
-
-
+# `POST /linkReaderAuth`
 
 ## request
 
@@ -99,5 +101,24 @@ Responds with the internal ID of the new authLevel
 }
 ```
 
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))
+
 # `POST /authenticateCard`
 
+## request
+
+```json
+{
+    "macAddress": string,
+    "cardId": string,
+    "token": string
+}
+```
+
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))
+
+#### `401` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))

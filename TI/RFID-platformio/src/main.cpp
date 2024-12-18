@@ -8,12 +8,13 @@ If I were to write this code again, I'd write in FreeRTOS because of the subrout
 
 
 #include <SPI.h>
-#include <MFRC522.h>
+#include <MFRC522.h> 
 #include <EEPROM.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
 #include <HTTPClient.h>
 #include <Arduino.h>
+
 
 #include "config.h"
 
@@ -36,7 +37,7 @@ static MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een 
 
 static HTTPClient http;
 
-static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
+// static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
 // Reads and returns esp's mac-address
 String readMacAddress(){
@@ -59,7 +60,26 @@ String readMacAddress(){
 
 static String macAddress; 	// Dit is het mac-address van de esp, deze wordt gebruikt om hem te identificeren in de database
 
+String byte_array_to_string(const byte *buffer, size_t bufferSize) 
+{
+    String token = "";
+    for(int i = 0; i < bufferSize; i++)
+    {
+        token += buffer[i];
+    }
+    return token;
+}
 
+String get_uid_string()
+{
+    String uid = "";
+    for (byte i = 0; i < mfrc522.uid.size; i++) 
+    {
+        uid += mfrc522.uid.uidByte[i];   
+    } 
+    return uid;
+}
+    
 
 /**
  * Prints a byte array to serial
@@ -78,19 +98,23 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 	}
 }
 
-void sendPostRequest(String payload)
+/**
+ * @returns httpresponsecode OR -1 on fail
+ */
+int dumbPostRequest(String payload, String route)
 {
 	if (!WiFi.isConnected()) {
 		Serial.println("not connected :(");
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
-		return;
+
+		return -1;
 	}
 
-	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + String("/imalive"));
+	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
 	http.addHeader("accept", "application/json");
 	http.addHeader("content-type", "application/json"); // required by server for post
 
-	int httpResponseCode = http.POST(payload); // Send POST with payload
+	int httpResponseCode = http.POST(payload), ret; // Send POST with payload
 
 	if (httpResponseCode > 0) {
 		// success
@@ -101,33 +125,26 @@ void sendPostRequest(String payload)
 	} else {
 		Serial.print("http request error: "); Serial.println(http.errorToString(httpResponseCode));
 		digitalWrite(WIFI_STATUS_PIN, HIGH);
+
+		return -1;
 	}
 
 	// End HTTP connection
 	http.end();
+
+	return httpResponseCode;
 }
 
-void sendAlivePing(uint8_t batteryPercentage) {
-	sendPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(batteryPercentage) + "}");
+int sendAlivePing(uint8_t batteryPercentage) {
+	return dumbPostRequest("{\"macAddress\":\"" + macAddress + "\", \"battery\":" + String(batteryPercentage) + "}", "/readers/imalive");
 }
 
-// checkt of de gegeven token de
-bool validate_token(byte *buffer)
-{
-	// bool checked = true;
+int sendNewTokenToServer(String newToken, String cardId) {
+	int ret = dumbPostRequest("{\"id\":\"" + cardId + "\", \"token\":\"" + newToken + "\"}", "/cards/updateCardToken");
 
-	// for (int i = 0; i < bufferSize; i++)
-	// {
-	// 	if (buffer[i] != correctToken[i])
-	// 	{
-	// 		checked = false;
-	// 	}
-	// }
-
-	// return checked;
-
-	// compare buffer with correctToken, memcpy returns 0 if they are equal
-	return (memcmp(buffer, correctToken, sizeof(byte) * TOKEN_SIZE_BYTES));
+	if (ret < 0) return 1;
+	else if (ret == 200) return 0;
+	else return 1;
 }
 
 /**
@@ -150,10 +167,10 @@ void write_new_token_EEPROM(const byte* token)
 }
 
 // Haalt de data uit de lokale opslag (EEPROM) op en zet deze in de correctToken variabele
-void read_correct_token_EEPROM(byte dest[TOKEN_SIZE_BYTES])
-{
-	EEPROM.readBytes(0x00, dest, TOKEN_SIZE_BYTES);
-}
+// void read_correct_token_EEPROM(byte dest[TOKEN_SIZE_BYTES])
+// {
+// 	EEPROM.readBytes(0x00, dest, TOKEN_SIZE_BYTES);
+// }
 
 /**
  * Start wifiverbinding, wacht niet op verbinding
@@ -314,6 +331,7 @@ void initPins(void) {
 	pinMode(RED_LED_PIN, OUTPUT);
 	pinMode(WIFI_STATUS_PIN, OUTPUT);
 	pinMode(BATTERY_MEASURE_PIN, INPUT);
+	
 
 #ifdef IS_DEV_BOARD
 	// tool pins
@@ -324,11 +342,6 @@ void initPins(void) {
 
 	digitalWrite(WIFI_STATUS_PIN, LOW);
 
-}
-
-// returns true if card's rank is lower than that of the reader
-bool checkAccess(char received_card_level, char received_reader_level){
-	return received_card_level < received_reader_level;
 }
 
 void setup()
@@ -345,17 +358,135 @@ void setup()
 	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x6B, 0x8C, 0x5C, 0x9E, 0x91, 0xAB, 0xC3, 0x10, 0xEF, 0x79, 0xBE, 0xF2, 0xC2, 0x4D, 0xF1, 0xFA };
 	// write_new_token_EEPROM(correctToken_debug);
 
-	read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
+	// read_correct_token_EEPROM(correctToken); // De huidig goede token ophalen uit de EEPROM en deze opslaan in correctToken
 
 
-	Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
+	// Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
+}
+
+uint8_t getBatteryPercentage() {
+    int analog_value = analogRead(BATTERY_MEASURE_PIN);
+
+    if (analog_value >= 0 && analog_value < 1900) {
+        return 0;
+    } else if (analog_value >= 1900 && analog_value < 2200) {
+        return 10;
+    } else if (analog_value >= 2200 && analog_value < 2220) {
+        return 20;
+    } else if (analog_value >= 2220 && analog_value < 2245) {
+        return 30;
+    } else if (analog_value >= 2245 && analog_value < 2260) {
+        return 40;
+    } else if (analog_value >= 2260 && analog_value < 2285) {
+        return 50;
+    } else if (analog_value >= 2285 && analog_value < 2305) {
+        return 60;
+    } else if (analog_value >= 2305 && analog_value < 2355) {
+        return 70;
+    } else if (analog_value >= 2355 && analog_value < 2395) {
+        return 80;
+    } else if (analog_value >= 2395 && analog_value < 2450) {
+        return 90;
+    } else if (analog_value >= 2450) {
+        return 100;
+    } else {
+        // Return -1 to indicate an invalid analog value
+        return -1;
+    }
+}
+
+uint8_t readBatteryPercentage()
+{
+	uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
+
+	// convert reading to actual read voltage
+	const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
+
+	Serial.print("analog reading: "); Serial.println(analogValue);
+	Serial.print("battery voltage: "); Serial.println(voltage);
+
+	uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
+	Serial.print("battery percentage "); Serial.println(percentage);
+
+	return percentage;
+}
+
+/**
+ * @returns 1 on failure, 0 on success
+ */
+int authenticateToken(String token, String uuid) {
+	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
+
+	Serial.print("return code: "); Serial.println(ret);
+
+	if (ret < 0) return 1;
+	else if (ret == 200) return 0;
+	else return 1;
+}
+
+uint8_t getBatteryPercentage() {
+    int analog_value = analogRead(BATTERY_MEASURE_PIN);
+
+    if (analog_value >= 0 && analog_value < 1900) {
+        return 0;
+    } else if (analog_value >= 1900 && analog_value < 2200) {
+        return 10;
+    } else if (analog_value >= 2200 && analog_value < 2220) {
+        return 20;
+    } else if (analog_value >= 2220 && analog_value < 2245) {
+        return 30;
+    } else if (analog_value >= 2245 && analog_value < 2260) {
+        return 40;
+    } else if (analog_value >= 2260 && analog_value < 2285) {
+        return 50;
+    } else if (analog_value >= 2285 && analog_value < 2305) {
+        return 60;
+    } else if (analog_value >= 2305 && analog_value < 2355) {
+        return 70;
+    } else if (analog_value >= 2355 && analog_value < 2395) {
+        return 80;
+    } else if (analog_value >= 2395 && analog_value < 2450) {
+        return 90;
+    } else if (analog_value >= 2450) {
+        return 100;
+    } else {
+        // Return -1 to indicate an invalid analog value
+        return -1;
+    }
+}
+
+uint8_t readBatteryPercentage()
+{
+	uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
+
+	// convert reading to actual read voltage
+	const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
+
+	Serial.print("analog reading: "); Serial.println(analogValue);
+	Serial.print("battery voltage: "); Serial.println(voltage);
+
+	uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
+	Serial.print("battery percentage "); Serial.println(percentage);
+
+	return percentage;
+}
+
+/**
+ * @returns 1 on failure, 0 on success
+ */
+int authenticateToken(String token, String uuid) {
+	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
+
+	if (ret < 0) return 1;
+	else if (ret == 200) return 0;
+	else return 1;
 }
 
 static unsigned long previousMilliseconds = 0;
 static const unsigned long interval = MILLIS_IN_DAY;
 
 void loop()
-{
+{	
 	int toolSendAlivePingPressed = digitalRead(PIN_TOOL_PINGALIVE);
 
 	// periodically send an alive ping to the server
@@ -366,18 +497,7 @@ void loop()
 
 		previousMilliseconds = currentMilliseconds;
 
-		uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
-
-		// convert reading to actual read voltage
-		const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
-
-		Serial.print("analog reading: "); Serial.println(analogValue);
-		Serial.print("battery voltage: "); Serial.println(voltage);
-
-		uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
-		Serial.print("battery percentage "); Serial.println(percentage);
-
-		sendAlivePing(percentage);
+		sendAlivePing(getBatteryPercentage());
 	
 		if (toolSendAlivePingPressed) delay(1000);
 	}
@@ -403,11 +523,16 @@ void loop()
 
 	// maak buffer om de huidige token van de kaart in op te slaan
 	byte tokenBufSize = 18;
-	byte tokenBuffer[tokenBufSize];
+	byte scannedCardTokenBuffer[tokenBufSize];
 
-	if (read_block(TOKEN_MEM_ADDR, tokenBuffer, &tokenBufSize)) // checkt of de statuscode iets anders dan OK is
+	int authRet = -1;
+	String token = "";
+
+	if (read_block(TOKEN_MEM_ADDR, scannedCardTokenBuffer, &tokenBufSize)) // checkt of de statuscode iets anders dan OK is
 	{
 		// read faalde
+
+		Serial.println("read failed :(");
 
 		flash_led(RED_LED_PIN);
 
@@ -415,49 +540,16 @@ void loop()
 	}
 
 	// print data in de buffer
-	Serial.print(F("Data in token block: ")); print_byte_array(tokenBuffer, TOKEN_SIZE_BYTES); Serial.println();
+	Serial.print(F("Data in token block: ")); print_byte_array(scannedCardTokenBuffer, TOKEN_SIZE_BYTES); Serial.println();
 
-#ifdef IS_DEV_BOARD
-	if (toolWipePressed)
-	{
-		// wipe current card
-		byte newData[TOKEN_SIZE_BYTES];
-		// zet alle bytes (TOKEN_SIZE_BYTES bytes) naar 0x00 in de buffer
-		memset(newData, 0x00, TOKEN_SIZE_BYTES);
 
-		Serial.print("Clearing card by writing: "); print_byte_array(newData, TOKEN_SIZE_BYTES); Serial.println();
 
-		if (write_block(TOKEN_MEM_ADDR, newData))
-		{
-			// wipe fail
-			flash_led(RED_LED_PIN);
-		} else {
-			// wipe success
-			flash_led(GREEN_LED_PIN);
-		}
 
-		flash_led(BLUE_LED_PIN);
+	authRet = authenticateToken(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
 
-		goto prepare_new_card;
-	}
-
-	if (toolNewTokenPressed)
-	{
-		Serial.print("Setting "); print_byte_array(tokenBuffer, TOKEN_SIZE_BYTES); Serial.println(" as new correct token...");
-		
-		// sla nieuwe token lokaal op
-		write_new_token_EEPROM(tokenBuffer);
-		// en zet deze in correctToken
-		read_correct_token_EEPROM(correctToken);
-
-		flash_led(BLUE_LED_PIN);
-
-		goto prepare_new_card;
-	}
-#endif
-
-	// check of de token geldig is
-	if (validate_token(tokenBuffer))
+	Serial.print("auth return value: "); Serial.println(authRet);
+	// authenticate token with server
+	if (authRet)
 	{
 		Serial.println(F("token invalid"));
 
@@ -467,30 +559,29 @@ void loop()
 	}
 
 	// token is geldig
-	Serial.println(F("token valid"));
+	Serial.println(F("token valid, access granted"));
 
-
-	// Check if rank is high enough
-	if (checkAccess(1,0))
-	{
-		Serial.println("Access denied, card rank too low");
-
-		flash_led(RED_LED_PIN);
-
-		goto prepare_new_card;
-	}
-
-	// Rank is high enough
-	Serial.println("Acces granted");
-
-	// genereer en schrijf een nieuwe token
+	// genereer een nieuwe token
 	byte newToken[TOKEN_SIZE_BYTES];
 	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
+	// first, try to update the token on the server
+	if (sendNewTokenToServer(byte_array_to_string(newToken, TOKEN_SIZE_BYTES), get_uid_string())) {
+		// send failed, can't reach server, don't update token
+		Serial.println(F("womp womp no connection, not updating token on card"));
+
+	// token is geldig
+	Serial.println(F("token valid"));
+
+	// token updated on server, now update on card
 
 	if (write_block(TOKEN_MEM_ADDR, newToken))
 	{
-		Serial.print("write failed, not saving new token: "); Serial.println(MFRC522::GetStatusCodeName(status));
+		// write to card failed, reset token on server
+		// if the token is updated on the server, but not on the card, some weird desync shit happens and everything breaks
+		sendNewTokenToServer(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
+
+		Serial.print("write failed, not saving new token, status: "); Serial.println(MFRC522::GetStatusCodeName(status));
 
 		flash_led(RED_LED_PIN);
 
@@ -498,8 +589,8 @@ void loop()
 	}
 
 	// sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
-	write_new_token_EEPROM(newToken);
-	read_correct_token_EEPROM(correctToken);
+	// write_new_token_EEPROM(newToken);
+	// read_correct_token_EEPROM(correctToken);
 
 	flash_led(GREEN_LED_PIN);
 
