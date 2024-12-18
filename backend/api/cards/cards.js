@@ -287,6 +287,7 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
 
     try {
         await db_execute("UPDATE Cards SET token=?", [newToken]);
+        info_log("updated card " + cardId + " with token " + newToken);
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /updateCardToken", e);
