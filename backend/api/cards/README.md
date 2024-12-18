@@ -312,3 +312,6 @@ Gets all auth levels for a single card
   ...
 ]
 ```
+
+`id`: Auth level id
+`name`: Name of the auth level

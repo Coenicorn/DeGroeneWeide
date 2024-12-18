@@ -112,3 +112,6 @@ Gets all auth levels for a single reader
   ...
 ]
 ```
+
+`id`: Auth level id
+`name`: Name of the auth level
