@@ -171,9 +171,13 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
 
         if (matches.length === 0) {
             // failed to authenticate
+            info_log("access denied");
+
             return respondwithstatus(res, 401, "failed to authenticate");
         }
         
+        info_log("access granted");
+
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /authenticateCard", e);
