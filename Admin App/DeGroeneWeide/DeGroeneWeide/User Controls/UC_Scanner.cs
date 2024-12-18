@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -18,9 +19,9 @@ namespace DeGroeneWeide
             InitializeComponent();
         }
 
-        public void Fill(Reader reader)
+        public async void Fill(Reader reader)
         {
-            if (reader == null)
+            if (reader == null || reader.id == null)
             {
                 return;
             }
@@ -68,7 +69,13 @@ namespace DeGroeneWeide
                 picture_warning.Visible = false;
             }
 
-            // Zorgt dat de juiste levels van toegang op actief staan (wachten op antwoord over de erd)
+            // Zorgt dat de juiste levels van toegang op actief staan
+            List<AuthLevel> authLevels = await ApiCalls.GetAllAuthLevels(reader.id);
+            foreach (AuthLevel authLevel in authLevels)
+            {
+                Debug.WriteLine(authLevel.name + " - " + authLevel.id);
+            }
+
         }
     }
 }

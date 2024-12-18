@@ -43,7 +43,7 @@ namespace DeGroeneWeide
 
         public void DumpInfo()
         {
-            Debug.WriteLine($"Reader - Id: {id}, battery percentage {battery}, amenity id {amenityId}, last ping {lastPing}, last ping date {lastPingDate}, time? {DateTime.Now} name {name}, active {active}");
+            Debug.WriteLine($"Reader - Id: {id}, battery percentage {battery}, amenity id {amenityId}, last ping {lastPing}, time? {DateTime.Now} name {name}, active {active}");
         }
     }
 
@@ -73,5 +73,14 @@ namespace DeGroeneWeide
         {
             Debug.WriteLine($"Id: {id}, card uuid: {card_uuid}, booking id: {booking_id}, token: {token}, level: {level}, blocked: {blocked}");
         }
+    }
+
+    public class AuthLevel
+    {
+        [JsonPropertyName("id")]
+        public string? id { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? name { get; set; }
     }
 }

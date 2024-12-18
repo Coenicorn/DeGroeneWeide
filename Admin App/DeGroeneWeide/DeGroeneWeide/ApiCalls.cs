@@ -46,7 +46,10 @@ namespace DeGroeneWeide
         public static Card? GetLastCard()
         {
             using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
 
             var endpoint = new Uri("http://localhost:3001/api/cards/getNewestCardToWrite");
             var result = client.GetAsync(endpoint).Result;
@@ -76,7 +79,10 @@ namespace DeGroeneWeide
             try
             {
                 HttpClient client = new();
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                if (!client.DefaultRequestHeaders.Contains("Accept"))
+                {
+                    client.DefaultRequestHeaders.Add("Accept", "application/json");
+                }
 
                 var result = await client.GetAsync("http://localhost:3001/api/cards/getAllCards");
                 var json = await result.Content.ReadAsStringAsync();
@@ -104,7 +110,10 @@ namespace DeGroeneWeide
         {
             HttpClient client = new();
 
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
 
             var data = new
             {
@@ -126,7 +135,10 @@ namespace DeGroeneWeide
             //test om te kijken of hij het aanpast
             //reader.SetAmenity(10);
 
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
 
             var data = new
             {
@@ -141,5 +153,37 @@ namespace DeGroeneWeide
 
         }
 
+        // Geeft alle authlevels voor een reader
+        public static async Task<List<AuthLevel>> GetAllAuthLevels(string readerId)
+        {
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                id = readerId
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            Debug.WriteLine(json);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync("http://localhost:3001/api/readers/getAllAuthLevels", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine("Authlevels: " + responseString);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Deserialize<List<AuthLevel>>(responseString) ?? new();
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+                return new List<AuthLevel>();
+            }
+        }
     }
 }
