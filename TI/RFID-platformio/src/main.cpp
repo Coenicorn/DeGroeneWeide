@@ -458,7 +458,7 @@ void loop()
 	MFRC522::StatusCode status;
 
 	// maak buffer om de huidige token van de kaart in op te slaan
-	byte tokenBufSize = 16;
+	byte tokenBufSize = 18;
 	byte scannedCardTokenBuffer[tokenBufSize];
 
 	int authRet = -1;
@@ -481,7 +481,7 @@ void loop()
 
 
 
-	authRet = authenticateToken(byte_array_to_string(scannedCardTokenBuffer, tokenBufSize), get_uid_string());
+	authRet = authenticateToken(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
 
 	Serial.print("auth return value: "); Serial.println(authRet);
 	
@@ -520,7 +520,7 @@ void loop()
 	{
 		// write to card failed, reset token on server
 		// if the token is updated on the server, but not on the card, some weird desync shit happens and everything breaks
-		sendNewTokenToServer(byte_array_to_string(scannedCardTokenBuffer, tokenBufSize), get_uid_string());
+		sendNewTokenToServer(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
 
 		Serial.print("write failed, not saving new token, status: "); Serial.println(MFRC522::GetStatusCodeName(status));
 
