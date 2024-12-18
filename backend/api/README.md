@@ -32,3 +32,14 @@ If any of these criteria fail, the server will respond with a code `400` and a s
 Every route in this application might respond with code `500` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
 
 We're not bad at writing code, we're *learning*
+
+## Default responses
+
+When a response is not explicitly specified in the documentation, a default response will be sent. This presents itself in this form (json):
+
+```json
+{
+    "status": string
+}
+```
+where `status` is a status message. This response will be sent with any status code, if a response isn't explicitly stated in the documentation.
