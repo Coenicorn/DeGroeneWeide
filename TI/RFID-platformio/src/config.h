@@ -56,33 +56,3 @@ inline static uint8_t getBatteryPercentageFromVoltage(float voltage) {
 
 #endif
 
-int getBatteryPercentage() {
-    int analog_value = analogRead(BATTERY_MEASURE_PIN);
-
-    if (analog_value >= 0 && analog_value < 1900) {
-        return 0;
-    } else if (analog_value >= 1900 && analog_value < 2200) {
-        return 10;
-    } else if (analog_value >= 2200 && analog_value < 2220) {
-        return 20;
-    } else if (analog_value >= 2220 && analog_value < 2245) {
-        return 30;
-    } else if (analog_value >= 2245 && analog_value < 2260) {
-        return 40;
-    } else if (analog_value >= 2260 && analog_value < 2285) {
-        return 50;
-    } else if (analog_value >= 2285 && analog_value < 2305) {
-        return 60;
-    } else if (analog_value >= 2305 && analog_value < 2355) {
-        return 70;
-    } else if (analog_value >= 2355 && analog_value < 2395) {
-        return 80;
-    } else if (analog_value >= 2395 && analog_value < 2450) {
-        return 90;
-    } else if (analog_value >= 2450) {
-        return 100;
-    } else {
-        // Return -1 to indicate an invalid analog value
-        return -1;
-    }
-}
