@@ -140,7 +140,11 @@ int sendAlivePing(uint8_t batteryPercentage) {
 }
 
 int sendNewTokenToServer(String newToken, String cardId) {
-	return dumbPostRequest("{\"id\":\"" + cardId + "\", \"token\":" + newToken + "}", "/cards/updateCardToken");
+	int ret = dumbPostRequest("{\"id\":\"" + cardId + "\", \"token\":" + newToken + "}", "/cards/updateCardToken");
+
+	if (ret < 0) return 1;
+	else if (ret == 200) return 0;
+	else return 1;
 }
 
 /**
@@ -507,7 +511,7 @@ void loop()
 	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
 	// first, try to update the token on the server
-	if (sendNewTokenToServer(byte_array_to_string(newToken, TOKEN_SIZE_BYTES), get_uid_string()) < 0) {
+	if (sendNewTokenToServer(byte_array_to_string(newToken, TOKEN_SIZE_BYTES), get_uid_string())) {
 		// send failed, can't reach server, don't update token
 		Serial.println(F("womp womp no connection, not updating token on card"));
 
