@@ -361,7 +361,6 @@ static const unsigned long interval = MILLIS_IN_DAY;
 
 void loop()
 {	
-
 	int toolSendAlivePingPressed = digitalRead(PIN_TOOL_PINGALIVE);
 
 	// periodically send an alive ping to the server
