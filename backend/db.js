@@ -95,7 +95,7 @@ export async function initializeDB() {
         CREATE TABLE IF NOT EXISTS Cards (
             id TEXT PRIMARY KEY NOT NULL,
             bookingId TEXT,
-            token TEXT NOT NULL,
+            token TEXT,
             blocked BOOLEAN NOT NULL,
             FOREIGN KEY (bookingId) REFERENCES Bookings (id)
         )

@@ -1,5 +1,5 @@
 import e, { Router } from "express";
-import { err_log, respondwithstatus } from "../../util.js";
+import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
 import { db_execute, db_query } from "../../db.js";
 import { uid } from "uid";
 
@@ -141,15 +141,22 @@ AuthRouter.post("/linkCardAuth", async (req, res) => {
 
 AuthRouter.post("/authenticateCard", async (req, res) => {
 
-    const readerId = req.body.readerId;
-
-    if (readerId === undefined) return respondwithstatus(res, 400, "readerId is not defined");
-    if (typeof(readerId) !== "string") return respondwithstatus(res, 400, "reader is not of type 'string'");
-
+    const macAddress = req.body.macAddress;
     const cardId = req.body.cardId;
+    const cardToken = req.body.token;
+
+    if (macAddress === undefined) return respondwithstatus(res, 400, "macAddress is not defined");
+    if (typeof(macAddress) !== "string") return respondwithstatus(res, 400, "reader is not of type 'string'");
 
     if (cardId === undefined) return respondwithstatus(res, 400, "cardId is not defined");
     if (typeof(cardId) !== "string") return respondwithstatus(res, 400, "cardId is not of type 'string'");
+
+    if (cardToken === undefined) return respondwithstatus(res, 400, "token is not defined");
+    if (typeof(cardToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
+
+    const readerId = md5hash(macAddress);
+
+    info_log("authenticating with cardId " + cardId + " and readerId " + readerId + " (mac: " + macAddress + ") and token " + cardToken);
 
     try {
         const matches = await db_query(`
@@ -159,9 +166,15 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
             JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
             JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
             JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
-        `);
-        console.log(matches);
-        respondwithstatus(res, 200, "OK");
+            WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
+        `, [cardToken, cardId, readerId]);
+
+        if (matches.length === 0) {
+            // failed to authenticate
+            return respondwithstatus(res, 401, "failed to authenticate");
+        }
+        
+        return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /authenticateCard", e);
 

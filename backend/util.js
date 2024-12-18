@@ -41,7 +41,7 @@ export function respondwithstatus(res, statusCode, statusMsg, additionalObject) 
 
     if (additionalObject !== undefined) ret.additional = additionalObject;
 
-    res.status(statusCode).json(ret);
+    res.status(statusCode).json(ret).end();
 }
 
 function routeFromRegexp(regexpStr) {

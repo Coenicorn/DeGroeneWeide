@@ -32,6 +32,7 @@
 
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
+#define BAT_ADC = 36
 
 /* battery discharge rate is not linear, use lookup table */
 static const uint8_t battery_percent_lookup[93] = {

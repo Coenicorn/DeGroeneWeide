@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import {
+    db_execute,
     deleteCards,
     getAllCards, getAllExtensiveCards,
     getCardById,
@@ -107,13 +108,12 @@ CardsRouter.post("/insertCard", async (req, res) => {
 
         if (
             !card.id ||
-            !card.token ||
             card.blocked === undefined
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        const result = await insertCard(card.id, card.bookingId, card.token, card.blocked);
+        const result = await insertCard(card.id, null, null, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
@@ -273,6 +273,25 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
     }
 
     res.json({ card: latestScannedCardToWriteID });
+});
+
+CardsRouter.post("/updateCardToken", async (req, res) => {
+    const cardId = req.body.id;
+    const newToken = req.body.token;
+
+    if (cardId === undefined) return respondwithstatus(res, 400, "cardId is undefined");
+    if (typeof(cardId) !== "string") return respondwithstatus(res, 400, "cardId is not of type 'string'");
+
+    if (newToken === undefined) return respondwithstatus(res, 400, "token is undefined");
+    if (typeof(newToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
+
+    try {
+        await db_execute("UPDATE Cards SET token=?", [newToken]);
+        return respondwithstatus(res, 200, "OK");
+    } catch(e) {
+        err_log("error in /updateCardToken", e);
+        return respondwithstatus(res, 500, "something went wrong");
+    }
 });
 
 export default CardsRouter;
