@@ -53,7 +53,8 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
 
 ReadersRouter.get("/getAllReaders", async (req, res) => {
     try {
-        const readers = await getAllReaders();
+        // const readers = await getAllReaders();
+        const readers = await db_query(`SELECT * FROM Readers`);
 
         res.json(readers);
     } catch(e) {
@@ -140,6 +141,30 @@ ReadersRouter.post("/insertReader", async (req, res) => {
     }
     respondwithstatus(res, 200, "OK");
 
+});
+
+ReadersRouter.get("/getAllAuthLevels", async (req, res) => {
+    const readerId = req.body.id;
+
+    if (readerId === undefined) return respondwithstatus(res, 400, "readerId is not defined");
+
+    try {
+
+        const authLevels = await db_query(`
+            SELECT AuthLevels.*
+            FROM Readers
+            JOIN ReaderAuthJunctions ON ReaderAuthJunctions.readerId = Readers.id
+            JOIN AuthLevels ON AuthLevels.id = ReaderAuthJunctions.authLevelId
+            WHERE Readers.id = ?
+        `, [readerId]);
+        
+        return res.json(authLevels);
+
+    } catch(e) {
+        err_log("error in /getAllAuthLevels (reader)", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
 });
 
 export default ReadersRouter;

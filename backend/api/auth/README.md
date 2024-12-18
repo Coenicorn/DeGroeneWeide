@@ -74,3 +74,30 @@ Responds with the internal ID of the new authLevel
     }
 ]
 ```
+
+# `GET /linkReaderAuth`
+
+
+
+## request
+
+```json
+{
+    "readerId": string,
+    "authLevelId": string
+}
+```
+
+# `POST /linkCardAuth`
+
+## request
+
+```json
+{
+    "cardId": string,
+    "authLevelId": string
+}
+```
+
+# `POST /authenticateCard`
+

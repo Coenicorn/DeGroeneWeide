@@ -84,3 +84,31 @@ The only editable fields are listed below
   "amenityId": string | null
 }
 ```
+
+## `GET /getAllAuthLevels`
+
+Gets all auth levels for a single reader
+
+## request
+
+```json
+{
+  "id": string
+}
+```
+
+`id`: Reader id
+
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
+
+```json
+[
+  { 
+    "id": string,
+    "name": string
+  },
+  ...
+]
+```

@@ -285,4 +285,30 @@ Haalt kaart informatie op met de daarbijhorende boekingsinformatie.
     "Er is iets mis gegaan tijdens het ophalen van de token."
     ```
 
----
+## `GET /getAllAuthLevels`
+
+Gets all auth levels for a single card
+
+## request
+
+```json
+{
+  "id": string
+}
+```
+
+`id`: Card id
+
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
+
+```json
+[
+  { 
+    "id": string,
+    "name": string
+  },
+  ...
+]
+```
