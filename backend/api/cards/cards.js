@@ -276,7 +276,7 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
     res.json({ card: latestScannedCardToWriteID });
 });
 
-CardsRouter.get("/getAllAuthLevels", async (req, res) => {
+CardsRouter.post("/getAllAuthLevels", async (req, res) => {
     const cardId = req.body.id;
 
     if (cardId === undefined) return respondwithstatus(res, 400, "cardId is not defined");

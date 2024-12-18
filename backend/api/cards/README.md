@@ -285,7 +285,7 @@ Haalt kaart informatie op met de daarbijhorende boekingsinformatie.
     "Er is iets mis gegaan tijdens het ophalen van de token."
     ```
 
-## `GET /getAllAuthLevels`
+## `POST /getAllAuthLevels`
 
 Gets all auth levels for a single card
 

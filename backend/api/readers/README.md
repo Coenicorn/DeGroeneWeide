@@ -85,7 +85,7 @@ The only editable fields are listed below
 }
 ```
 
-## `GET /getAllAuthLevels`
+## `POST /getAllAuthLevels`
 
 Gets all auth levels for a single reader
 

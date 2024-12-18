@@ -143,7 +143,7 @@ ReadersRouter.post("/insertReader", async (req, res) => {
 
 });
 
-ReadersRouter.get("/getAllAuthLevels", async (req, res) => {
+ReadersRouter.post("/getAllAuthLevels", async (req, res) => {
     const readerId = req.body.id;
 
     if (readerId === undefined) return respondwithstatus(res, 400, "readerId is not defined");
