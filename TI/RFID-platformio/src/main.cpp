@@ -468,7 +468,7 @@ void loop()
 	{
 		// read faalde
 
-		Serial.println("read failed :(")
+		Serial.println("read failed :(");
 
 		flash_led(RED_LED_PIN);
 
@@ -505,7 +505,7 @@ void loop()
 	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
 	// first, try to update the token on the server
-	if (sendNewTokenToServer(byte_array_to_string(newToken, TOKEN_SIZE_BYTES)) < 0) {
+	if (sendNewTokenToServer(byte_array_to_string(newToken, TOKEN_SIZE_BYTES), get_uid_string()) < 0) {
 		// send failed, can't reach server, don't update token
 		Serial.println(F("womp womp no connection, not updating token on card"));
 
@@ -520,7 +520,7 @@ void loop()
 	{
 		// write to card failed, reset token on server
 		// if the token is updated on the server, but not on the card, some weird desync shit happens and everything breaks
-		sendNewTokenToServer(byte_array_to_string(scannedCardTokenBuffer, tokenBufSize));
+		sendNewTokenToServer(byte_array_to_string(scannedCardTokenBuffer, tokenBufSize), get_uid_string());
 
 		Serial.print("write failed, not saving new token, status: "); Serial.println(MFRC522::GetStatusCodeName(status));
 
