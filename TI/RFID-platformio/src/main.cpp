@@ -438,6 +438,8 @@ void loop()
 	byte tokenBufSize = 18;
 	byte tokenBuffer[tokenBufSize];
 
+	int authRet = -1;
+
 	if (read_block(TOKEN_MEM_ADDR, tokenBuffer, &tokenBufSize)) // checkt of de statuscode iets anders dan OK is
 	{
 		// read faalde
@@ -490,7 +492,7 @@ void loop()
 #endif
 
 
-	const int authRet = authenticateToken("2", "8e8ac493744ddd291959be919027f8aa");
+	authRet = authenticateToken("2", "8e8ac493744ddd291959be919027f8aa");
 	Serial.print("auth return value: "); Serial.println(authRet);
 	// authenticate token with server
 	if (authRet)
