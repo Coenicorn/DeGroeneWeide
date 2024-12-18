@@ -11,6 +11,11 @@ namespace DeGroeneWeide
 {
     internal class Classes
     {
+        public static DateTime EpochToDateTime(long epochTime)
+        {
+            DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(epochTime);
+            return dateTimeOffset.DateTime;
+        }
     }
 
 
@@ -20,32 +25,25 @@ namespace DeGroeneWeide
         [JsonPropertyName("id")]
         public string? id { get; set; }
 
-        [JsonPropertyName("macAddress")]
-        public string? macAddress { get; set; }
+        [JsonPropertyName("batteryPercentage")]
+        public int? battery { get; set; }
 
-        [JsonPropertyName("location")]
-        public string? location { get; set; }
+        [JsonPropertyName("amenityId")]
+        public string? amenityId { get; set; }
 
-        [JsonPropertyName("battery")]
-        public float? battery { get; set; }
+        [JsonPropertyName("lastPing")]
+        public string? lastPing { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? name { get; set; }
 
         [JsonPropertyName("active")]
         public int? active { get; set; }
 
-        [JsonPropertyName("lastUpdate")]
-        public string? lastUpdate { get; set; }
-
-        [JsonPropertyName("amenityId")]
-        public int? amenityId { get; set; }
 
         public void DumpInfo()
         {
-            Debug.WriteLine($"Id: {id}, Mac: {macAddress}, Location: {location}, Battery: {battery}, Active: {active}, Last Update: {lastUpdate}");
-        }
-
-        public void SetAmenity(int i)
-        {
-            amenityId = i;
+            Debug.WriteLine($"Reader - Id: {id}, battery percentage {battery}, amenity id {amenityId}, last ping {lastPing}, last ping date {lastPingDate}, time? {DateTime.Now} name {name}, active {active}");
         }
     }
 
