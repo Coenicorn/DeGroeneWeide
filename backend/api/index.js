@@ -17,6 +17,7 @@ APIRouter.use("/readers", ReadersRouter);
 APIRouter.use("/auth", AuthRouter);
 APIRouter.use("/booking", BookingRouter);
 
+// host primitive view of the database in the development environment at http://[host]/api/browse
 if (config.environment === "dev"){
     info_log("hosting database explorer on /api/browse");
 
