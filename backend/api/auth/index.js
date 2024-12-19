@@ -166,8 +166,8 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
             JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
             JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
             JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
-            WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
-        `, [cardToken, cardId, readerId]);
+            WHERE Cards.id = ? AND Readers.id = ?
+        `, [cardId, readerId]);
 
         console.log(matches)
 
