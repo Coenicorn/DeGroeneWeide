@@ -102,11 +102,8 @@ Voegt een nieuwe kaart toe aan de database.
 - **Vereist**:
     ```json
     {
-        "id": "ID",
-        "card_uuid": "CARD UUID HIER",
-        "booking_Id": "BOOKING ID HIER",
-        "token": "randomToken",
-        "blocked": "false"
+        "id": string,
+        "blocked": boolean
     }
     ```
 

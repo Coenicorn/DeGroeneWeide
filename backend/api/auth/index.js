@@ -169,6 +169,8 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
             WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
         `, [cardToken, cardId, readerId]);
 
+        console.log(matches)
+
         if (matches.length === 0) {
             // failed to authenticate
             info_log("access denied");
