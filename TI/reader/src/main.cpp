@@ -37,6 +37,33 @@ static MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een 
 
 static HTTPClient http;
 
+/* function definition */
+void flash_led(uint pin);
+
+/* how many times the error led must flash for every error */
+typedef enum
+{
+	ERR_WIFI_NOT_CONNECTED = 1
+} LedErrorFlashes;
+
+/* halts program and flashes err led. ONLY INTENDED FOR FATAL ERRORS */
+void fatal_err_flash(LedErrorFlashes code)
+{
+	Serial.println(F("FATAL ERROR halting program"));
+	Serial.print(F("error code: ")); Serial.println(code);
+	while (1)
+	{
+		for (int i = 0; i < code; i++)
+		{
+			digitalWrite(ERR_STATUS_LED_PIN, HIGH);
+			delay(100);
+			digitalWrite(ERR_STATUS_LED_PIN, LOW);
+			delay(100);
+		}
+		delay(1000);
+	}
+}
+
 // static byte correctToken[TOKEN_SIZE_BYTES];		// Dit is de variabele die waarin de huidige correcte token staat die nodig is om goedgekeurt te worden bij het scannen
 
 // Reads and returns esp's mac-address
@@ -77,6 +104,7 @@ String get_uid_string()
     {
         uid += mfrc522.uid.uidByte[i];   
     } 
+	Serial.print("got uid "); Serial.println(uid);
     return uid;
 }
     
@@ -104,8 +132,8 @@ void print_byte_array(const byte *buffer, size_t bufferSize)
 int dumbPostRequest(String payload, String route)
 {
 	if (!WiFi.isConnected()) {
-		Serial.println("not connected :(");
-		digitalWrite(WIFI_STATUS_PIN, HIGH);
+		Serial.println("dumb post request: not connected :(");
+		// digitalWrite(WIFI_STATUS_PIN, HIGH);
 
 		return -1;
 	}
@@ -124,7 +152,7 @@ int dumbPostRequest(String payload, String route)
 		Serial.println(response);
 	} else {
 		Serial.print("http request error: "); Serial.println(http.errorToString(httpResponseCode));
-		digitalWrite(WIFI_STATUS_PIN, HIGH);
+		// digitalWrite(WIFI_STATUS_PIN, HIGH);
 
 		return -1;
 	}
@@ -182,12 +210,15 @@ void initWiFi(const char *ssid, const char *password)
 
 	Serial.print("Connecting to WiFi ..");
 
-	while (WiFi.status() != WL_CONNECTED)
+	for (int i = 0; i < 30; i++)
 	{
+		if (WiFi.status() == WL_CONNECTED) break;
 
 		Serial.print('.');
 		delay(1000);
 	}
+
+	if (WiFi.status() != WL_CONNECTED) fatal_err_flash(ERR_WIFI_NOT_CONNECTED);
 
 	macAddress = readMacAddress();
 
@@ -329,7 +360,11 @@ void initPins(void) {
 	// definieren dat de pins van de led lampjes output pins zijn
 	pinMode(GREEN_LED_PIN, OUTPUT);
 	pinMode(RED_LED_PIN, OUTPUT);
-	pinMode(WIFI_STATUS_PIN, OUTPUT);
+	pinMode(BLUE_LED_PIN, OUTPUT);
+	pinMode(ERR_STATUS_LED_PIN, OUTPUT);
+	pinMode(PCB_BUTTON_PIN, INPUT);
+	
+	// reduntant but good for clarity
 	pinMode(BATTERY_MEASURE_PIN, INPUT);
 	
 
@@ -340,8 +375,6 @@ void initPins(void) {
 	pinMode(PIN_TOOL_PINGALIVE, INPUT);
 #endif
 
-	digitalWrite(WIFI_STATUS_PIN, LOW);
-
 }
 
 void setup()
@@ -349,10 +382,12 @@ void setup()
 	initPins();
 
 	Serial.begin(115200);
+	Serial.println(F("serial test confirmed"));	
+
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
 	EEPROM.begin(EEPROM_SIZE_BYTES); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-	initWiFi(ssid, password);
+	// initWiFi(ssid, password);
 
 	// // DEBUG set correct token
 	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x6B, 0x8C, 0x5C, 0x9E, 0x91, 0xAB, 0xC3, 0x10, 0xEF, 0x79, 0xBE, 0xF2, 0xC2, 0x4D, 0xF1, 0xFA };
@@ -414,67 +449,8 @@ uint8_t readBatteryPercentage()
 /**
  * @returns 1 on failure, 0 on success
  */
-int authenticateToken(String token, String uuid) {
-	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
-
-	Serial.print("return code: "); Serial.println(ret);
-
-	if (ret < 0) return 1;
-	else if (ret == 200) return 0;
-	else return 1;
-}
-
-uint8_t getBatteryPercentage() {
-    int analog_value = analogRead(BATTERY_MEASURE_PIN);
-
-    if (analog_value >= 0 && analog_value < 1900) {
-        return 0;
-    } else if (analog_value >= 1900 && analog_value < 2200) {
-        return 10;
-    } else if (analog_value >= 2200 && analog_value < 2220) {
-        return 20;
-    } else if (analog_value >= 2220 && analog_value < 2245) {
-        return 30;
-    } else if (analog_value >= 2245 && analog_value < 2260) {
-        return 40;
-    } else if (analog_value >= 2260 && analog_value < 2285) {
-        return 50;
-    } else if (analog_value >= 2285 && analog_value < 2305) {
-        return 60;
-    } else if (analog_value >= 2305 && analog_value < 2355) {
-        return 70;
-    } else if (analog_value >= 2355 && analog_value < 2395) {
-        return 80;
-    } else if (analog_value >= 2395 && analog_value < 2450) {
-        return 90;
-    } else if (analog_value >= 2450) {
-        return 100;
-    } else {
-        // Return -1 to indicate an invalid analog value
-        return -1;
-    }
-}
-
-uint8_t readBatteryPercentage()
+int authenticateToken(String token, String uuid) 
 {
-	uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
-
-	// convert reading to actual read voltage
-	const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
-
-	Serial.print("analog reading: "); Serial.println(analogValue);
-	Serial.print("battery voltage: "); Serial.println(voltage);
-
-	uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
-	Serial.print("battery percentage "); Serial.println(percentage);
-
-	return percentage;
-}
-
-/**
- * @returns 1 on failure, 0 on success
- */
-int authenticateToken(String token, String uuid) {
 	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
 
 	if (ret < 0) return 1;
@@ -499,7 +475,10 @@ void loop()
 
 		sendAlivePing(getBatteryPercentage());
 	
-		if (toolSendAlivePingPressed) delay(1000);
+		if (toolSendAlivePingPressed)
+		{
+			delay(1000);
+		}
 	}
 
 	// Dit checkt om te zien of er een NFC-pas voor de reader/writer zit, zo niet dan start de loop functie opnieuw
@@ -509,8 +488,6 @@ void loop()
 	// Checkt of de NFC-pas ze UID succesvol gelezen kan worden, zo niet dan begint loop opnieuw
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
-
-	delay(100);
 
 #ifdef IS_DEV_BOARD
 	// slaat op of er een functietoets is gebruikt
@@ -547,11 +524,10 @@ void loop()
 
 	authRet = authenticateToken(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
 
-	Serial.print("auth return value: "); Serial.println(authRet);
 	// authenticate token with server
 	if (authRet)
 	{
-		Serial.println(F("token invalid"));
+		Serial.println(F("failed authentication"));
 
 		flash_led(RED_LED_PIN);
 
@@ -559,20 +535,20 @@ void loop()
 	}
 
 	// token is geldig
-	Serial.println(F("token valid, access granted"));
+	Serial.println(F("authenticated succesfully"));
+
+	// pass along access signal
+	Serial.println("passing access signal to peripherals...");
+	flash_led(GREEN_LED_PIN);
 
 	// genereer een nieuwe token
 	byte newToken[TOKEN_SIZE_BYTES];
 	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
 
-	Serial.println("attempting to update token on the server...");
-
 	// first, try to update the token on the server
 	if (sendNewTokenToServer(byte_array_to_string(newToken, TOKEN_SIZE_BYTES), get_uid_string())) {
 		// send failed, can't reach server, don't update token
 		Serial.println(F("womp womp no connection, not updating token on card"));
-
-		flash_led(RED_LED_PIN);
 
 		goto prepare_new_card;
 	}
@@ -591,13 +567,6 @@ void loop()
 
 		goto prepare_new_card;
 	}
-
-	// sla de nieuwe token ook lokaal up als hij naar de kaart is geschreven
-	// write_new_token_EEPROM(newToken);
-	// read_correct_token_EEPROM(correctToken);
-
-	flash_led(GREEN_LED_PIN);
-
 
 
 	prepare_new_card:
