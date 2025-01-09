@@ -17,6 +17,22 @@ html {
   position: relative;
 }
 
+svg {
+  position:relative;
+  top: 0%;
+  left: -5%;
+  margin-top: 0px;
+  margin-left: -5px;
+
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 nav{
   display: flex;
   padding: 2% 6%;
