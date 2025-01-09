@@ -363,10 +363,6 @@ void initPins(void) {
 	pinMode(BLUE_LED_PIN, OUTPUT);
 	pinMode(ERR_STATUS_LED_PIN, OUTPUT);
 	pinMode(PCB_BUTTON_PIN, INPUT);
-	
-	// reduntant but good for clarity
-	pinMode(BATTERY_MEASURE_PIN, INPUT);
-	
 
 #ifdef IS_DEV_BOARD
 	// tool pins
@@ -399,53 +395,6 @@ void setup()
 	// Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
 }
 
-uint8_t getBatteryPercentage() {
-    int analog_value = analogRead(BATTERY_MEASURE_PIN);
-
-    if (analog_value >= 0 && analog_value < 1900) {
-        return 0;
-    } else if (analog_value >= 1900 && analog_value < 2200) {
-        return 10;
-    } else if (analog_value >= 2200 && analog_value < 2220) {
-        return 20;
-    } else if (analog_value >= 2220 && analog_value < 2245) {
-        return 30;
-    } else if (analog_value >= 2245 && analog_value < 2260) {
-        return 40;
-    } else if (analog_value >= 2260 && analog_value < 2285) {
-        return 50;
-    } else if (analog_value >= 2285 && analog_value < 2305) {
-        return 60;
-    } else if (analog_value >= 2305 && analog_value < 2355) {
-        return 70;
-    } else if (analog_value >= 2355 && analog_value < 2395) {
-        return 80;
-    } else if (analog_value >= 2395 && analog_value < 2450) {
-        return 90;
-    } else if (analog_value >= 2450) {
-        return 100;
-    } else {
-        // Return -1 to indicate an invalid analog value
-        return -1;
-    }
-}
-
-uint8_t readBatteryPercentage()
-{
-	uint16_t analogValue = analogRead(BATTERY_MEASURE_PIN); // measured with voltage divider
-
-	// convert reading to actual read voltage
-	const float voltage = ANALOG_READ_TO_VOLTAGE(analogValue * 2); // * 2 to compensate for fysical voltage divider
-
-	Serial.print("analog reading: "); Serial.println(analogValue);
-	Serial.print("battery voltage: "); Serial.println(voltage);
-
-	uint8_t percentage = getBatteryPercentageFromVoltage(voltage);
-	Serial.print("battery percentage "); Serial.println(percentage);
-
-	return percentage;
-}
-
 /**
  * @returns 1 on failure, 0 on success
  */
@@ -463,7 +412,7 @@ static const unsigned long interval = MILLIS_IN_DAY;
 
 void loop()
 {	
-	int toolSendAlivePingPressed = digitalRead(PIN_TOOL_PINGALIVE);
+	int toolSendAlivePingPressed = digitalRead(PCB_BUTTON_PIN);
 
 	// periodically send an alive ping to the server
 	unsigned long currentMilliseconds = millis();
@@ -473,10 +422,12 @@ void loop()
 
 		previousMilliseconds = currentMilliseconds;
 
-		sendAlivePing(getBatteryPercentage());
+		// battery has been removed from reader, update server logic in the future
+		sendAlivePing(100);
 	
 		if (toolSendAlivePingPressed)
 		{
+			// switch bounce
 			delay(1000);
 		}
 	}
