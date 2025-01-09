@@ -2,8 +2,8 @@ waar gaan de pins op de pcb naartoe:
 
 ESP32-WROOM-DEV 38 pin (check met de datasheet of de fysieke pin overeenkomt met de interne GPIO pin):
 
-G25 -> error status led +
-G26 -> pulldown naar ground & pcb button
+G26 -> error status led +
+G25 -> pulldown naar ground & pcb button
 G33 -> RGB led blue +
 G2 -> RGB led red +
 G4 -> RGB led green +
