@@ -269,6 +269,11 @@ h3{
   text-decoration: none; 
 }
 
+#button:hover {
+  background-color: #555;
+  transition: 1s;
+}
+
 .Locatie{
   width: 80%;
   margin: auto;
