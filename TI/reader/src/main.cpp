@@ -383,7 +383,7 @@ void setup()
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
 	EEPROM.begin(EEPROM_SIZE_BYTES); // De EEPROM initialiseren, deze wordt gebruikt voor het lokaal opslaan van de token (dit is tijdelijk totdat we een server hebben)
-	// initWiFi(ssid, password);
+	initWiFi(ssid, password);
 
 	// // DEBUG set correct token
 	// const byte correctToken_debug[TOKEN_SIZE_BYTES] = { 0x6B, 0x8C, 0x5C, 0x9E, 0x91, 0xAB, 0xC3, 0x10, 0xEF, 0x79, 0xBE, 0xF2, 0xC2, 0x4D, 0xF1, 0xFA };
@@ -488,10 +488,6 @@ void loop()
 	// token is geldig
 	Serial.println(F("authenticated succesfully"));
 
-	// pass along access signal
-	Serial.println("passing access signal to peripherals...");
-	flash_led(GREEN_LED_PIN);
-
 	// genereer een nieuwe token
 	byte newToken[TOKEN_SIZE_BYTES];
 	get_random_bytes(newToken, TOKEN_SIZE_BYTES);
@@ -501,7 +497,7 @@ void loop()
 		// send failed, can't reach server, don't update token
 		Serial.println(F("womp womp no connection, not updating token on card"));
 
-		goto prepare_new_card;
+		goto card_is_authorized;
 	}
 
 	// token updated on server, now update on card
@@ -514,10 +510,14 @@ void loop()
 
 		Serial.print("write failed, not saving new token, status: "); Serial.println(MFRC522::GetStatusCodeName(status));
 
-		flash_led(RED_LED_PIN);
-
-		goto prepare_new_card;
+		goto card_is_authorized;
 	}
+
+	card_is_authorized:
+
+	// pass along access signal
+	Serial.println("passing access signal to peripherals...");
+	flash_led(GREEN_LED_PIN);
 
 
 	prepare_new_card:
@@ -526,8 +526,4 @@ void loop()
 
 	// nice newline between loops
 	Serial.println();
-
-	// take some time between cards
-	// redundant, we check if there's a new card at the top of loop(), otherwise return
-	// delay(1000);
 }
