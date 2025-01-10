@@ -308,7 +308,7 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
     if (typeof(newToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
 
     try {
-        await db_execute("UPDATE Cards SET token=?", [newToken]);
+        await db_execute("UPDATE Cards SET token=? WHERE id=?", [newToken, cardId]);
         info_log("updated card " + cardId + " with token " + newToken);
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
