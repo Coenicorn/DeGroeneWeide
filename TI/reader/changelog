@@ -1,0 +1,6 @@
+- remove battery
+- remove battery headers
+- add push button for server ping
+- add error indication led
+- led now flashes when transaction is completely over (authenticated, new token written, connection broken) instead of immediately when authenticated
+- switch from
