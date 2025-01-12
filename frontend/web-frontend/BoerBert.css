@@ -361,8 +361,13 @@ ul{
   flex-basis: 80%;  
   border-radius: 30px;
   padding-top: 30px;
-  padding-bottom: 150px;
+  padding-bottom: 30px;
   transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 300px;
 }
 
 .reserveren-div:hover {
@@ -380,20 +385,23 @@ ul{
   color: #777777;
 }
 
-.reserveren-btn{
+.reserveren-btn {
   display: flex;
-  text-decoration: none;
-  padding: 18px 200px;  
-  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 0;  
   background: #F44336;
-  position: relative;
   cursor: pointer;
   border-radius: 40px;
-  width: 60%;
-  left: 20%;
-  top: 35%;
   transition: 0.75s;
+  width: 800px;
+  text-decoration: none;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 
 .reserveren-btn:hover{
   background: rgb(220, 60, 49);
@@ -403,4 +411,5 @@ ul{
 #reserveren-btn-text {
   color: #fff;
   font-size: 33px;
+  text-align: center;
 }
