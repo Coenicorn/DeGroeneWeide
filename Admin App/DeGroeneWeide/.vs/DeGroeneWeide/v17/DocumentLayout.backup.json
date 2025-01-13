@@ -4,8 +4,12 @@
   "Documents": [
     {
 <<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\classes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\classes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_scannerpagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_scannerpagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\user controls\\uc_scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
 =======
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\user controls\\uc_boekingspagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_boekingspagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
@@ -13,29 +17,13 @@
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_boeking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_boeking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
->>>>>>> Stashed changes
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_boeking.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_boeking.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> Stashed changes
     },
     {
-<<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_scanner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-=======
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\user controls\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -44,19 +32,27 @@
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_boekingspagina.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+<<<<<<< Updated upstream
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_scannerpagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_scannerpagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_pasjespagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> Stashed changes
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> Stashed changes
     },
     {
-<<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\user controls\\uc_scannerpagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_scannerpagina.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-=======
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -67,7 +63,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\degroeneweide\\user controls\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\user controls\\uc_pasje.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
->>>>>>> Stashed changes
     }
   ],
   "DocumentGroupContainers": [
@@ -78,7 +73,7 @@
         {
           "DockedWidth": 182,
 <<<<<<< Updated upstream
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 9,
 =======
           "SelectedChildIndex": 15,
 >>>>>>> Stashed changes
@@ -118,7 +113,7 @@
             {
               "$type": "Document",
 <<<<<<< Updated upstream
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "UC_ScannerPagina.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs",
@@ -142,6 +137,52 @@
             },
             {
               "$type": "Document",
+<<<<<<< Updated upstream
+              "DocumentIndex": 2,
+              "Title": "UC_Scanner.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_Scanner.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs",
+              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_Scanner.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAwwEUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T18:11:18.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UC_Scanner.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_Scanner.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs [Design]",
+              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_Scanner.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T13:25:02.936Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UC_ScannerPagina.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs [Design]",
+              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-17T13:18:11.531Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApiCalls.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls.cs",
+              "RelativeToolTip": "DeGroeneWeide\\ApiCalls.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAADwvyoAAAAJAAAAAAAAAA==",
+=======
               "DocumentIndex": 1,
               "Title": "UC_Boeking.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Boeking.cs",
@@ -155,28 +196,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-<<<<<<< Updated upstream
-              "Title": "UC_Scanner.cs",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_Scanner.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs",
-              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_Scanner.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAApwCIAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-18T18:11:18.207Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UC_Scanner.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_Scanner.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_Scanner.cs [Design]",
-              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_Scanner.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T13:25:02.936Z",
-=======
               "Title": "UC_PasjesPagina.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_PasjesPagina.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_PasjesPagina.cs",
@@ -184,32 +203,10 @@
               "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_PasjesPagina.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T21:55:25.782Z",
->>>>>>> Stashed changes
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 7,
-              "Title": "UC_ScannerPagina.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs [Design]",
-              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_ScannerPagina.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-17T13:18:11.531Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ApiCalls.cs",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls.cs",
-              "RelativeToolTip": "DeGroeneWeide\\ApiCalls.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAADwvyoAAAAJAAAAAAAAAA==",
-=======
               "DocumentIndex": 5,
               "Title": "UC_PasjesPagina.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_PasjesPagina.cs",
@@ -236,20 +233,20 @@
             },
             {
               "$type": "Document",
-<<<<<<< Updated upstream
-              "DocumentIndex": 5,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\Form1.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs [Design]",
-              "RelativeToolTip": "DeGroeneWeide\\Form1.cs [Design]",
+              "DocumentIndex": 7,
+              "Title": "MainForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs [Design]",
+              "RelativeToolTip": "DeGroeneWeide\\Forms\\MainForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< Updated upstream
               "WhenOpened": "2024-11-28T10:02:19.649Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Form1.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\Form1.cs",
@@ -262,13 +259,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Classes.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Classes.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\Classes.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Classes.cs",
-              "RelativeToolTip": "DeGroeneWeide\\Classes.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAowBoAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Classes.cs*",
+              "RelativeToolTip": "DeGroeneWeide\\Classes.cs*",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAwCQAAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-02T10:10:17.796Z",
               "EditorCaption": ""
@@ -280,13 +277,6 @@
           "SelectedChildIndex": -1,
           "Children": [
 =======
-              "DocumentIndex": 7,
-              "Title": "MainForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs",
-              "RelativeDocumentMoniker": "DeGroeneWeide\\Forms\\MainForm.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs [Design]",
-              "RelativeToolTip": "DeGroeneWeide\\Forms\\MainForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T21:54:31.214Z"
             },
             {
@@ -295,8 +285,8 @@
               "Title": "UC_BoekingsPagina.Designer.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_BoekingsPagina.Designer.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_BoekingsPagina.Designer.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_BoekingsPagina.Designer.cs*",
-              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_BoekingsPagina.Designer.cs*",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_BoekingsPagina.Designer.cs",
+              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_BoekingsPagina.Designer.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAQwC8AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T21:53:39.409Z",
@@ -309,8 +299,8 @@
               "Title": "UC_BoekingsPagina.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_BoekingsPagina.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\User Controls\\UC_BoekingsPagina.cs",
-              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_BoekingsPagina.cs [Design]*",
-              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_BoekingsPagina.cs [Design]*",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\User Controls\\UC_BoekingsPagina.cs [Design]",
+              "RelativeToolTip": "DeGroeneWeide\\User Controls\\UC_BoekingsPagina.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T21:53:33.307Z",
               "EditorCaption": " [Design]"

@@ -7,7 +7,13 @@
     <Compile Update="User Controls\UC_Boeking.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="User Controls\UC_Boeking.Designer-Laptop-Jurre.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="User Controls\UC_BoekingsPagina.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="User Controls\UC_BoekingsPagina.Designer-Laptop-Jurre.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\UC_Pasje.cs">
