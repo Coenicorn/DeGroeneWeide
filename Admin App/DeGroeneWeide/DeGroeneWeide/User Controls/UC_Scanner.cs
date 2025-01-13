@@ -8,8 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DeGroeneWeide.ApiCalls;
 using DeGroeneWeide.Objects;
+using DeGroeneWeide.ApiCalls;
+using System.Diagnostics;
 
 namespace DeGroeneWeide
 {
@@ -34,25 +35,9 @@ namespace DeGroeneWeide
             InitializeComponent();
         }
 
-        public void Fill(Reader reader)
+        public async void Fill(Reader reader)
         {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            if (reader == null)
-=======
             if (reader == null || reader.Id == null)
->>>>>>> Stashed changes
-=======
-            if (reader == null || reader.Id == null)
->>>>>>> Stashed changes
-=======
-            if (reader == null || reader.Id == null)
->>>>>>> Stashed changes
-=======
-            if (reader == null || reader.Id == null)
->>>>>>> Stashed changes
             {
                 return;
             }
@@ -69,9 +54,6 @@ namespace DeGroeneWeide
                 picture_warning.Visible = false;
             }
 
-<<<<<<< Updated upstream
-            // Zorgt dat de juiste levels van toegang op actief staan (wachten op antwoord over de erd)
-=======
             // Zorgt dat de juiste levels van toegang op actief staan
             List<AuthLevel> authLevels = await AuthLevelApi.GetAllAuthLevels(reader.Id);
             int i = 0;
@@ -88,8 +70,6 @@ namespace DeGroeneWeide
 
                 }
             }
-
->>>>>>> Stashed changes
         }
     }
 }
