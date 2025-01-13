@@ -85,6 +85,23 @@ The only editable fields are listed below
 }
 ```
 
+## `POST /insertReader`
+
+Insert a new reader into the database.
+
+## request
+
+```json
+{
+  "id": string,
+  "batteryPercentage": int | null,
+  "amenityId": string,
+  "lastPing": string | null,
+  "name": string,
+  "active": boolean | null
+}
+```
+
 ## `POST /getAllAuthLevels`
 
 Gets all auth levels for a single reader
