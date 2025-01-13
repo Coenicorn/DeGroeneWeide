@@ -39,7 +39,11 @@ namespace DeGroeneWeide
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             if (reader == null)
+=======
+            if (reader == null || reader.Id == null)
+>>>>>>> Stashed changes
 =======
             if (reader == null || reader.Id == null)
 >>>>>>> Stashed changes

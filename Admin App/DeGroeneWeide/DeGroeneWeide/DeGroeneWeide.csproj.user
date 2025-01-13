@@ -9,6 +9,7 @@
     </Compile>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Compile Update="User Controls\UC_Boeking.Designer-Laptop-Jurre.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -18,6 +19,11 @@
     <Compile Update="User Controls\UC_BoekingsPagina.Designer-Laptop-Jurre.cs">
       <SubType>UserControl</SubType>
     </Compile>
+=======
+    <Compile Update="User Controls\UC_BoekingsPagina.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+>>>>>>> Stashed changes
 =======
     <Compile Update="User Controls\UC_BoekingsPagina.cs">
       <SubType>UserControl</SubType>
