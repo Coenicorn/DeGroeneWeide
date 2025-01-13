@@ -42,9 +42,11 @@ nav {
     align-items: center;
 }
 
+#title {
+    padding-top: 5%;
+}
 
 h1 {
-    padding-top: 15%;
     font-size: 36px;
     font-weight: 600;
     text-align: center;
