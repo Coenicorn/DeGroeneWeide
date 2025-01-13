@@ -28,6 +28,8 @@ namespace DeGroeneWeide
         public async void FirstLoad()
         {
             await ReaderApi.GetReaders();
+            await BookingApi.GetBooking();
+            await CustomerApi.GetCards();
             //ApiCalls.GetLastCard();
 
             pasjesPagina = new();
@@ -44,7 +46,7 @@ namespace DeGroeneWeide
             {
                 case "Pasjes": pagina_container.Controls.Add(pasjesPagina); break;
                 case "Scanner": pagina_container.Controls.Add(scannerPagina); break;
-                case "Boeking": pagina_container.Controls.Add(boekingsPagina); Debug.WriteLine("BoekingsPagina Geladen"); break;
+                case "Boeking": pagina_container.Controls.Add(boekingsPagina); break;
                 default: pagina_container.Controls.Add(pasjesPagina); break;
             }
         }

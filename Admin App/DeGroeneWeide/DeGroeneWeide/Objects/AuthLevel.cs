@@ -10,10 +10,7 @@ namespace DeGroeneWeide.Objects
 {
     public class AuthLevel
     {
-        [JsonPropertyName("id")]
         public string? Id { get; set; }
-
-        [JsonPropertyName("name")]
         public string? Name { get; set; }
 
         AuthLevel(string? id, string? name) 

@@ -23,9 +23,8 @@ namespace DeGroeneWeide
         }
 
         // Vult de scanner pagina met de hoeveelheid scanners die er in readers list staan
-        public void Fill()
+        public async void Fill()
         {
-            Debug.WriteLine("Scanner page filled");
             if (ReaderApi.Readers != null)
             {
                 scanner_container.Controls.Clear();
