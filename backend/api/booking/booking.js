@@ -19,7 +19,7 @@ BookingRouter.post("/insertBooking", async (req, res) => {
 
 BookingRouter.get("/getAllBookings", async (req, res) => {
     try {
-        const bookings = getAllBookings();
+        const bookings = await getAllBookings();
         res.json(bookings);
     } catch (error) {
         throw new Error("Sorry! Er heeft een interne fout opgetreden.")
