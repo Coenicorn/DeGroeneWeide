@@ -270,11 +270,19 @@ export async function updateCard(id, bookingId, token, blocked) {
 
 }
 
+export async function getAllBookings() {
+    return db_query("SELECT * FROM Bookings", []);
+}
+
 /**
  * @note updated to schema 13.dec.2024
  */
 export async function insertCard(id, bookingId, token, blocked) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
+}
+
+export async function insertBooking(id, customerId, startDate, endDate, amountPeople){
+    return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople) VALUES (?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople]);
 }
 
 export async function insertReader(id, batteryPercentage, amenityId, lastPing, name, active) {
