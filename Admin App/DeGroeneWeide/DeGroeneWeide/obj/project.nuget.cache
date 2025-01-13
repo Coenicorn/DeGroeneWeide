@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "Hn4ZQctsmvs=",
+=======
+  "dgSpecHash": "Z8sD6I8+P3Q=",
+>>>>>>> Stashed changes
   "success": true,
   "projectFilePath": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\DeGroeneWeide.csproj",
   "expectedPackageFiles": [

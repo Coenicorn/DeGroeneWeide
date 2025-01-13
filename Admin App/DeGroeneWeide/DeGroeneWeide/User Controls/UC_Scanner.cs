@@ -37,7 +37,11 @@ namespace DeGroeneWeide
         public void Fill(Reader reader)
         {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             if (reader == null)
+=======
+            if (reader == null || reader.Id == null)
+>>>>>>> Stashed changes
 =======
             if (reader == null || reader.Id == null)
 >>>>>>> Stashed changes
