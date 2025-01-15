@@ -47,13 +47,13 @@
             Background = new Guna.UI2.WinForms.Guna2Panel();
             picture_warning = new Guna.UI2.WinForms.Guna2PictureBox();
             picture_battery = new Guna.UI2.WinForms.Guna2PictureBox();
-            label5 = new Label();
+            lbl_Admin = new Label();
             Administrator_Active_View = new Guna.UI2.WinForms.Guna2Panel();
-            label4 = new Label();
+            lbl_Medewerker = new Label();
             Medewerker_Active_View = new Guna.UI2.WinForms.Guna2Panel();
-            label3 = new Label();
+            lbl_Bezoeker = new Label();
             Bezoeker_Active_View = new Guna.UI2.WinForms.Guna2Panel();
-            label2 = new Label();
+            lbl_Gast = new Label();
             Gast_Active_View = new Guna.UI2.WinForms.Guna2Panel();
             lbl_name = new Label();
             guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
@@ -69,18 +69,18 @@
             Background.BorderRadius = 10;
             Background.Controls.Add(picture_warning);
             Background.Controls.Add(picture_battery);
-            Background.Controls.Add(label5);
+            Background.Controls.Add(lbl_Admin);
             Background.Controls.Add(Administrator_Active_View);
-            Background.Controls.Add(label4);
+            Background.Controls.Add(lbl_Medewerker);
             Background.Controls.Add(Medewerker_Active_View);
-            Background.Controls.Add(label3);
+            Background.Controls.Add(lbl_Bezoeker);
             Background.Controls.Add(Bezoeker_Active_View);
-            Background.Controls.Add(label2);
+            Background.Controls.Add(lbl_Gast);
             Background.Controls.Add(Gast_Active_View);
             Background.Controls.Add(lbl_name);
             Background.Controls.Add(guna2PictureBox1);
             Background.CustomizableEdges = customizableEdges31;
-            Background.FillColor = Colors.Panel;
+            Background.FillColor = Color.FromArgb(201, 234, 203);
             Background.Location = new Point(0, 0);
             Background.Name = "Background";
             Background.ShadowDecoration.CustomizableEdges = customizableEdges32;
@@ -114,88 +114,88 @@
             picture_battery.TabIndex = 10;
             picture_battery.TabStop = false;
             // 
-            // label5
+            // lbl_Admin
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 11F);
-            label5.ForeColor = Colors.Text;
-            label5.Location = new Point(42, 107);
-            label5.Name = "label5";
-            label5.Size = new Size(100, 20);
-            label5.TabIndex = 9;
-            label5.Text = "Administrator";
+            lbl_Admin.AutoSize = true;
+            lbl_Admin.Font = new Font("Segoe UI", 11F);
+            lbl_Admin.ForeColor = Color.FromArgb(26, 46, 28);
+            lbl_Admin.Location = new Point(42, 107);
+            lbl_Admin.Name = "lbl_Admin";
+            lbl_Admin.Size = new Size(100, 20);
+            lbl_Admin.TabIndex = 9;
+            lbl_Admin.Text = "Administrator";
             // 
             // Administrator_Active_View
             // 
             Administrator_Active_View.BorderRadius = 8;
             Administrator_Active_View.CustomizableEdges = customizableEdges21;
-            Administrator_Active_View.FillColor = Colors.Admin;
+            Administrator_Active_View.FillColor = Color.FromArgb(120, 121, 120);
             Administrator_Active_View.Location = new Point(22, 107);
             Administrator_Active_View.Name = "Administrator_Active_View";
             Administrator_Active_View.ShadowDecoration.CustomizableEdges = customizableEdges22;
             Administrator_Active_View.Size = new Size(16, 16);
             Administrator_Active_View.TabIndex = 8;
             // 
-            // label4
+            // lbl_Medewerker
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 11F);
-            label4.ForeColor = Colors.Text;
-            label4.Location = new Point(42, 88);
-            label4.Name = "label4";
-            label4.Size = new Size(91, 20);
-            label4.TabIndex = 7;
-            label4.Text = "Medewerker";
+            lbl_Medewerker.AutoSize = true;
+            lbl_Medewerker.Font = new Font("Segoe UI", 11F);
+            lbl_Medewerker.ForeColor = Color.FromArgb(26, 46, 28);
+            lbl_Medewerker.Location = new Point(42, 88);
+            lbl_Medewerker.Name = "lbl_Medewerker";
+            lbl_Medewerker.Size = new Size(91, 20);
+            lbl_Medewerker.TabIndex = 7;
+            lbl_Medewerker.Text = "Medewerker";
             // 
             // Medewerker_Active_View
             // 
             Medewerker_Active_View.BorderRadius = 8;
             Medewerker_Active_View.CustomizableEdges = customizableEdges23;
-            Medewerker_Active_View.FillColor = Colors.MedeWerker;
+            Medewerker_Active_View.FillColor = Color.FromArgb(238, 152, 14);
             Medewerker_Active_View.Location = new Point(22, 88);
             Medewerker_Active_View.Name = "Medewerker_Active_View";
             Medewerker_Active_View.ShadowDecoration.CustomizableEdges = customizableEdges24;
             Medewerker_Active_View.Size = new Size(16, 16);
             Medewerker_Active_View.TabIndex = 6;
             // 
-            // label3
+            // lbl_Bezoeker
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Colors.Text;
-            label3.Location = new Point(42, 69);
-            label3.Name = "label3";
-            label3.Size = new Size(70, 20);
-            label3.TabIndex = 5;
-            label3.Text = "Bezoeker";
+            lbl_Bezoeker.AutoSize = true;
+            lbl_Bezoeker.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_Bezoeker.ForeColor = Color.FromArgb(26, 46, 28);
+            lbl_Bezoeker.Location = new Point(42, 69);
+            lbl_Bezoeker.Name = "lbl_Bezoeker";
+            lbl_Bezoeker.Size = new Size(70, 20);
+            lbl_Bezoeker.TabIndex = 5;
+            lbl_Bezoeker.Text = "Bezoeker";
             // 
             // Bezoeker_Active_View
             // 
             Bezoeker_Active_View.BorderRadius = 8;
             Bezoeker_Active_View.CustomizableEdges = customizableEdges25;
-            Bezoeker_Active_View.FillColor = Colors.Bezoeker;
+            Bezoeker_Active_View.FillColor = Color.FromArgb(12, 97, 201);
             Bezoeker_Active_View.Location = new Point(22, 69);
             Bezoeker_Active_View.Name = "Bezoeker_Active_View";
             Bezoeker_Active_View.ShadowDecoration.CustomizableEdges = customizableEdges26;
             Bezoeker_Active_View.Size = new Size(16, 16);
             Bezoeker_Active_View.TabIndex = 4;
             // 
-            // label2
+            // lbl_Gast
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Colors.Text;
-            label2.Location = new Point(42, 49);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 20);
-            label2.TabIndex = 3;
-            label2.Text = "Gast";
+            lbl_Gast.AutoSize = true;
+            lbl_Gast.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_Gast.ForeColor = Color.FromArgb(26, 46, 28);
+            lbl_Gast.Location = new Point(42, 49);
+            lbl_Gast.Name = "lbl_Gast";
+            lbl_Gast.Size = new Size(38, 20);
+            lbl_Gast.TabIndex = 3;
+            lbl_Gast.Text = "Gast";
             // 
             // Gast_Active_View
             // 
             Gast_Active_View.BorderRadius = 8;
             Gast_Active_View.CustomizableEdges = customizableEdges27;
-            Gast_Active_View.FillColor = Colors.Gast;
+            Gast_Active_View.FillColor = Color.FromArgb(12, 201, 34);
             Gast_Active_View.Location = new Point(22, 50);
             Gast_Active_View.Name = "Gast_Active_View";
             Gast_Active_View.ShadowDecoration.CustomizableEdges = customizableEdges28;
@@ -206,7 +206,7 @@
             // 
             lbl_name.AutoSize = true;
             lbl_name.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_name.ForeColor = Colors.Text;
+            lbl_name.ForeColor = Color.FromArgb(26, 46, 28);
             lbl_name.Location = new Point(35, 15);
             lbl_name.Margin = new Padding(0);
             lbl_name.Name = "lbl_name";
@@ -248,13 +248,13 @@
         private Guna.UI2.WinForms.Guna2Panel Background;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
         private Label lbl_name;
-        private Label label2;
+        private Label lbl_Gast;
         private Guna.UI2.WinForms.Guna2Panel Gast_Active_View;
-        private Label label5;
+        private Label lbl_Admin;
         private Guna.UI2.WinForms.Guna2Panel Administrator_Active_View;
-        private Label label4;
+        private Label lbl_Medewerker;
         private Guna.UI2.WinForms.Guna2Panel Medewerker_Active_View;
-        private Label label3;
+        private Label lbl_Bezoeker;
         private Guna.UI2.WinForms.Guna2Panel Bezoeker_Active_View;
         private Guna.UI2.WinForms.Guna2PictureBox picture_battery;
         private Guna.UI2.WinForms.Guna2PictureBox picture_warning;

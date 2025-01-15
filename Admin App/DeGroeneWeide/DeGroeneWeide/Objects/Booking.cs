@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeGroeneWeide.Objects
 {
-    internal class Booking
+    public class Booking
     {
         public string? Id { get; set; }
         public string? CustomerId { get; set; }

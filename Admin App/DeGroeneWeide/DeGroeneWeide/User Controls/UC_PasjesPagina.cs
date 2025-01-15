@@ -8,11 +8,11 @@ namespace DeGroeneWeide
         public UC_PasjesPagina()
         {
             InitializeComponent();
-            _ = LoadCards();
+            LoadCards();
         }
 
         // Laad alle pasje die opgehaald zijn uit de database.
-        public async Task LoadCards()
+        public async void LoadCards()
         {
             await CardApi.GetCards();
             cards_container.Controls.Clear();
@@ -21,8 +21,8 @@ namespace DeGroeneWeide
                 foreach (var card in CardApi.Cards)
                 {
                     UC_Pasje pasje = new();
-                    pasje.LoadData(card);
                     cards_container.Controls.Add(pasje);
+                    pasje.LoadData(card);
                 }
             }
         }

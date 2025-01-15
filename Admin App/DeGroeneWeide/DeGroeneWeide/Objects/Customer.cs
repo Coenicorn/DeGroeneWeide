@@ -8,53 +8,37 @@ using System.Threading.Tasks;
 
 namespace DeGroeneWeide.Objects
 {
-    internal class Customer
+    public class Customer
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonPropertyName("firstName")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [JsonPropertyName("middleName")]
-        public string MiddleName { get; set; }
+        public string? MiddleName { get; set; }
 
         [JsonPropertyName("lastName")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [JsonPropertyName("maySave")]
-        public string MaySave { get; set; }
+        public string? MaySave { get; set; }
 
         [JsonPropertyName("birthDate")]
-        public string BirthDate { get; set; }
+        public string? BirthDate { get; set; }
 
         [JsonPropertyName("creationDate")]
-        public string CreationDate { get; set; }
+        public string? CreationDate { get; set; }
 
         [JsonPropertyName("blacklisted")]
-        public string BlackListed { get; set; }
+        public string? BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [JsonPropertyName("mailAddress")]
-        public string Email { get; set; }
-
-        [JsonConstructor]
-        public Customer(string id, string firstName, string middleName, string lastName, string maySave, string birthDate, string creationDate, string blacklisted, string phoneNumber, string mailAddress)
-        {
-            Id = id;
-            FirstName = firstName;
-            MiddleName = middleName;
-            LastName = lastName;
-            MaySave = maySave;
-            BirthDate = birthDate;
-            CreationDate = creationDate;
-            BlackListed = blacklisted;
-            PhoneNumber = phoneNumber;
-            Email = mailAddress;
-        }
-
+        public string? Email { get; set; }
         public Customer() { }
 
         public void DumpInfo()

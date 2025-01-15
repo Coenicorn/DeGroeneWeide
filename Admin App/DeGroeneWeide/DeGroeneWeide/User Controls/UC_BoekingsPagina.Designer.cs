@@ -30,19 +30,19 @@ namespace DeGroeneWeide.User_Controls
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            container = new FlowLayoutPanel();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // container
             // 
-            flowLayoutPanel1.Location = new Point(30, 80);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1860, 918);
-            flowLayoutPanel1.TabIndex = 0;
+            container.Location = new Point(30, 80);
+            container.Name = "container";
+            container.Size = new Size(1860, 918);
+            container.TabIndex = 0;
             // 
             // UC_BoekingsPagina
             // 
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(container);
             Name = "UC_BoekingsPagina";
             Size = new Size(1920, 998);
             ResumeLayout(false);
@@ -50,6 +50,6 @@ namespace DeGroeneWeide.User_Controls
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel container;
     }
 }

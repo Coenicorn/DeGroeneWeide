@@ -28,7 +28,7 @@ namespace DeGroeneWeide.ApiCalls
                 string json = await result.Content.ReadAsStringAsync();
                 Debug.WriteLine("Customers JSON: " +json);
 
-                Customers = JsonSerializer.Deserialize<List<Customer>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                Customers = JsonSerializer.Deserialize<List<Customer>>(json);
                 foreach (Customer customer in Customers)
                 {
                     customer.DumpInfo();

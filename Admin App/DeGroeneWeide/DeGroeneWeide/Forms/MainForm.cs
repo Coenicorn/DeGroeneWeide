@@ -14,9 +14,9 @@ namespace DeGroeneWeide
     {
         public static AppSettings _settings = new();
 
-        public UC_PasjesPagina pasjesPagina = new();
-        public UC_ScannerPagina scannerPagina = new();
-        public UC_BoekingsPagina boekingsPagina = new();
+        public UC_PasjesPagina? pasjesPagina;
+        public UC_ScannerPagina? scannerPagina;
+        public UC_BoekingsPagina? boekingsPagina;
 
         public MainForm(IOptions<AppSettings> settings)
         {
@@ -34,6 +34,7 @@ namespace DeGroeneWeide
 
             pasjesPagina = new();
             scannerPagina = new();
+            boekingsPagina = new();
 
             LoadPage("Pasjes");
         }
