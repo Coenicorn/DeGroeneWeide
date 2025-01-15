@@ -22,10 +22,10 @@ BookingRouter.get("/getAllBookings", async (req, res) => {
         const bookings = await getAllBookings();
         res.json(bookings);
     } catch (error) {
-        throw new Error("Sorry! Er heeft een interne fout opgetreden.")
+        throw new Error("Sorry! Er heeft een interne fout opgetreden.");
     }
 
-    respondwithstatus(res, 200, "aight");
+    //res.status(200).send("aight");
 
 });
 
