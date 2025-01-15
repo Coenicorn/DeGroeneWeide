@@ -105,6 +105,78 @@ Responds with the internal ID of the new authLevel
 
 #### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# `POST /unlinkReaderAuth`
+
+## request
+
+```json
+{
+    "readerId": string,
+    "authLevelId": string
+}
+```
+
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))
+
+
+# `POST /unlinkCardAuth`
+
+## request
+
+```json
+{
+    "readerId": string,
+    "authLevelId": string
+}
+```
+
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # `POST /authenticateCard`
 
 ## request
