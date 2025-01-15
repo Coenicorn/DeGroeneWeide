@@ -3,6 +3,10 @@ import { createHash } from "crypto";
 
 /** logs '[$type] $msg' to console */
 function _log(msg, type) {
+    if (global.test_nolog === 1) {
+        // don't log anything when testing
+        return;
+    }
     if (config.environment === "dev") {
         let d = new Date();
         console.log(`[${d.toLocaleTimeString()}][${type}] ${msg}`);

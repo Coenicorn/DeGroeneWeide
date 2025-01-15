@@ -10,6 +10,9 @@ import { uid } from "uid";
 
 // private api
 const app = express();
+// this is global so the testing code can access it (./test/)
+global.ApiApp = app;
+
 let routes;
 
 app.use((req, res, next) => {
