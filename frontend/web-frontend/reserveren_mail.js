@@ -27,7 +27,7 @@ function sendMail() {
         checked_notities = notities.value;
     }
 
-    location.href=`mailto:BoerBert@gmail.com?subject=Reservatie aanvraag camping de Groene Weide&body=Beste Boer Bert, %0D%0A %0D%0A  Ik zou graag bij u willen reserveren op de camping, hier is zijn mijn gegevens: %0D%0A %0D%0A Voornaam: ${voornaam.value} %0D%0A Achternaam: ${tussenvoegsel.value} ${achternaam.value} %0D%0A E-mailadres: ${email.value} %0D%0A Telefoonnummer: ${land_code.value} ${telefoonnummer.value} %0D%0A Van ${begin_datum.value} tot ${eind_datum.value} %0D%0A Verwachte aankomsttijd: ${checked_aankomsttijd} %0D%0A Aantal gasten: ${aantal_gasten.value} %0D%0A Type accommodatie: ${accommodatie.value} %0D%0A Notities: ${checked_notities} %0D%0A %0D%0A Fijne dag nog!`
+    location.href=`mailto:BoerBert@gmail.com?subject=Reservatie aanvraag camping de Groene Weide&body=Beste Boer Bert, %0D%0A %0D%0A  Ik zou graag bij u willen reserveren op de camping, hier zijn mijn gegevens: %0D%0A %0D%0A Voornaam: ${voornaam.value} %0D%0A Achternaam: ${tussenvoegsel.value} ${achternaam.value} %0D%0A E-mailadres: ${email.value} %0D%0A Telefoonnummer: ${land_code.value} ${telefoonnummer.value} %0D%0A Van ${begin_datum.value} tot ${eind_datum.value} %0D%0A Verwachte aankomsttijd: ${checked_aankomsttijd} %0D%0A Aantal gasten: ${aantal_gasten.value} %0D%0A Type accommodatie: ${accommodatie.value} %0D%0A Notities: ${checked_notities} %0D%0A %0D%0A Fijne dag nog!`
 
 }
 
