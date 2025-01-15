@@ -434,15 +434,9 @@ ul {
 
 .reserveren-btn{
   display: flex;
-<<<<<<< HEAD
   justify-content: center;
   align-items: center;
   padding: 18px 0;
-=======
-  text-decoration: none;
-  padding: 18px 200px;  
-  font-size: 13px;
->>>>>>> parent of 84617c2 (reserveren button responsiveness fixr)
   background: #F44336;
   position: relative;
   cursor: pointer;
@@ -451,14 +445,10 @@ ul {
   left: 20%;
   top: 35%;
   transition: 0.75s;
+  text-decoration: none;
 }
 
-<<<<<<< HEAD
-
 .reserveren-btn:hover {
-=======
-.reserveren-btn:hover{
->>>>>>> parent of 84617c2 (reserveren button responsiveness fixr)
   background: rgb(220, 60, 49);
   transition: 0.75s;
 }
