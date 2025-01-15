@@ -4,26 +4,28 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>De Groene Weide</title>
+</head>
 <link rel="stylesheet" href="BoerBert.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
 <body>
 <header>
 <section class="header">
-<nav>
-<a href="#"><h2>LOGO</h2><img src="#"></a>
-  <div class="nav-links" id="navLinks">
-    <i class="fa fa-times" onclick="hideMenu()"></i>
+  <nav>
+    <div class="nav-links" id="navLinks">
+      <i class="fa fa-times" onclick="hideMenu()"></i>
     <ul>
       <li><a href="#Home">Home</a></li>
       <li><a href="#Faciliteiten">Faciliteiten</a></li>
       <li><a href="#Accommodaties">Accommodaties</a></li>
       <li><a href="#Locatie">Locatie</a></li>
+      <li><a href="#Registreren">Registreren</a></li>
     </ul>
   </div>
-  <i class="fa fa-bars" onclick="showMenu()"></i>
+  <i class="fa fa-times" onclick="showMenu()"></i>
 </nav>
 
 <div class="text-box">
@@ -32,10 +34,8 @@
     Deze camping zou een mix kunnen zijn van traditionele kampeerplekken voor caravans en tenten, maar ook luxe tenten voor glamping, compleet met comfortabele bedden, elektriciteit en privé-sanitair.</p>
   <a href="" class="hero-btn">Klik voor meer informatie</a>
 </div>
-</section>
 </header>
-
-
+</section>
 
 <script>
 
@@ -80,7 +80,9 @@
 </section>
 
 <section class="Faciliteiten">
-  <h1>Onze Faciliteiten</h1>
+
+  <h1 id="Faciliteiten">Onze Faciliteiten</h1>
+
   <p>Onze camping biedt moderne faciliteiten zoals schone sanitaire voorzieningen, ruime kampeerplekken en een speeltuin voor de kinderen.</p>
 
 <div class="row">
@@ -107,8 +109,14 @@
 
 </section>
 
+
+<section>
+  <a id="button" href="#top">top</a>
+</section>
+
 <section class="Accommodaties">
-  <h1>Onze Accommodaties</h1>
+  <h1 id="Accommodaties">Onze Accommodaties</h1>
+
   <p>Onze camping beschikt over comfortabele accommodaties, waaronder chalets, stacaravans en glamping-tenten voor een ontspannen verblijf.</p>
 
   <div class="row">
@@ -119,7 +127,9 @@
     </div>
     <div class="Accommodaties-col">
       <img src="./img/BoerBert Faciliteiten en Accommodaties/camping-met-stacaravan-heldensebossen.jpg">
+
       <h3>Sta caravans/campers</h3>
+
       <p>Onze comfortabele stacaravans bieden een praktische en gezellige plek voor een ontspannen verblijf, midden in de natuur.</p>
     </div>
     <div class="Accommodaties-col">
@@ -130,6 +140,7 @@
   </div>
 
 </section>
+
 
 <section id="reserveren-section">
   <div class="reserveren-div">
@@ -197,6 +208,7 @@
       </div>
     </div>
   </div>
+
 </section>
 </body>
 </html>

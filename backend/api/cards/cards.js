@@ -106,12 +106,13 @@ CardsRouter.post("/insertCard", async (req, res) => {
         if (
             !card.id ||
             card.blocked === undefined ||
-            card.token === undefined
+            card.token === undefined,
+            card.booking_id === undefined
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        const result = await insertCard(card.id, null, card.token, card.blocked);
+        const result = await insertCard(card.id, card.booking_id, card.token, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
