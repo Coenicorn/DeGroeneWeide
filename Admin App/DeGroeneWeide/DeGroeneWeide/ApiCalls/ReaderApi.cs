@@ -16,6 +16,8 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task GetReaders()
         {
+            string URL = $"{MainForm._settings.URL}/readers/getAllReaders";
+            Debug.WriteLine("GetReaders URL: " + URL);
             if (!client.DefaultRequestHeaders.Contains("Accept"))
             {
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -23,7 +25,7 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/readers/getAllReaders");
+                HttpResponseMessage result = await client.GetAsync(URL);
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
@@ -39,8 +41,8 @@ namespace DeGroeneWeide.ApiCalls
 
         public static void EditReader(Reader reader)
         {
-            //test om te kijken of hij het aanpast
-            //reader.SetAmenity(10);
+            string URL = $"{MainForm._settings.URL}/readers/updateReader";
+            Debug.WriteLine("EditReader URL: " + URL);
 
             if (!client.DefaultRequestHeaders.Contains("Accept"))
             {
@@ -55,7 +57,7 @@ namespace DeGroeneWeide.ApiCalls
 
             var json = JsonSerializer.Serialize(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = client.PostAsync(MainForm._settings.URL + "/readers/updateReader".ToString(), content);
+            var response = client.PostAsync(URL, content);
 
 
         }

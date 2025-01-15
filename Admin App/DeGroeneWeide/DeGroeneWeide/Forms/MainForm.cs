@@ -14,9 +14,9 @@ namespace DeGroeneWeide
     {
         public static AppSettings _settings = new();
 
-        public UC_PasjesPagina pasjesPagina = new();
-        public UC_ScannerPagina scannerPagina = new();
-        public UC_BoekingsPagina boekingsPagina = new();
+        public UC_PasjesPagina? pasjesPagina;
+        public UC_ScannerPagina? scannerPagina;
+        public UC_BoekingsPagina? boekingsPagina;
 
         public MainForm(IOptions<AppSettings> settings)
         {
@@ -28,10 +28,13 @@ namespace DeGroeneWeide
         public async void FirstLoad()
         {
             await ReaderApi.GetReaders();
+            await BookingApi.GetBooking();
+            await CustomerApi.GetCards();
             //ApiCalls.GetLastCard();
 
             pasjesPagina = new();
             scannerPagina = new();
+            boekingsPagina = new();
 
             LoadPage("Pasjes");
         }
@@ -44,7 +47,7 @@ namespace DeGroeneWeide
             {
                 case "Pasjes": pagina_container.Controls.Add(pasjesPagina); break;
                 case "Scanner": pagina_container.Controls.Add(scannerPagina); break;
-                case "Boeking": pagina_container.Controls.Add(boekingsPagina); Debug.WriteLine("BoekingsPagina Geladen"); break;
+                case "Boeking": pagina_container.Controls.Add(boekingsPagina); break;
                 default: pagina_container.Controls.Add(pasjesPagina); break;
             }
         }

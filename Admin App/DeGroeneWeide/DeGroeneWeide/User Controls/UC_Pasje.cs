@@ -18,19 +18,19 @@ namespace DeGroeneWeide
             switch (card.Level)
             {
                 case 0:
-                    level_color.FillColor = Color.Green;
+                    level_color.FillColor = Colors.Gast;
                     level_name.Text = "Gast";
                     break;
                 case 1:
-                    level_color.FillColor = Color.Blue;
+                    level_color.FillColor = Colors.Bezoeker;
                     level_name.Text = "Bezoeker";
                     break;
                 case 2:
-                    level_color.FillColor = Color.Orange;
+                    level_color.FillColor = Colors.MedeWerker;
                     level_name.Text = "Medewerker";
                     break;
                 case 3:
-                    level_color.FillColor = Color.Gray;
+                    level_color.FillColor = Colors.Admin;
                     level_name.Text = "Admin";
                     break;
             }

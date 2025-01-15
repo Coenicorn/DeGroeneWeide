@@ -17,6 +17,8 @@ namespace DeGroeneWeide.ApiCalls
         public static HttpClient client = new();
         public static async Task<List<AuthLevel>> GetAllAuthLevels(string readerId)
         {
+            string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
+            Debug.WriteLine("GetAllAuthLevels URL: " + URL);
             if (!client.DefaultRequestHeaders.Contains("Accept"))
             {
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -32,7 +34,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/readers/getAllAuthLevels", content);
+            HttpResponseMessage response = await client.PostAsync(URL, content);
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine("Authlevels: " + responseString);
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DeGroeneWeide.ApiCalls;
+using DeGroeneWeide.Objects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +17,24 @@ namespace DeGroeneWeide.User_Controls
         public UC_BoekingsPagina()
         {
             InitializeComponent();
+            LoadInfo();
+        }
+
+        public void LoadInfo()
+        {
+            container.Controls.Clear();
+            foreach(Booking bookingen in BookingApi.Bookings)
+            {
+                foreach(Customer customer in CustomerApi.Customers)
+                {
+                    if(bookingen.CustomerId == customer.Id)
+                    {
+                        UC_Boeking uc = new();
+                        container.Controls.Add(uc);
+                        uc.FillInfo(bookingen, customer);
+                    }
+                }
+            }
         }
     }
 }

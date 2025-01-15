@@ -37,6 +37,11 @@ namespace DeGroeneWeide
 
         public async void Fill(Reader reader)
         {
+            Gast_Active_View.Visible = false; lbl_Gast.Visible = false;
+            Bezoeker_Active_View.Visible = false; lbl_Bezoeker.Visible = false;
+            Medewerker_Active_View.Visible = false; lbl_Medewerker.Visible = false;
+            Administrator_Active_View.Visible = false; lbl_Admin.Visible = false;
+
             if (reader == null || reader.Id == null)
             {
                 return;
@@ -62,10 +67,10 @@ namespace DeGroeneWeide
                 Debug.WriteLine(authLevel.Name + " - " + authLevel.Id);
                 switch (authLevel.Name)
                 {
-                    case "Gast": i++; Debug.WriteLine("Gast is actief"); break;
-                    case "Bezoeker": i++; Debug.WriteLine("Bezoeker is actief"); break;
-                    case "Medewerker": i++; Debug.WriteLine("Medewerker is actief"); break;
-                    case "Administrator": i++; Debug.WriteLine("Administrator is actief"); break;
+                    case "Gast": i++; Gast_Active_View.Location = locationsView[i]; lbl_Gast.Location = locationsText[i]; Gast_Active_View.Visible = true; lbl_Gast.Visible = true; break;
+                    case "Bezoeker": i++; Bezoeker_Active_View.Location = locationsView[i]; lbl_Bezoeker.Location = locationsText[i]; Bezoeker_Active_View.Visible = true; lbl_Bezoeker.Visible = true; break;
+                    case "Medewerker": i++; Medewerker_Active_View.Location = locationsView[i]; lbl_Medewerker.Location = locationsText[i]; Medewerker_Active_View.Visible = true; lbl_Medewerker.Visible = true; break;
+                    case "Administrator": i++; Administrator_Active_View.Location = locationsView[i]; lbl_Admin.Location = locationsText[i]; Administrator_Active_View.Visible = true; lbl_Admin.Visible = true; break;
                     default: continue;
 
                 }
