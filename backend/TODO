@@ -1,3 +1,5 @@
 - update cards API documentation
 - update auth API documentation
 - move db init code to .sql file
+
+- unlink auth levels from readers and cards
