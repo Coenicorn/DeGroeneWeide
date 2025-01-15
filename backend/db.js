@@ -367,11 +367,26 @@ export async function linkReaderToAuthLevel(readerId, authLevelId) {
     `, [readerId, authLevelId]);
 }
 
+export async function unlinkReaderFromAuthLevel(readerId, authLevelId) {
+    return db_execute(`
+        DELETE FROM ReaderAuthJunctions WHERE readerId = ? AND authLevelId = ?    
+    `, [readerId, authLevelId]);
+}
+
 export async function linkCardToAuthLevel(cardId, authLevelId) {
     return db_execute(`
         INSERT INTO CardAuthJunctions (cardId, authLevelId) VALUES (?,?)  
     `, [cardId, authLevelId]);
 }
+
+
+export async function unlinkCardFromAuthLevel(cardId, authLevelId) {
+    return db_execute(`
+        DELETE FROM CardAuthJunctions WHERE cardId = ? AND authLevelId = ?    
+    `, [cardId, authLevelId]);
+}
+
+
 
 // queries a list of known cards and readers matching the given id's with the same authentication level only if the card has the same authentication token
 export async function getReaderCardAuthLevelMatchesWithToken(cardId, readerId, cardToken) {
