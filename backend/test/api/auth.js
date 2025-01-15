@@ -2,19 +2,19 @@ import request from "supertest"
 
 describe("authentication api", () => {
     describe("/getAllAuthlevels", () => {
-        it("responds with existing auth levels", async () => {
-
-
-
+        it("returns no existing auth levels when no are present", async (done) => {
+            
             request(global.ApiApp)
                 .get("/api/auth/getAllAuthLevels")
                 .expect(200)
                 .expect("Content-Type", /json/)
-                .end((err, res) => {
-                    if (err) throw err;
+                .expect((res) => {
                     // check if body is empty
-                    if (res.body.length !== 0) throw new Error("body not empty");
+                    console.log(res.body)
+                    if (res.body.length !== 0) done(new Error("body not empty"));
+                    else done();
                 })
+                .end();
 
         })
     })
