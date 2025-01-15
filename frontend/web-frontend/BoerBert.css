@@ -442,7 +442,7 @@ ul {
   flex-basis: 80%;
   border-radius: 30px;
   padding-top: 30px;
-  padding-bottom: 150px;
+  padding-bottom: 10%;
   transition: 0.5s;
 }
 
