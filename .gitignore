@@ -11,3 +11,5 @@ secret.h
 *.vsidx
 *.v2
 Admin App/DeGroeneWeide/DeGroeneWeide/obj
+Admin App/DeGroeneWeide/.vs/DeGroeneWeide/v17/.suo
+/Admin App/DeGroeneWeide/.vs
