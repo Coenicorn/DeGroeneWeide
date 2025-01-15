@@ -25,16 +25,6 @@ BookingRouter.get("/getAllBookings", async (req, res) => {
         throw new Error("Sorry! Er heeft een interne fout opgetreden.")
     }
 
-
-    try {
-        await db_execute(`
-            INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople)
-            VALUES ('000', '000', 1, 2, '1')    
-        `);
-    } catch(e) {
-        err_log("failed to add booking", e);
-    }
-
     respondwithstatus(res, 200, "aight");
 
 });
