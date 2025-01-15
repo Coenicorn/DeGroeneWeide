@@ -1,0 +1,14 @@
+waar gaan de pins op de pcb naartoe:
+
+ESP32-WROOM-DEV 38 pin (check met de datasheet of de fysieke pin overeenkomt met de interne GPIO pin):
+
+G26 -> error status led +
+G25 -> pulldown naar ground & pcb button
+G33 -> RGB led blue +
+G2 -> RGB led red +
+G4 -> RGB led green +
+
+G5 -> RFID lezer SDA
+G18 -> RFID lezer SCK
+G19 -> RFID lezer MISO
+G32 -> RFID lezer MOSI

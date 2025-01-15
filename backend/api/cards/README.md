@@ -103,7 +103,8 @@ Voegt een nieuwe kaart toe aan de database.
     ```json
     {
         "id": string,
-        "blocked": boolean
+        "blocked": boolean,
+        "token": string
     }
     ```
 
