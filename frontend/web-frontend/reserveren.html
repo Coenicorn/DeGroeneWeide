@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reserveren</title>
   <link rel="stylesheet" href="reserveren.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  </head>
+</head>
 
 <header>
   <div class="text-box">
@@ -21,7 +22,7 @@
   </div>
 </header>
 
-<body>  
+<body>
   <h1 id="title" class="margintop25">Online reserveringsformulier</h1>
   <section class="reserveren-forum">
     <div class="reserveren-container">
@@ -31,9 +32,9 @@
           <label for="voornaam" class="forum-label">Voornaam <span class="required">*</span></label>
           <input type="text" id="voornaam" class="reserveren-form-text">
         </div>
-        <div class="forum-box">
-          <label for="tussenvoegsel" class="forum-label short">Tussenvoegsel</label>
-          <input type="text" id="tussenvoegsel" class="reserveren-form-text short">
+        <div class="forum-box short">
+          <label for="tussenvoegsel" class="forum-label">Tussenvoegsel</label>
+          <input type="text" id="tussenvoegsel" class="reserveren-form-text">
         </div>
         <div class="forum-box">
           <label for="achternaam" class="forum-label">Achternaam<span class="required">*</span></label>
@@ -45,8 +46,8 @@
           <label for="email" class="forum-label">E-mailadres<span class="required">*</span></label>
           <input type="text" id="email" class="reserveren-form-text">
         </div>
-        <div class="forum-box">
-          <label for="landCode" class="forum-label">Land Code<span class="required">*</span></label>
+        <div class="forum-box shortest">
+          <label for="landCode" class="forum-label">Land code<span class="required">*</span></label>
           <input type="number" id="landCode" class="reserveren-form-text">
         </div>
         <div class="forum-box">
@@ -76,20 +77,24 @@
         </div>
         <div class="forum-box">
           <label for="typeAccommodatie" class="forum-label">Type Accommodatie<span class="required">*</span></label>
-          <select id="typeAccommodatie" class="reserveren-form-text">
-            <option value="">Selecteer type accommodatie</option>
+          <select id="typeAccommodatie">
+            <option value="default">Selecteer type accommodatie</option>
             <option value="tent">Tent</option>
-            <option value="caravan">Caravan</option>
-            <option value="huisje">Huisje</option>
-            <option value="bungalow">Bungalow</option>
+            <option value="stacaravan">Stacaravan</option>
+            <option value="camper">Camper</option>
+            <option value="chalet">Chalet</option>
+            <option value="lodge">Lodge</option>
           </select>
         </div>
       </div>
       <div class="forum-box-group">
-        <div class="forum-box">
+        <div class="forum-box note">
           <label for="note" class="forum-label">Notities voor de camping</label>
-          <input type="text" id="note" class="reserveren-form-text">
+          <textarea cols="5" id="note" rows="5"></textarea>
         </div>
+      </div>
+      <div class="confirm-btn-div">
+        <button type="button" id="confirm-btn" href="mailto:example@example.com?subject=Hello&cc=cc@example.com&bcc=bcc@example.com&body=This is the body text">Verzenden</button>
       </div>
     </div>
   </section>
