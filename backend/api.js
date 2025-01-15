@@ -63,69 +63,69 @@ app.listen(config.privateServerPort, async () => {
 
         const host = "http://localhost:" + config.privateServerPort;
 
-        await fetch(host+"/api/readers/imalive", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                battery: 100,
-                macAddress: "testmacaddress"
-            })
-        });
-        await fetch(host+"/api/cards/insertCard", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                id: md5hash("test_card_id"),
-                bookingId: null,
-                token: uid(),
-                blocked: 0
-            })
-        });
-        await fetch(host+"/api/auth/addAuthLevel", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                name: "shit",
-            })
-        });
+        // await fetch(host+"/api/readers/imalive", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Accept": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         battery: 100,
+        //         macAddress: "testmacaddress"
+        //     })
+        // });
+        // await fetch(host+"/api/cards/insertCard", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Accept": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         id: md5hash("test_card_id"),
+        //         bookingId: null,
+        //         token: uid(),
+        //         blocked: 0
+        //     })
+        // });
+        // await fetch(host+"/api/auth/addAuthLevel", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Accept": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         name: "shit",
+        //     })
+        // });
 
-        const levels = await fetch(host+"/api/auth/getAllAuthLevels").then(data=>data.json());
+        // const levels = await fetch(host+"/api/auth/getAllAuthLevels").then(data=>data.json());
 
-        await fetch(host+"/api/auth/linkReaderAuth", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                readerId: md5hash("testmacaddress"),
-                authLevelId: levels[0].id
-            })
-        });
+        // await fetch(host+"/api/auth/linkReaderAuth", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Accept": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         readerId: md5hash("testmacaddress"),
+        //         authLevelId: levels[0].id
+        //     })
+        // });
 
-        const cards = await fetch(host+"/api/cards/getAllCards").then(data=>data.json());
+        // const cards = await fetch(host+"/api/cards/getAllCards").then(data=>data.json());
 
     
-        await fetch(host+"/api/auth/linkCardAuth", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                authLevelId: levels[0].id,
-                cardId: cards[0].id
-            })
-        });
+        // await fetch(host+"/api/auth/linkCardAuth", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Accept": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         authLevelId: levels[0].id,
+        //         cardId: cards[0].id
+        //     })
+        // });
     }
 
     periodicActivityUpdate();

@@ -270,11 +270,19 @@ export async function updateCard(id, bookingId, token, blocked) {
 
 }
 
+export async function getAllBookings() {
+    return db_query("SELECT * FROM Bookings LEFT JOIN Customers ON Bookings.customerId = Customers.id", []);
+}
+
 /**
  * @note updated to schema 13.dec.2024
  */
 export async function insertCard(id, bookingId, token, blocked) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
+}
+
+export async function insertBooking(id, customerId, startDate, endDate, amountPeople){
+    return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople) VALUES (?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople]);
 }
 
 export async function insertReader(id, batteryPercentage, amenityId, lastPing, name, active) {
@@ -332,4 +340,48 @@ export async function blacklistCustomer(mailAddress, active) {
 
 export async function deleteCustomer(mailAddress){
     return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
+}
+
+export async function insertAuthLevel(id, name) {
+    return db_execute("INSERT INTO AuthLevels (id, name) VALUES (?,?)", [id, name]);
+}
+
+export async function updateAuthLevelName(levelId, newName) {
+    return db_execute("UPDATE AuthLevels SET name = ? WHERE id = ?", [newName, levelId]);
+}
+
+export async function deleteAuthLevel(levelId) {
+    return db_execute("DELETE FROM AuthLevels WHERE id = ?", [levelId]);
+}
+
+export async function getAllAuthLevels() {
+    return db_query("SELECT * FROM AuthLevels");
+}
+
+
+
+
+export async function linkReaderToAuthLevel(readerId, authLevelId) {
+    return db_execute(`
+        INSERT INTO ReaderAuthJunctions (readerId, authLevelId) VALUES (?,?)  
+    `, [readerId, authLevelId]);
+}
+
+export async function linkCardToAuthLevel(cardId, authLevelId) {
+    return db_execute(`
+        INSERT INTO CardAuthJunctions (cardId, authLevelId) VALUES (?,?)  
+    `, [cardId, authLevelId]);
+}
+
+// queries a list of known cards and readers matching the given id's with the same authentication level only if the card has the same authentication token
+export async function getReaderCardAuthLevelMatchesWithToken(cardId, readerId, cardToken) {
+    return db_query(`
+        SELECT DISTINCT Cards.id, Readers.id, Cards.token
+        FROM Cards
+        JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
+        JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
+        JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
+        JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
+        WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
+    `, [cardToken, cardId, readerId]);
 }

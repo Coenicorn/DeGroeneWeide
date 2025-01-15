@@ -90,10 +90,6 @@ Responds with the internal ID of the new authLevel
 }
 ```
 
-## responses
-
-#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses))
-
 # `POST /linkCardAuth`
 
 ## request

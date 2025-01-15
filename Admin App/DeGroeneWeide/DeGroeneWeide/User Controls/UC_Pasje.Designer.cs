@@ -61,7 +61,7 @@
             guna2Panel1.Controls.Add(level_name);
             guna2Panel1.Controls.Add(level_color);
             guna2Panel1.CustomizableEdges = customizableEdges4;
-            guna2Panel1.FillColor = Color.White;
+            guna2Panel1.FillColor = Color.FromArgb(248, 248, 248);
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Margin = new Padding(30, 3, 3, 3);
             guna2Panel1.Name = "guna2Panel1";
@@ -74,6 +74,7 @@
             // 
             bookings_date.BackColor = Color.Transparent;
             bookings_date.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bookings_date.ForeColor = Colors.Text;
             bookings_date.Location = new Point(80, 152);
             bookings_date.Name = "bookings_date";
             bookings_date.Size = new Size(185, 19);
@@ -84,6 +85,7 @@
             // 
             bookings_number.BackColor = Color.Transparent;
             bookings_number.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bookings_number.ForeColor = Colors.Text;
             bookings_number.Location = new Point(111, 127);
             bookings_number.Name = "bookings_number";
             bookings_number.Size = new Size(67, 19);
@@ -94,6 +96,7 @@
             // 
             bookings_name.BackColor = Color.Transparent;
             bookings_name.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            bookings_name.ForeColor = Colors.Text;
             bookings_name.Location = new Point(75, 104);
             bookings_name.Name = "bookings_name";
             bookings_name.Size = new Size(63, 19);
@@ -104,6 +107,7 @@
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
             guna2HtmlLabel4.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2HtmlLabel4.ForeColor = Colors.Text;
             guna2HtmlLabel4.Location = new Point(27, 152);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(47, 19);
@@ -114,6 +118,7 @@
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
             guna2HtmlLabel3.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2HtmlLabel3.ForeColor = Colors.Text;
             guna2HtmlLabel3.Location = new Point(27, 127);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(78, 19);
@@ -124,6 +129,7 @@
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
             guna2HtmlLabel2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2HtmlLabel2.ForeColor = Colors.Text;
             guna2HtmlLabel2.Location = new Point(27, 102);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
             guna2HtmlLabel2.Size = new Size(42, 19);
@@ -148,6 +154,7 @@
             // 
             level_name.BackColor = Color.Transparent;
             level_name.Font = new Font("Segoe UI Semibold", 26.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            level_name.ForeColor = Colors.Text;
             level_name.Location = new Point(89, 22);
             level_name.Name = "level_name";
             level_name.Size = new Size(73, 49);
@@ -158,7 +165,7 @@
             // 
             level_color.BorderRadius = 35;
             level_color.CustomizableEdges = customizableEdges2;
-            level_color.FillColor = Color.Green;
+            level_color.FillColor = Color.FromArgb(12, 201, 34);
             level_color.Location = new Point(13, 12);
             level_color.Name = "level_color";
             level_color.ShadowDecoration.CustomizableEdges = customizableEdges3;

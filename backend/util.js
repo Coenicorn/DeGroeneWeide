@@ -70,3 +70,9 @@ function routesFromStack(stack) {
 export function routesFromApp(app) {
     return routesFromStack(app._router.stack);
 }
+
+export function dateToDateTimeString() {
+    const d = new Date();
+
+    info_log(d.toISOString());
+}

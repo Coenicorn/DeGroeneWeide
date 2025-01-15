@@ -1,6 +1,6 @@
-import e, { Router } from "express";
+import { Router } from "express";
 import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
-import { db_execute, db_query } from "../../db.js";
+import { deleteAuthLevel, getAllAuthLevels, getReaderCardAuthLevelMatchesWithToken, insertAuthLevel, linkCardToAuthLevel, linkReaderToAuthLevel, updateAuthLevelName } from "../../db.js";
 import { uid } from "uid";
 
 const AuthRouter = Router();
@@ -13,7 +13,8 @@ AuthRouter.post("/addAuthLevel", async (req, res) => {
     if (typeof(name) !== "string") return respondwithstatus(res, 400, "name isn't of type 'string'");
 
     try {
-        await db_execute("INSERT INTO AuthLevels (id, name) VALUES (?,?)", [uid(), name]);
+        // await db_execute("INSERT INTO AuthLevels (id, name) VALUES (?,?)", [uid(), name]);
+        await insertAuthLevel(uid() /* temp...? */, name);
 
         respondwithstatus(res, 200, "OK");
     } catch(e) {
@@ -39,7 +40,9 @@ AuthRouter.post("/updateAuthLevel", async (req, res) => {
     if (typeof(name) !== "string") return respondwithstatus(res, 400, "name is not of type 'string'");
 
     try {
-        await db_execute("UPDATE AuthLevels SET name = ?", [name]);
+        // await db_execute("UPDATE AuthLevels SET name = ?", [name]);
+        await updateAuthLevelName(id, name);
+
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /updateAuthLevel", e);
@@ -56,7 +59,9 @@ AuthRouter.post("/deleteAuthLevel", async (req, res) => {
     if (typeof(id) !== "string") return respondwithstatus(res, 400, "id is not of type 'string'");
 
     try {
-        await db_execute("DELETE FROM AuthLevels WHERE id=?", [id]);
+        // await db_execute("DELETE FROM AuthLevels WHERE id=?", [id]);
+        await deleteAuthLevel(id);
+
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /deleteAuthLevel", e);
@@ -69,7 +74,9 @@ AuthRouter.post("/deleteAuthLevel", async (req, res) => {
 AuthRouter.get("/getAllAuthLevels", async (req, res) => {
 
     try {
-        const result = await db_query("SELECT * FROM AuthLevels");
+        // const result = await db_query("SELECT * FROM AuthLevels");
+        const result = await getAllAuthLevels();
+
         res.json(result);
     } catch(e) {
         err_log("error in /getAllAuthLevels", e);
@@ -97,9 +104,10 @@ AuthRouter.post("/linkReaderAuth", async (req, res) => {
 
     try {
 
-        await db_execute(`
-            INSERT INTO ReaderAuthJunctions (readerId, authLevelId) VALUES (?,?)  
-        `, [readerId, authLevelId]);
+        // await db_execute(`
+        //     INSERT INTO ReaderAuthJunctions (readerId, authLevelId) VALUES (?,?)  
+        // `, [readerId, authLevelId]);
+        await linkReaderToAuthLevel(readerId, authLevelId);
 
         return respondwithstatus(res, 200, "OK");
 
@@ -125,9 +133,10 @@ AuthRouter.post("/linkCardAuth", async (req, res) => {
 
     try {
 
-        await db_execute(`
-            INSERT INTO CardAuthJunctions (cardId, authLevelId) VALUES (?,?)  
-        `, [cardId, authLevelId]);
+        // await db_execute(`
+        //     INSERT INTO CardAuthJunctions (cardId, authLevelId) VALUES (?,?)  
+        // `, [cardId, authLevelId]);
+        await linkCardToAuthLevel(cardId, authLevelId);
 
         return respondwithstatus(res, 200, "OK");
 
@@ -159,15 +168,16 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
     info_log("authenticating with cardId " + cardId + " and readerId " + readerId + " (mac: " + macAddress + ") and token " + cardToken);
 
     try {
-        const matches = await db_query(`
-            SELECT DISTINCT Cards.id, Readers.id
-            FROM Cards
-            JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
-            JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
-            JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
-            JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
-            WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
-        `, [cardToken, cardId, readerId]);
+        // const matches = await db_query(`
+        //     SELECT DISTINCT Cards.id, Readers.id, Cards.token
+        //     FROM Cards
+        //     JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
+        //     JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
+        //     JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
+        //     JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
+        //     WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
+        // `, [cardToken, cardId, readerId]);
+        const matches = await getReaderCardAuthLevelMatchesWithToken(cardId, readerId, cardToken);
 
         if (matches.length === 0) {
             // failed to authenticate

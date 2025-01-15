@@ -84,3 +84,51 @@ The only editable fields are listed below
   "amenityId": string | null
 }
 ```
+
+## `POST /insertReader`
+
+Insert a new reader into the database.
+
+## request
+
+```json
+{
+  "id": string,
+  "batteryPercentage": int | null,
+  "amenityId": string,
+  "lastPing": string | null,
+  "name": string,
+  "active": boolean | null
+}
+```
+
+## `POST /getAllAuthLevels`
+
+Gets all auth levels for a single reader
+
+## request
+
+```json
+{
+  "id": string
+}
+```
+
+`id`: Reader id
+
+## responses
+
+#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
+
+```json
+[
+  { 
+    "id": string,
+    "name": string
+  },
+  ...
+]
+```
+
+`id`: Auth level id
+`name`: Name of the auth level
