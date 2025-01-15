@@ -8,3 +8,5 @@
 # wachtoorden niet uploaden naar github
 secret.h
 
+*.vsidx
+*.v2
