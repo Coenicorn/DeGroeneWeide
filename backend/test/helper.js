@@ -1,4 +1,5 @@
-import config from "../config.js";
+// import config from "../config.js";
+// import { createTestMockDataBase } from "../db.js";
 
 before(async () => {
 
@@ -9,7 +10,9 @@ before(async () => {
 
     await import("../api.js");
 
-    console.log(config.environment);
+    // await createTestMockDataBase();
+
+    // console.log(config.environment);
     
 
 });

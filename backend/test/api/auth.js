@@ -2,7 +2,9 @@ import request from "supertest"
 
 describe("authentication api", () => {
     describe("/getAllAuthlevels", () => {
-        it("responds with no auth levels", () => {
+        it("responds with existing auth levels", async () => {
+
+
 
             request(global.ApiApp)
                 .get("/api/auth/getAllAuthLevels")
