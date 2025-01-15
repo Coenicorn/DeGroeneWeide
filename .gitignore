@@ -8,3 +8,7 @@
 # wachtoorden niet uploaden naar github
 secret.h
 
+*.vsidx
+*.v2
+Admin App/DeGroeneWeide/DeGroeneWeide/obj
+
