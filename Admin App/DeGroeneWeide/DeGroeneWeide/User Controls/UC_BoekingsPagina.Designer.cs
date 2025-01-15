@@ -42,6 +42,7 @@ namespace DeGroeneWeide.User_Controls
             // 
             // UC_BoekingsPagina
             // 
+            BackColor = Colors.Background;
             Controls.Add(container);
             Name = "UC_BoekingsPagina";
             Size = new Size(1920, 998);

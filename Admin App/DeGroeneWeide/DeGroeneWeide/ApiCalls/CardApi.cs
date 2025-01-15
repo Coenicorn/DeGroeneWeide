@@ -46,13 +46,17 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/cards/getAllCards");
+                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/cards/getallextensivecards");
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
                 Debug.WriteLine(json);
 
                 Cards = JsonSerializer.Deserialize<List<Card>>(json);
+                foreach(Card c in Cards)
+                {
+                    c.DumpInfo();
+                }
             }
             catch (Exception ex)
             {

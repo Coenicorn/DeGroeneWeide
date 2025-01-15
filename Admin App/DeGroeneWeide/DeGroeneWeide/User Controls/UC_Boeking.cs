@@ -27,6 +27,7 @@ namespace DeGroeneWeide.User_Controls
             lbl_Naam.Text = name.Replace("  ", " ");
             lbl_Email.Text = customer.Email;
             lbl_Nummer.Text = customer.PhoneNumber;
+            lbl_id.Text = booking.Id;
         }
     }
 }

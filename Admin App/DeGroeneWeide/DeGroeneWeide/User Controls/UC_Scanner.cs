@@ -67,11 +67,40 @@ namespace DeGroeneWeide
                 Debug.WriteLine(authLevel.Name + " - " + authLevel.Id);
                 switch (authLevel.Name)
                 {
-                    case "Gast": i++; Gast_Active_View.Location = locationsView[i]; lbl_Gast.Location = locationsText[i]; Gast_Active_View.Visible = true; lbl_Gast.Visible = true; break;
-                    case "Bezoeker": i++; Bezoeker_Active_View.Location = locationsView[i]; lbl_Bezoeker.Location = locationsText[i]; Bezoeker_Active_View.Visible = true; lbl_Bezoeker.Visible = true; break;
-                    case "Medewerker": i++; Medewerker_Active_View.Location = locationsView[i]; lbl_Medewerker.Location = locationsText[i]; Medewerker_Active_View.Visible = true; lbl_Medewerker.Visible = true; break;
-                    case "Administrator": i++; Administrator_Active_View.Location = locationsView[i]; lbl_Admin.Location = locationsText[i]; Administrator_Active_View.Visible = true; lbl_Admin.Visible = true; break;
-                    default: continue;
+                    case "Gast":
+                        Gast_Active_View.Location = locationsView[i];
+                        lbl_Gast.Location = locationsText[i];
+                        Gast_Active_View.Visible = true;
+                        lbl_Gast.Visible = true;
+                        i++;
+                        break;
+
+                    case "Bezoeker":
+                        Bezoeker_Active_View.Location = locationsView[i];
+                        lbl_Bezoeker.Location = locationsText[i];
+                        Bezoeker_Active_View.Visible = true;
+                        lbl_Bezoeker.Visible = true;
+                        i++;
+                        break;
+
+                    case "Medewerker":
+                        Medewerker_Active_View.Location = locationsView[i];
+                        lbl_Medewerker.Location = locationsText[i];
+                        Medewerker_Active_View.Visible = true;
+                        lbl_Medewerker.Visible = true;
+                        i++;
+                        break;
+
+                    case "Administrator":
+                        Administrator_Active_View.Location = locationsView[i];
+                        lbl_Admin.Location = locationsText[i];
+                        Administrator_Active_View.Visible = true;
+                        lbl_Admin.Visible = true;
+                        i++;
+                        break;
+
+                    default:
+                        continue;
 
                 }
             }

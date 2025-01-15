@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_ScannerPagina));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             scanner_container = new FlowLayoutPanel();
             btn_refresh = new Guna.UI2.WinForms.Guna2ImageButton();
@@ -36,7 +37,7 @@
             // scanner_container
             // 
             scanner_container.AutoScroll = true;
-            scanner_container.BackColor = Colors.Background;
+            scanner_container.BackColor = Color.FromArgb(224, 251, 226);
             scanner_container.Location = new Point(31, 82);
             scanner_container.Name = "scanner_container";
             scanner_container.Size = new Size(1872, 920);
@@ -46,7 +47,7 @@
             // 
             btn_refresh.CheckedState.ImageSize = new Size(64, 64);
             btn_refresh.HoverState.ImageSize = new Size(64, 64);
-            btn_refresh.Image = Properties.Resources.refresh;
+            btn_refresh.Image = (Image)resources.GetObject("btn_refresh.Image");
             btn_refresh.ImageOffset = new Point(0, 0);
             btn_refresh.ImageRotate = 0F;
             btn_refresh.Location = new Point(1830, 13);
@@ -61,7 +62,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Colors.Background;
+            BackColor = Color.FromArgb(224, 251, 226);
             Controls.Add(btn_refresh);
             Controls.Add(scanner_container);
             Name = "UC_ScannerPagina";

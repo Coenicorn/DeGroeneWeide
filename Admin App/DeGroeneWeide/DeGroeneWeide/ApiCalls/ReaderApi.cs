@@ -32,6 +32,10 @@ namespace DeGroeneWeide.ApiCalls
                 Debug.WriteLine("Alle Readers: " + json);
 
                 Readers = JsonSerializer.Deserialize<List<Reader>>(json);
+                foreach(Reader r in Readers)
+                {
+                    r.DumpInfo();
+                }
             }
             catch (Exception ex)
             {

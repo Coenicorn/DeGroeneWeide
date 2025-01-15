@@ -42,6 +42,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             ctrlbox_minimize = new Guna.UI2.WinForms.Guna2ControlBox();
             ctrlbox_maximize = new Guna.UI2.WinForms.Guna2ControlBox();
             ctrlbox_Sluiten = new Guna.UI2.WinForms.Guna2ControlBox();
@@ -59,7 +60,7 @@
             ctrlbox_minimize.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
             ctrlbox_minimize.CustomizableEdges = customizableEdges15;
             ctrlbox_minimize.FillColor = Color.Transparent;
-            ctrlbox_minimize.IconColor = Colors.Text;
+            ctrlbox_minimize.IconColor = Color.FromArgb(26, 46, 28);
             ctrlbox_minimize.Location = new Point(1770, 0);
             ctrlbox_minimize.Name = "ctrlbox_minimize";
             ctrlbox_minimize.ShadowDecoration.CustomizableEdges = customizableEdges16;
@@ -73,7 +74,7 @@
             ctrlbox_maximize.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MaximizeBox;
             ctrlbox_maximize.CustomizableEdges = customizableEdges17;
             ctrlbox_maximize.FillColor = Color.Transparent;
-            ctrlbox_maximize.IconColor = Colors.Text;
+            ctrlbox_maximize.IconColor = Color.FromArgb(26, 46, 28);
             ctrlbox_maximize.Location = new Point(1820, 0);
             ctrlbox_maximize.Name = "ctrlbox_maximize";
             ctrlbox_maximize.ShadowDecoration.CustomizableEdges = customizableEdges18;
@@ -86,7 +87,7 @@
             ctrlbox_Sluiten.BackColor = Color.Transparent;
             ctrlbox_Sluiten.CustomizableEdges = customizableEdges19;
             ctrlbox_Sluiten.FillColor = Color.Transparent;
-            ctrlbox_Sluiten.IconColor = Colors.Text;
+            ctrlbox_Sluiten.IconColor = Color.FromArgb(26, 46, 28);
             ctrlbox_Sluiten.Location = new Point(1870, 0);
             ctrlbox_Sluiten.Name = "ctrlbox_Sluiten";
             ctrlbox_Sluiten.ShadowDecoration.CustomizableEdges = customizableEdges20;
@@ -95,14 +96,14 @@
             // 
             // topbar
             // 
-            topbar.BackColor = Colors.TopBar;
+            topbar.BackColor = Color.FromArgb(172, 225, 175);
             topbar.Controls.Add(btn_BoekingsPagina);
             topbar.Controls.Add(ctrlbox_minimize);
             topbar.Controls.Add(btn_ScannersPagina);
             topbar.Controls.Add(ctrlbox_maximize);
             topbar.Controls.Add(btn_PasjesPagina);
             topbar.Controls.Add(ctrlbox_Sluiten);
-            topbar.CustomBorderColor = Colors.TopBar;
+            topbar.CustomBorderColor = Color.FromArgb(172, 225, 175);
             topbar.CustomBorderThickness = new Padding(0, 0, 3, 0);
             topbar.CustomizableEdges = customizableEdges27;
             topbar.Location = new Point(0, 0);
@@ -116,9 +117,9 @@
             // 
             btn_BoekingsPagina.BorderColor = Color.Empty;
             btn_BoekingsPagina.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btn_BoekingsPagina.CheckedState.BorderColor = Colors.Background;
+            btn_BoekingsPagina.CheckedState.BorderColor = Color.FromArgb(224, 251, 226);
             btn_BoekingsPagina.CheckedState.CustomBorderColor = Color.Transparent;
-            btn_BoekingsPagina.CheckedState.FillColor = Colors.Background;
+            btn_BoekingsPagina.CheckedState.FillColor = Color.FromArgb(224, 251, 226);
             btn_BoekingsPagina.CustomBorderThickness = new Padding(2, 2, 2, 0);
             btn_BoekingsPagina.CustomizableEdges = customizableEdges21;
             btn_BoekingsPagina.DisabledState.BorderColor = Color.DarkGray;
@@ -127,7 +128,7 @@
             btn_BoekingsPagina.DisabledState.ForeColor = Color.DarkGray;
             btn_BoekingsPagina.FillColor = Color.Empty;
             btn_BoekingsPagina.Font = new Font("Arial Narrow", 10.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_BoekingsPagina.ForeColor = Colors.Text;
+            btn_BoekingsPagina.ForeColor = Color.FromArgb(26, 46, 28);
             btn_BoekingsPagina.Location = new Point(310, 5);
             btn_BoekingsPagina.Margin = new Padding(2);
             btn_BoekingsPagina.Name = "btn_BoekingsPagina";
@@ -141,9 +142,9 @@
             // 
             btn_ScannersPagina.BorderColor = Color.Empty;
             btn_ScannersPagina.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btn_ScannersPagina.CheckedState.BorderColor = Colors.Background;
+            btn_ScannersPagina.CheckedState.BorderColor = Color.FromArgb(224, 251, 226);
             btn_ScannersPagina.CheckedState.CustomBorderColor = Color.Transparent;
-            btn_ScannersPagina.CheckedState.FillColor = Colors.Background;
+            btn_ScannersPagina.CheckedState.FillColor = Color.FromArgb(224, 251, 226);
             btn_ScannersPagina.CustomBorderThickness = new Padding(2, 2, 2, 0);
             btn_ScannersPagina.CustomizableEdges = customizableEdges23;
             btn_ScannersPagina.DisabledState.BorderColor = Color.DarkGray;
@@ -152,7 +153,7 @@
             btn_ScannersPagina.DisabledState.ForeColor = Color.DarkGray;
             btn_ScannersPagina.FillColor = Color.Empty;
             btn_ScannersPagina.Font = new Font("Arial Narrow", 10.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_ScannersPagina.ForeColor = Colors.Text;
+            btn_ScannersPagina.ForeColor = Color.FromArgb(26, 46, 28);
             btn_ScannersPagina.Location = new Point(195, 5);
             btn_ScannersPagina.Margin = new Padding(2);
             btn_ScannersPagina.Name = "btn_ScannersPagina";
@@ -167,9 +168,9 @@
             btn_PasjesPagina.BorderColor = Color.Empty;
             btn_PasjesPagina.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btn_PasjesPagina.Checked = true;
-            btn_PasjesPagina.CheckedState.BorderColor = Colors.Background;
+            btn_PasjesPagina.CheckedState.BorderColor = Color.FromArgb(224, 251, 226);
             btn_PasjesPagina.CheckedState.CustomBorderColor = Color.Transparent;
-            btn_PasjesPagina.CheckedState.FillColor = Colors.Background;
+            btn_PasjesPagina.CheckedState.FillColor = Color.FromArgb(224, 251, 226);
             btn_PasjesPagina.CustomBorderThickness = new Padding(2, 2, 2, 0);
             btn_PasjesPagina.CustomizableEdges = customizableEdges25;
             btn_PasjesPagina.DisabledState.BorderColor = Color.DarkGray;
@@ -178,7 +179,7 @@
             btn_PasjesPagina.DisabledState.ForeColor = Color.DarkGray;
             btn_PasjesPagina.FillColor = Color.Empty;
             btn_PasjesPagina.Font = new Font("Arial Narrow", 10.125F, FontStyle.Bold);
-            btn_PasjesPagina.ForeColor = Colors.Text;
+            btn_PasjesPagina.ForeColor = Color.FromArgb(26, 46, 28);
             btn_PasjesPagina.Location = new Point(82, 5);
             btn_PasjesPagina.Margin = new Padding(2);
             btn_PasjesPagina.Name = "btn_PasjesPagina";
@@ -200,16 +201,17 @@
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Colors.Background;
+            BackColor = Color.FromArgb(224, 251, 226);
             ClientSize = new Size(1920, 1032);
             Controls.Add(pagina_container);
             Controls.Add(topbar);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "MainForm";
             RightToLeft = RightToLeft.No;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Administratie - Shoco Mellow";
             topbar.ResumeLayout(false);
             ResumeLayout(false);
         }
