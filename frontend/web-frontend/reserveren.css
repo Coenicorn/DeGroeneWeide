@@ -369,10 +369,12 @@ input {
     border: 0;
     border-radius: 5px;
     font-size: 1.25rem;
+    border: 2px solid #fff;
 }
 
 .note {
     width: 60%;
+    
 }
 
 #note:hover {
@@ -400,7 +402,6 @@ input {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    border: 0;
     transition: 0.75s;
 }
 
