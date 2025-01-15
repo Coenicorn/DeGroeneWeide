@@ -10,14 +10,4 @@ secret.h
 
 *.vsidx
 *.v2
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/project.nuget.cache
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/project.assets.json
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/DeGroeneWeide.csproj.nuget.g.props
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/DeGroeneWeide.csproj.nuget.dgspec.json
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.GeneratedMSBuildEditorConfig.editorconfig
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.csproj.AssemblyReference.cache
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.assets.cache
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.AssemblyInfoInputs.cache
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.AssemblyInfo.cs
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.csproj.AssemblyReference.cache
-Admin App/DeGroeneWeide/DeGroeneWeide/obj/Debug/net8.0-windows/DeGroeneWeide.assets.cache
+Admin App/DeGroeneWeide/DeGroeneWeide/obj
