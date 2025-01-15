@@ -1,6 +1,6 @@
-import e, { Router } from "express";
+import { Router } from "express";
 import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
-import { db_execute, db_query, deleteAuthLevel, getAllAuthLevels, getReaderCardAuthLevelMatchesWithToken, insertAuthLevel, linkCardToAuthLevel, linkReaderToAuthLevel, updateAuthLevelName } from "../../db.js";
+import { deleteAuthLevel, getAllAuthLevels, getReaderCardAuthLevelMatchesWithToken, insertAuthLevel, linkCardToAuthLevel, linkReaderToAuthLevel, updateAuthLevelName } from "../../db.js";
 import { uid } from "uid";
 
 const AuthRouter = Router();
