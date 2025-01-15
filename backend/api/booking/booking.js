@@ -1,6 +1,5 @@
 import express from "express";
-import { db_execute, db_query } from "../../db.js";
-import { err_log, respondwithstatus } from "../../util.js";
+import {getAllBookings, insertBooking} from "../../db.js";
 
 const BookingRouter = express.Router();
 
@@ -10,15 +9,20 @@ BookingRouter.post("/insertBooking", async (req, res) => {
     const booking = req.body;
 
     // check of je alle vereiste hebt voor de booking
+    if(booking.id == null || booking.customerId == null || booking.startDate == null || booking.endDate == null || booking.amountPeople == null){
+        return res.status(400).send("Gegeven data is niet in het correcte format.");
+    }
+  
+    const result = await insertBooking(booking.id, booking.customerId, booking.startDate, booking.endDate, booking.amountPeople);
+    res.status(201).json({bericht:"Boeking succesvol toegevoegd",resultaat:result});
+});
 
-    // DEBUG DEMO add placeholder data
+BookingRouter.get("/getAllBookings", async (req, res) => {
     try {
-        await db_execute(`
-            INSERT INTO Customers (id, firstName, middleName, lastName, maySave, creationDate, blacklisted, phoneNumber, mailAddress)
-            VALUES ('000', 'John', 'D.', 'Doe', '1', '1', '0', '06123456789', 'john.doe@deezmail.cum')    
-        `);
-    } catch(e) {
-        err_log("failed to add customer", e);
+        const bookings = await getAllBookings();
+        res.json(bookings);
+    } catch (error) {
+        throw new Error("Sorry! Er heeft een interne fout opgetreden.")
     }
 
 
@@ -33,21 +37,6 @@ BookingRouter.post("/insertBooking", async (req, res) => {
 
     respondwithstatus(res, 200, "aight");
 
-});
-
-BookingRouter.get("/getBookings", async (req, res) => {
-    try {
-        const bookingsExtended = await db_query(`
-            SELECT * FROM Bookings AS b
-            JOIN Customers AS c ON c.id = b.customerId
-        `);
-
-        console.log(bookingsExtended);
-    } catch(e) {
-        err_log("/getBookings: failed to query", e);
-
-        return respondwithstatus(res, 500, "something went wrong");
-    }
 });
 
 export default BookingRouter;

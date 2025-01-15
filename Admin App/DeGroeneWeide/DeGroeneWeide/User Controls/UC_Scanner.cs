@@ -8,58 +8,44 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DeGroeneWeide.Objects;
+using DeGroeneWeide.ApiCalls;
+using System.Diagnostics;
 
 namespace DeGroeneWeide
 {
     public partial class UC_Scanner : UserControl
     {
+        private Point[] locationsView = new Point[]
+        {
+            new Point(22, 50),
+            new Point(22, 69),
+            new Point(22, 88),
+            new Point(22, 107)
+        };
+        private Point[] locationsText = new Point[]
+        {
+            new Point(42, 50),
+            new Point(42, 69),
+            new Point(42, 88),
+            new Point(42, 107)
+        };
         public UC_Scanner()
         {
             InitializeComponent();
         }
 
-        public void Fill(Reader reader)
+        public async void Fill(Reader reader)
         {
-            if (reader == null)
+            if (reader == null || reader.Id == null)
             {
                 return;
             }
 
-            lbl_name.Text = reader.name;
-
-            // Zorgt dat de juiste battery percentage met je juiste image word weergeven.
-            switch (reader.battery) {
-                case int n when (n > 0 && n <= 12.5):
-                    picture_battery.Image = Properties.Resources.battery_0;
-                    break;
-                case int n when (n > 12.5 && n <= 25):
-                    picture_battery.Image = Properties.Resources.battery_1;
-                    break;
-                case int n when (n > 25 && n <= 37.5):
-                    picture_battery.Image = Properties.Resources.battery_2;
-                    break;
-                case int n when (n > 37.5 && n <= 50):
-                    picture_battery.Image = Properties.Resources.battery_3;
-                    break;
-                case int n when (n > 50 && n <= 62.5):
-                    picture_battery.Image = Properties.Resources.battery_4;
-                    break;
-                case int n when (n > 62.5 && n <= 75):
-                    picture_battery.Image = Properties.Resources.battery_5;
-                    break;
-                case int n when (n > 75 && n <= 87.5):
-                    picture_battery.Image = Properties.Resources.battery_6;
-                    break;
-                case int n when (n > 87.5 && n <= 100):
-                    picture_battery.Image = Properties.Resources.battery_full;
-                    break;
-                default:
-                    picture_battery.Image = Properties.Resources.battery_alert;
-                    break;
-            }
+            lbl_name.Text = reader.Name;
 
             // Als de reader niet active is een warning laten zien
-            if(reader.active == 0)
+            if(reader.Active == 0)
             {
                 picture_warning.Visible = true;
             }
@@ -68,7 +54,22 @@ namespace DeGroeneWeide
                 picture_warning.Visible = false;
             }
 
-            // Zorgt dat de juiste levels van toegang op actief staan (wachten op antwoord over de erd)
+            // Zorgt dat de juiste levels van toegang op actief staan
+            List<AuthLevel> authLevels = await AuthLevelApi.GetAllAuthLevels(reader.Id);
+            int i = 0;
+            foreach (AuthLevel authLevel in authLevels)
+            {
+                Debug.WriteLine(authLevel.Name + " - " + authLevel.Id);
+                switch (authLevel.Name)
+                {
+                    case "Gast": i++; Debug.WriteLine("Gast is actief"); break;
+                    case "Bezoeker": i++; Debug.WriteLine("Bezoeker is actief"); break;
+                    case "Medewerker": i++; Debug.WriteLine("Medewerker is actief"); break;
+                    case "Administrator": i++; Debug.WriteLine("Administrator is actief"); break;
+                    default: continue;
+
+                }
+            }
         }
     }
 }

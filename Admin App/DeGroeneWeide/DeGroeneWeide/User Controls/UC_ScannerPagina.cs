@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DeGroeneWeide.ApiCalls;
+using DeGroeneWeide.Objects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,10 +26,10 @@ namespace DeGroeneWeide
         public void Fill()
         {
             Debug.WriteLine("Scanner page filled");
-            if (ApiCalls.Readers != null)
+            if (ReaderApi.Readers != null)
             {
                 scanner_container.Controls.Clear();
-                foreach (Reader reader in ApiCalls.Readers)
+                foreach (Reader reader in ReaderApi.Readers)
                 {
                     UC_Scanner scanner = new();
                     scanner_container.Controls.Add(scanner);
@@ -40,7 +42,7 @@ namespace DeGroeneWeide
         // Button die refreshed, moet nog in een await anders gaat dit niet goed!
         private async void btn_refresh_Click(object sender, EventArgs e)
         {
-            await ApiCalls.GetReaders();
+            await ReaderApi.GetReaders();
             Fill();
         }
 
@@ -49,7 +51,7 @@ namespace DeGroeneWeide
         {
             if(lastRefresh < DateTime.Now.AddDays(-1))
             {
-                ApiCalls.GetReaders();
+                ReaderApi.GetReaders();
                 Fill();
             }
         }
