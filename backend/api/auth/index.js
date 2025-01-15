@@ -160,7 +160,7 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
 
     try {
         const matches = await db_query(`
-            SELECT DISTINCT Cards.id, Readers.id
+            SELECT DISTINCT Cards.id, Readers.id, Cards.token
             FROM Cards
             JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
             JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id

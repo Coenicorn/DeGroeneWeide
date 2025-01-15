@@ -99,22 +99,19 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
     }
 });
 
-/*
-       /cards/insertCard POST Request. Voeg een kaart toe aan de tabel. Vereiste velden: id, card_uuid, booking_id, token en blocked
-       Body voorbeeld: '{"id":"ID","card_uuid":"CARD UUID HIER","booking_id":"BOOKING ID HIER","token":"randomToken","blocked":"false"}'
- */
 CardsRouter.post("/insertCard", async (req, res) => {
     try {
         const card = req.body;
 
         if (
             !card.id ||
-            card.blocked === undefined
+            card.blocked === undefined ||
+            card.token === undefined
         ) {
             return res.status(400).send("Gegeven data is niet in het correcte format.");
         }
 
-        const result = await insertCard(card.id, null, null, card.blocked);
+        const result = await insertCard(card.id, null, card.token, card.blocked);
         res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
 
     } catch (error) {
@@ -301,7 +298,7 @@ CardsRouter.post("/getAllAuthLevels", async (req, res) => {
 });
 
 CardsRouter.post("/updateCardToken", async (req, res) => {
-    const cardId = req.body.id;
+    const cardId = req.body.cardId;
     const newToken = req.body.token;
 
     if (cardId === undefined) return respondwithstatus(res, 400, "cardId is undefined");
@@ -311,7 +308,7 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
     if (typeof(newToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
 
     try {
-        await db_execute("UPDATE Cards SET token=?", [newToken]);
+        await db_execute("UPDATE Cards SET token=? WHERE id=?", [newToken, cardId]);
         info_log("updated card " + cardId + " with token " + newToken);
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
