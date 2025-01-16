@@ -34,6 +34,8 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         // no reader with this id exists, create it
         try {
             await registerReader(readerId, "no name assigned");
+
+            info_log("registered new reader " + readerId);
         } catch(e) {
             err_log("error registering new reader", e);
             return respondwithstatus(res, 500, "something went wrong");
@@ -42,6 +44,8 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
 
     try {
         await db_execute("UPDATE Readers SET active=?, batteryPercentage=? WHERE id=?", [1, battery, readerId]);
+        
+        info_log("received ping from reader " + readerId);
     } catch(e) {
         err_log("error updating reader", e);
         return respondwithstatus(res, 500, "something went wrong");
