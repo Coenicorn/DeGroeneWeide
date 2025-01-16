@@ -1,3 +1,4 @@
 - update cards API documentation
 - update auth API documentation
 - move db init code to .sql file
+- UID's in de database zijn ECHT UID's
