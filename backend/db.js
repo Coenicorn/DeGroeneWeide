@@ -285,10 +285,6 @@ export async function insertBooking(id, customerId, startDate, endDate, amountPe
     return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople) VALUES (?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople]);
 }
 
-export async function insertReader(id, batteryPercentage, amenityId, lastPing, name, active) {
-    return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?,?,?)", [id, batteryPercentage, amenityId, lastPing, name, active]);
-}
-
 export async function removeCardByUUID(uuid){
     return db_execute("DELETE FROM Cards WHERE card_uuid = ?", [uuid]);
 }
