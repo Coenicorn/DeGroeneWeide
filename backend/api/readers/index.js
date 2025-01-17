@@ -114,35 +114,6 @@ ReadersRouter.post("/updateReader", async (req, res) => {
     
 });
 
-ReadersRouter.post("/insertReader", async (req, res) => {
-    const reader = req.body;
-
-    if(reader === undefined) return respondwithstatus(res, 400, "body is missing 'reader' object");
-    if (reader.id === undefined) return respondwithstatus(res, 400, "reader.id is not defined");
-    if (reader.name === undefined) return respondwithstatus(res, 400, "reader.name is not defined, when not needed use 'null'");
-    if(reader.active === undefined) return respondwithstatus(res, 400, "reader.active is not defined, when not needed use 'null'");
-    if (reader.amenityId === undefined) return respondwithstatus(res, 400, "reader.amenityId is not defined, when not needed use 'null'");
-
-
-    let active = reader.active;
-    let batteryPercentage = reader.batteryPercentage;
-    let lastPing = reader.lastPing;
-
-    if(lastPing === undefined){lastPing = new Date();}
-    if(batteryPercentage === undefined) {batteryPercentage = 0;}
-    if(active === undefined) {active = false;}
-
-    try {
-        await insertReader(reader.id, batteryPercentage, reader.amenityId, lastPing, reader.name, active);
-    } catch (e) {
-        err_log("/updateReader failed:");
-        console.error(e);
-        return respondwithstatus(res, 500, "something went wrong trying to insert a reader");
-    }
-    respondwithstatus(res, 200, "OK");
-
-});
-
 ReadersRouter.post("/getAllAuthLevels", async (req, res) => {
     const readerId = req.body.id;
 
