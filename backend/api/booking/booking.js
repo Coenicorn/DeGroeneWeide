@@ -21,13 +21,12 @@ BookingRouter.post("/insertBooking", async (req, res) => {
     if (booking.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
-    if (booking.creationDate === undefined) return respondwithstatus(res, 400, "missing creationDate");
   
     try {
         await insertBooking();
     } catch(e) {
         err_log("error in /insertBooking", e);
-        
+
         return respondwithstatus(res, 500, "something went wrong");
     }
 
