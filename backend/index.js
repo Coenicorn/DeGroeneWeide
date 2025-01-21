@@ -7,6 +7,8 @@ import config, { verifyCorrectConfiguration } from './config.js';
 
 await verifyCorrectConfiguration();
 
+import("./docgen/index.js");
+
 // function variant so await works correctly
 import("./api.js");
 
