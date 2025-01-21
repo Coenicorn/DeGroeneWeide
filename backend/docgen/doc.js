@@ -104,7 +104,7 @@ export class APIDocGenerator extends DocGenerator {
         this.writeString(`## request`);
         if (description !== null && description !== undefined) this.writeString(description);
         if (body === undefined || body === null) return this;
-        this.writeString(`\`\`\`json`);
+        this.writeString(`\`\`\`javascript`);
         this.writeString(`// request body`)
         this.writeString(this._objToString(body));
         this.writeString(`\`\`\``);
@@ -124,7 +124,7 @@ export class APIDocGenerator extends DocGenerator {
         }
         this.writeString(`[\`${httpCode}\`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) ${(description === null || description === undefined) ? "" : description}<br>`);
         if (body === undefined) return this;
-        this.writeString(`\`\`\`json`);
+        this.writeString(`\`\`\`javascript`);
         this.writeString(`// ${httpCode} response body`)
 
 

@@ -3,7 +3,7 @@
 ## `POST api/auth/addAuthLevel`
 adds a new auth level
 ## request
-```json
+```javascript
 // request body
 {
 	"name": string,
@@ -14,7 +14,7 @@ adds a new auth level
 ## `POST api/auth/updateAuthLevel`
 updates authLevel values
 ## request
-```json
+```javascript
 // request body
 {
 	"id": string,
@@ -26,7 +26,7 @@ updates authLevel values
 ## `POST api/auth/deleteAuthLevel`
 deletes an auth level
 ## request
-```json
+```javascript
 // request body
 {
 	"id": string,
@@ -41,7 +41,7 @@ gets ALL auth levels
 ## `POST api/auth/linkReaderAuth`
 links a reader to an authentication level
 ## request
-```json
+```javascript
 // request body
 {
 	"readerId": string,
@@ -53,7 +53,7 @@ links a reader to an authentication level
 ## `POST api/auth/unlinkReaderAuth`
 removes an auth level from a reader
 ## request
-```json
+```javascript
 // request body
 {
 	"readerId": string,
@@ -65,7 +65,7 @@ removes an auth level from a reader
 ## `POST api/auth/linkCardAuth`
 links an auth level to a card
 ## request
-```json
+```javascript
 // request body
 {
 	"authLevelId": string,
@@ -77,7 +77,7 @@ links an auth level to a card
 ## `POST api/auth/unlinkCardAuth`
 removes an auth level from a card
 ## request
-```json
+```javascript
 // request body
 {
 	"authLevelId": string,
@@ -89,7 +89,7 @@ removes an auth level from a card
 ## `POST api/auth/authenticateCard`
 tries to authenticate a card at a reader
 ## request
-```json
+```javascript
 // request body
 {
 	"cardId": string,
