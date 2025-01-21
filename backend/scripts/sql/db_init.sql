@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Customers (
     blacklisted BOOLEAN,
     phoneNumber TEXT NOT NULL,
     mailAddress TEXT NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS Bookings (
     id TEXT PRIMARY KEY NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Bookings (
     amountPeople INT NOT NULL,
     creationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customerId) REFERENCES Customers (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS Payments (
     id TEXT PRIMARY KEY NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Payments (
     hasPaid BOOLEAN NOT NULL,
     note TEXT,
     FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-)
+);
 
 -- id is the uuid on the card
 CREATE TABLE IF NOT EXISTS Cards (
@@ -43,17 +43,17 @@ CREATE TABLE IF NOT EXISTS Cards (
     token TEXT,
     blocked BOOLEAN NOT NULL,
     FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS AuthLevels (
     id TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL UNIQUE
-)
+);
 
 CREATE TABLE IF NOT EXISTS AmenityTypes (
     id TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL
-)
+);
 
 -- id is currently the md5 hash of a reader's mac address
 -- amenityId can be null for when a reader is first initialized
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Readers (
     name TEXT NOT NULL,
     active BOOLEAN,
     FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
-)
+);
 
 CREATE TABLE IF NOT EXISTS CardAuthJunctions (
     cardId TEXT NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS CardAuthJunctions (
     PRIMARY KEY (cardId, authLevelId),
     FOREIGN KEY (cardId) REFERENCES Cards (id) ON DELETE CASCADE,
     FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
     readerId TEXT NOT NULL,
@@ -81,21 +81,21 @@ CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
     UNIQUE (readerId, authLevelId),
     FOREIGN KEY (readerId) REFERENCES Readers (id) ON DELETE CASCADE,
     FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
-)
+);
 
 -- surfaceArea wordt nu niet gebruikt, idk waarom we die nu hebben
 CREATE TABLE IF NOT EXISTS ShelterTypes (
     id TEXT NOT NULL,
     name TEXT NOT NULL,
     surfaceArea INT NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS ShelterBookingJunctions (
     shelterId TEXT NOT NULL,
     bookingId TEXT NOT NULL,
     FOREIGN KEY (shelterId) REFERENCES ShelterTypes (id),
     FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-)
+);
 
 -- triggers
 
@@ -106,7 +106,7 @@ BEGIN
     UPDATE Readers
     SET lastPing = strftime('%s', 'now')
     WHERE rowid = new.rowid;
-END
+END;
 
 CREATE TRIGGER IF NOT EXISTS updateLastPingOnUpdate
 AFTER UPDATE ON Readers
@@ -115,7 +115,6 @@ BEGIN
     UPDATE Readers
     SET lastPing = strftime('%s', 'now')
     WHERE rowid = new.rowid;
-END
-
+END;
 
 COMMIT;

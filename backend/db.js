@@ -56,8 +56,13 @@ export async function db_execute(query, params) {
 // Wordt uitgevoerd zodra de server gerunned wordt.
 export async function initializeDB() {
 
-
     // load .sql file
+
+    const dbInitSqlFile = fs.readFileSync(path.join(__dirname, "/scripts/sql/db_init.sql"), { encoding: "utf-8" });
+
+    // this is supposed to crash when errored, intended behaviour so we don't fuck up db init
+    db.exec(dbInitSqlFile, []);
+
 }
 
 /**
