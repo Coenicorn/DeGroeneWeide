@@ -10,7 +10,7 @@ Requests all cards
             "uuid": string,
             "blocked": number,
             "token": string,
-            "booking_id": string
+            "booking_id": string | null
         },
         ...
     ]
