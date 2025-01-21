@@ -47,6 +47,7 @@ CardsRouter.get("/getAllExtensiveCards", async (req, res) => {
         const cards = await getAllExtensiveCards();
         res.json(cards);
     } catch (error) {
+        err_log("error in /getAllExtensiveCards:" , error);
         throw new Error("Sorry! Er heeft een interne fout opgetreden.");
     }
 });
