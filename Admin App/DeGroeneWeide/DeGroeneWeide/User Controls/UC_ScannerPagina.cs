@@ -23,7 +23,7 @@ namespace DeGroeneWeide
         }
 
         // Vult de scanner pagina met de hoeveelheid scanners die er in readers list staan
-        public async void Fill()
+        public void Fill()
         {
             if (ReaderApi.Readers != null)
             {
@@ -32,7 +32,7 @@ namespace DeGroeneWeide
                 {
                     UC_Scanner scanner = new();
                     scanner_container.Controls.Add(scanner);
-                    scanner.Fill(reader);
+                    scanner.Fill(reader, this);
                 }
             }
             lastRefresh = DateTime.Now;
@@ -46,11 +46,11 @@ namespace DeGroeneWeide
         }
 
         //Task die om de dag refreshed
-        public void checkLastRefresh() 
+        public async void checkLastRefresh() 
         {
             if(lastRefresh < DateTime.Now.AddDays(-1))
             {
-                ReaderApi.GetReaders();
+                await ReaderApi.GetReaders();
                 Fill();
             }
         }

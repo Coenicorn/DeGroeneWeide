@@ -41,6 +41,8 @@ namespace DeGroeneWeide.User_Controls
             lbl_Email = new Label();
             lbl_Naam = new Label();
             lbl_Nummer = new Label();
+            lbl_id = new Label();
+            label8 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -133,7 +135,7 @@ namespace DeGroeneWeide.User_Controls
             // 
             lbl_AantalMensen.AutoSize = true;
             lbl_AantalMensen.Font = new Font("Segoe UI", 16F);
-            lbl_AantalMensen.Location = new Point(1474, 10);
+            lbl_AantalMensen.Location = new Point(1474, 12);
             lbl_AantalMensen.Name = "lbl_AantalMensen";
             lbl_AantalMensen.Size = new Size(25, 30);
             lbl_AantalMensen.TabIndex = 8;
@@ -169,11 +171,34 @@ namespace DeGroeneWeide.User_Controls
             lbl_Nummer.TabIndex = 11;
             lbl_Nummer.Text = "06-12345678";
             // 
+            // lbl_id
+            // 
+            lbl_id.AutoSize = true;
+            lbl_id.Font = new Font("Segoe UI", 16F);
+            lbl_id.Location = new Point(1650, 12);
+            lbl_id.Name = "lbl_id";
+            lbl_id.Size = new Size(121, 30);
+            lbl_id.TabIndex = 13;
+            lbl_id.Text = "123435345";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 19F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.FromArgb(26, 46, 28);
+            label8.Location = new Point(1600, 6);
+            label8.Name = "label8";
+            label8.Size = new Size(46, 36);
+            label8.TabIndex = 12;
+            label8.Text = "Id:";
+            // 
             // UC_Boeking
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(201, 234, 203);
+            Controls.Add(lbl_id);
+            Controls.Add(label8);
             Controls.Add(lbl_Nummer);
             Controls.Add(lbl_Naam);
             Controls.Add(lbl_Email);
@@ -211,5 +236,7 @@ namespace DeGroeneWeide.User_Controls
         private Label lbl_Email;
         private Label lbl_Naam;
         private Label lbl_Nummer;
+        private Label lbl_id;
+        private Label label8;
     }
 }

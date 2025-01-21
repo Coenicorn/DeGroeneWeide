@@ -46,13 +46,20 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/cards/getAllCards");
+                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/cards/getallextensivecards");
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
                 Debug.WriteLine(json);
 
                 Cards = JsonSerializer.Deserialize<List<Card>>(json);
+                if(Cards != null)
+                {
+                    foreach (Card c in Cards)
+                    {
+                        c.DumpInfo();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -73,7 +80,7 @@ namespace DeGroeneWeide.ApiCalls
             {
                 card_uuid = card_Uuid,
                 booking_id = booking_Id,
-                blokced = false
+                blocked = false
             };
 
             string json = JsonSerializer.Serialize(data);

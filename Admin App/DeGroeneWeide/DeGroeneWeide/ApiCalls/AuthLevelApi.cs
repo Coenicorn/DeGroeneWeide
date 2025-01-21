@@ -48,5 +48,49 @@ namespace DeGroeneWeide.ApiCalls
                 return new List<AuthLevel>();
             }
         }
+
+        public static async Task LinkReaderAuth(string reader_Id, string authlevel_Id)
+        {
+
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                readerId = reader_Id,
+                authLevelId = authlevel_Id
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/linkreaderauth", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
+
+        public static async Task UnlinkReaderAuth(string reader_Id, string authlevel_Id)
+        {
+
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                readerId = reader_Id,
+                authLevelId = authlevel_Id
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/unlinkreaderauth", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
     }
 }
