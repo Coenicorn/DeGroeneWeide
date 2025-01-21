@@ -7,11 +7,10 @@ Requests all cards
     ```json
     [
         {
-            "id": TEXT,
-            "card_uuid": VARCHAR(16),
-            "booking_Id": TEXT,
-            "token": VARCHAR(256),
-            "blocked": BOOLEAN
+            "uuid": string,
+            "blocked": number,
+            "token": string,
+            "booking_id": string
         },
         ...
     ]
