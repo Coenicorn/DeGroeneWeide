@@ -59,10 +59,13 @@ app.listen(config.privateServerPort, async () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
 
     // add default auth levels
-    insertAuthLevel(uid(), "gast");
-    insertAuthLevel(uid(), "bezoeker");
-    insertAuthLevel(uid(), "medewerker");
-    insertAuthLevel(uid(), "administrator");
+    try {
+        await insertAuthLevel(uid(), "gast");
+    } catch(e) {
+        // console.log(e.code);
+        // unique error is expected, anything else is baaaad
+        if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e;
+    }
 
     if (config.environment === "dev") {
         routes = routesFromApp(app);
