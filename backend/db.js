@@ -260,7 +260,32 @@ export async function getAllCards() {
  * @returns Alle cards gejoind met hun booking en customer
  */
 export async function getAllExtensiveCards(){
-    return db_query("SELECT Cards.*, al.id AS authLevelId, al.name as authLevelName FROM Cards LEFT JOIN Bookings ON Cards.bookingId = Bookings.id LEFT JOIN Customers ON Bookings.customerId = Customers.id LEFT JOIN CardAuthJunctions AS caj ON caj.cardId = Cards.id LEFT JOIN AuthLevels AS al ON al.id = caj.authLevelId", []);
+    return db_query(`
+        SELECT 
+            Cards.*,
+            bk.id AS bookingId,
+            bk.customerId AS customerId,
+            bk.startDate AS startDate,
+            bk.endDate AS endDate,
+            bk.amountPeople AS amountPeople,
+            bk.creationDate AS creationDate,
+            al.id AS authLevelId, 
+            al.name as authLevelName 
+        FROM 
+            Cards 
+        LEFT JOIN 
+            Bookings as bk 
+            ON Cards.bookingId = bk.id 
+        LEFT JOIN 
+            Customers 
+            ON bk.customerId = Customers.id 
+        LEFT JOIN 
+            CardAuthJunctions AS caj 
+            ON caj.cardId = Cards.id 
+        LEFT JOIN 
+            AuthLevels AS al 
+            ON al.id = caj.authLevelId
+    `, []);
 }
 
 /**
