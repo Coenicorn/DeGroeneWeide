@@ -1,7 +1,7 @@
 import express from "express";
 import {getAllBookings, insertBooking} from "../../db.js";
 import { uid } from "uid";
-import { respondwithstatus } from "../../util.js";
+import { err_log, respondwithstatus } from "../../util.js";
 
 const BookingRouter = express.Router();
 
@@ -22,7 +22,13 @@ BookingRouter.post("/insertBooking", async (req, res) => {
     if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
   
     try {
-        await insertBooking();
+        await insertBooking(
+            uid(), 
+            booking.customerId,
+            booking.startDate,
+            booking.endDate,
+            booking.amountPeople
+    );
     } catch(e) {
         err_log("error in /insertBooking", e);
 
