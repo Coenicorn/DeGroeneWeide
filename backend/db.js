@@ -77,6 +77,7 @@ export async function initializeDB() {
             startDate DATETIME NOT NULL,
             endDate DATETIME NOT NULL,
             amountPeople INT NOT NULL,
+            creationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (customerId) REFERENCES Customers (id)
         )
     `);
@@ -259,7 +260,7 @@ export async function getAllCards() {
  * @returns Alle cards gejoind met hun booking en customer
  */
 export async function getAllExtensiveCards(){
-    return db_query("SELECT * FROM Cards LEFT JOIN Bookings ON Cards.bookingId = Bookings.id LEFT JOIN Customers ON Bookings.customerId = Customers.id", []);
+    return db_query("SELECT *, AuthLevels.id AS authLevelId, AuthLevels.name as authLevelName FROM Cards LEFT JOIN Bookings ON Cards.bookingId = Bookings.id LEFT JOIN Customers ON Bookings.customerId = Customers.id LEFT JOIN CardAuthJunctions AS caj ON caj.cardId = Cards.id LEFT JOIN ", []);
 }
 
 /**
