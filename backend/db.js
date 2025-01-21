@@ -169,7 +169,25 @@ export async function updateCard(id, bookingId, token, blocked) {
 }
 
 export async function getAllBookings() {
-    return db_query("SELECT * FROM Bookings LEFT JOIN Customers ON Bookings.customerId = Customers.id", []);
+    return db_query(`
+        SELECT 
+            Bookings.*,
+            c.id AS customerId,
+            c.firstName,
+            c.middleName,
+            c.lastName,
+            c.maySave,
+            c.birthDate,
+            c.creationDate as customerCreationDate,
+            c.blacklisted,
+            c.phonenumber,
+            c.mailAddress
+        FROM
+            Bookings
+        LEFT JOIN
+            Customers AS c
+            ON Bookings.customerId = c.id
+    `, []);
 }
 
 export async function insertCard(id, bookingId, token, blocked) {
