@@ -1,5 +1,6 @@
 import express from "express";
 import {getAllBookings, insertBooking} from "../../db.js";
+import { uid } from "uid";
 
 const BookingRouter = express.Router();
 
