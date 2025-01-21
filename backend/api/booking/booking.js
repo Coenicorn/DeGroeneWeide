@@ -33,14 +33,18 @@ BookingRouter.post("/insertBooking", async (req, res) => {
 });
 
 BookingRouter.get("/getAllBookings", async (req, res) => {
-    try {
-        const bookings = await getAllBookings();
-        res.json(bookings);
-    } catch (error) {
-        throw new Error("Sorry! Er heeft een interne fout opgetreden.");
-    }
 
-    //res.status(200).send("aight");
+    try {
+
+        const allBookings = await getAllBookings();
+
+        return res.status(200).json(allBookings);
+
+    } catch(e) {
+        err_log("error in /getAllBookings", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
 
 });
 
