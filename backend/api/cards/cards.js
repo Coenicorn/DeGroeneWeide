@@ -12,6 +12,7 @@ import {
     updateCard
 } from "../../db.js";
 import { respondwithstatus, err_log, info_log } from "../../util.js";
+import { uid } from "uid";
 
 const CardsRouter = express.Router();
 
@@ -101,25 +102,29 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
 });
 
 CardsRouter.post("/insertCard", async (req, res) => {
+    const card = req.body;
+
+    // if (
+    //     !card.id ||
+    //     card.blocked === undefined ||
+    //     card.token === undefined,
+    //     card.booking_id === undefined
+    // ) {
+    //     return res.status(400).send("Gegeven data is niet in het correcte format.");
+    // }
+    if (card.blocked === undefined) return respondwithstatus(res, 400, "missing blocked");
+    if (card.token === undefined) return respondwithstatus(res, 400, "missing token");
+    if (card.booking_id === undefined) return respondwithstatus(res, 400, "missing booking_id");
+
     try {
-        const card = req.body;
+        await insertCard(uid(), card.booking_id, card.token, card.blocked);
+    } catch(e) {
+        err_log("error in /insertCard", e);
 
-        if (
-            !card.id ||
-            card.blocked === undefined ||
-            card.token === undefined,
-            card.booking_id === undefined
-        ) {
-            return res.status(400).send("Gegeven data is niet in het correcte format.");
-        }
-
-        const result = await insertCard(card.id, card.booking_id, card.token, card.blocked);
-        res.status(201).json({bericht:"Kaart successvol toegevoegd",resultaat: result});
-
-    } catch (error) {
-        err_log("Error tijdens het kaart toevoegen", error);
-        res.status(500).send("Er is iets fout gegaan tijdens het toevoegen van de kaart.");
+        return respondwithstatus(res, 500, "something went wrong");
     }
+
+    respondwithstatus(res, 201, "OK");
 });
 
 /*
