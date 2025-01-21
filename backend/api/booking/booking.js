@@ -1,7 +1,7 @@
 import express from "express";
 import {getAllBookings, insertBooking} from "../../db.js";
 import { uid } from "uid";
-import { respondwithstatus } from "../../util.js";
+import { err_log, respondwithstatus } from "../../util.js";
 
 const BookingRouter = express.Router();
 
