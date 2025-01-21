@@ -172,9 +172,6 @@ export async function getAllBookings() {
     return db_query("SELECT * FROM Bookings LEFT JOIN Customers ON Bookings.customerId = Customers.id", []);
 }
 
-/**
- * @note updated to schema 13.dec.2024
- */
 export async function insertCard(id, bookingId, token, blocked) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
 }

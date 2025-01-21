@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS Customers (
 
 CREATE TABLE IF NOT EXISTS Bookings (
     id TEXT PRIMARY KEY NOT NULL,
-    customerId TEXT NOT NULL, 
+    customerId TEXT, 
     startDate DATETIME NOT NULL,
     endDate DATETIME NOT NULL,
     amountPeople INT NOT NULL,
-    creationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customerId) REFERENCES Customers (id)
 );
 
