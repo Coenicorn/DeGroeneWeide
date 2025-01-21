@@ -2,8 +2,15 @@ import { Router } from "express";
 import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
 import { deleteAuthLevel, getAllAuthLevels, getReaderCardAuthLevelMatchesWithToken, insertAuthLevel, linkCardToAuthLevel, linkReaderToAuthLevel, unlinkCardFromAuthLevel, unlinkReaderFromAuthLevel, updateAuthLevelName } from "../../db.js";
 import { uid } from "uid";
+import { APIDocGenerator } from "../../docgen/doc.js"
 
-const AuthRouter = Router();
+const AuthRouter = Router(), doc = new APIDocGenerator("authentication API", "(hacking the mainframe)", import.meta.dirname, "api/auth");
+
+doc.route("addAuthLevel", doc.POST, "adds a new auth level")
+.request({
+    name: doc.STRING
+})
+.response(201, "succesfully added auth level");
 
 AuthRouter.post("/addAuthLevel", async (req, res) => {
 
@@ -16,7 +23,7 @@ AuthRouter.post("/addAuthLevel", async (req, res) => {
         // await db_execute("INSERT INTO AuthLevels (id, name) VALUES (?,?)", [uid(), name]);
         await insertAuthLevel(uid() /* temp...? */, name);
 
-        respondwithstatus(res, 200, "OK");
+        respondwithstatus(res, 201, "OK");
     } catch(e) {
         if (e.code && e.code === "SQLITE_CONSTRAINT_UNIQUE") {
             // unique constraint failed
@@ -26,6 +33,13 @@ AuthRouter.post("/addAuthLevel", async (req, res) => {
     }
 
 });
+
+doc.route("updateAuthLevel", doc.POST, "updates authLevel values")
+.request({
+    id: doc.STRING,
+    name: doc.STRING
+})
+.response(200, "succesfully updated auth level");
 
 AuthRouter.post("/updateAuthLevel", async (req, res) => {
 
@@ -51,6 +65,12 @@ AuthRouter.post("/updateAuthLevel", async (req, res) => {
 
 });
 
+doc.route("deleteAuthLevel", doc.POST, "deletes an auth level")
+.request({
+    id: doc.STRING
+})
+.response(200, "succesfully deleted authLevel");
+
 AuthRouter.post("/deleteAuthLevel", async (req, res) => {
 
     const id = req.body.id;
@@ -71,6 +91,14 @@ AuthRouter.post("/deleteAuthLevel", async (req, res) => {
 
 });
 
+doc.route("getAllAuthLevels", doc.GET, "gets ALL auth levels")
+.response(200, [
+    {
+        id: doc.STRING,
+        name: doc.STRING
+    }
+]);
+
 AuthRouter.get("/getAllAuthLevels", async (req, res) => {
 
     try {
@@ -88,7 +116,12 @@ AuthRouter.get("/getAllAuthLevels", async (req, res) => {
 
 
 
-
+doc.route("linkReaderAuth", doc.POST, "links a reader to an authentication level")
+.request({
+    readerId: doc.STRING,
+    authLevelId: doc.STRING
+})
+.response(200, "succesfully linked reader to auth level");
 
 AuthRouter.post("/linkReaderAuth", async (req, res) => {
 
@@ -119,6 +152,13 @@ AuthRouter.post("/linkReaderAuth", async (req, res) => {
 
 });
 
+doc.route("unlinkReaderAuth", doc.POST, "removes an auth level from a reader")
+.request({
+    readerId: doc.STRING,
+    authLevelId: doc.STRING
+})
+.response(200, "succesfully removed auth level from reader");
+
 AuthRouter.post("/unlinkReaderAuth", async (req, res) => {
 
     const readerId = req.body.readerId;
@@ -144,6 +184,13 @@ AuthRouter.post("/unlinkReaderAuth", async (req, res) => {
     }
 
 });
+
+doc.route("linkCardAuth", doc.POST, "links an auth level to a card")
+.request({
+    authLevelId: doc.STRING,
+    cardId: doc.STRING
+})
+.response(200, "succesfully linked an auth level to a card");
 
 AuthRouter.post("/linkCardAuth", async (req, res) => {
 
@@ -175,6 +222,12 @@ AuthRouter.post("/linkCardAuth", async (req, res) => {
 });
 
 
+doc.route("unlinkCardAuth", doc.POST, "removes an auth level from a card")
+.request({
+    authLevelId: doc.STRING,
+    cardId: doc.STRING
+})
+.response(200, "succesfully removed an auth level from a card");
 
 AuthRouter.post("/unlinkCardAuth", async (req, res) => {
 
@@ -203,6 +256,14 @@ AuthRouter.post("/unlinkCardAuth", async (req, res) => {
 });
 
 
+doc.route("authenticateCard", doc.POST, "tries to authenticate a card at a reader")
+.request({
+    cardId: doc.STRING,
+    cardToken: doc.STRING,
+    macAddress: doc.STRING + " // gets hashed to internal reader ID"
+})
+.response(200, "access granted!")
+.response(401, "failed to authenticate");
 
 AuthRouter.post("/authenticateCard", async (req, res) => {
 
