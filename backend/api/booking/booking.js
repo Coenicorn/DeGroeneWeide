@@ -1,6 +1,7 @@
 import express from "express";
 import {getAllBookings, insertBooking} from "../../db.js";
 import { uid } from "uid";
+import { respondwithstatus } from "../../util.js";
 
 const BookingRouter = express.Router();
 
@@ -15,10 +16,22 @@ BookingRouter.post("/insertBooking", async (req, res) => {
     // }
 
     // required fields
-    // if (booking.)
+    if (booking.id === undefined) return respondwithstatus(res, 400, "missing id");
+    if (booking.customerId === undefined) return respondwithstatus(res, 400, "missing customer id");
+    if (booking.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
+    if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
+    if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+    if (booking.creationDate === undefined) return respondwithstatus(res, 400, "missing creationDate");
   
-    const result = await insertBooking(uid(), booking.customerId, booking.startDate, booking.endDate, booking.amountPeople);
-    res.status(201).json({bericht:"Boeking succesvol toegevoegd",resultaat:result});
+    try {
+        await insertBooking();
+    } catch(e) {
+        err_log("error in /insertBooking", e);
+        
+        return respondwithstatus(res, 500, "something went wrong");
+    }
+
+    respondwithstatus(res, 200, "OK");
 });
 
 BookingRouter.get("/getAllBookings", async (req, res) => {
