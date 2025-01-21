@@ -35,7 +35,7 @@ BookingRouter.post("/insertBooking", async (req, res) => {
         return respondwithstatus(res, 500, "something went wrong");
     }
 
-    respondwithstatus(res, 200, "OK");
+    respondwithstatus(res, 201, "OK");
 });
 
 BookingRouter.get("/getAllBookings", async (req, res) => {
