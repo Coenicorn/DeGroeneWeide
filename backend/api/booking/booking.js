@@ -16,7 +16,6 @@ BookingRouter.post("/insertBooking", async (req, res) => {
     // }
 
     // required fields
-    if (booking.id === undefined) return respondwithstatus(res, 400, "missing id");
     if (booking.customerId === undefined) return respondwithstatus(res, 400, "missing customer id");
     if (booking.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
