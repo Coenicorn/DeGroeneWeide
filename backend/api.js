@@ -1,6 +1,6 @@
 import express from "express";
 import APIRouter from "./api/index.js";
-import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID } from "./db.js";
+import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash } from "./util.js";
 import * as fs from "fs";
 
@@ -58,74 +58,16 @@ app.use((err, req, res, next) => {
 app.listen(config.privateServerPort, async () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
 
+    // add default auth levels
+    insertAuthLevel(uid(), "gast");
+    insertAuthLevel(uid(), "bezoeker");
+    insertAuthLevel(uid(), "medewerker");
+    insertAuthLevel(uid(), "administrator");
+
     if (config.environment === "dev") {
         routes = routesFromApp(app);
 
         const host = "http://localhost:" + config.privateServerPort;
-
-        // await fetch(host+"/api/readers/imalive", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         battery: 100,
-        //         macAddress: "testmacaddress"
-        //     })
-        // });
-        // await fetch(host+"/api/cards/insertCard", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         id: md5hash("test_card_id"),
-        //         bookingId: null,
-        //         token: uid(),
-        //         blocked: 0
-        //     })
-        // });
-        // await fetch(host+"/api/auth/addAuthLevel", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         name: "shit",
-        //     })
-        // });
-
-        // const levels = await fetch(host+"/api/auth/getAllAuthLevels").then(data=>data.json());
-
-        // await fetch(host+"/api/auth/linkReaderAuth", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         readerId: md5hash("testmacaddress"),
-        //         authLevelId: levels[0].id
-        //     })
-        // });
-
-        // const cards = await fetch(host+"/api/cards/getAllCards").then(data=>data.json());
-
-    
-        // await fetch(host+"/api/auth/linkCardAuth", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         authLevelId: levels[0].id,
-        //         cardId: cards[0].id
-        //     })
-        // });
     }
 
     periodicActivityUpdate();
