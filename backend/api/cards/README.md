@@ -7,10 +7,10 @@ Requests all cards
     ```json
     [
         {
-            "uuid": string,
-            "blocked": number,
+            "id": string,
+            "bookingId": string | null,
             "token": string,
-            "booking_id": string | null
+            "blocked": number
         },
         ...
     ]
@@ -101,9 +101,10 @@ Voegt een nieuwe kaart toe aan de database.
 - **Vereist**:
     ```json
     {
-        "id": string,
-        "blocked": boolean,
-        "token": string
+        "uuid": string,
+        "blocked": number,
+        "token": string,
+        "booking_id": string | null
     }
     ```
 
