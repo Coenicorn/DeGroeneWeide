@@ -18,6 +18,11 @@ namespace DeGroeneWeide.Objects
 
         public AuthLevel() { }
 
+        public AuthLevel(string id, string name) {
+            Id = id;
+            Name = name;
+        }
+
         public void DumpInfo()
         {
             Debug.WriteLine($"Auth - ID: {Id}, Name: {Name}");

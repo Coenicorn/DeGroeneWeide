@@ -45,7 +45,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Background = new Guna.UI2.WinForms.Guna2Panel();
-            guna2ImageButton1 = new Guna.UI2.WinForms.Guna2ImageButton();
+            btn_edit = new Guna.UI2.WinForms.Guna2ImageButton();
             picture_warning = new Guna.UI2.WinForms.Guna2PictureBox();
             lbl_Admin = new Label();
             Administrator_Active_View = new Guna.UI2.WinForms.Guna2Panel();
@@ -66,7 +66,7 @@
             // 
             Background.BackColor = Color.Transparent;
             Background.BorderRadius = 10;
-            Background.Controls.Add(guna2ImageButton1);
+            Background.Controls.Add(btn_edit);
             Background.Controls.Add(picture_warning);
             Background.Controls.Add(lbl_Admin);
             Background.Controls.Add(Administrator_Active_View);
@@ -86,20 +86,21 @@
             Background.Size = new Size(330, 135);
             Background.TabIndex = 0;
             // 
-            // guna2ImageButton1
+            // btn_edit
             // 
-            guna2ImageButton1.CheckedState.ImageSize = new Size(64, 64);
-            guna2ImageButton1.HoverState.ImageSize = new Size(26, 26);
-            guna2ImageButton1.Image = (Image)resources.GetObject("guna2ImageButton1.Image");
-            guna2ImageButton1.ImageOffset = new Point(0, 0);
-            guna2ImageButton1.ImageRotate = 0F;
-            guna2ImageButton1.ImageSize = new Size(24, 24);
-            guna2ImageButton1.Location = new Point(293, 10);
-            guna2ImageButton1.Name = "guna2ImageButton1";
-            guna2ImageButton1.PressedState.ImageSize = new Size(28, 28);
-            guna2ImageButton1.ShadowDecoration.CustomizableEdges = customizableEdges1;
-            guna2ImageButton1.Size = new Size(24, 24);
-            guna2ImageButton1.TabIndex = 12;
+            btn_edit.CheckedState.ImageSize = new Size(64, 64);
+            btn_edit.HoverState.ImageSize = new Size(26, 26);
+            btn_edit.Image = (Image)resources.GetObject("btn_edit.Image");
+            btn_edit.ImageOffset = new Point(0, 0);
+            btn_edit.ImageRotate = 0F;
+            btn_edit.ImageSize = new Size(24, 24);
+            btn_edit.Location = new Point(293, 10);
+            btn_edit.Name = "btn_edit";
+            btn_edit.PressedState.ImageSize = new Size(28, 28);
+            btn_edit.ShadowDecoration.CustomizableEdges = customizableEdges1;
+            btn_edit.Size = new Size(24, 24);
+            btn_edit.TabIndex = 12;
+            btn_edit.Click += btn_edit_Click;
             // 
             // picture_warning
             // 
@@ -259,6 +260,6 @@
         private Label lbl_Bezoeker;
         private Guna.UI2.WinForms.Guna2Panel Bezoeker_Active_View;
         private Guna.UI2.WinForms.Guna2PictureBox picture_warning;
-        private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
+        private Guna.UI2.WinForms.Guna2ImageButton btn_edit;
     }
 }

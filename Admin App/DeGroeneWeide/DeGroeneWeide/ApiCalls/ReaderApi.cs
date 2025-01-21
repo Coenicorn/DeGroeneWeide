@@ -9,8 +9,15 @@ using System.Threading.Tasks;
 
 namespace DeGroeneWeide.ApiCalls
 {
+    public struct UpdateReaderRequestJSON
+    {
+        public string id;
+        public string amenityId;
+        public string name;
+    }
     internal class ReaderApi
     {
+
         public static List<Reader>? Readers;
         public static HttpClient client = new();
 
@@ -43,10 +50,8 @@ namespace DeGroeneWeide.ApiCalls
             }
         }
 
-        public static void EditReader(Reader reader)
+        public static async Task UpdateReader(string reader_Id, string reader_name)
         {
-            string URL = $"{MainForm._settings.URL}/readers/updateReader";
-            Debug.WriteLine("EditReader URL: " + URL);
 
             if (!client.DefaultRequestHeaders.Contains("Accept"))
             {
@@ -55,15 +60,18 @@ namespace DeGroeneWeide.ApiCalls
 
             var data = new
             {
-                name = reader.Name,
-                reader.AmenityId
+                id = reader_Id,
+                name = reader_name,
+                amenityId = (string?)null
             };
 
-            var json = JsonSerializer.Serialize(data);
+            string json = JsonSerializer.Serialize(data);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = client.PostAsync(URL, content);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/readers/updateReader", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(responseString);
         }
     }
 }

@@ -53,9 +53,12 @@ namespace DeGroeneWeide.ApiCalls
                 Debug.WriteLine(json);
 
                 Cards = JsonSerializer.Deserialize<List<Card>>(json);
-                foreach(Card c in Cards)
+                if(Cards != null)
                 {
-                    c.DumpInfo();
+                    foreach (Card c in Cards)
+                    {
+                        c.DumpInfo();
+                    }
                 }
             }
             catch (Exception ex)
@@ -77,7 +80,7 @@ namespace DeGroeneWeide.ApiCalls
             {
                 card_uuid = card_Uuid,
                 booking_id = booking_Id,
-                blokced = false
+                blocked = false
             };
 
             string json = JsonSerializer.Serialize(data);

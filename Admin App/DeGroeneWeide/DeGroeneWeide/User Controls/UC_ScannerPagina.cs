@@ -32,7 +32,7 @@ namespace DeGroeneWeide
                 {
                     UC_Scanner scanner = new();
                     scanner_container.Controls.Add(scanner);
-                    scanner.Fill(reader);
+                    scanner.Fill(reader, this);
                 }
             }
             lastRefresh = DateTime.Now;
