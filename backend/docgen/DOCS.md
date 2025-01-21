@@ -4,7 +4,7 @@ test
 test
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) test<br>
-```json
+```javascript
 // 200 response body
 [
 	{

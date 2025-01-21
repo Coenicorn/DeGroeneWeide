@@ -3,7 +3,7 @@
 ## `POST api/booking/insertBooking`
 inserts a new booking
 ## request
-```json
+```javascript
 // request body
 {
 	"customerId": string | null,
@@ -18,7 +18,7 @@ inserts a new booking
 gets all bookings
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```json
+```javascript
 // 200 response body
 [
 	{

@@ -4,7 +4,7 @@ everything customers
 title says it all
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) NOT TESTED<br>
-```json
+```javascript
 // 200 response body
 [
 	{
@@ -25,7 +25,7 @@ title says it all
 inserts a single customer
 ## request
 NOT TESTED
-```json
+```javascript
 // request body
 {
 	"firstName": string,

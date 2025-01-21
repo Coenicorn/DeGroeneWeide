@@ -4,7 +4,7 @@ all things cards
 gets all cards
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```json
+```javascript
 // 200 response body
 [
 	{
@@ -19,7 +19,7 @@ gets all cards
 gets all cards with additional info, pretty expensive query
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) all cards >_><br>
-```json
+```javascript
 // 200 response body
 [
 	{
@@ -41,7 +41,7 @@ gets all cards with additional info, pretty expensive query
 gets a single card
 ## request
 at least one value must be defined
-```json
+```javascript
 // request body
 {
 	"entryId": string | null,
@@ -50,7 +50,7 @@ at least one value must be defined
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```json
+```javascript
 // 200 response body
 {
 	"id": string,
@@ -62,7 +62,7 @@ at least one value must be defined
 ## `GET api/cards/getCardTokenByCardUuid`
 @tobias
 ## request
-```json
+```javascript
 // request body
 {
 	"card_uuid": string,
@@ -73,7 +73,7 @@ at least one value must be defined
 ## `POST api/cards/insertCard`
 inserts a card into the db
 ## request
-```json
+```javascript
 // request body
 {
 	"uuid": string,
@@ -91,7 +91,7 @@ deletes ALL cards
 ## `POST api/cards/removeCardByCardUuid`
 NOT FINISHED @tobias
 ## request
-```json
+```javascript
 // request body
 {
 	"card_uuid": string,
@@ -100,7 +100,7 @@ NOT FINISHED @tobias
 ## `POST api/cards/removeCardByBookingId`
 @tobias
 ## request
-```json
+```javascript
 // request body
 {
 	"booking_id": string,
@@ -111,7 +111,7 @@ NOT FINISHED @tobias
 ## `POST api/cards/removeCardByEntryId`
 @tobias
 ## request
-```json
+```javascript
 // request body
 {
 	"entryId": string,
@@ -122,7 +122,7 @@ NOT FINISHED @tobias
 ## `POST api/cards/updateCard`
 updates card values. MIGHT BE OUTDATED!
 ## request
-```json
+```javascript
 // request body
 {
 	"card": {
@@ -140,7 +140,7 @@ updates card values. MIGHT BE OUTDATED!
 ## `POST api/cards/setNewestCardToWrite`
 NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o
 ## request
-```json
+```javascript
 // request body
 {
 	"card": {
@@ -154,7 +154,7 @@ NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o
 NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```json
+```javascript
 // 200 response body
 {
 	"card": string // latest scanned card ID,
@@ -163,7 +163,7 @@ NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!
 ## `POST api/cards/getAllAuthLevels`
 gets all auth levels of this card
 ## request
-```json
+```javascript
 // request body
 {
 	"id": string,
@@ -171,7 +171,7 @@ gets all auth levels of this card
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) id is an authlevel's id, name is an authlevel's name, etc.<br>
-```json
+```javascript
 // 200 response body
 [
 	{
@@ -183,7 +183,7 @@ gets all auth levels of this card
 ## `POST api/cards/updateCardToken`
 updates the token of a single card
 ## request
-```json
+```javascript
 // request body
 {
 	"cardId": string,

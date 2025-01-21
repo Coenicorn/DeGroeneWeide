@@ -3,7 +3,7 @@ All routes connected with RFID readers
 ## `POST api/readers/imalive`
 used by RFID readers to signal they're up and running
 ## request
-```json
+```javascript
 // request body
 {
 	"macAddress": string,
@@ -17,7 +17,7 @@ used by RFID readers to signal they're up and running
 ...gets all readers
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```json
+```javascript
 // 200 response body
 {
 	"id": string,
@@ -31,7 +31,7 @@ used by RFID readers to signal they're up and running
 ## `POST api/readers/getReader`
 gets a single reader
 ## request
-```json
+```javascript
 // request body
 {
 	"id": string,
@@ -39,7 +39,7 @@ gets a single reader
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) retrieved reader<br>
-```json
+```javascript
 // 200 response body
 {
 	"id": string,
@@ -53,7 +53,7 @@ gets a single reader
 ## `POST api/readers/updateReader`
 updates all values of a reader
 ## request
-```json
+```javascript
 // request body
 {
 	"id": string,
@@ -66,7 +66,7 @@ updates all values of a reader
 ## `POST api/readers/insertReader`
 inserts a new reader (NEVER USE THIS I DON'T KNOW WHY IT'S HERE)
 ## request
-```json
+```javascript
 // request body
 {
 	"id": string,
