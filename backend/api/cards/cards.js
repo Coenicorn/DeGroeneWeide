@@ -112,12 +112,13 @@ CardsRouter.post("/insertCard", async (req, res) => {
     // ) {
     //     return res.status(400).send("Gegeven data is niet in het correcte format.");
     // }
+    if (card.uuid === undefined) return respondwithstatus(res, 400, "missing uuid. Please provide fysical card uuid");
     if (card.blocked === undefined) return respondwithstatus(res, 400, "missing blocked");
     if (card.token === undefined) return respondwithstatus(res, 400, "missing token");
     if (card.booking_id === undefined) return respondwithstatus(res, 400, "missing booking_id");
 
     try {
-        await insertCard(uid(), card.booking_id, card.token, card.blocked);
+        await insertCard(card.uuid, card.booking_id, card.token, card.blocked);
     } catch(e) {
         err_log("error in /insertCard", e);
 
