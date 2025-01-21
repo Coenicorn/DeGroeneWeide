@@ -2,10 +2,19 @@ import express from "express";
 import {getAllBookings, insertBooking} from "../../db.js";
 import { uid } from "uid";
 import { err_log, respondwithstatus } from "../../util.js";
+import { APIDocGenerator } from "../../docgen/doc.js";
 
-const BookingRouter = express.Router();
+const BookingRouter = express.Router(), doc = new APIDocGenerator("booking API", "'read a booking!'", import.meta.dirname, "api/booking");
 
-// Vereiste:
+doc.route("insertBooking", doc.POST, "inserts a new booking")
+.request({
+    customerId: doc.STRING_OR_NULL,
+    startDate: doc.STRING,
+    endDate: doc.STRING,
+    amountPeople: doc.NUMBER
+})
+.response(201, "succesfully added new booking");
+
 BookingRouter.post("/insertBooking", async (req, res) => {
 
     const booking = req.body;
@@ -28,7 +37,7 @@ BookingRouter.post("/insertBooking", async (req, res) => {
             booking.startDate,
             booking.endDate,
             booking.amountPeople
-    );
+        );
     } catch(e) {
         err_log("error in /insertBooking", e);
 
@@ -37,6 +46,27 @@ BookingRouter.post("/insertBooking", async (req, res) => {
 
     respondwithstatus(res, 201, "OK");
 });
+
+doc.route("getAllBookings", doc.GET, "gets all bookings")
+.response(200, null, [
+    {
+        id: doc.STRING,
+        customerId: doc.STRING_OR_NULL,
+        startDate: doc.STRING,
+        endDate: doc.STRING,
+        amountPeople: doc.NUMBER,
+        creationDate: doc.STRING,
+        firstName: doc.STRING_OR_NULL,
+        middleName: doc.STRING_OR_NULL,
+        lastName: doc.STRING_OR_NULL,
+        maySave: doc.STRING_OR_NULL,
+        birthDate: doc.STRING_OR_NULL,
+        customerCreationDate: doc.STRING_OR_NULL,
+        blacklisted: doc.STRING_OR_NULL,
+        phoneNumber: doc.STRING_OR_NULL,
+        mailAddress: doc.STRING_OR_NULL
+    }
+])
 
 BookingRouter.get("/getAllBookings", async (req, res) => {
 

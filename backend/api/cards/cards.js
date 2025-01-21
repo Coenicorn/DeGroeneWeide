@@ -13,8 +13,9 @@ import {
 } from "../../db.js";
 import { respondwithstatus, err_log, info_log } from "../../util.js";
 import { uid } from "uid";
+import { APIDocGenerator } from "../../docgen/doc.js";
 
-const CardsRouter = express.Router();
+const CardsRouter = express.Router(), doc = new APIDocGenerator("cards API", "all things cards", import.meta.dirname, "api/cards");
 
 /*
     Alles returned standaard met:
@@ -27,10 +28,20 @@ const CardsRouter = express.Router();
     Invoke-WebRequest -Uri http://localhost:3001/api/cards/getAllCards -Method GET -ContentType "application/json"
  */
 
+doc.route("getAllCards", doc.GET, "gets all cards")
+.response(200, null, [
+    {
+        id: doc.STRING,
+        bookingId: doc.STRING_OR_NULL,
+        token: doc.STRING_OR_NULL,
+        blocked: doc.NUMBER
+    }
+])
+
 CardsRouter.get("/getAllCards", async (req, res) => {
     try {
         const cards = await getAllCards();
-        res.json(cards);
+        res.status(200).json(cards);
     } catch (error) {
         console.log("Error while getting cards from server: " + error);
         res.status(500).send("Sorry! Er heeft een interne fout opgetreden.");
@@ -43,10 +54,28 @@ CardsRouter.get("/getAllCards", async (req, res) => {
 
     /api/cards/getAllExtensiveCards.
  */
+
+doc.route("getAllExtensiveCards", doc.GET, "gets all cards with additional info, pretty expensive query")
+.response(200, "all cards >_>", [
+    {
+        id: doc.STRING,
+        bookingId: doc.STRING_OR_NULL,
+        token: doc.STRING,
+        blocked: doc.NUMBER,
+        customerId: doc.STRING_OR_NULL,
+        startDate: doc.STRING_OR_NULL,
+        endDate: doc.STRING_OR_NULL,
+        amountPeople: doc.NUMBER_OR_NULL,
+        creationDate: doc.STRING_OR_NULL,
+        authLevelId: doc.STRING_OR_NULL,
+        authLevelName: doc.STRING_OR_NULL
+    }
+]);
+
 CardsRouter.get("/getAllExtensiveCards", async (req, res) => {
     try {
         const cards = await getAllExtensiveCards();
-        res.json(cards);
+        res.status(200).json(cards);
     } catch (error) {
         err_log("error in /getAllExtensiveCards:" , error);
         throw new Error("Sorry! Er heeft een interne fout opgetreden.");
@@ -58,6 +87,19 @@ CardsRouter.get("/getAllExtensiveCards", async (req, res) => {
        Body voorbeeld:
        '{"card_uuid":"UUID HIER"}' of '{"entryId":"1"}' of een opsomming van beide
  */
+
+doc.route("getCard", doc.GET, "gets a single card")
+.request({
+    entryId: doc.STRING_OR_NULL,
+    card_uuid: doc.STRING_OR_NULL,
+}, "at least one value must be defined")
+.response(200, null, {
+    id: doc.STRING,
+    bookingId: doc.STRING_OR_NULL,
+    token: doc.STRING_OR_NULL,
+    blocked: doc.NUMBER
+});
+
 CardsRouter.get("/getCard", async (req, res) => {
     try {
         const info = req.body;
@@ -82,6 +124,13 @@ CardsRouter.get("/getCard", async (req, res) => {
    Body voorbeeld:
    '{"card_uuid":"UUID HIER"}'
  */
+
+doc.route("getCardTokenByCardUuid", doc.GET, "@tobias")
+.request({
+    card_uuid: doc.STRING
+})
+.response(200, "same as /getCard");
+
 CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
     try {
         const info = req.body;
@@ -100,6 +149,15 @@ CardsRouter.get("/getCardTokenByCardUuid", async (req, res) => {
         res.status(500).send("Er is iets mis gegaan tijdens het ophalen van de token.");
     }
 });
+
+doc.route("insertCard", doc.POST, "inserts a card into the db")
+.request({
+    uuid: doc.STRING,
+    blocked: doc.STRING,
+    token: doc.STRING,
+    booking_id: doc.STRING_OR_NULL
+})
+.response(201, "succesfully added card");
 
 CardsRouter.post("/insertCard", async (req, res) => {
     const card = req.body;
@@ -134,12 +192,12 @@ CardsRouter.post("/insertCard", async (req, res) => {
        '{"confirm":"false"}'
 
  */
+
+doc.route("deleteAllCards", doc.POST, "deletes ALL cards")
+.response(200, "succesfully removed all cards x_x");
+
 CardsRouter.post("/deleteAllCards", async (req, res) => {
     const deletion = req.body;
-
-    if(!deletion.confirm){
-        return res.status(400).send("Een confirmatie is vereist bij het verwijderen van alle kaarten.");
-    }
 
     const result = await deleteCards(deletion.confirm);
     if(!result){
@@ -153,6 +211,12 @@ CardsRouter.post("/deleteAllCards", async (req, res) => {
     Voorbeeld body:
     '{"card_uuid":"CARD UUID HIER"}'
  */
+
+doc.route("removeCardByCardUuid", doc.POST, "NOT FINISHED @tobias")
+.request({
+    card_uuid: doc.STRING
+})
+
 CardsRouter.post("/removeCardByCardUuid", async (req, res) => {
     const card = req.body;
 
@@ -167,6 +231,13 @@ CardsRouter.post("/removeCardByCardUuid", async (req, res) => {
     Voorbeeld body:
     '{"booking_uuid":"ID HIER"}'
  */
+
+doc.route("removeCardByBookingId", doc.POST, "@tobias")
+.request({
+    booking_id: doc.STRING
+})
+.response(200, "succesfully removed card");
+
 CardsRouter.post("/removeCardByBookingId", async (req, res) => {
     const card = req.body;
     if(card.booking_id == null)  {
@@ -181,6 +252,12 @@ CardsRouter.post("/removeCardByBookingId", async (req, res) => {
     Voorbeeld body:
     '{"entryId":"ID HIER"}'
  */
+doc.route("removeCardByEntryId", doc.POST, "@tobias")
+.request({
+    entryId: doc.STRING
+})
+.response(200, "succesfully removed card");
+
 CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     const card = req.body;
     if(card.entryId == null){
@@ -189,6 +266,19 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     const result = await removeCardByID(card.entryId);
     return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result})
 });
+
+doc.route("updateCard", doc.POST, "updates card values. MIGHT BE OUTDATED!")
+.request({
+    card: {
+        id: doc.STRING,
+        card_uuid: doc.STRING,
+        booking_id: doc.STRING,
+        token: doc.STRING,
+        level: doc.STRING,
+        blocked: doc.STRING
+    }
+})
+.response(200, "succesfully updated card");
 
 CardsRouter.post("/updateCard", async (req, res, next) => {
     const card = req.body.card;
@@ -231,6 +321,14 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
 // can be reset at any time
 let latestScannedCardToWriteID;
 
+doc.route("setNewestCardToWrite", doc.POST, "NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o")
+.request({
+    card: {
+        id: doc.STRING
+    }
+})
+.response(200, "succesfully set newest card to write");
+
 CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
 
     const card = req.body.card;
@@ -261,6 +359,11 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
 
 });
 
+doc.route("getNewestCardToWrite", doc.GET, "NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!")
+.response(200, null, {
+    card: doc.STRING + " // latest scanned card ID"
+})
+
 CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
   
     if (latestScannedCardToWriteID === undefined) {
@@ -278,8 +381,19 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
         return res.json({ card: undefined });
     }
 
-    res.json({ card: latestScannedCardToWriteID });
+    res.status(200).json({ card: latestScannedCardToWriteID });
 });
+
+doc.route("getAllAuthLevels", doc.POST, "gets all auth levels of this card")
+.request({
+    id: doc.STRING
+})
+.response(200, "id is an authlevel's id, name is an authlevel's name, etc.", [
+    {
+      id: doc.STRING,
+      name: doc.STRING
+    }
+])
 
 CardsRouter.post("/getAllAuthLevels", async (req, res) => {
     const cardId = req.body.id;
@@ -296,7 +410,7 @@ CardsRouter.post("/getAllAuthLevels", async (req, res) => {
             WHERE Cards.id = ?
         `, [cardId]);
 
-        return res.json(authLevels);
+        return res.status(200).json(authLevels);
 
     } catch(e) {
         err_log("error in /getAllAuthLevels (cards)", e);
@@ -304,6 +418,13 @@ CardsRouter.post("/getAllAuthLevels", async (req, res) => {
         return respondwithstatus(res, 500, "something went wrong");
     }
 });
+
+doc.route("updateCardToken", doc.POST, "updates the token of a single card")
+.request({
+    cardId: doc.STRING,
+    token: doc.STRING
+})
+.response(200, "succesfully updated token");
 
 CardsRouter.post("/updateCardToken", async (req, res) => {
     const cardId = req.body.cardId;
