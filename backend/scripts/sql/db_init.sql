@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS Customers (
     firstName TEXT NOT NULL,
     middleName TEXT,
     lastName TEXT NOT NULL,
+
+    -- currently not used
     maySave BOOLEAN,
+    
     birthDate TEXT,
     creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     blacklisted BOOLEAN,
