@@ -61,6 +61,9 @@ app.listen(config.privateServerPort, async () => {
     // add default auth levels
     try {
         await insertAuthLevel(uid(), "gast");
+        await insertAuthLevel(uid(), "bezoeker");
+        await insertAuthLevel(uid(), "medewerker");
+        await insertAuthLevel(uid(), "admin");
     } catch(e) {
         // console.log(e.code);
         // unique error is expected, anything else is baaaad
