@@ -247,30 +247,30 @@ Haalt kaart informatie op met de daarbijhorende boekingsinformatie.
 #### Responses
 - **`200 OK`**
     ```json
-    {
-        "id": TEXT,
-        "card_uuid": VARCHAR(16),
-        "booking_id": TEXT,
-        "token": VARCHAR(256),
-        "blocked": BOOLEAN,
-        "customer_id": TEXT,
-        "duePayments": INTEGER,
-        "startDate": DATETIME,
-        "endDate": DATETIME,
-        "amountChildren": INTEGER,
-        "amountAdults": INTEGER,
-        "expectedArrival": TIME,
-        "firstName": VARCHAR(100),
-        "middleName": VARCHAR(10),
-        "lastName": VARCHAR(100),
-        "birthDate": VARCHAR(20),
-        "maySave": BOOLEAN,
-        "creationDate": DATETIME,
-        "blacklisted": BOOLEAN,
-        "phoneNumber": VARCHAR(20),
-        "mailAddress": VARCHAR(300)
-    },
-  ...
+    [
+        {
+            "id": string,
+            "bookingId": string | null,
+            "token": string,
+            "blocked": number,
+            "customerId": string | null,
+            "startDate": string | null,
+            "endDate": string | null,
+            "amountPeople": null,
+            "bookingCreationDate": string | null,
+            "authLevelId": string | null,
+            "authLevelName": string | null,
+            "firstName": string | null,
+            "middleName": string | null,
+            "lastName": string | null,
+            "birthDate": string | null,
+            "blackListed": number | null,
+            "phoneNumber": string | null,
+            "mailAddress": string | null,
+            "customerCreationDate": string | null
+        },
+        ...    
+    ]
     ```
 
 - **`400 Bad Request`**

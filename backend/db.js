@@ -135,22 +135,34 @@ export async function getAllExtensiveCards(){
     return db_query(`
         SELECT 
             Cards.*,
+
             bk.id AS bookingId,
             bk.customerId AS customerId,
             bk.startDate AS startDate,
             bk.endDate AS endDate,
             bk.amountPeople AS amountPeople,
-            bk.creationDate AS creationDate,
+            bk.creationDate AS bookingCreationDate,
+
             al.id AS authLevelId, 
-            al.name as authLevelName 
+            al.name AS authLevelName,
+
+            cs.id AS customerId,
+            cs.firstName AS firstName,
+            cs.middleName AS middleName,
+            cs.lastName AS lastName,
+            cs.birthDate AS birthDate,
+            cs.blackListed as blackListed,
+            cs.phoneNumber AS phoneNumber,
+            cs.mailAddress AS mailAddress,
+            cs.creationDate AS customerCreationDate
         FROM 
             Cards 
         LEFT JOIN 
             Bookings as bk 
             ON Cards.bookingId = bk.id 
         LEFT JOIN 
-            Customers 
-            ON bk.customerId = Customers.id 
+            Customers AS cs
+            ON bk.customerId = cs.id 
         LEFT JOIN 
             CardAuthJunctions AS caj 
             ON caj.cardId = Cards.id 
