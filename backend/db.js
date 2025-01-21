@@ -55,142 +55,14 @@ export async function db_execute(query, params) {
 
 // Wordt uitgevoerd zodra de server gerunned wordt.
 export async function initializeDB() {
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS Customers (
-            id TEXT PRIMARY KEY NOT NULL,
-            firstName TEXT NOT NULL,
-            middleName TEXT,
-            lastName TEXT NOT NULL,
-            maySave BOOLEAN,
-            birthDate TEXT,
-            creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            blacklisted BOOLEAN,
-            phoneNumber TEXT NOT NULL,
-            mailAddress TEXT NOT NULL
-        )
-    `);
 
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS Bookings (
-            id TEXT PRIMARY KEY NOT NULL,
-            customerId TEXT NOT NULL, 
-            startDate DATETIME NOT NULL,
-            endDate DATETIME NOT NULL,
-            amountPeople INT NOT NULL,
-            creationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (customerId) REFERENCES Customers (id)
-        )
-    `);
+    // load .sql file
 
-    await db_execute(`CREATE TABLE IF NOT EXISTS Payments (
-            id TEXT PRIMARY KEY NOT NULL,
-            bookingId TEXT NOT NULL,
-            amount INT NOT NULL,
-            hasPaid BOOLEAN NOT NULL,
-            note TEXT,
-            FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-    )`);
+    const dbInitSqlFile = fs.readFileSync(path.join(__dirname, "/scripts/sql/db_init.sql"), { encoding: "utf-8" });
 
-    // id is the uuid on the card
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS Cards (
-            id TEXT PRIMARY KEY NOT NULL,
-            bookingId TEXT,
-            token TEXT,
-            blocked BOOLEAN NOT NULL,
-            FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-        )
-    `);
+    // this is supposed to crash when errored, intended behaviour so we don't fuck up db init
+    db.exec(dbInitSqlFile, []);
 
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS AuthLevels (
-            id TEXT PRIMARY KEY NOT NULL,
-            name TEXT NOT NULL UNIQUE
-        )
-    `);
-
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS AmenityTypes (
-            id TEXT PRIMARY KEY NOT NULL,
-            name TEXT NOT NULL
-        )
-    `);
-
-    // id is currently the md5 hash of a reader's mac address
-    // amenityId can be null for when a reader is first initialized
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS Readers (
-            id TEXT PRIMARY KEY NOT NULL UNIQUE,
-            batteryPercentage INT,
-            amenityId TEXT,
-            lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
-            name TEXT NOT NULL,
-            active BOOLEAN,
-            FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
-        )
-    `);
-
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS CardAuthJunctions (
-            cardId TEXT NOT NULL,
-            authLevelId TEXT NOT NULL,
-            PRIMARY KEY (cardId, authLevelId),
-            FOREIGN KEY (cardId) REFERENCES Cards (id) ON DELETE CASCADE,
-            FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
-        )
-    `)
-
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS ReaderAuthJunctions (
-            readerId TEXT NOT NULL,
-            authLevelId TEXT NOT NULL,
-            UNIQUE (readerId, authLevelId),
-            FOREIGN KEY (readerId) REFERENCES Readers (id) ON DELETE CASCADE,
-            FOREIGN KEY (authLevelId) REFERENCES AuthLevels (id) ON DELETE CASCADE
-        )
-    `)
-
-    // surfaceArea wordt nu niet gebruikt, idk waarom we die nu hebben
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS ShelterTypes (
-            id TEXT NOT NULL,
-            name TEXT NOT NULL,
-            surfaceArea INT NOT NULL
-        )
-    `);
-
-    await db_execute(`
-        CREATE TABLE IF NOT EXISTS ShelterBookingJunctions (
-            shelterId TEXT NOT NULL,
-            bookingId TEXT NOT NULL,
-            FOREIGN KEY (shelterId) REFERENCES ShelterTypes (id),
-            FOREIGN KEY (bookingId) REFERENCES Bookings (id)
-        )
-    `);
-
-    /* triggers */
-
-    await db_execute(`
-        CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
-        AFTER INSERT ON Readers
-        FOR EACH ROW
-        BEGIN
-            UPDATE Readers
-            SET lastPing = strftime('%s', 'now')
-            WHERE rowid = new.rowid;
-        END
-    `);
-
-    await db_execute(`
-        CREATE TRIGGER IF NOT EXISTS updateLastPingOnUpdate
-        AFTER UPDATE ON Readers
-        FOR EACH ROW
-        BEGIN
-            UPDATE Readers
-            SET lastPing = strftime('%s', 'now')
-            WHERE rowid = new.rowid;
-        END
-    `);
 }
 
 /**
