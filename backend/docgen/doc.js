@@ -1,6 +1,15 @@
+/*
+
+    Written by Coenicorn
+
+    It's bad, but so am I >:)
+
+*/
+
 import * as fs from "fs";
 import path from "path";
 import config from "../config.js";
+import { info_log } from "../util.js";
 
 class DocGenerator {
     name;
@@ -10,7 +19,10 @@ class DocGenerator {
     _file;
 
     constructor(name, description, dirname) {
-        if (config.environment !== "dev") return;
+        // only generate docs when explicitly told to do so
+        if (config.environment !== "dev" || config.generateDocumentation !== 1) return;
+
+        info_log("generating documentation for " + name);
 
         this.name = name;
         this.description = description;
@@ -21,7 +33,7 @@ class DocGenerator {
         this.writeString(`# ${name}\n${description}`);
 
         setTimeout(() => {
-            console.log("cleaning up api generation...");
+            info_log("cleaning up documentation generation for " + name + "...");
             this.end();
         }, 5000);
     }
@@ -31,7 +43,7 @@ class DocGenerator {
      * @param {string} str string to write
      * @note appends a newline character
      */
-    writeString(str) { this._file.write(str + "\n"); }
+    writeString(str) { if (!this._file) return; this._file.write(str + "\n"); }
 
     _start() { 
         // delete old file

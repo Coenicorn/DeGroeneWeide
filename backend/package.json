@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
-    "deploy": "node index.js"
+    "deploy": "node index.js",
+    "generate-docs": "GENDOC=1 node index.js"
   },
   "repository": {
     "type": "git",
