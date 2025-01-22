@@ -10,12 +10,13 @@ const log_stderr = fs.createWriteStream(path.join(log_dir_path, "stderr.log"), {
 const log_console = new Console({stdout: log_stdout, stderr: log_stderr});
 
 function _log_getprefix(msg, type) {
-    if (config.environment === "dev") {
-        let d = new Date();
-        return `[${d.toLocaleTimeString()}][${type}] ${msg}`;
-    } else {
-        return `[${type}] ${msg}`;
-    }
+    // if (config.environment === "dev") {
+    //     let d = new Date();
+    //     return `[${d.toLocaleTimeString()}][${type}] ${msg}`;
+    // } else {
+    //     return `[${type}] ${msg}`;
+    // }
+    return `[${d.toLocaleTimeString()}][${type}] ${msg}`;
 }
 
 // server startup message
