@@ -10,6 +10,7 @@ import * as fs from "fs";
 import path from "path";
 import config from "../config.js";
 import { info_log } from "../util.js";
+import { isPublicRoute } from "../apiKey.js";
 
 class DocGenerator {
     name;
@@ -85,7 +86,7 @@ export class APIDocGenerator extends DocGenerator {
     }
 
     route(routeName, routeMethod, routeDescription, isPublic = false) {
-        this.writeString(`## \`${routeMethod} ${this.baseURL}/${routeName}\` ${this._toIsPublicString(isPublic)}`);
+        this.writeString(`## \`${routeMethod} ${this.baseURL}/${routeName}\` ${this._toIsPublicString(isPublicRoute(routeName))}`);
         this.writeString(`${routeDescription}`);
 
         this.endResponseBlock();
@@ -145,7 +146,9 @@ export class APIDocGenerator extends DocGenerator {
     }
 
     _toIsPublicString(yes) {
-        let str = `<span style="background-color:${yes?"#386e0f":"#ad0303"}; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">${yes?"public":"private"}</span>`;
+        let str;
+        if (yes) str = "![img_public](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/public.png)";
+        else str = "![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)";
         return str;
     }
 

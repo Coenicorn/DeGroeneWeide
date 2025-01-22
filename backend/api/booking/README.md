@@ -1,6 +1,6 @@
 # booking API
 'read a booking!'
-## `POST api/booking/insertBooking` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/booking/insertBooking` <span style="background-color:#386e0f; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">public</span>
 inserts a new booking
 ## request
 ```javascript
