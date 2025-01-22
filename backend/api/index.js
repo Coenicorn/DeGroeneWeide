@@ -19,7 +19,7 @@ APIRouter.use("/auth", AuthRouter);
 APIRouter.use("/booking", BookingRouter);
 
 if (config.environment === "dev"){
-    info_log("hosting database explorer on /api/browse");
+    info_log("hosting database explorer on http://localhost:" + config.privateServerPort + "/api/browse");
 
     APIRouter.use("/browse", async (req, res) => {
         let response = {};

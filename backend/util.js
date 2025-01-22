@@ -4,7 +4,7 @@ import { createHash } from "crypto";
 import * as fs from "fs";
 import path from "path";
 
-const log_dir_path = path.join(import.meta.dirname, config.logFileLocation);
+const log_dir_path = path.join(import.meta.dirname, "log/");
 const log_stdout = fs.createWriteStream(path.join(log_dir_path, "stdout.log"), {flags: "a"});
 const log_stderr = fs.createWriteStream(path.join(log_dir_path, "stderr.log"), {flags: "a"});
 const log_console = new Console({stdout: log_stdout, stderr: log_stderr});
@@ -17,6 +17,9 @@ function _log_getprefix(msg, type) {
         return `[${type}] ${msg}`;
     }
 }
+
+// server startup message
+log_console.log("\n" + _log_getprefix("------ NEW SERVER STARTUP ------", "INFO"));
 
 export function info_log(msg) {
     const str = _log_getprefix(msg, "INFO");
