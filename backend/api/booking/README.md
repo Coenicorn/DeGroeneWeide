@@ -1,6 +1,6 @@
 # booking API
 'read a booking!'
-## `POST api/booking/insertBooking` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
+## `POST api/booking/insertBooking` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/resize-public-private-img/backend/docgen/public.png?raw=true)
 inserts a new booking
 ## request
 ```javascript
@@ -14,7 +14,7 @@ inserts a new booking
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added new booking<br>
-## `GET api/booking/getAllBookings` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `GET api/booking/getAllBookings` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/resize-public-private-img/backend/docgen/private.png?raw=true)
 gets all bookings
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
@@ -40,7 +40,7 @@ gets all bookings
 	},
 ]
 ```
-## `POST api/booking/updateBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/booking/updateBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/resize-public-private-img/backend/docgen/private.png?raw=true)
 updates booking values
 ## request
 ```javascript
@@ -55,7 +55,7 @@ updates booking values
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated booking<br>
-## `POST api/booking/deleteBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/booking/deleteBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/resize-public-private-img/backend/docgen/private.png?raw=true)
 deletes a single booking
 ## request
 ```javascript
