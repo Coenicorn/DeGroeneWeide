@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     let str;
 
     let finalRoute = req.url.split("/").pop();
-    if (routes.includes(finalRoute) && config.environment === "dev") {
+    if (config.environment === "dev" && routes.includes(finalRoute)) {
         str = "Route exists but failed, did you use the right method?";
     } else {
         str = "Route not found. Hier niks gevonden man, volgende keer beter";

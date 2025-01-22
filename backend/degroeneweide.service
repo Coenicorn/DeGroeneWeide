@@ -1,0 +1,20 @@
+[Unit]
+Description=De Groene Weide backend server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/npm run deploy
+WorkingDirectory=/opt/shocomellow/DeGroeneWeide/backend
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=ENVIRONMENT=production
+User=shocomellow
+Group=shocomellow
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=shocomellow-server
+TimeoutSec=60
+
+[Install]
+WantedBy=multi-user.target
