@@ -211,7 +211,17 @@ export async function insertBooking(id, customerId, startDate, endDate, amountPe
 }
 
 export async function updateBooking(id, customerId, startDate, endDate, amountPeople) {
-
+    return db_execute(`
+        UPDATE
+            Bookings
+        SET
+            customerId = ?,
+            startDate = ?,
+            endDate = ?,
+            amountPeople = ?
+        WHERE
+            id = ?
+    `, [customerId, startDate, endDate, amountPeople, id]);
 }
 
 export async function getBooking(id) {
