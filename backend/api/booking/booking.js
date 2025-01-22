@@ -102,9 +102,12 @@ BookingRouter.post("/updateBooking", async (req, res) => {
 
     // check if booking currently exists
     try {
-        const booking = await getBooking(booking.id);
+        const existingBookingsList = await getBooking(booking.id);
 
-        console.log(booking);
+        if (existingBookingsList.length === 0) {
+            // no booking exists
+            return respondwithstatus(res, 400, "no booking with id (" + booking.id + ") exists");
+        }
     } catch(e) {
         err_log("error getting existing booking in /updateBooking", e);
 
@@ -116,11 +119,12 @@ BookingRouter.post("/updateBooking", async (req, res) => {
     if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
 
-    // try {
+    try {
 
-    //     await updateBooking()
+        await updateBooking()
 
-    // }
+    }
+
     res.end();
 });
 
