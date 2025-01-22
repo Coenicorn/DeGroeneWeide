@@ -10,6 +10,11 @@ config.generateDocumentation = process.env.GENDOC | null;
 config.publicServerPort = process.env.PUBLIC_SERVER_PORT;
 config.privateServerPort = process.env.PRIVATE_SERVER_PORT;
 
+
+// API keys
+config.keyAdminPanel = process.env.KEYADMINPANEL;
+
+
 export async function verifyCorrectConfiguration() {
 
     // still uses console.log because util.js, which defines the helper functions, imports this file
