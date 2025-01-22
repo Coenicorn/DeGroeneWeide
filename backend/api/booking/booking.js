@@ -1,5 +1,5 @@
 import express from "express";
-import {getAllBookings, getBooking, insertBooking} from "../../db.js";
+import {getAllBookings, getBooking, insertBooking, updateBooking} from "../../db.js";
 import { uid } from "uid";
 import { err_log, respondwithstatus } from "../../util.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
@@ -121,11 +121,21 @@ BookingRouter.post("/updateBooking", async (req, res) => {
 
     try {
 
-        await updateBooking()
+        await updateBooking(
+            booking.id,
+            booking.customerId,
+            booking.startDate,
+            booking.endDate,
+            booking.amountPeople
+        );
 
+    } catch(e) {
+        err_log("error in /updateBooking", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
     }
 
-    res.end();
+    respondwithstatus(res, 200, "OK");
 });
 
 export default BookingRouter;
