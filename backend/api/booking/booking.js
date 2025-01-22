@@ -1,5 +1,5 @@
 import express from "express";
-import {getAllBookings, getBooking, insertBooking, updateBooking} from "../../db.js";
+import {deleteBooking, getAllBookings, getBooking, insertBooking, updateBooking} from "../../db.js";
 import { uid } from "uid";
 import { err_log, respondwithstatus } from "../../util.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
@@ -136,6 +136,32 @@ BookingRouter.post("/updateBooking", async (req, res) => {
     }
 
     respondwithstatus(res, 200, "OK");
+});
+
+
+doc.route("deleteBooking", doc.POST, "deletes a single booking")
+.request({
+    id: doc.STRING
+})
+.response(200, "succesfully deleted booking");
+
+BookingRouter.post("/deleteBooking", async (req, res) => {
+
+    const booking = req.body;
+
+    if (booking === undefined) return respondwithstatus(res, 400, "missing request body");
+    if (booking.id === undefined) return respondwithstatus(res, 400, "missing id");
+
+    try {
+        await deleteBooking(booking.id);
+    } catch(e) {
+        err_log("error in /deleteBooking", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
+    respondwithstatus(res, 200, "OK");
+
 });
 
 export default BookingRouter;

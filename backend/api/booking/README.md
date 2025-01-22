@@ -55,3 +55,14 @@ updates booking values
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated booking<br>
+## `POST api/booking/deleteBooking`
+deletes a single booking
+## request
+```javascript
+// request body
+{
+	"id": string,
+}
+```
+## response
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully deleted booking<br>

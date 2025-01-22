@@ -224,6 +224,10 @@ export async function updateBooking(id, customerId, startDate, endDate, amountPe
     `, [customerId, startDate, endDate, amountPeople, id]);
 }
 
+export async function deleteBooking(id) {
+    return db_execute("DELETE FROM Bookings WHERE id = ?", [id]);
+}
+
 export async function getBooking(id) {
     return db_query("SELECT * FROM Bookings WHERE id = ?", [id]);
 }
