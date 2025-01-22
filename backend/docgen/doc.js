@@ -202,3 +202,9 @@ doc.route("test", doc.GET, "test").response(200, "test", [
         test: doc.STRING
     }
 ])
+
+doc.route("test", doc.POST, "test", false).response(200, "test", [
+    {
+        test: doc.STRING
+    }
+])
