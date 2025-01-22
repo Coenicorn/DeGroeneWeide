@@ -16,6 +16,7 @@ function _log_getprefix(msg, type) {
     // } else {
     //     return `[${type}] ${msg}`;
     // }
+    let d = new Date();
     return `[${d.toLocaleTimeString()}][${type}] ${msg}`;
 }
 
