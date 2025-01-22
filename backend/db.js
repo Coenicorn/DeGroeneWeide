@@ -7,15 +7,12 @@ might be convenient
 
 import Database from "better-sqlite3"
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
 import config from './config.js';
 import * as fs from "fs";
 import { abort } from 'process';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const dbPath = path.resolve(__dirname, 'data.db');
+const dbPath = path.join(import.meta.dirname, 'data.db');
 const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 
@@ -58,7 +55,7 @@ export async function initializeDB() {
 
     // load .sql file
 
-    const dbInitSqlFile = fs.readFileSync(path.join(__dirname, "/scripts/sql/db_init.sql"), { encoding: "utf-8" });
+    const dbInitSqlFile = fs.readFileSync(path.join(import.meta.dirname, "/scripts/sql/db_init.sql"), { encoding: "utf-8" });
 
     // this is supposed to crash when errored, intended behaviour so we don't fuck up db init
     db.exec(dbInitSqlFile, []);
