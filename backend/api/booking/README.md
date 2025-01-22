@@ -1,6 +1,6 @@
 # booking API
 'read a booking!'
-## `POST api/booking/insertBooking` <span style="background-color:#386e0f; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">public</span>
+## `POST api/booking/insertBooking` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/public.png)
 inserts a new booking
 ## request
 ```javascript
@@ -14,7 +14,7 @@ inserts a new booking
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added new booking<br>
-## `GET api/booking/getAllBookings` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `GET api/booking/getAllBookings` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets all bookings
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
@@ -40,7 +40,7 @@ gets all bookings
 	},
 ]
 ```
-## `POST api/booking/updateBooking` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/booking/updateBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 updates booking values
 ## request
 ```javascript
@@ -55,7 +55,7 @@ updates booking values
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated booking<br>
-## `POST api/booking/deleteBooking` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/booking/deleteBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 deletes a single booking
 ## request
 ```javascript

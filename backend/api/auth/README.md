@@ -1,6 +1,6 @@
 # authentication API
 (hacking the mainframe)
-## `POST api/auth/addAuthLevel` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/addAuthLevel` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 adds a new auth level
 ## request
 ```javascript
@@ -11,7 +11,7 @@ adds a new auth level
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added auth level<br>
-## `POST api/auth/updateAuthLevel` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/updateAuthLevel` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 updates authLevel values
 ## request
 ```javascript
@@ -23,7 +23,7 @@ updates authLevel values
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated auth level<br>
-## `POST api/auth/deleteAuthLevel` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/deleteAuthLevel` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 deletes an auth level
 ## request
 ```javascript
@@ -34,11 +34,11 @@ deletes an auth level
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully deleted authLevel<br>
-## `GET api/auth/getAllAuthLevels` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `GET api/auth/getAllAuthLevels` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets ALL auth levels
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) [object Object]<br>
-## `POST api/auth/linkReaderAuth` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/linkReaderAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 links a reader to an authentication level
 ## request
 ```javascript
@@ -50,7 +50,7 @@ links a reader to an authentication level
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully linked reader to auth level<br>
-## `POST api/auth/unlinkReaderAuth` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/unlinkReaderAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 removes an auth level from a reader
 ## request
 ```javascript
@@ -62,7 +62,7 @@ removes an auth level from a reader
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed auth level from reader<br>
-## `POST api/auth/linkCardAuth` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/linkCardAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 links an auth level to a card
 ## request
 ```javascript
@@ -74,7 +74,7 @@ links an auth level to a card
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully linked an auth level to a card<br>
-## `POST api/auth/unlinkCardAuth` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/unlinkCardAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 removes an auth level from a card
 ## request
 ```javascript
@@ -86,7 +86,7 @@ removes an auth level from a card
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed an auth level from a card<br>
-## `POST api/auth/authenticateCard` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
+## `POST api/auth/authenticateCard` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 tries to authenticate a card at a reader
 ## request
 ```javascript
