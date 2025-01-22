@@ -9,7 +9,7 @@ import { db_query } from "../db.js";
 import config from "../config.js";
 import { info_log } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
-import { onlyAdminPanel } from "../apiKey.js";
+import { onlyAdminPanel } from "../apikey.js";
 
 const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
 
