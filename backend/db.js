@@ -210,6 +210,24 @@ export async function insertBooking(id, customerId, startDate, endDate, amountPe
     return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople) VALUES (?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople]);
 }
 
+export async function updateBooking(id, customerId, startDate, endDate, amountPeople) {
+    return db_execute(`
+        UPDATE
+            Bookings
+        SET
+            customerId = ?,
+            startDate = ?,
+            endDate = ?,
+            amountPeople = ?
+        WHERE
+            id = ?
+    `, [customerId, startDate, endDate, amountPeople, id]);
+}
+
+export async function getBooking(id) {
+    return db_query("SELECT * FROM Bookings WHERE id = ?", [id]);
+}
+
 export async function insertReader(id, batteryPercentage, amenityId, lastPing, name, active) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?,?,?)", [id, batteryPercentage, amenityId, lastPing, name, active]);
 }
