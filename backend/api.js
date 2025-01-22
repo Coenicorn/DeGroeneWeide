@@ -74,16 +74,16 @@ app.listen(config.privateServerPort, async () => {
         const host = "http://localhost:" + config.privateServerPort;
     }
 
-    periodicActivityUpdate();
+    // periodicActivityUpdate();
 });
 
 // periodically update the inactive readers
-async function periodicActivityUpdate() {
+// async function periodicActivityUpdate() {
 
-    const rows = await readerFailedPingSetInactive(24 * 60 * 60);
+//     const rows = await readerFailedPingSetInactive(24 * 60 * 60);
 
-    if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
+//     if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
 
-    setTimeout(periodicActivityUpdate, 300000);
+//     setTimeout(periodicActivityUpdate, 300000);
 
-}
+// }
