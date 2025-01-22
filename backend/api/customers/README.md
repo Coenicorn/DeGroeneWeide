@@ -40,3 +40,9 @@ NOT TESTED
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added customer<br>
+```javascript
+// 201 response body
+{
+	"customerId": string,
+}
+```

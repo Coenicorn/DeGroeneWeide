@@ -64,7 +64,9 @@ doc.route("insertCustomer", doc.POST, "inserts a single customer")
     phoneNumber: doc.STRING,
     mailAddress: doc.STRING
 }, "NOT TESTED")
-.response(201, "succesfully added customer");
+.response(201, "succesfully added customer", {
+    customerId: doc.STRING
+});
 
 CustomersRouter.post("/insertCustomer", async (req, res) => {
 
