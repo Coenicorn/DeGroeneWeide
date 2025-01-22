@@ -84,8 +84,8 @@ export class APIDocGenerator extends DocGenerator {
         this._inResponseBlock = 0;
     }
 
-    route(routeName, routeMethod, routeDescription) {
-        this.writeString(`## \`${routeMethod} ${this.baseURL}/${routeName}\``);
+    route(routeName, routeMethod, routeDescription, isPublic = false) {
+        this.writeString(`## \`${routeMethod} ${this.baseURL}/${routeName}\` ${this._toIsPublicString(isPublic)}`);
         this.writeString(`${routeDescription}`);
 
         this.endResponseBlock();
@@ -144,6 +144,11 @@ export class APIDocGenerator extends DocGenerator {
         return this;
     }
 
+    _toIsPublicString(yes) {
+        let str = `<span style="background-color:${yes?"#386e0f":"#ad0303"}; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">${yes?"public":"private"}</span>`;
+        return str;
+    }
+
     startResponseBlock() {
         this._inResponseBlock = 1;
     }
@@ -193,4 +198,4 @@ doc.route("test", doc.GET, "test").response(200, "test", [
     {
         test: doc.STRING
     }
-]);
+])

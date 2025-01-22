@@ -1,6 +1,6 @@
 # customers API
 everything customers
-## `GET api/customers/getAllCustomers`
+## `GET api/customers/getAllCustomers` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
 title says it all
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) NOT TESTED<br>
@@ -21,7 +21,7 @@ title says it all
 	},
 ]
 ```
-## `POST api/customers/insertCustomer`
+## `POST api/customers/insertCustomer` <span style="background-color:#ad0303; padding: .4em; margin: 0; border-radius: 6px; color:white; font-weight: 700; font-size: .6em;">private</span>
 inserts a single customer
 ## request
 NOT TESTED
