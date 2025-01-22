@@ -93,7 +93,9 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
 
         const customerId = uid();
 
+
         await insertCustomer(customerId, customer.firstName, customer.middleName, customer.lastName, customer.birthDate, customer.maySave, customer.blacklisted, customer.phoneNumber, customer.mailAddress);
+
         
         res.status(201).json({ customerId });
     } catch (error) {
