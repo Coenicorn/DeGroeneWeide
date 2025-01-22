@@ -1,6 +1,6 @@
 # cards API
 all things cards
-## `GET api/cards/getAllCards`
+## `GET api/cards/getAllCards` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets all cards
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
@@ -15,7 +15,7 @@ gets all cards
 	},
 ]
 ```
-## `GET api/cards/getAllExtensiveCards`
+## `GET api/cards/getAllExtensiveCards` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets all cards with additional info, pretty expensive query
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) all cards >_><br>
@@ -37,7 +37,7 @@ gets all cards with additional info, pretty expensive query
 	},
 ]
 ```
-## `GET api/cards/getCard`
+## `GET api/cards/getCard` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets a single card
 ## request
 at least one value must be defined
@@ -59,7 +59,7 @@ at least one value must be defined
 	"blocked": number,
 }
 ```
-## `GET api/cards/getCardTokenByCardUuid`
+## `GET api/cards/getCardTokenByCardUuid` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 @tobias
 ## request
 ```javascript
@@ -70,7 +70,7 @@ at least one value must be defined
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) same as /getCard<br>
-## `POST api/cards/insertCard`
+## `POST api/cards/insertCard` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 inserts a card into the db
 ## request
 ```javascript
@@ -84,11 +84,11 @@ inserts a card into the db
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added card<br>
-## `POST api/cards/deleteAllCards`
+## `POST api/cards/deleteAllCards` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 deletes ALL cards
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed all cards x_x<br>
-## `POST api/cards/removeCardByCardUuid`
+## `POST api/cards/removeCardByCardUuid` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 NOT FINISHED @tobias
 ## request
 ```javascript
@@ -97,7 +97,7 @@ NOT FINISHED @tobias
 	"card_uuid": string,
 }
 ```
-## `POST api/cards/removeCardByBookingId`
+## `POST api/cards/removeCardByBookingId` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 @tobias
 ## request
 ```javascript
@@ -108,7 +108,7 @@ NOT FINISHED @tobias
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed card<br>
-## `POST api/cards/removeCardByEntryId`
+## `POST api/cards/removeCardByEntryId` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 @tobias
 ## request
 ```javascript
@@ -119,7 +119,7 @@ NOT FINISHED @tobias
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed card<br>
-## `POST api/cards/updateCard`
+## `POST api/cards/updateCard` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 updates card values. MIGHT BE OUTDATED!
 ## request
 ```javascript
@@ -137,7 +137,7 @@ updates card values. MIGHT BE OUTDATED!
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated card<br>
-## `POST api/cards/setNewestCardToWrite`
+## `POST api/cards/setNewestCardToWrite` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o
 ## request
 ```javascript
@@ -150,7 +150,7 @@ NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully set newest card to write<br>
-## `GET api/cards/getNewestCardToWrite`
+## `GET api/cards/getNewestCardToWrite` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
@@ -160,7 +160,7 @@ NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!
 	"card": string // latest scanned card ID,
 }
 ```
-## `POST api/cards/getAllAuthLevels`
+## `POST api/cards/getAllAuthLevels` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets all auth levels of this card
 ## request
 ```javascript
@@ -180,7 +180,7 @@ gets all auth levels of this card
 	},
 ]
 ```
-## `POST api/cards/updateCardToken`
+## `POST api/cards/updateCardToken` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 updates the token of a single card
 ## request
 ```javascript

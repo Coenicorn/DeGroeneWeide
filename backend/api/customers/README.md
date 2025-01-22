@@ -1,6 +1,6 @@
 # customers API
 everything customers
-## `GET api/customers/getAllCustomers`
+## `GET api/customers/getAllCustomers` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 title says it all
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) NOT TESTED<br>
@@ -21,7 +21,7 @@ title says it all
 	},
 ]
 ```
-## `POST api/customers/insertCustomer`
+## `POST api/customers/insertCustomer` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 inserts a single customer
 ## request
 NOT TESTED

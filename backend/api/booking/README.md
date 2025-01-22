@@ -1,6 +1,6 @@
 # booking API
 'read a booking!'
-## `POST api/booking/insertBooking`
+## `POST api/booking/insertBooking` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/public.png)
 inserts a new booking
 ## request
 ```javascript
@@ -14,7 +14,7 @@ inserts a new booking
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added new booking<br>
-## `GET api/booking/getAllBookings`
+## `GET api/booking/getAllBookings` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 gets all bookings
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
@@ -40,7 +40,7 @@ gets all bookings
 	},
 ]
 ```
-## `POST api/booking/updateBooking`
+## `POST api/booking/updateBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 updates booking values
 ## request
 ```javascript
@@ -55,7 +55,7 @@ updates booking values
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated booking<br>
-## `POST api/booking/deleteBooking`
+## `POST api/booking/deleteBooking` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/tree/admin-panel-api-key/backend/docgen/private.png)
 deletes a single booking
 ## request
 ```javascript
