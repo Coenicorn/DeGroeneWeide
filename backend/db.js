@@ -14,7 +14,7 @@ import { abort } from 'process';
 
 const dbPath = path.join(import.meta.dirname, 'data.db');
 const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
+// db.pragma('journal_mode = WAL');
 
 /**
  * Queries the database
