@@ -7,17 +7,14 @@ might be convenient
 
 import Database from "better-sqlite3"
 import path from 'path';
-import { fileURLToPath } from 'url';
 import { err_log, info_log, md5hash } from './util.js';
 import config from './config.js';
 import * as fs from "fs";
 import { abort } from 'process';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-// const dbPath = path.resolve(__dirname, 'data.db');
-// const db = new Database(dbPath);
-// db.pragma('journal_mode = WAL');
+const dbPath = path.join(import.meta.dirname, 'data.db');
+const db = new Database(dbPath);
+db.pragma('journal_mode = WAL');
 
 /**
  * Queries the database
