@@ -1,0 +1,1 @@
+this folder stores server logs
