@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import {blacklistCustomer, getAllCustomers, insertCustomer} from "../../db.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
+import {uid} from "uid";
 
 const CustomersRouter = express.Router(), doc = new APIDocGenerator("customers API", "everything customers", import.meta.dirname, "api/customers");
 
@@ -69,19 +70,21 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
     try {
         const customer = req.body;
 
+        console.log(customer);
+
         if (
-            !customer.firstName ||
-            !customer.lastName ||
-            !customer.birthDate ||
-            !customer.maySave ||
-            !customer.blacklisted ||
-            !customer.phoneNumber ||
-            !customer.mailAddress
+            customer.firstName === undefined ||
+            customer.lastName === undefined ||
+            customer.birthDate === undefined ||
+            customer.maySave === undefined ||
+            customer.blacklisted === undefined ||
+            customer.phoneNumber === undefined ||
+            customer.mailAddress === undefined
         ) {
             return res.status(400).send("Er ontbreekt data in de request.");
         }
 
-        if(!isValidDate(customer.creationDate) || !isValidDate(customer.birthDate)){
+        if(!isValidDate(customer.birthDate)){
             return res.status(400).send("creationDate of birthDate is geen goede data format.");
         }
 
