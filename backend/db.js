@@ -273,8 +273,8 @@ export async function getCustomerById(id){
     return db_query("SELECT * FROM Customers WHERE id = ?", []);
 }
 
-export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, creationDate, blacklisted, phoneNumber, mailAddress){
-    return db_execute("INSERT INTO Customers (id, firstName, middleName, lastName, birthDate, maySave,creationDate,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?,?)", [id, firstName, middleName, lastName,birthDate,maySave,creationDate,blacklisted,phoneNumber,mailAddress]);
+export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress){
+    return db_execute("INSERT INTO Customers (id, firstName, middleName, lastName, birthDate, maySave,blacklisted,phoneNumber,mailAddress) VALUES (?,?,?,?,?,?,?,?,?)", [id, firstName, middleName, lastName,birthDate,maySave,blacklisted,phoneNumber,mailAddress]);
 }
 
 export async function blacklistCustomer(mailAddress, active) {

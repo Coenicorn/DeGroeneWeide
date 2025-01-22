@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import {blacklistCustomer, getAllCustomers, insertCustomer} from "../../db.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
 import {uid} from "uid";
+import { respondwithstatus } from "../../util.js";
 
 const CustomersRouter = express.Router(), doc = new APIDocGenerator("customers API", "everything customers", import.meta.dirname, "api/customers");
 
@@ -91,7 +92,9 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
         const result = await insertCustomer(uid(), customer.firstName, customer.middleName, customer.lastName, customer.birthDate, customer.maySave, customer.creationDate, customer.blacklisted, customer.phoneNumber, customer.mailAddress);
         res.status(201).json({bericht:"Klant successvol toegevoegd",resultaat:result});
     } catch (error) {
-        throw new Error("Er is iets fout gegaan tijdens het toevoegen van een klant. Error: " + error.message)
+        // throw new Error("Er is iets fout gegaan tijdens het toevoegen van een klant. Error: " + error.message)
+        err_log("error in insertCustomer", error);
+        respondwithstatus(res, 500, "something went wrong")
     }
 
 
