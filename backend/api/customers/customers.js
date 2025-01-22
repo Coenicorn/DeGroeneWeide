@@ -64,7 +64,9 @@ doc.route("insertCustomer", doc.POST, "inserts a single customer")
     phoneNumber: doc.STRING,
     mailAddress: doc.STRING
 }, "NOT TESTED")
-.response(201, "succesfully added customer");
+.response(201, "succesfully added customer", {
+    customerId: doc.STRING
+});
 
 CustomersRouter.post("/insertCustomer", async (req, res) => {
 
@@ -89,12 +91,16 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
             return res.status(400).send("creationDate of birthDate is geen goede data format.");
         }
 
-        const result = await insertCustomer(uid(), customer.firstName, customer.middleName, customer.lastName, customer.birthDate, customer.maySave, customer.creationDate, customer.blacklisted, customer.phoneNumber, customer.mailAddress);
-        res.status(201).json({bericht:"Klant successvol toegevoegd",resultaat:result});
+        const customerId = uid();
+
+        await insertCustomer(customerId, customer.firstName, customer.middleName, customer.lastName, customer.birthDate, customer.maySave, customer.creationDate, customer.blacklisted, customer.phoneNumber, customer.mailAddress);
+        
+        res.status(201).json({ customerId });
     } catch (error) {
         // throw new Error("Er is iets fout gegaan tijdens het toevoegen van een klant. Error: " + error.message)
         err_log("error in insertCustomer", error);
-        respondwithstatus(res, 500, "something went wrong")
+
+        return respondwithstatus(res, 500, "something went wrong");
     }
 
 
