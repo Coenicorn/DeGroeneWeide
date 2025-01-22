@@ -138,6 +138,7 @@ BookingRouter.post("/updateBooking", async (req, res) => {
     respondwithstatus(res, 200, "OK");
 });
 
+
 doc.route("deleteBooking", doc.POST, "deletes a single booking")
 .request({
     id: doc.STRING
@@ -162,6 +163,5 @@ BookingRouter.post("/deleteBooking", async (req, res) => {
     respondwithstatus(res, 200, "OK");
 
 });
-
 
 export default BookingRouter;

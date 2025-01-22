@@ -1,6 +1,8 @@
 import express, { Router } from "express";
 import {blacklistCustomer, getAllCustomers, insertCustomer} from "../../db.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
+import {uid} from "uid";
+import { respondwithstatus } from "../../util.js";
 
 const CustomersRouter = express.Router(), doc = new APIDocGenerator("customers API", "everything customers", import.meta.dirname, "api/customers");
 
@@ -69,26 +71,30 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
     try {
         const customer = req.body;
 
+        console.log(customer);
+
         if (
-            !customer.firstName ||
-            !customer.lastName ||
-            !customer.birthDate ||
-            !customer.maySave ||
-            !customer.blacklisted ||
-            !customer.phoneNumber ||
-            !customer.mailAddress
+            customer.firstName === undefined ||
+            customer.lastName === undefined ||
+            customer.birthDate === undefined ||
+            customer.maySave === undefined ||
+            customer.blacklisted === undefined ||
+            customer.phoneNumber === undefined ||
+            customer.mailAddress === undefined
         ) {
             return res.status(400).send("Er ontbreekt data in de request.");
         }
 
-        if(!isValidDate(customer.creationDate) || !isValidDate(customer.birthDate)){
+        if(!isValidDate(customer.birthDate)){
             return res.status(400).send("creationDate of birthDate is geen goede data format.");
         }
 
         const result = await insertCustomer(uid(), customer.firstName, customer.middleName, customer.lastName, customer.birthDate, customer.maySave, customer.creationDate, customer.blacklisted, customer.phoneNumber, customer.mailAddress);
         res.status(201).json({bericht:"Klant successvol toegevoegd",resultaat:result});
     } catch (error) {
-        throw new Error("Er is iets fout gegaan tijdens het toevoegen van een klant. Error: " + error.message)
+        // throw new Error("Er is iets fout gegaan tijdens het toevoegen van een klant. Error: " + error.message)
+        err_log("error in insertCustomer", error);
+        respondwithstatus(res, 500, "something went wrong")
     }
 
 
