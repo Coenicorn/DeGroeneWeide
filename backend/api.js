@@ -63,10 +63,10 @@ app.listen(config.privateServerPort, async () => {
     info_log(`Started API server on port ${config.privateServerPort}`);
 
     // add default auth levels
-    insertAuthLevel(uid(), "gast").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
-    insertAuthLevel(uid(), "bezoeker").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
-    insertAuthLevel(uid(), "medewerker").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
-    insertAuthLevel(uid(), "admin").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
+    // insertAuthLevel(uid(), "gast").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
+    // insertAuthLevel(uid(), "bezoeker").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
+    // insertAuthLevel(uid(), "medewerker").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
+    // insertAuthLevel(uid(), "admin").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
 
     if (config.environment === "dev") {
         routes = routesFromApp(app);
