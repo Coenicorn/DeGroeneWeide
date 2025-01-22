@@ -1,5 +1,5 @@
 import express from "express";
-import {getAllBookings, insertBooking} from "../../db.js";
+import {getAllBookings, getBooking, insertBooking, updateBooking} from "../../db.js";
 import { uid } from "uid";
 import { err_log, respondwithstatus } from "../../util.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
@@ -82,6 +82,60 @@ BookingRouter.get("/getAllBookings", async (req, res) => {
         return respondwithstatus(res, 500, "something went wrong");
     }
 
+});
+
+doc.route("updateBooking", doc.POST, "updates booking values")
+.request({
+    id: doc.STRING,
+    customerId: doc.STRING_OR_NULL,
+    startDate: doc.STRING,
+    endDate: doc.STRING,
+    amountPeople: doc.STRING
+})
+.response(200, "succesfully updated booking")
+
+BookingRouter.post("/updateBooking", async (req, res) => {
+    const booking = req.body;
+
+    if (booking === undefined) return respondwithstatus(res, 400, "missing request body");
+    if (booking.id === undefined) return respondwithstatus(res, 400, "missing id");
+
+    // check if booking currently exists
+    try {
+        const existingBookingsList = await getBooking(booking.id);
+
+        if (existingBookingsList.length === 0) {
+            // no booking exists
+            return respondwithstatus(res, 400, "no booking with id (" + booking.id + ") exists");
+        }
+    } catch(e) {
+        err_log("error getting existing booking in /updateBooking", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
+    if (booking.customerId === undefined) return respondwithstatus(res, 400, "missing customerId");
+    if (booking.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
+    if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
+    if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+
+    try {
+
+        await updateBooking(
+            booking.id,
+            booking.customerId,
+            booking.startDate,
+            booking.endDate,
+            booking.amountPeople
+        );
+
+    } catch(e) {
+        err_log("error in /updateBooking", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
+    respondwithstatus(res, 200, "OK");
 });
 
 export default BookingRouter;

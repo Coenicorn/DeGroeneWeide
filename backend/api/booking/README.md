@@ -40,3 +40,18 @@ gets all bookings
 	},
 ]
 ```
+## `POST api/booking/updateBooking`
+updates booking values
+## request
+```javascript
+// request body
+{
+	"id": string,
+	"customerId": string | null,
+	"startDate": string,
+	"endDate": string,
+	"amountPeople": string,
+}
+```
+## response
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated booking<br>
