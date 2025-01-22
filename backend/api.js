@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash } from "./util.js";
@@ -11,6 +12,9 @@ import { uid } from "uid";
 // private api
 const app = express();
 let routes;
+
+// NOT SAFE
+app.use(cors());
 
 app.use((req, res, next) => {
     if (config.environment !== "dev") {
