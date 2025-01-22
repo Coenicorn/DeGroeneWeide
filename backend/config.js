@@ -12,6 +12,7 @@ config.privateServerPort = process.env.PRIVATE_SERVER_PORT;
 
 
 // API keys
+config.enableAPIKey = process.env.ENABLEAPIKEY;
 config.keyAdminPanel = process.env.KEYADMINPANEL;
 
 
