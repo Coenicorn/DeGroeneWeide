@@ -26,7 +26,7 @@ class DocGenerator {
 
         this.name = name;
         this.description = description;
-        this.filePath = path.join(dirname, "DOCS.md");
+        this.filePath = path.join(dirname, "README.md");
 
         this._start();
 
