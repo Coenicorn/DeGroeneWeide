@@ -7,6 +7,8 @@ const publicRoutes = [
 ];
 
 export function isPublicRoute(routeName) {
+    if (config.enableAPIKey === 0) return true;
+
     return publicRoutes.includes(routeName);
 }
 
