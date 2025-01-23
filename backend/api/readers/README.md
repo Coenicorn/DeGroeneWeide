@@ -1,86 +1,79 @@
-## `POST /imalive`
-
-Lets the server know that a reader is active
-
+# readers API
+All routes connected with RFID readers
+## `POST api/readers/imalive` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+used by RFID readers to signal they're up and running
 ## request
-
-```json
+```javascript
+// request body
 {
-    "macAddress": string,
-    "battery": number // 0-100 in procent
-}
-
-```
-
-## responses
-
-#### `200` ([response codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)) 
-
-Responds with the id the server has given the reader
-
-```json
-{
-  "id": string
+	"macAddress": string,
+	"battery": number,
 }
 ```
-
-## `GET /getAllReaders`
-
-Request all known readers
-
 ## response
-
-```json
-[
-  {
-    "id": string, /* internal reader ID */
-    "macAddress": string, /* mac address of the reader */
-    "level": number, /* authorization level required */
-    "location": string, /* location on premises */
-    "battery": number, /* how much battery is left in the reader */
-    "active": number, /* if this reader is marked as 'active' by the server */
-    "lastUpdate": string /* time and date of last known ping */
-  }
-]
-```
-
-## `POST /getReader`
-
-Request single reader by ID
-
-## request
-
-```json
-{
-    "id": string
-}
-```
-
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesful request<br>
+[`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) new rfid reader created<br>
+## `GET api/readers/getAllReaders` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+...gets all readers
 ## response
-
-```json
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
+```javascript
+// 200 response body
 {
-    "id": string, /* internal reader ID */
-    "macAddress": string, /* mac address of the reader */
-    "level": number, /* authorization level required */
-    "location": string, /* location on premises */
-    "battery": number, /* how much battery is left in the reader */
-    "active": number, /* if this reader is marked as 'active' by the server */
-    "lastUpdate": string /* time and date of last known ping */
+	"id": string,
+	"batteryPercentage": number,
+	"amenityId": string | null,
+	"lastPing": string,
+	"name": string,
+	"active": number,
 }
 ```
-
-## `POST /updateReader`
-
-Update editable fields of a reader in the database.
-The only editable fields are listed below
-
+## `POST api/readers/getReader` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+gets a single reader
 ## request
-
-```json
+```javascript
+// request body
 {
-  "id": string,
-  "name": string | null,
-  "amenityId": string | null
+	"id": string,
 }
 ```
+## response
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) retrieved reader<br>
+```javascript
+// 200 response body
+{
+	"id": string,
+	"batteryPercentage": number,
+	"amenityId": string | null,
+	"lastPing": string,
+	"name": string,
+	"active": number,
+}
+```
+## `POST api/readers/updateReader` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+updates all values of a reader
+## request
+```javascript
+// request body
+{
+	"id": string,
+	"name": string,
+	"amenityId": string,
+}
+```
+## response
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) OK<br>
+## `POST api/readers/insertReader` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+inserts a new reader (NEVER USE THIS I DON'T KNOW WHY IT'S HERE)
+## request
+```javascript
+// request body
+{
+	"id": string,
+	"name": string,
+	"active": number,
+	"amenityId": string,
+}
+```
+## response
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) OK<br>

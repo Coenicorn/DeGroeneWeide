@@ -8,8 +8,13 @@ import BookingRouter from "./booking/booking.js";
 import { db_query } from "../db.js";
 import config from "../config.js";
 import { info_log } from "../util.js";
+import { APIDocGenerator } from "../docgen/doc.js";
+import { onlyAdminPanel } from "../apiKey.js";
 
-const APIRouter = Router();
+const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
+
+// API key
+APIRouter.use(onlyAdminPanel);
 
 APIRouter.use("/cards", CardsRouter);
 APIRouter.use("/customers", CustomersRouter)
@@ -18,7 +23,7 @@ APIRouter.use("/auth", AuthRouter);
 APIRouter.use("/booking", BookingRouter);
 
 if (config.environment === "dev"){
-    info_log("hosting database explorer on /api/browse");
+    info_log("hosting database explorer on http://localhost:" + config.privateServerPort + "/api/browse");
 
     APIRouter.use("/browse", async (req, res) => {
         let response = {};
@@ -31,5 +36,9 @@ if (config.environment === "dev"){
         res.json(response);
     });
 }
+
+doc
+    .route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser")
+    .response(200, "json view of the current database");
 
 export default APIRouter;

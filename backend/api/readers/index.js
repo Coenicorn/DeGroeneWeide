@@ -1,8 +1,17 @@
 import { Router } from "express";
 import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
 import {db_execute, db_query, getAllReaders, getReader, insertReader, registerReader} from "../../db.js";
+import { APIDocGenerator } from "../../docgen/doc.js";
 
-const ReadersRouter = new Router();
+const ReadersRouter = new Router(), doc = new APIDocGenerator("readers API", "All routes connected with RFID readers", import.meta.dirname, "api/readers");
+
+doc.route("imalive", doc.POST, "used by RFID readers to signal they're up and running")
+    .request({
+        macAddress: doc.STRING,
+        battery: doc.NUMBER
+    })
+    .response(200, "succesful request")
+    .response(201, "new rfid reader created");
 
 ReadersRouter.post("/imalive", async (req, res, next) => {
 
@@ -21,7 +30,7 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
     
     const readerId = md5hash(macAddress);
 
-    let reader;
+    let reader, returnCode = 200; // send 201 when a new reader is added
 
     try {
         reader = await getReader(readerId);
@@ -34,6 +43,8 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         // no reader with this id exists, create it
         try {
             await registerReader(readerId, "no name assigned");
+
+            returnCode = 201;
         } catch(e) {
             err_log("error registering new reader", e);
             return respondwithstatus(res, 500, "something went wrong");
@@ -47,13 +58,24 @@ ReadersRouter.post("/imalive", async (req, res, next) => {
         return respondwithstatus(res, 500, "something went wrong");
     }
 
-    return respondwithstatus(res, 200, "OK", { id: readerId });
+    return respondwithstatus(res, returnCode, "OK");
 
+});
+
+doc.route("getAllReaders", doc.GET, "...gets all readers")
+.response(200, null, {
+    id: doc.STRING,
+    batteryPercentage: doc.NUMBER,
+    amenityId: doc.STRING_OR_NULL,
+    lastPing: doc.STRING,
+    name: doc.STRING,
+    active: doc.NUMBER
 });
 
 ReadersRouter.get("/getAllReaders", async (req, res) => {
     try {
-        const readers = await getAllReaders();
+        // const readers = await getAllReaders();
+        const readers = await db_query(`SELECT * FROM Readers`);
 
         res.json(readers);
     } catch(e) {
@@ -61,6 +83,20 @@ ReadersRouter.get("/getAllReaders", async (req, res) => {
         err_log("error in /getAllReaders", e);
     }
 });
+
+
+doc.route("getReader", doc.POST, "gets a single reader")
+.request({
+    id: doc.STRING
+})
+.response(200, "retrieved reader", {
+    id: doc.STRING,
+    batteryPercentage: doc.NUMBER,
+    amenityId: doc.STRING_OR_NULL,
+    lastPing: doc.STRING,
+    name: doc.STRING,
+    active: doc.NUMBER
+})
 
 ReadersRouter.post("/getReader", async (req, res) => {
     const id = req.body.id;
@@ -74,9 +110,9 @@ ReadersRouter.post("/getReader", async (req, res) => {
         // reader = await getReader(id);
         reader = await db_query(`
             SELECT * 
-            FROM Readers WHERE id = ?
-            LEFT JOIN booking    
-        `)
+            FROM Readers 
+            WHERE id = ?
+        `, [id]);
     } catch(e) {
         err_log("error getting reader", e);
         return respondwithstatus(res, 500, "couldn't get reader");
@@ -86,8 +122,16 @@ ReadersRouter.post("/getReader", async (req, res) => {
         return res.json({});
     }
 
-    res.json(reader);
+    res.json(reader[0]);
 });
+
+doc.route("updateReader", doc.POST, "updates all values of a reader")
+.request({
+    id: doc.STRING,
+    name: doc.STRING,
+    amenityId: doc.STRING
+})
+.response(200, "OK");
 
 ReadersRouter.post("/updateReader", async (req, res) => {
     const reader = req.body;
@@ -112,6 +156,15 @@ ReadersRouter.post("/updateReader", async (req, res) => {
     respondwithstatus(res, 200, "OK");
     
 });
+
+doc.route("insertReader", doc.POST, "inserts a new reader (NEVER USE THIS I DON'T KNOW WHY IT'S HERE)")
+.request({
+    id: doc.STRING,
+    name: doc.STRING,
+    active: doc.NUMBER,
+    amenityId: doc.STRING
+})
+.response(200, "OK");
 
 ReadersRouter.post("/insertReader", async (req, res) => {
     const reader = req.body;
@@ -140,6 +193,30 @@ ReadersRouter.post("/insertReader", async (req, res) => {
     }
     respondwithstatus(res, 200, "OK");
 
+});
+
+ReadersRouter.post("/getAllAuthLevels", async (req, res) => {
+    const readerId = req.body.id;
+
+    if (readerId === undefined) return respondwithstatus(res, 400, "readerId is not defined");
+
+    try {
+
+        const authLevels = await db_query(`
+            SELECT AuthLevels.*
+            FROM Readers
+            JOIN ReaderAuthJunctions ON ReaderAuthJunctions.readerId = Readers.id
+            JOIN AuthLevels ON AuthLevels.id = ReaderAuthJunctions.authLevelId
+            WHERE Readers.id = ?
+        `, [readerId]);
+        
+        return res.json(authLevels);
+
+    } catch(e) {
+        err_log("error in /getAllAuthLevels (reader)", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
 });
 
 export default ReadersRouter;

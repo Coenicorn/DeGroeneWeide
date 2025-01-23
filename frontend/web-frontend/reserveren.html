@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserveren</title>
+  <link rel="stylesheet" href="reserveren.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<header>
+  <div class="text-box">
+    <h1>Reserveren</h1>
+    <h2>De Groene Weide</h2>
+    <div class="svg-container">
+      <img src="img/BoerBertIMG/white_mouse.svg" alt="Mouse icon" width="50" height="50" class="svg">
+      <img src="img/BoerBertIMG/arrow_down.svg" alt="Arrow down icon" width="50" height="50" class="svg">
+    </div>
+  </div>
+</header>
+
+<body>
+  <h1 id="title" class="margintop25">Online reserveringsformulier</h1>
+  <section class="reserveren-forum">
+    <div class="reserveren-container">
+      <p class="forum-title">Persoonlijke gegevens</p>
+      <div class="forum-box-group">
+        <div class="forum-box">
+          <label for="voornaam" class="forum-label">Voornaam <span class="required">*</span></label>
+          <input type="text" id="voornaam" class="reserveren-form-text">
+        </div>
+        <div class="forum-box short">
+          <label for="tussenvoegsel" class="forum-label">Tussenvoegsel</label>
+          <input type="text" id="tussenvoegsel" class="reserveren-form-text">
+        </div>
+        <div class="forum-box">
+          <label for="achternaam" class="forum-label">Achternaam<span class="required">*</span></label>
+          <input type="text" id="achternaam" class="reserveren-form-text">
+        </div>
+      </div>
+      <div class="forum-box-group">
+        <div class="forum-box">
+          <label for="email" class="forum-label">E-mailadres<span class="required">*</span></label>
+          <input type="text" id="email" class="reserveren-form-text">
+        </div>
+        <div class="forum-box shortest">
+          <label for="land_code" class="forum-label">Land code<span class="required">*</span></label>
+          <input type="number" id="land_code" class="reserveren-form-text">
+        </div>
+        <div class="forum-box">
+          <label for="telefoonnummer" class="forum-label">Telefoonnummer<span class="required">*</span></label>
+          <input type="number" id="telefoonnummer" class="reserveren-form-text">
+        </div>
+      </div>
+      <p class="forum-title">Verblijf gegevens</p>
+      <div class="forum-box-group">
+        <div class="forum-box">
+          <label for="startDate" class="forum-label">Begin datum<span class="required">*</span></label>
+          <input type="date" id="startDate" class="reserveren-form-text">
+        </div>
+        <div class="forum-box">
+          <label for="endDate" class="forum-label">Eind datum<span class="required">*</span></label>
+          <input type="date" id="endDate" class="reserveren-form-text">
+        </div>
+        <div class="forum-box">
+          <label for="aankomsttijd" class="forum-label">Verwachtte aankomsttijd</label>
+          <input type="time" id="aankomsttijd" class="reserveren-form-text">
+        </div>
+      </div>
+      <div class="forum-box-group">
+        <div class="forum-box">
+          <label for="amountGuests" class="forum-label">Aantal gasten<span class="required">*</span></label>
+          <input type="number" id="amountGuests" class="reserveren-form-text">
+        </div>
+        <div class="forum-box">
+          <label for="typeAccommodatie" class="forum-label">Type Accommodatie<span class="required">*</span></label>
+          <select id="typeAccommodatie" >
+            <option value="default">Selecteer type accommodatie</option>
+            <option value="tent">Tent</option>
+            <option value="stacaravan">Stacaravan</option>
+            <option value="camper">Camper</option>
+            <option value="chalet">Chalet</option>
+            <option value="lodge">Lodge</option>
+          </select>
+        </div>
+      </div>
+      <div class="forum-box-group">
+        <div class="forum-box note">
+          <label for="note" class="forum-label">Notities voor de camping</label>
+          <textarea cols="5" id="note" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="confirm-btn-div">
+        <button type="button" id="confirm-btn" onclick="sendMail()">Verzenden</button>
+      </div>
+    </div>
+  </section>
+  <section class="footer">
+    <div class="footer-container">
+      <div class="row">
+        <div class="footer-col">
+          <h4>De Groene Weide Camp</h4>
+          <ul>
+            <li><a href="#">Over ons</a></li>
+            <li><a href="#">Geschiedenis</a></li>
+            <li><a href="#">Nu/toekomst</a></li>
+            <li><a href="#">Team</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Hulp & Contact</h4>
+          <ul>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Meest gestelde vragen</a></li>
+            <li><a href="#">Legaal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Voorwaarden & Instellingen</h4>
+          <ul>
+            <li><a href="#">Algemene voorwaarden</a></li>
+            <li><a href="#">Privacy instellingen</a></li>
+            <li><a href="#">Cookies instellingen</a></li>
+            <li><a href="#">Terms & conditions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Volg ons</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <p id="footer-credits">Made by <i class="fa fa-heart-o"></i> Team Shoco-Mellow</p>
+        <div id="logo-div">
+          <img id="footer-logo" src="img/Shoco-mellow_logo_wit.png" alt="Shoco-mellow logo">
+        </div>
+      </div>
+    </div>
+  </section>
+  <script type="text/javascript" src="reserveren_mail.js"></script>
+
+</body>
+
+</html>

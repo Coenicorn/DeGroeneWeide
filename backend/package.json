@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "deploy": "node index.js"
+    "dev": "cross-env ENVIRONMENT=dev nodemon index.js",
+    "deploy": "cross-env ENVIRONMENT=prod node index.js",
+    "generate-docs": "cross-env GENDOC=1 npm run dev"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
     "@dotenvx/dotenvx": "^1.25.1",
     "better-sqlite3": "^11.7.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "express": "^4.21.1",
     "path": "^0.12.7",

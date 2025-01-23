@@ -1,25 +1,42 @@
+import { Console } from "console";
 import config from "./config.js";
 import { createHash } from "crypto";
+import * as fs from "fs";
+import path from "path";
 
-/** logs '[$type] $msg' to console */
-function _log(msg, type) {
-    if (config.environment === "dev") {
-        let d = new Date();
-        console.log(`[${d.toLocaleTimeString()}][${type}] ${msg}`);
-    } else {
-        console.log(`[${type}] ${msg}`);
-    }
+const log_dir_path = path.join(import.meta.dirname, "log/");
+const log_stdout = fs.createWriteStream(path.join(log_dir_path, "stdout.log"), {flags: "a"});
+const log_stderr = fs.createWriteStream(path.join(log_dir_path, "stderr.log"), {flags: "a"});
+const log_console = new Console({stdout: log_stdout, stderr: log_stderr});
+
+function _log_getprefix(msg, type) {
+    // if (config.environment === "dev") {
+    //     let d = new Date();
+    //     return `[${d.toLocaleTimeString()}][${type}] ${msg}`;
+    // } else {
+    //     return `[${type}] ${msg}`;
+    // }
+    let d = new Date();
+    return `[${d.toLocaleTimeString()}][${type}] ${msg}`;
 }
 
+// server startup message
+log_console.log("\n" + _log_getprefix("------ NEW SERVER STARTUP ------", "INFO"));
+
 export function info_log(msg) {
-    // console.log(`[INFO] ${msg}`);
-    _log(msg, "INFO");
+    const str = _log_getprefix(msg, "INFO");
+    // output to stdout
+    log_console.log(str);
+    console.log(str);
 }
 
 export function err_log(msg, err = null) {
-    // console.log(`[ERROR] ${msg}`);
-    _log(msg, "ERROR");
-    if (err) console.error(err);
+    const str = _log_getprefix(msg, "ERROR");
+    // output to stdout AND stderr
+    log_console.error(str);
+    log_console.error(err);
+    console.error(str);
+    console.error(err);
 }
 
 export function md5hash(str) {
@@ -69,4 +86,10 @@ function routesFromStack(stack) {
 
 export function routesFromApp(app) {
     return routesFromStack(app._router.stack);
+}
+
+export function dateToDateTimeString() {
+    const d = new Date();
+
+    info_log(d.toISOString());
 }

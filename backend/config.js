@@ -5,9 +5,16 @@ dotenvx.config();
 const config = {};
 
 config.environment = process.env.ENVIRONMENT;
+config.generateDocumentation = process.env.GENDOC | null;
 
 config.publicServerPort = process.env.PUBLIC_SERVER_PORT;
 config.privateServerPort = process.env.PRIVATE_SERVER_PORT;
+
+
+// API keys
+config.enableAPIKey = process.env.ENABLEAPIKEY;
+config.keyAdminPanel = process.env.KEYADMINPANEL;
+
 
 export async function verifyCorrectConfiguration() {
 
