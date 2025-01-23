@@ -1,6 +1,6 @@
 # customers API
 everything customers
-## `GET api/customers/getAllCustomers` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `GET api/customers/getAllCustomers` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 title says it all
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) NOT TESTED<br>
@@ -21,7 +21,7 @@ title says it all
 	},
 ]
 ```
-## `POST api/customers/insertCustomer` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/customers/insertCustomer` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 inserts a single customer
 ## request
 NOT TESTED

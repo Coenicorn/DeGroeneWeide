@@ -11,19 +11,18 @@ const aantal_gasten = document.getElementById('amountGuests');
 const accommodatie = document.getElementById('typeAccommodatie');
 const notities = document.getElementById('note');
 let customer_id = "";
+let checked_aankomsttijd = "";
+let checked_notities = "";
 
 function sendMail() {
-    let checked_aankomsttijd = "";
-    let checked_notities = "";
-
     if(aankomsttijd.value === "") {
-        checked_aankomsttijd = "onbekend";
+        checked_aankomsttijd = "-";
     } else {
         checked_aankomsttijd = aankomsttijd.value;
     }
 
     if(notities.value === ""){
-        checked_notities = "Er zijn geen notities mee gegeven.";
+        checked_notities = "-";
     } else {
         checked_notities = notities.value;
     }
@@ -52,7 +51,7 @@ function sendMail() {
         customer_id = data.customerId;
         console.log(customer_id);
         console.log(typeof(customer_id));
-        insertBooking()
+        insertBooking();
     })
 }
 
@@ -63,7 +62,8 @@ function insertBooking() {
             customerId: customer_id,
             startDate: begin_datum.value,
             endDate: eind_datum.value,
-            amountPeople: aantal_gasten.value
+            amountPeople: aantal_gasten.value,
+            notes: checked_notities
         }),
         headers: {
             "Content-type": "application/json"
@@ -73,4 +73,5 @@ function insertBooking() {
         return r.json();
     })
 }
+
 
