@@ -14,7 +14,6 @@ export function isPublicRoute(routeName) {
 
 // middleware that checks if the request has access to the route
 export function onlyAdminPanel(req, res, next) {
-    console.log(req.url, isPublicRoute(req.url))
     if (isPublicRoute(req.url)) {
         next();
         return;
