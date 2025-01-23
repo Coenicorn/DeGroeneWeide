@@ -2,13 +2,11 @@ import cors from 'cors';
 import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
-import config, { verifyCorrectConfiguration } from './config.js';
-import APIRouter from "./api/index.js";
+import config from './config.js';
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash } from "./util.js";
 import { uid } from "uid";
-
-await verifyCorrectConfiguration();
+import APIRouter from "./api/index.js";
 
 // exposed to public
 const app = express();
