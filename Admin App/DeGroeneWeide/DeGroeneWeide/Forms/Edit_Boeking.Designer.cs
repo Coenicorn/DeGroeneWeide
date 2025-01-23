@@ -50,6 +50,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Edit_Boeking));
             firstname = new Guna.UI2.WinForms.Guna2TextBox();
             middlename = new Guna.UI2.WinForms.Guna2TextBox();
@@ -71,6 +73,7 @@
             lbl_nummer = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btn_save = new Guna.UI2.WinForms.Guna2Button();
             btn_delete = new Guna.UI2.WinForms.Guna2Button();
+            btn_add = new Guna.UI2.WinForms.Guna2Button();
             SuspendLayout();
             // 
             // firstname
@@ -147,6 +150,7 @@
             date_start.Size = new Size(200, 36);
             date_start.TabIndex = 3;
             date_start.Value = new DateTime(2025, 1, 23, 11, 10, 21, 632);
+            date_start.ValueChanged += date_start_ValueChanged;
             // 
             // date_end
             // 
@@ -242,36 +246,36 @@
             lbl_date_start.BackColor = Color.Transparent;
             lbl_date_start.Location = new Point(25, 10);
             lbl_date_start.Name = "lbl_date_start";
-            lbl_date_start.Size = new Size(66, 17);
+            lbl_date_start.Size = new Size(74, 17);
             lbl_date_start.TabIndex = 9;
-            lbl_date_start.Text = "Start Datum";
+            lbl_date_start.Text = "Start Datum *";
             // 
             // lbl_date_end
             // 
             lbl_date_end.BackColor = Color.Transparent;
             lbl_date_end.Location = new Point(250, 10);
             lbl_date_end.Name = "lbl_date_end";
-            lbl_date_end.Size = new Size(65, 17);
+            lbl_date_end.Size = new Size(73, 17);
             lbl_date_end.TabIndex = 10;
-            lbl_date_end.Text = "Eind Datum";
+            lbl_date_end.Text = "Eind Datum *";
             // 
             // lbl_amountofpeople
             // 
             lbl_amountofpeople.BackColor = Color.Transparent;
             lbl_amountofpeople.Location = new Point(475, 10);
             lbl_amountofpeople.Name = "lbl_amountofpeople";
-            lbl_amountofpeople.Size = new Size(91, 17);
+            lbl_amountofpeople.Size = new Size(99, 17);
             lbl_amountofpeople.TabIndex = 11;
-            lbl_amountofpeople.Text = "Hoeveel Mensen";
+            lbl_amountofpeople.Text = "Hoeveel Mensen *";
             // 
             // lbl_firstname
             // 
             lbl_firstname.BackColor = Color.Transparent;
             lbl_firstname.Location = new Point(25, 90);
             lbl_firstname.Name = "lbl_firstname";
-            lbl_firstname.Size = new Size(58, 17);
+            lbl_firstname.Size = new Size(66, 17);
             lbl_firstname.TabIndex = 12;
-            lbl_firstname.Text = "Voornaam";
+            lbl_firstname.Text = "Voornaam *";
             // 
             // lbl_middlename
             // 
@@ -287,9 +291,9 @@
             guna2HtmlLabel6.BackColor = Color.Transparent;
             guna2HtmlLabel6.Location = new Point(395, 90);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(68, 17);
+            guna2HtmlLabel6.Size = new Size(76, 17);
             guna2HtmlLabel6.TabIndex = 14;
-            guna2HtmlLabel6.Text = "Achternaam";
+            guna2HtmlLabel6.Text = "Achternaam *";
             // 
             // lbl_birth_date
             // 
@@ -305,9 +309,9 @@
             lbl_email.BackColor = Color.Transparent;
             lbl_email.Location = new Point(25, 250);
             lbl_email.Name = "lbl_email";
-            lbl_email.Size = new Size(32, 17);
+            lbl_email.Size = new Size(40, 17);
             lbl_email.TabIndex = 16;
-            lbl_email.Text = "Email";
+            lbl_email.Text = "Email *";
             // 
             // lbl_nummer
             // 
@@ -350,12 +354,32 @@
             btn_delete.Size = new Size(150, 36);
             btn_delete.TabIndex = 19;
             btn_delete.Text = "Verwijderen";
+            btn_delete.Click += btn_delete_Click;
+            // 
+            // btn_add
+            // 
+            btn_add.CustomizableEdges = customizableEdges23;
+            btn_add.DisabledState.BorderColor = Color.DarkGray;
+            btn_add.DisabledState.CustomBorderColor = Color.DarkGray;
+            btn_add.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btn_add.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btn_add.Font = new Font("Segoe UI", 9F);
+            btn_add.ForeColor = Color.White;
+            btn_add.Location = new Point(30, 330);
+            btn_add.Name = "btn_add";
+            btn_add.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            btn_add.Size = new Size(150, 36);
+            btn_add.TabIndex = 20;
+            btn_add.Text = "Opslaan";
+            btn_add.Visible = false;
+            btn_add.Click += btn_add_Click;
             // 
             // Edit_Boeking
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(644, 388);
+            Controls.Add(btn_add);
             Controls.Add(btn_delete);
             Controls.Add(btn_save);
             Controls.Add(lbl_nummer);
@@ -408,5 +432,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel lbl_nummer;
         private Guna.UI2.WinForms.Guna2Button btn_save;
         private Guna.UI2.WinForms.Guna2Button btn_delete;
+        private Guna.UI2.WinForms.Guna2Button btn_add;
     }
 }
