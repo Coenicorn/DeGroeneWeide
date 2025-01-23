@@ -1,4 +1,5 @@
 import config from "./config.js";
+import { info_log } from "./util.js";
 
 // these routes don't get checked for an API key
 const publicRoutes = [
@@ -22,6 +23,8 @@ export function onlyAdminPanel(req, res, next) {
     const apiKey = req.header("x-api-key");
 
     if (apiKey !== config.keyAdminPanel) {
+        info_log("blocked access to route");
+
         return res.status(403).send("Invalid API key");
     }
 
