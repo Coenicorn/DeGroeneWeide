@@ -9,6 +9,7 @@ config.generateDocumentation = process.env.GENDOC | null;
 
 config.serverPort = process.env.SERVERPORT;
 
+config.maxInactiveSeconds = process.env.MAX_INACTIVE_SECONDS
 
 // API keys
 config.enableAPIKey = process.env.ENABLEAPIKEY;
