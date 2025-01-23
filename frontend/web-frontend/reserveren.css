@@ -104,6 +104,36 @@ body {
     margin-top: 50px;
 }
 
+.confirmation-container {
+    position: relative;
+    min-height: 55rem;
+    width: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 15rem;
+    margin-top: -60%;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.hidden {
+    display: none;
+}
+
+.confirmation-box-title {
+    padding-top: 15rem;
+    text-align: center;
+    font-size: 2rem;
+    color: black;
+}
+
+.confirm-checkmark {
+    width: 20%;
+    height: 20%;
+    padding-top: 2.5rem;
+    padding-left: 26rem;
+}
+
 .svg-container {
     display: flex;
     flex-direction: column;
@@ -408,6 +438,30 @@ input {
 #confirm-btn:hover {
     background: rgb(220, 60, 49);
     transition: 0.75s;
+}
+
+#backToHome {
+    background: #F44336;
+    cursor: pointer;
+    border-radius: 40px;
+    text-decoration: none;
+    margin-top: 17.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    left: 50%;
+    color: #fff;
+    text-align: center;
+    width: 25%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    transform: translateX(-50%);
+    position: absolute;
+    transition: 0.75s;
+    border: 2px solid #b0b0b0;
+}
+
+#backToHome:hover {
+    background: #b92219;
 }
 
 .confirm-btn-div {
