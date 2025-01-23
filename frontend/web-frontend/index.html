@@ -9,11 +9,12 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="textbox.js"></script>
 </head>
 
 <body>
 <header>
-<section class="header">
+<section class="header" id="globalHeader">
   <nav>
     <div class="nav-links" id="navLinks">
       <i class="fa fa-times" onclick="hideMenu()"></i>
@@ -32,7 +33,27 @@
   <h1>De Groene Weide</h1>
   <p>Het idee dat Bert nu koestert, is om een boerencamping te beginnen met ongeveer 50 kampeerplekken.
     Deze camping zou een mix kunnen zijn van traditionele kampeerplekken voor caravans en tenten, maar ook luxe tenten voor glamping, compleet met comfortabele bedden, elektriciteit en privé-sanitair.</p>
-  <a href="" class="hero-btn">Klik voor meer informatie</a>
+  <div href="" class="hero-btn" id="meer-info-link">Klik voor meer informatie</div>
+  <script>
+    const meerInfoLink = document.getElementById("meer-info-link");
+    meerInfoLink.onclick = () => {
+
+      new TextBox()
+      .write("Do you want to see something cool?")
+      .addOption("yes", () => {
+
+        document.querySelectorAll("img").forEach((elm) => {
+          elm.src = "img/theoneandonly.png";
+        });
+        document.getElementById("globalHeader").style.backgroundImage = "linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(./img/theoneandonly.png)";
+        document.body.style.backgroundImage = "linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(./img/theoneandonly.png)";
+      })
+      .addOption("no")
+      .attach(document.body)
+      .reveal(50);
+
+    }
+  </script>
 </div>
 </header>
 </section>

@@ -7,8 +7,7 @@ const config = {};
 config.environment = process.env.ENVIRONMENT;
 config.generateDocumentation = process.env.GENDOC | null;
 
-config.publicServerPort = process.env.PUBLIC_SERVER_PORT;
-config.privateServerPort = process.env.PRIVATE_SERVER_PORT;
+config.serverPort = process.env.SERVERPORT;
 
 
 // API keys

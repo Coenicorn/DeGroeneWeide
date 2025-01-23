@@ -11,7 +11,8 @@ doc.route("insertBooking", doc.POST, "inserts a new booking")
     customerId: doc.STRING_OR_NULL,
     startDate: doc.STRING,
     endDate: doc.STRING,
-    amountPeople: doc.NUMBER
+    amountPeople: doc.NUMBER,
+    notes: doc.STRING
 })
 .response(201, "succesfully added new booking");
 
@@ -29,6 +30,7 @@ BookingRouter.post("/insertBooking", async (req, res) => {
     if (booking.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+    if (booking.notes === undefined) return respondwithstatus(res, 400, "missing notes");
   
     try {
         await insertBooking(
@@ -36,7 +38,8 @@ BookingRouter.post("/insertBooking", async (req, res) => {
             booking.customerId,
             booking.startDate,
             booking.endDate,
-            booking.amountPeople
+            booking.amountPeople,
+            booking.notes
         );
     } catch(e) {
         err_log("error in /insertBooking", e);
@@ -64,7 +67,8 @@ doc.route("getAllBookings", doc.GET, "gets all bookings")
         customerCreationDate: doc.STRING_OR_NULL,
         blacklisted: doc.STRING_OR_NULL,
         phoneNumber: doc.STRING_OR_NULL,
-        mailAddress: doc.STRING_OR_NULL
+        mailAddress: doc.STRING_OR_NULL,
+        notes: doc.STRING
     }
 ])
 
@@ -90,7 +94,8 @@ doc.route("updateBooking", doc.POST, "updates booking values")
     customerId: doc.STRING_OR_NULL,
     startDate: doc.STRING,
     endDate: doc.STRING,
-    amountPeople: doc.STRING
+    amountPeople: doc.STRING,
+    notes: doc.STRING
 })
 .response(200, "succesfully updated booking")
 
@@ -118,6 +123,7 @@ BookingRouter.post("/updateBooking", async (req, res) => {
     if (booking.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (booking.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (booking.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+    if (booking.notes === undefined) return respondwithstatus(res, 400, "missing notes");
 
     try {
 
@@ -126,7 +132,8 @@ BookingRouter.post("/updateBooking", async (req, res) => {
             booking.customerId,
             booking.startDate,
             booking.endDate,
-            booking.amountPeople
+            booking.amountPeople,
+            booking.notes
         );
 
     } catch(e) {
