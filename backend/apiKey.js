@@ -2,20 +2,19 @@ import config from "./config.js";
 
 // these routes don't get checked for an API key
 const publicRoutes = [
-    "/booking/insertBooking",
-    "/customers/insertCustomer"
+    "/api/send-reservation",
+    "/api/verify-email"
 ];
 
-export function isPublicRoute(routeName) {
+export function isPublicRoute(fullRouteName) {
     if (config.enableAPIKey == 0) return true;
 
-    return publicRoutes.includes(routeName);
+    return publicRoutes.includes(fullRouteName)
 }
 
 // middleware that checks if the request has access to the route
 export function onlyAdminPanel(req, res, next) {
-    console.log(req.url, isPublicRoute(req.url))
-    if (isPublicRoute(req.url)) {
+    if (isPublicRoute(req.originalUrl)) {
         next();
         return;
     }
