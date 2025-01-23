@@ -15,7 +15,8 @@ config.enableAPIKey = process.env.ENABLEAPIKEY;
 config.keyAdminPanel = process.env.KEYADMINPANEL;
 
 
-export async function verifyCorrectConfiguration() {
+// verify configuration
+(() => {
 
     // still uses console.log because util.js, which defines the helper functions, imports this file
     // don't want circular imports :/
@@ -39,6 +40,6 @@ export async function verifyCorrectConfiguration() {
 
     console.log("all environment values are assigned");
 
-}
+})()
 
 export default config;
