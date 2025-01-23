@@ -31,6 +31,21 @@ CREATE TABLE IF NOT EXISTS Bookings (
     FOREIGN KEY (customerId) REFERENCES Customers (id)
 );
 
+CREATE TABLE IF NOT EXISTS TempReservations (
+    id TEXT PRIMARY KEY NOT NULL,
+    firstName TEXT,
+    lastName TEXT,
+    mailAddress TEXT NOT NULL,
+    phoneNumber TEXT,
+    blacklisted INT,
+    birthDate DATETIME,
+    maySave INT,
+    startDate DATETIME,
+    endDate DATETIME,
+    amountPeople INT,
+    dateReservationSent DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS Payments (
     id TEXT PRIMARY KEY NOT NULL,
     bookingId TEXT NOT NULL,
