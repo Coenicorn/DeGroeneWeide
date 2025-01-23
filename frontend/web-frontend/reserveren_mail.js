@@ -32,6 +32,9 @@ function sendMail() {
 
     fetch("/api/send-reservation", {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify({
             firstName: voornaam.value,
             lastName: tussenvoegsel.value + " " + achternaam.value,
@@ -43,9 +46,8 @@ function sendMail() {
             startDate: begin_datum.value,
             endDate: eind_datum.value,
             amountPeople: aantal_gasten.value
-        }).then(r => {
-            console.log("reservatie verstuurd");
-
         })
+    }).then(r => {
+        console.log("reservering verstuurd");
     })
 }

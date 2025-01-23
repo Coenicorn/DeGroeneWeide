@@ -3,6 +3,7 @@ import config from "./config.js";
 import { createHash } from "crypto";
 import * as fs from "fs";
 import path from "path";
+import { db_execute, db_query, readerFailedPingSetInactive } from "./db.js";
 
 const log_dir_path = path.join(import.meta.dirname, "log/");
 const log_stdout = fs.createWriteStream(path.join(log_dir_path, "stdout.log"), {flags: "a"});
@@ -88,8 +89,33 @@ export function routesFromApp(app) {
     return routesFromStack(app._router.stack);
 }
 
-export function dateToDateTimeString() {
-    const d = new Date();
+export function sqliteDATETIMEToDate( dateAsString ) {
+    const ymdDelimiter = "-";
+    var pattern = new RegExp( "(\\d{4})" + ymdDelimiter + "(\\d{2})" + ymdDelimiter + "(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})" );
+    var parts = dateAsString.match( pattern );
 
-    info_log(d.toISOString());
+    return new Date( Date.UTC(
+      parseInt( parts[1] )
+    , parseInt( parts[2], 10 ) - 1
+    , parseInt( parts[3], 10 )
+    , parseInt( parts[4], 10 )
+    , parseInt( parts[5], 10 )
+    , parseInt( parts[6], 10 )
+    , 0
+    ));
+}
+
+export async function deleteOldTempReservations() {
+    await db_execute(`
+        DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-10 minutes')
+    `);
+}
+
+// periodically update the inactive readers
+export async function periodicActivityUpdate() {
+
+    const rows = await readerFailedPingSetInactive(config.maxInactiveSeconds);
+
+    if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
+
 }

@@ -80,16 +80,5 @@ app.listen(config.serverPort, async () => {
         const host = "http://localhost:" + config.privateServerPort;
     }
 
-    periodicActivityUpdate();
+    import("./cronjobs.js");
 });
-
-// periodically update the inactive readers
-async function periodicActivityUpdate() {
-
-    const rows = await readerFailedPingSetInactive(24 * 60 * 60);
-
-    if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
-
-    setTimeout(periodicActivityUpdate, 300000);
-
-}

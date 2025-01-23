@@ -5,9 +5,9 @@ import ReadersRouter from "./readers/index.js";
 import AuthRouter from "./auth/index.js";
 import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
-import { db_query } from "../db.js";
+import { db_execute, db_query } from "../db.js";
 import config from "../config.js";
-import { info_log, respondwithstatus } from "../util.js";
+import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
@@ -35,7 +35,8 @@ if (config.environment === "dev"){
     });
 }
 
-APIRouter.post("/send-reservation", (req, res) => {
+
+APIRouter.post("/send-reservation", async (req, res) => {
 
     if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
 
@@ -54,7 +55,47 @@ APIRouter.post("/send-reservation", (req, res) => {
 
     const tempReservationUid = uid(32);
 
-    console.log(tempReservationUid);
+    try {
+
+        await db_execute(`
+            INSERT INTO
+                TempReservations (
+                id,
+                firstName,
+                lastName,
+                mailAddress,
+                phoneNumber,
+                blacklisted,
+                birthDate,
+                maySave,
+                startdate,
+                endDate,
+                amountPeople    
+            )
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)
+        `, [
+            tempReservationUid,
+            reservation.firstName,
+            reservation.lastName,
+            reservation.mailAddress,
+            reservation.phoneNumber,
+            reservation.blacklisted,
+            reservation.birthDate,
+            reservation.maySave,
+            reservation.startDate,
+            reservation.endDate,
+            reservation.amountPeople
+        ]);
+
+    } catch(e) {
+        err_log("error in /send-reservation", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
+
+    await deleteOldTempReservations();
+
+    respondwithstatus(res, 200, "OK");
 
 });
 
