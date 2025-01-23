@@ -29,6 +29,8 @@ namespace DeGroeneWeide.User_Controls
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Boeking));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -43,6 +45,7 @@ namespace DeGroeneWeide.User_Controls
             lbl_Nummer = new Label();
             lbl_id = new Label();
             label8 = new Label();
+            btn_edit = new Guna.UI2.WinForms.Guna2ImageButton();
             SuspendLayout();
             // 
             // label1
@@ -192,11 +195,28 @@ namespace DeGroeneWeide.User_Controls
             label8.TabIndex = 12;
             label8.Text = "Id:";
             // 
+            // btn_edit
+            // 
+            btn_edit.CheckedState.ImageSize = new Size(64, 64);
+            btn_edit.HoverState.ImageSize = new Size(26, 26);
+            btn_edit.Image = (Image)resources.GetObject("btn_edit.Image");
+            btn_edit.ImageOffset = new Point(0, 0);
+            btn_edit.ImageRotate = 0F;
+            btn_edit.ImageSize = new Size(24, 24);
+            btn_edit.Location = new Point(1820, 12);
+            btn_edit.Name = "btn_edit";
+            btn_edit.PressedState.ImageSize = new Size(28, 28);
+            btn_edit.ShadowDecoration.CustomizableEdges = customizableEdges1;
+            btn_edit.Size = new Size(24, 24);
+            btn_edit.TabIndex = 14;
+            btn_edit.Click += btn_edit_Click;
+            // 
             // UC_Boeking
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(201, 234, 203);
+            Controls.Add(btn_edit);
             Controls.Add(lbl_id);
             Controls.Add(label8);
             Controls.Add(lbl_Nummer);
@@ -238,5 +258,6 @@ namespace DeGroeneWeide.User_Controls
         private Label lbl_Nummer;
         private Label lbl_id;
         private Label label8;
+        private Guna.UI2.WinForms.Guna2ImageButton btn_edit;
     }
 }

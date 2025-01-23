@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace DeGroeneWeide.ApiCalls
 {
@@ -15,7 +16,7 @@ namespace DeGroeneWeide.ApiCalls
     {
 
         public static HttpClient client = new();
-        public static async Task<List<AuthLevel>> GetAllAuthLevels(string readerId)
+        public static async Task<List<AuthLevel>> GetAllAuthLevelsReaders(string readerId)
         {
             string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
             Debug.WriteLine("GetAllAuthLevels URL: " + URL);
@@ -47,6 +48,35 @@ namespace DeGroeneWeide.ApiCalls
                 Console.WriteLine("Error: " + response.StatusCode);
                 return new List<AuthLevel>();
             }
+        }
+
+        public static async Task<List<AuthLevel>?> GetAllAuthLevels()
+        {
+            List<AuthLevel>? authLevels = new();
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            try
+            {
+                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/auth/getallauthlevels");
+                result.EnsureSuccessStatusCode();
+
+                string json = await result.Content.ReadAsStringAsync();
+                Debug.WriteLine(json);
+
+                authLevels = JsonSerializer.Deserialize<List<AuthLevel>>(json);
+                if (authLevels != null)
+                {
+                    return authLevels;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return null;
         }
 
         public static async Task LinkReaderAuth(string reader_Id, string authlevel_Id)

@@ -1,4 +1,5 @@
 ﻿using DeGroeneWeide.Objects;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,9 +40,12 @@ namespace DeGroeneWeide.ApiCalls
                 Debug.WriteLine("Alle Readers: " + json);
 
                 Readers = JsonSerializer.Deserialize<List<Reader>>(json);
-                foreach(Reader r in Readers)
+                if (Readers != null) 
                 {
-                    r.DumpInfo();
+                    foreach (Reader r in Readers)
+                    {
+                        r.DumpInfo();
+                    }
                 }
             }
             catch (Exception ex)

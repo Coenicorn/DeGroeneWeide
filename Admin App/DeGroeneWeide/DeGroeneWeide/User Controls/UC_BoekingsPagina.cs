@@ -20,18 +20,23 @@ namespace DeGroeneWeide.User_Controls
             LoadInfo();
         }
 
-        public void LoadInfo()
+        public async void LoadInfo()
         {
+            await BookingApi.GetBooking();
+            await CustomerApi.Get
             container.Controls.Clear();
             foreach(Booking bookingen in BookingApi.Bookings)
             {
-                foreach(Customer customer in CustomerApi.Customers)
+                if(CustomerApi.Customers != null)
                 {
-                    if(bookingen.CustomerId == customer.Id)
+                    foreach (Customer customer in CustomerApi.Customers)
                     {
-                        UC_Boeking uc = new();
-                        container.Controls.Add(uc);
-                        uc.FillInfo(bookingen, customer);
+                        if (bookingen.CustomerId == customer.Id)
+                        {
+                            UC_Boeking uc = new();
+                            container.Controls.Add(uc);
+                            uc.FillInfo(bookingen, customer, this);
+                        }
                     }
                 }
             }

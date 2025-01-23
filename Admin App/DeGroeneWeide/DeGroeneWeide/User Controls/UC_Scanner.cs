@@ -19,7 +19,7 @@ namespace DeGroeneWeide
     {
         private Reader? reader;
         private List<AuthLevel>? authLevels;
-        private UC_ScannerPagina Pagina;
+        private UC_ScannerPagina? Pagina;
         private Point[] locationsView = new Point[]
         {
             new Point(22, 50),
@@ -66,14 +66,14 @@ namespace DeGroeneWeide
             }
 
             // Zorgt dat de juiste levels van toegang op actief staan
-            authLevels = await AuthLevelApi.GetAllAuthLevels(reader.Id);
+            authLevels = await AuthLevelApi.GetAllAuthLevelsReaders(reader.Id);
             int i = 0;
             foreach (AuthLevel authLevel in authLevels)
             {
                 Debug.WriteLine(authLevel.Name + " - " + authLevel.Id);
                 switch (authLevel.Name)
                 {
-                    case "Gast":
+                    case "gast":
                         Gast_Active_View.Location = locationsView[i];
                         lbl_Gast.Location = locationsText[i];
                         Gast_Active_View.Visible = true;
@@ -81,7 +81,7 @@ namespace DeGroeneWeide
                         i++;
                         break;
 
-                    case "Bezoeker":
+                    case "bezoeker":
                         Bezoeker_Active_View.Location = locationsView[i];
                         lbl_Bezoeker.Location = locationsText[i];
                         Bezoeker_Active_View.Visible = true;
@@ -89,7 +89,7 @@ namespace DeGroeneWeide
                         i++;
                         break;
 
-                    case "Medewerker":
+                    case "medewerker":
                         Medewerker_Active_View.Location = locationsView[i];
                         lbl_Medewerker.Location = locationsText[i];
                         Medewerker_Active_View.Visible = true;
@@ -97,7 +97,7 @@ namespace DeGroeneWeide
                         i++;
                         break;
 
-                    case "Administrator":
+                    case "admin":
                         Administrator_Active_View.Location = locationsView[i];
                         lbl_Admin.Location = locationsText[i];
                         Administrator_Active_View.Visible = true;
@@ -115,10 +115,13 @@ namespace DeGroeneWeide
         private async void btn_edit_Click(object sender, EventArgs e)
         {
             Edit_Reader edit = new();
-            edit.FillInfo(reader, authLevels);
+            if (reader != null && authLevels != null)
+            {
+                edit.FillInfo(reader, authLevels);
+            }
             edit.ShowDialog();
             await ReaderApi.GetReaders();
-            Pagina.Fill();
+            if (Pagina != null) { Pagina.Fill(); }
         }
     }
 }

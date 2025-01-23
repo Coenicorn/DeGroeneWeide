@@ -46,5 +46,30 @@ namespace DeGroeneWeide.ApiCalls
             }
 
         }
+
+        public static async Task UpdateBooking(Booking b)
+        {
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                id = b.Id,
+                customerId = b.CustomerId,
+                startDate = b.StartDate,
+                endDate = b.EndDate,
+                amountPeople = b.AmountPeople,
+                notes = ""
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/updateBooking", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
     }
 }
