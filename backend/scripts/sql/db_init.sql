@@ -116,17 +116,6 @@ CREATE TABLE IF NOT EXISTS ShelterBookingJunctions (
     FOREIGN KEY (bookingId) REFERENCES Bookings (id)
 );
 
-CREATE TABLE IF NOT EXISTS TempReservations (
-    id TEXT PRIMARY KEY NOT NULL,
-    firstName TEXT NOT NULL,
-    lastName TEXT NOT NULL,
-    mailAddress TEXT NOT NULL,
-    phoneNumber TEXT NOT NULL,
-    startDate DATETIME NOT NULL,
-    endDate DATETIME NOT NULL,
-    amountPeople INT NOT NULL
-);
-
 -- triggers
 
 CREATE TRIGGER IF NOT EXISTS updateLastPingOnInsert
