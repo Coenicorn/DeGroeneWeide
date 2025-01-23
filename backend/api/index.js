@@ -7,23 +7,21 @@ import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
 import { db_query } from "../db.js";
 import config from "../config.js";
-import { info_log } from "../util.js";
+import { info_log, respondwithstatus } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
+import { uid } from "uid";
 
 const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
 
 // API key
 APIRouter.use(onlyAdminPanel);
 
-APIRouter.use("/cards", CardsRouter);
-APIRouter.use("/customers", CustomersRouter)
-APIRouter.use("/readers", ReadersRouter);
-APIRouter.use("/auth", AuthRouter);
-APIRouter.use("/booking", BookingRouter);
+doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser")
+    .response(200, "json view of the current database");
 
 if (config.environment === "dev"){
-    info_log("hosting database explorer on http://localhost:" + config.privateServerPort + "/api/browse");
+    info_log("hosting database explorer on http://localhost:" + config.serverPort + "/api/browse");
 
     APIRouter.use("/browse", async (req, res) => {
         let response = {};
@@ -37,8 +35,33 @@ if (config.environment === "dev"){
     });
 }
 
-doc
-    .route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser")
-    .response(200, "json view of the current database");
+APIRouter.post("/send-reservation", (req, res) => {
+
+    if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
+
+    const reservation = req.body;
+
+    if (reservation.firstName === undefined) return respondwithstatus(res, 400, "missing firstname");
+    if (reservation.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
+    if (reservation.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
+    if (reservation.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
+    if (reservation.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
+    if (reservation.birthDate === undefined) return respondwithstatus(res, 400, "missing lastNbirthDateame");
+    if (reservation.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
+    if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
+    if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
+    if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+
+    const tempReservationUid = uid(32);
+
+    console.log(tempReservationUid);
+
+});
+
+APIRouter.use("/cards", CardsRouter);
+APIRouter.use("/customers", CustomersRouter)
+APIRouter.use("/readers", ReadersRouter);
+APIRouter.use("/auth", AuthRouter);
+APIRouter.use("/booking", BookingRouter);
 
 export default APIRouter;
