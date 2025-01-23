@@ -190,7 +190,8 @@ export async function getAllBookings() {
             c.creationDate as customerCreationDate,
             c.blacklisted,
             c.phonenumber,
-            c.mailAddress
+            c.mailAddress,
+            c.notes
         FROM
             Bookings
         LEFT JOIN
@@ -203,11 +204,11 @@ export async function insertCard(id, bookingId, token, blocked) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
 }
 
-export async function insertBooking(id, customerId, startDate, endDate, amountPeople){
-    return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople) VALUES (?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople]);
+export async function insertBooking(id, customerId, startDate, endDate, amountPeople, notes){
+    return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople, notes) VALUES (?, ?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople, notes]);
 }
 
-export async function updateBooking(id, customerId, startDate, endDate, amountPeople) {
+export async function updateBooking(id, customerId, startDate, endDate, amountPeople, notes) {
     return db_execute(`
         UPDATE
             Bookings
@@ -215,10 +216,11 @@ export async function updateBooking(id, customerId, startDate, endDate, amountPe
             customerId = ?,
             startDate = ?,
             endDate = ?,
-            amountPeople = ?
+            amountPeople = ?,
+            notes = ?
         WHERE
             id = ?
-    `, [customerId, startDate, endDate, amountPeople, id]);
+    `, [customerId, startDate, endDate, amountPeople, notes, id]);
 }
 
 export async function deleteBooking(id) {

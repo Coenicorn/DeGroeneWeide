@@ -1,6 +1,6 @@
 # authentication API
 (hacking the mainframe)
-## `POST api/auth/addAuthLevel` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/addAuthLevel` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 adds a new auth level
 ## request
 ```javascript
@@ -11,7 +11,7 @@ adds a new auth level
 ```
 ## response
 [`201`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully added auth level<br>
-## `POST api/auth/updateAuthLevel` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/updateAuthLevel` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 updates authLevel values
 ## request
 ```javascript
@@ -23,7 +23,7 @@ updates authLevel values
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated auth level<br>
-## `POST api/auth/deleteAuthLevel` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/deleteAuthLevel` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 deletes an auth level
 ## request
 ```javascript
@@ -34,11 +34,11 @@ deletes an auth level
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully deleted authLevel<br>
-## `GET api/auth/getAllAuthLevels` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `GET api/auth/getAllAuthLevels` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 gets ALL auth levels
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) [object Object]<br>
-## `POST api/auth/linkReaderAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/linkReaderAuth` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 links a reader to an authentication level
 ## request
 ```javascript
@@ -50,7 +50,7 @@ links a reader to an authentication level
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully linked reader to auth level<br>
-## `POST api/auth/unlinkReaderAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/unlinkReaderAuth` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 removes an auth level from a reader
 ## request
 ```javascript
@@ -62,7 +62,7 @@ removes an auth level from a reader
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed auth level from reader<br>
-## `POST api/auth/linkCardAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/linkCardAuth` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 links an auth level to a card
 ## request
 ```javascript
@@ -74,7 +74,7 @@ links an auth level to a card
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully linked an auth level to a card<br>
-## `POST api/auth/unlinkCardAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/unlinkCardAuth` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 removes an auth level from a card
 ## request
 ```javascript
@@ -86,7 +86,7 @@ removes an auth level from a card
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed an auth level from a card<br>
-## `POST api/auth/authenticateCard` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
+## `POST api/auth/authenticateCard` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
 tries to authenticate a card at a reader
 ## request
 ```javascript
