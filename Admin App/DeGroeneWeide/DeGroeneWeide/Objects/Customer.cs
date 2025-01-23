@@ -26,7 +26,7 @@ namespace DeGroeneWeide.Objects
         public string? MaySave { get; set; }
 
         [JsonPropertyName("birthDate")]
-        public string? BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         [JsonPropertyName("creationDate")]
         public string? CreationDate { get; set; }

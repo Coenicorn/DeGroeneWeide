@@ -1,4 +1,5 @@
 ﻿using DeGroeneWeide.ApiCalls;
+using DeGroeneWeide.Forms;
 using DeGroeneWeide.Objects;
 using System;
 using System.Collections.Generic;
@@ -20,21 +21,39 @@ namespace DeGroeneWeide.User_Controls
             LoadInfo();
         }
 
-        public void LoadInfo()
+        public async void LoadInfo()
         {
+            await BookingApi.GetBooking();
+            await CustomerApi.GetCustomers();
             container.Controls.Clear();
-            foreach(Booking bookingen in BookingApi.Bookings)
+            foreach (Booking bookingen in BookingApi.Bookings)
             {
-                foreach(Customer customer in CustomerApi.Customers)
+                if (CustomerApi.Customers != null)
                 {
-                    if(bookingen.CustomerId == customer.Id)
+                    foreach (Customer customer in CustomerApi.Customers)
                     {
-                        UC_Boeking uc = new();
-                        container.Controls.Add(uc);
-                        uc.FillInfo(bookingen, customer);
+                        if (bookingen.CustomerId == customer.Id)
+                        {
+                            UC_Boeking uc = new();
+                            container.Controls.Add(uc);
+                            uc.FillInfo(bookingen, customer, this);
+                        }
                     }
                 }
             }
+        }
+
+        private void btn_refresh_Click(object sender, EventArgs e)
+        {
+            LoadInfo();
+        }
+
+        private void btn_add_Click(object sender, EventArgs e)
+        {
+            Edit_Boeking add = new();
+            add.AddBoeking();
+            add.ShowDialog();
+            LoadInfo();
         }
     }
 }

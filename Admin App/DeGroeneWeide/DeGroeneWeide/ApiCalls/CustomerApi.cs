@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace DeGroeneWeide.ApiCalls
     {
         public static List<Customer>? Customers;
         public static HttpClient client = new();
-        public static async Task GetCards()
+        public static async Task GetCustomers()
         {
             if (!client.DefaultRequestHeaders.Contains("Accept"))
             {
@@ -29,9 +30,12 @@ namespace DeGroeneWeide.ApiCalls
                 Debug.WriteLine("Customers JSON: " +json);
 
                 Customers = JsonSerializer.Deserialize<List<Customer>>(json);
-                foreach (Customer customer in Customers)
+                if (Customers != null)
                 {
-                    customer.DumpInfo();
+                    foreach (Customer customer in Customers)
+                    {
+                        customer.DumpInfo();
+                    }
                 }
             }
             catch (Exception ex)
@@ -39,6 +43,76 @@ namespace DeGroeneWeide.ApiCalls
                 Debug.WriteLine(ex.Message);
             }
 
+        }
+
+        public static async Task<string?> UpdateCustomer(Customer c)
+        {
+            string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                id = c.Id,
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(URL, content);
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Serialize(responseString);
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+                return null;
+            }
+        }
+
+        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, string birthdate, string phonenumber, string mailaddress)
+        {
+
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                firstName = firstname,
+                middleName = middlename,
+                lastName = lastname,
+                maySave = 0,
+                birthDate = birthdate,
+                blacklisted = false,
+                phoneNumber = phonenumber,
+                mailAddress = mailaddress
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/customers/insertCustomer", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonSerializer.Serialize(responseString);
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+                return null;
+            }
         }
     }
 }

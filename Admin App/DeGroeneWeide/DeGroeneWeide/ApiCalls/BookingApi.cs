@@ -46,5 +46,76 @@ namespace DeGroeneWeide.ApiCalls
             }
 
         }
+
+        public static async Task UpdateBooking(Booking b)
+        {
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                id = b.Id,
+                customerId = b.CustomerId,
+                startDate = b.StartDate,
+                endDate = b.EndDate,
+                amountPeople = b.AmountPeople,
+                notes = ""
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/updateBooking", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
+
+        public static async Task DeleteBooking(string Id)
+        {
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                id = Id,
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/deleteBooking", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(responseString);
+        }
+
+        public static async Task InsertBooking(string CustomerId, string StartDate, string EndDate, int AmountPeople)
+        {
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }
+
+            var data = new
+            {
+                customerId = CustomerId,
+                startDate = StartDate,
+                endDate = EndDate,
+                amountPeople = AmountPeople,
+                notes = ""
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/insertBooking", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(responseString);
+        }
     }
 }
