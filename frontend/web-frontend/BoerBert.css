@@ -299,7 +299,7 @@ h3 {
   font-size: 18px;
   text-decoration: none; 
   transition: 0.5s;
-  display: block;
+  display: none;
 }
 
 #top-button:hover {
