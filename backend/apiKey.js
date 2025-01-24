@@ -4,7 +4,7 @@ import { info_log } from "./util.js";
 // these routes don't get checked for an API key
 const publicRoutes = [
     "/api/send-reservation",
-    "/api/verify-email"
+    "/api/verify-mail"
 ];
 
 export function isPublicRoute(fullRouteName) {
