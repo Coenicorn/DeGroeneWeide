@@ -17,7 +17,7 @@ const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API rout
 // API key
 APIRouter.use(onlyAdminPanel);
 
-doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser")
+doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser on http(s)://[HOST]/api/browse")
 .response(200, "json view of the current database");
 
 if (config.environment === "dev"){
