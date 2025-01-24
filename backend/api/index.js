@@ -114,7 +114,32 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
 });
 
-APIRouter.get("/verify-mail")
+APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
+
+    const reservationUid = req.params.reservation_uid;
+
+    if (reservationUid === undefined) return respondwithstatus(res, 400, "unknown reservation uid");
+
+    let tempReservations;
+
+    try {
+        tempReservations = await db_query(`
+            SELECT * FROM TempReservations WHERE id = ?
+        `, [reservationUid]);
+    } catch(e) {
+        err_log("error in /verify-mail", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
+    if (tempReservations.length === 0) return respondwithstatus(res, 400, "no temp reservation like that exists!")
+
+    // check if there's only 1 temp reservation
+    // if (tempReservations.length > 1) return;
+
+    respondwithstatus(res, 200, "OK");
+
+})
 
 APIRouter.use("/cards", CardsRouter);
 APIRouter.use("/customers", CustomersRouter)
