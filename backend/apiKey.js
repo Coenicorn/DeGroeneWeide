@@ -11,8 +11,6 @@ export function isPublicRoute(fullRouteName) {
     if (config.enableAPIKey == 0) return true;
 
     for (let i = 0, route; i < publicRoutes.length, route = publicRoutes[i]; i++) {
-        console.log(fullRouteName);
-        console.log(route);
         if (fullRouteName.startsWith(route)) return true;
     }
 }

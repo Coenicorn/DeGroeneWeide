@@ -160,7 +160,6 @@ APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
 
     // delete temp reservation
     try {
-        console.log(reservation.id)
         await db_execute("DELETE FROM TempReservations WHERE id=?", [reservation.id]);
     } catch(e) {
         err_log("non-fatel error in /verify-mail: Temp reservation was verified, but couldn't be deleted. This error COULD result in a booking getting added multiple times, please look into it.", e);
