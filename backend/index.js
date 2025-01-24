@@ -17,6 +17,9 @@ let routes = [];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// on server behind reverse proxy
+app.set('trust proxy', 1)
+
 // rate limiting
 if (config.enableRateLimiting) {
 app.use(rateLimit({
