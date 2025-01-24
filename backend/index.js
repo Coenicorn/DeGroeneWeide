@@ -18,8 +18,8 @@ const __dirname = path.dirname(__filename);
 // check if image is viewed lmao
 app.use((req, res, next) => {
     console.log(req.url);
-    if (req.url === "img/Shoco-mellow_logo_zwart.png") {
-        console.log("hey")
+    if (req.url === "/img/Shoco-mellow_logo_zwart.png") {
+        console.log("Black logo image got loaded. This probably means a confirmation email was viewed");
     }
     next();
 })
