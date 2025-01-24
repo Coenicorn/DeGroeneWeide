@@ -17,7 +17,7 @@ const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API rout
 // API key
 APIRouter.use(onlyAdminPanel);
 
-doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser on http(s)://[HOST]/api/browse")
+doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser on `http(s)://[HOST]/api/browse`")
 .response(200, "json view of the current database");
 
 if (config.environment === "dev"){
@@ -113,6 +113,8 @@ APIRouter.post("/send-reservation", async (req, res) => {
     respondwithstatus(res, 200, "OK");
 
 });
+
+APIRouter.get("/verify-mail")
 
 APIRouter.use("/cards", CardsRouter);
 APIRouter.use("/customers", CustomersRouter)
