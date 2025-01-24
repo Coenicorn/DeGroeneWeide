@@ -33,7 +33,8 @@ config.keyAdminPanel = process.env.KEYADMINPANEL;
         let value = entry[1];
 
         if (value === undefined) {
-            console.log(`config value '${name}' is undefined`);
+            console.log(`\n\nconfig value '${name}' is undefined`);
+            console.log(`please view config.js, find the "config.${name} = process.env.SOME_OPTION" and add "SOME_OPTION = SOME_VALUE" to your .env!\n\n`);
             throw new Error();
         }
 
