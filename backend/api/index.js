@@ -121,36 +121,36 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
 APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
 
-    // const reservationUid = req.params.reservation_uid;
+    const reservationUid = req.params.reservation_uid;
 
-    // if (reservationUid === undefined) return respondwithstatus(res, 400, "unknown reservation uid");
+    if (reservationUid === undefined) return respondwithstatus(res, 400, "unknown reservation uid");
 
-    // let tempReservations;
+    let tempReservations;
 
-    // try {
-    //     tempReservations = await db_query(`
-    //         SELECT * FROM TempReservations WHERE id = ?
-    //     `, [reservationUid]);
-    // } catch(e) {
-    //     err_log("error in /verify-mail", e);
+    try {
+        tempReservations = await db_query(`
+            SELECT * FROM TempReservations WHERE id = ?
+        `, [reservationUid]);
+    } catch(e) {
+        err_log("error in /verify-mail", e);
 
-    //     return respondwithstatus(res, 500, "something went wrong!");
-    // }
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
 
-    // // check if the link is valid
-    // if (
-    //     tempReservations.length === 0 ||
-    //     tempReservations.length > 1
-    // ) {
-    //     // link not valid, redirect to uid not found page
-    //     const uidNotFoundParams = new URLSearchParams([
-    //         ["confirmed", "no"]
-    //     ]);
+    // check if the link is valid
+    if (
+        tempReservations.length === 0 ||
+        tempReservations.length > 1
+    ) {
+        // link not valid, redirect to uid not found page
+        const uidNotFoundParams = new URLSearchParams([
+            ["confirmed", "no"]
+        ]);
 
-    //     return res.redirect("/mail_confirmed.html?" + uidNotFoundParams.toString());
-    // }
+        return res.redirect("/mail_confirmed.html?" + uidNotFoundParams.toString());
+    }
 
-    // const reservation = tempReservations[0];
+    const reservation = tempReservations[0];
     const params = new URLSearchParams([
         ["confirmed", "yes"]
     ]);
