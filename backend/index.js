@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Schotel de files vanuit web-frontend voor
-app.use(express.static(path.join(__dirname, "../frontend/web-frontend")));
+app.use(express.static(path.join(__dirname, "../frontend/web-frontend/public")));
 
 // NOT SAFE
 app.use(cors());
