@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import {
     blacklistCustomer,
-    deleteCustomer,
+    deleteCustomer, deleteCustomerById,
     getAllCustomers,
     getBooking, getCustomerById,
     insertCustomer,
@@ -131,7 +131,7 @@ CustomersRouter.post("/deleteCustomer", async (req, res) => {
            return res.status(400).send("customerId ontbreekt.")
        }
 
-       await deleteCustomer(customer.customerId);
+       await deleteCustomerById(customer.customerId);
        res.status(200).json({ customerId: customer.customerId });
 
    } catch(error) {

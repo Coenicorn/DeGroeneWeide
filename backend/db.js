@@ -305,11 +305,11 @@ export async function blacklistCustomer(mailAddress, active) {
     return db_execute("UPDATE Customers SET blacklisted = ? WHERE id = ?", [active, mailAddress]);
 }
 
-export async function deleteCustomer(mailAddress){
+export async function deleteCustomerByMail(mailAddress){
     return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
 }
 
-export async function deleteCustomer(id) {
+export async function deleteCustomerById(id) {
     return db_execute("DELETE FROM Customers WHERE id = ?", [id]);
 }
 
