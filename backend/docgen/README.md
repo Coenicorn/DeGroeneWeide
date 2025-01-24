@@ -1,6 +1,6 @@
 # test
 test
-## `GET test/test` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)
+## `GET test/test` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)
 test
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) test<br>
