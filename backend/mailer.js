@@ -33,7 +33,6 @@ export async function sendMailConfirmationEmail(confirmationLink, mailAddress, c
         }
 
         transporter.sendMail(mailOptions, (err) => {
-            console.log("I am here");
             if (err) err_log("error in mail callback", err);
             else info_log("confirmation mail sent");
         });
