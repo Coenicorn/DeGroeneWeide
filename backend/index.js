@@ -18,6 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // rate limiting
+if (config.enableRateLimiting) {
 app.use(rateLimit({
     windowMs: 5 * 60 * 1000,
     limit: 5,
@@ -30,6 +31,7 @@ app.use(rateLimit({
         info_log("rate limited ip " + req.ip);
     }
 }));
+}
 
 // Schotel de files vanuit web-frontend voor
 app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
