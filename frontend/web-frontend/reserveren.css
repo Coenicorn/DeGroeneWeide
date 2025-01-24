@@ -307,6 +307,8 @@ nav .fa {
     display: flex;
     gap: 0;
     margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    align-items: flex-end;
 }
 
 #reserveren-title {
@@ -362,7 +364,6 @@ input {
     display: flex;
     text-decoration: none;
     padding: 18px 200px;
-    font-size: 13px;
     background: #F44336;
     position: relative;
     cursor: pointer;

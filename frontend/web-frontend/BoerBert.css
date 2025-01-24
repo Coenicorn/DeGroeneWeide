@@ -25,6 +25,10 @@ html {
   position: relative;
 }
 
+.centered {
+  text-align: center;
+}
+
 nav {
   display: flex;
   padding: 2% 6%;
@@ -278,10 +282,10 @@ h3 {
 .Accommodaties-col h3 {
   margin-top: 16px;
   margin-bottom: 15px;
-  text-align: left;
+  text-align: center;
 }
 
-#button {
+#top-button {
   position: fixed;
   bottom: 10px;
   right: 10px;
@@ -295,9 +299,10 @@ h3 {
   font-size: 18px;
   text-decoration: none; 
   transition: 0.5s;
+  display: block;
 }
 
-#button:hover {
+#top-button:hover {
   background-color: #555;
   transition: 0.5s;
 }
@@ -444,8 +449,7 @@ ul {
   background-color: var(--information-background);
   flex-basis: 80%;
   border-radius: 30px;
-  padding-top: 30px;
-  padding-bottom: 10%;
+  padding-bottom: 15%;
   transition: 0.5s;
 }
 
@@ -468,7 +472,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 18px 0;
+  padding: 1% 0;
   background: #F44336;
   position: relative;
   cursor: pointer;
@@ -487,5 +491,5 @@ ul {
 
 #reserveren-btn-text {
   color: #fff;
-  font-size: 33px;
+  font-size: 25px;
 }
