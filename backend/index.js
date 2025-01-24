@@ -33,6 +33,15 @@ app.use(rateLimit({
 }));
 }
 
+// check if image is viewed lmao
+app.use((req, res, next) => {
+    if (req.url === "/img/Shoco-mellow_logo_zwart.png") {
+        info_log("Black logo image got loaded. This probably means a confirmation email was viewed");
+    }
+    next();
+})
+
+
 // Schotel de files vanuit web-frontend voor
 app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
 

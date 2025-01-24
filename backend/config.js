@@ -21,6 +21,10 @@ config.keyAdminPanel = process.env.KEYADMINPANEL;
 
 config.enableRateLimiting = process.env.ENABLE_RATE_LIMIT;
 
+config.googleEmailAccount = process.env.GOOGLE_EMAIL_ACCOUNT;
+config.googleAppPassword = process.env.GOOGLE_APP_PASSWD;
+
+
 // extra safeguard to make sure that in the production environment rate limiting AND api key checking is enabled
 if (config.environment !== "dev") {
     if (config.enableAPIKey != "1") {
