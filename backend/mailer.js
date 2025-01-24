@@ -5,15 +5,13 @@ import * as fs from "fs";
 import path from "path";
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // For TLS
     auth: {
-        user: config.googleEmailAccount,
-        pass: config.googleAppPassword
-    },
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 100,
-    rateLimit: 10
+        user: "shocomellow.boerbert@gmail.com",
+        pass: "ulcv wotm rxgt efvr"
+    }
 });
 
 // this is used if the html doesn't get sent
@@ -25,7 +23,7 @@ export async function sendMailConfirmationEmail(confirmationLink, mailAddress, c
         const nameFirstCapitalized = clientFirstName.charAt(0).toUpperCase() + clientFirstName.slice(1).toLowerCase();
 
         const mailOptions = {
-            from: "De Groene Weide",
+            from: "shocomellow.boerbert@gmail.com",
             to: mailAddress,
             subject: "bevestig je reservering",
             text: mailFallbackContent,
