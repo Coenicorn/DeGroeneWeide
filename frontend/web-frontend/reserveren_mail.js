@@ -45,7 +45,8 @@ function sendMail() {
             maySave: 1,
             startDate: begin_datum.value,
             endDate: eind_datum.value,
-            amountPeople: aantal_gasten.value
+            amountPeople: aantal_gasten.value,
+            notes: notities.value
         })
     }).then(r => {
         console.log("reservering verstuurd");
