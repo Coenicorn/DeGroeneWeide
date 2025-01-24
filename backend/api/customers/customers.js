@@ -1,11 +1,10 @@
 import express, { Router } from "express";
 import {
-    blacklistCustomer,
-    deleteCustomer, deleteCustomerById,
+    deleteCustomerById,
     getAllCustomers,
-    getBooking, getCustomerById,
+    getCustomerById,
     insertCustomer,
-    updateBooking, updateCustomer
+    updateCustomer
 } from "../../db.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
 import {uid} from "uid";
@@ -153,7 +152,7 @@ doc.route("updateCustomer", doc.POST, "updates customer values")
         phoneNumber: doc.STRING,
         mailAddress: doc.STRING
     })
-    .response(200, "succesfully updated customer")
+    .response(200, "succesfully updated customer");
 
 BookingRouter.post("/updateCustomer", async (req, res) => {
     const customer = req.body;
