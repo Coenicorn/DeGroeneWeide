@@ -26,7 +26,7 @@ function _log_get_prefix_type(type) {
 }
 
 function _log_get_full_prefix(msg, type) {
-    return _log_get_prefix_time + _log_get_prefix_type(type) + " " + msg;
+    return _log_get_prefix_time() + _log_get_prefix_type(type) + " " + msg;
 }
 
 function _log_get_local_prefix(msg, type) {
