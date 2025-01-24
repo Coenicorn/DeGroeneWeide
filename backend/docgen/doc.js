@@ -149,7 +149,7 @@ export class APIDocGenerator extends DocGenerator {
         let str;
         if (yes) str = "![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)";
         else str = "![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)";
-        str += "[<sub><sup>?</sup></sub>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)"
+        str += " [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)"
         return str;
     }
 
