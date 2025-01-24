@@ -10,9 +10,9 @@ const publicRoutes = [
 export function isPublicRoute(fullRouteName) {
     if (config.enableAPIKey == 0) return true;
 
-    publicRoutes.forEach((route) => {
+    for (let i = 0, route = publicRoutes[i]; i < publicRoutes.length; i++) {
         if (fullRouteName.startsWith(route)) return true;
-    })
+    }
 }
 
 // middleware that checks if the request has access to the route
