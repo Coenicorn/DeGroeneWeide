@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS Bookings (
     endDate DATETIME NOT NULL,
     amountPeople INT NOT NULL,
     creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notes TEXT NOT NULL,
+    notes TEXT NOT NULL DEFAULT "",
+    confirmed NUMBER NOT NULL DEFAULT 0,
     FOREIGN KEY (customerId) REFERENCES Customers (id)
 );
 
