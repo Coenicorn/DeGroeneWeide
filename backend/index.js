@@ -7,6 +7,8 @@ import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, reg
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash, deleteOldTempReservations, periodicActivityUpdate } from "./util.js";
 import { uid } from "uid";
 import APIRouter from "./api/index.js";
+import { authenticateRequest } from './apiKey.js';
+import rateLimit from 'express-rate-limit';
 
 // exposed to public
 const app = express();
@@ -15,12 +17,27 @@ let routes = [];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// rate limiting
+app.use(rateLimit({
+    windowMs: 5 * 60 * 1000,
+    limit: 5,
+    standardHeaders: 'draft-6',
+    legacyHeaders: false,
+    skip: (req) => {
+        return authenticateRequest(req);
+    },
+    handler: (req, res, next) => {
+        info_log("rate limited ip " + req.ip);
+    }
+}));
+
 // Schotel de files vanuit web-frontend voor
 app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
 
 // NOT SAFE
 app.use(cors());
 
+let n= 0;
 app.use((req, res, next) => {
     if (config.environment !== "dev") {
         next();
@@ -36,7 +53,7 @@ app.use(hastoAcceptJson);
 await initializeDB(); info_log("initialized database");
 
 app.use("/api", APIRouter);
-  
+
 // 404 fallthrough
 app.use((req, res, next) => {
     let str;

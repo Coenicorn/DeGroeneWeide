@@ -15,7 +15,8 @@ import { uid } from "uid";
 const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
 
 // API key
-APIRouter.use(onlyAdminPanel);
+// only if enabled
+if (config.enableAPIKey != 0) APIRouter.use(onlyAdminPanel);
 
 doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser on `http(s)://[HOST]/api/browse`")
 .response(200, "json view of the current database");
