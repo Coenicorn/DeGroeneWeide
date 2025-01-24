@@ -18,7 +18,7 @@ const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API rout
 APIRouter.use(onlyAdminPanel);
 
 doc.route("browse", doc.GET, "development helper to quickly view the current database as JSON. Meant for use in webbrowser")
-    .response(200, "json view of the current database");
+.response(200, "json view of the current database");
 
 if (config.environment === "dev"){
     info_log("hosting database explorer on http://localhost:" + config.serverPort + "/api/browse");
@@ -35,6 +35,21 @@ if (config.environment === "dev"){
     });
 }
 
+
+doc.route("send-reservation", doc.POST, "send a temporary reservation from the frontend to the backend. Needs to be confirmed by email", true)
+.request({
+    firstName: doc.STRING,
+    lastName: doc.STRING,
+    mailAddress: doc.STRING,
+    phoneNumber: doc.STRING,
+    blacklisted: doc.NUMBER,
+    birthDate: doc.STRING,
+    maySave: doc.NUMBER,
+    startDate: doc.STRING,
+    endDate: doc.STRING,
+    amountPeople: doc.STRING
+})
+.response(200, "successfully added temporary reservation. A link has been sent to the mailaddress entered in the request, when the link isn't clicked withint 10 minutes the temporary reservation gets deleted!")
 
 APIRouter.post("/send-reservation", async (req, res) => {
 
