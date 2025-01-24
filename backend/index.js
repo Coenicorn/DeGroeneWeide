@@ -27,6 +27,9 @@ app.use((req, res, next) => {
         return;
     }
     info_log("got request for " + req.url);
+    if (req.url === "img/Shoco-mellow_logo_zwart.png") {
+        console.log("heyy");
+    }
     next();
 });
 
