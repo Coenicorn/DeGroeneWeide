@@ -23,7 +23,7 @@ export function onlyAdminPanel(req, res, next) {
     const apiKey = req.header("x-api-key");
 
     if (apiKey !== config.keyAdminPanel) {
-        info_log("blocked access to route");
+        info_log("blocked access to route " + req.originalUrl);
 
         return res.status(403).send("Invalid API key");
     }
