@@ -1,5 +1,6 @@
 import config from "./config.js";
-import { info_log } from "./util.js";
+import { info_log, respondwithstatus } from "./util.js";
+import { rateLimit } from "express-rate-limit";
 
 // these routes don't get checked for an API key
 const publicRoutes = [
@@ -8,18 +9,14 @@ const publicRoutes = [
 ];
 
 export function isPublicRoute(fullRouteName) {
-    if (config.enableAPIKey == 0) return true;
-
     for (let i = 0, route; i < publicRoutes.length, route = publicRoutes[i]; i++) {
         if (fullRouteName.startsWith(route)) return true;
     }
 }
 
-// middleware that checks if the request has access to the route
-export function onlyAdminPanel(req, res, next) {
+export function authenticateRequest(req) {
     if (isPublicRoute(req.originalUrl)) {
-        next();
-        return;
+        return 1;
     }
 
     const apiKey = req.header("x-api-key");
@@ -27,8 +24,14 @@ export function onlyAdminPanel(req, res, next) {
     if (apiKey !== config.keyAdminPanel) {
         info_log("blocked access to route " + req.originalUrl);
 
-        return res.status(403).send("Invalid API key");
+        return 0;
     }
 
-    next();
+    return 1;
+}
+
+// middleware that checks if the request has access to the route
+export function onlyAdminPanel(req, res, next) {
+    if (authenticateRequest(req)) next();
+    else respondwithstatus(res, 401, "incorrect API key");
 }

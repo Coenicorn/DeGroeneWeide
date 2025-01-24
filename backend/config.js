@@ -1,5 +1,9 @@
 import * as dotenvx from "@dotenvx/dotenvx";
 
+async function thinkAboutYourActions() {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+}
+
 dotenvx.config();
 
 const config = {};
@@ -15,8 +19,23 @@ config.maxInactiveSeconds = process.env.MAX_INACTIVE_SECONDS
 config.enableAPIKey = process.env.ENABLEAPIKEY;
 config.keyAdminPanel = process.env.KEYADMINPANEL;
 
+config.enableRateLimiting = process.env.ENABLE_RATE_LIMIT;
+
 config.googleEmailAccount = process.env.GOOGLE_EMAIL_ACCOUNT;
 config.googleAppPassword = process.env.GOOGLE_APP_PASSWD;
+
+
+// extra safeguard to make sure that in the production environment rate limiting AND api key checking is enabled
+if (config.environment !== "dev") {
+    if (config.enableAPIKey != "1") {
+        console.log("\n*************************************\nWARNING api key not enabled in production environment\n*************************************");
+        await thinkAboutYourActions();
+    }
+    if (config.enableRateLimiting != "1") {
+        console.log("\n*************************************\nWARNING rate limiting not enabled in production environment\n*************************************\n");
+        await thinkAboutYourActions();
+    }
+}
 
 
 // verify configuration
