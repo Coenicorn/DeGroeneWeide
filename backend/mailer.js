@@ -25,7 +25,7 @@ export async function sendMailConfirmationEmail(confirmationLink, mailAddress, c
         const nameFirstCapitalized = clientFirstName.charAt(0).toUpperCase() + clientFirstName.slice(1).toLowerCase();
 
         const mailOptions = {
-            from: "shocomellow.boerbert@gmail.com",
+            from: "De Groene Weide",
             to: mailAddress,
             subject: "bevestig je reservering",
             text: mailFallbackContent,
@@ -35,6 +35,7 @@ export async function sendMailConfirmationEmail(confirmationLink, mailAddress, c
         }
 
         transporter.sendMail(mailOptions, (err) => {
+            console.log("I am here");
             if (err) err_log("error in mail callback", err);
             else info_log("confirmation mail sent");
         });
