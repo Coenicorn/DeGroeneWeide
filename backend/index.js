@@ -15,6 +15,14 @@ let routes = [];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// check if image is viewed lmao
+app.use((req, res, next) => {
+    if (req.url === "img/Shoco-mellow_logo_zwart.png") {
+        console.log("hey")
+    }
+    next();
+})
+
 // Schotel de files vanuit web-frontend voor
 app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
 
@@ -27,9 +35,6 @@ app.use((req, res, next) => {
         return;
     }
     info_log("got request for " + req.url);
-    if (req.url === "img/Shoco-mellow_logo_zwart.png") {
-        console.log("heyy");
-    }
     next();
 });
 
