@@ -24,3 +24,7 @@ send a temporary reservation from the frontend to the backend. Needs to be confi
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) successfully added temporary reservation. A link has been sent to the mailaddress entered in the request, when the link isn't clicked withint 10 minutes the temporary reservation gets deleted!<br>
+## `GET api/verify-mail/:reservation_uid` ![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
+verifies mail with reservation_uid. Only supposed to be used from link sent in mail
+## response
+[`301`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) redirect naar mail_confirmed.html<br>

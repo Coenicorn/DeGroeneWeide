@@ -121,7 +121,8 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
 });
 
-doc.route("verify-mail/:reservation_uid", doc.GET, "verifies mail with reservation_uid. Only supposed to be used from link sent in mail")
+doc.route("verify-mail/:reservation_uid", doc.GET, "verifies mail with reservation_uid. Only supposed to be used from link sent in mail", true)
+.response(301, "redirect naar mail_confirmed.html");
 
 APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
 
