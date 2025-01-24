@@ -6,7 +6,7 @@ View the README.md in every route's source folder or view the page on github to 
 
 ## ![public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true) and ![private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) routes
 
-The API also specified public and private routes. Public routes can be accessed by anyone that has access to the public site and/or server, and private routes can only be accessed with an API key
+The API also specified public and private routes. Public routes can be accessed by anyone that has access to the public site and/or server, and private routes can only be accessed with an API key. Public routes are also rate-limited.
 
 ### dev environment
 
