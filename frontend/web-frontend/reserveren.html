@@ -77,7 +77,7 @@
         </div>
         <div class="forum-box">
           <label for="typeAccommodatie" class="forum-label">Type Accommodatie<span class="required">*</span></label>
-          <select id="typeAccommodatie" >
+          <select id="typeAccommodatie">
             <option value="default">Selecteer type accommodatie</option>
             <option value="tent">Tent</option>
             <option value="stacaravan">Stacaravan</option>
@@ -94,7 +94,7 @@
         </div>
       </div>
       <div class="confirm-btn-div">
-        <button type="button" id="confirm-btn" onclick="sendMail()">Verzenden</button>
+        <button type="button" id="confirm-btn" onclick="reserve()">Verzenden</button>
       </div>
     </div>
   </section>
@@ -102,7 +102,7 @@
     <div class="confirmation-box">
       <div class="confirmation-box-title">Hartelijk dank voor uw reservering.</div>
       <p class="confirmation-undertitle">We hopen u binnenkort te zien op de camping.</p>
-      <a id="backToHome" href="index.html">Finito</a>
+      <a id="backToHome" href="index.html">Bevestig</a>
       <img src="img/BoerBertIMG/checkmark.svg" alt="checkmark" class="confirm-checkmark">
     </div>
   </section>
@@ -152,8 +152,7 @@
       </div>
     </div>
   </section>
-  <script type="text/javascript" src="reserveren_mail.js"></script>
-  <script type="text/javascript" src="reserveren_confirmation.js"></script>
+  <script type="text/javascript" src="reserveren.js"></script>
 </body>
 
 </html>
