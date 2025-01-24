@@ -11,6 +11,7 @@ import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqlite
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
+import { sendMailConfirmationEmail } from "../mailer.js";
 
 const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
 
@@ -112,10 +113,10 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
     // SEND MAIL
     const link = req.protocol + "://" + req.get("host") + "/api/verify-mail/" + tempReservationUid;
-    info_log("sent verify link " + link);
+    info_log("sent verify link " + link + " to " + reservation.mailAddress);
 
     // send email with nice html styling to the mailaddress of the reservation with the link
-    // sendEmailWithStyling(reservation.mailAddress, link)
+    sendMailConfirmationEmail(link, reservation.mailAddress, reservation.firstName);
 
     respondwithstatus(res, 200, "OK");
 
