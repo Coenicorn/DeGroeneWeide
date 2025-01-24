@@ -3,7 +3,7 @@ import {
     blacklistCustomer,
     deleteCustomer,
     getAllCustomers,
-    getBooking,
+    getBooking, getCustomerById,
     insertCustomer,
     updateBooking, updateCustomer
 } from "../../db.js";
@@ -139,7 +139,6 @@ CustomersRouter.post("/deleteCustomer", async (req, res) => {
        return respondwithstatus(res, 500, "something went wrong");
    }
 
-});
 
 doc.route("updateCustomer", doc.POST, "updates customer values")
     .request({
@@ -164,7 +163,7 @@ BookingRouter.post("/updateCustomer", async (req, res) => {
 
     // check if booking currently exists
     try {
-        const existingBookingsList = await getBooking(customer.customerId);
+        const existingBookingsList = await getCustomerById(customer.customerId);
 
         if (existingBookingsList.length === 0) {
             // no booking exists
@@ -209,6 +208,7 @@ BookingRouter.post("/updateCustomer", async (req, res) => {
     respondwithstatus(res, 200, "OK");
 });
 
+});
 
 function isValidDate(stringDate) {
     return !isNaN(Date.parse(stringDate));
