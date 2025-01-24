@@ -17,15 +17,29 @@ let routes = [];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// rate limiting for pages
+if (config.enableRateLimiting != "0") {
+    app.use(rateLimit({
+        windowMs: 10 * 60 * 1000,
+        limit: 200,
+        standardHeaders: 'draft-8',
+        legacyHeaders: false
+    }));
+}
+
+// Schotel de files vanuit web-frontend voor
+app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
+
+
 // on server behind reverse proxy
 app.set('trust proxy', 1)
 
 // rate limiting
-if (config.enableRateLimiting) {
+if (config.enableRateLimiting != "0") {
 app.use(rateLimit({
     windowMs: 5 * 60 * 1000,
     limit: 5,
-    standardHeaders: 'draft-6',
+    standardHeaders: 'draft-8',
     legacyHeaders: false,
     skip: (req) => {
         return authenticateRequest(req);
@@ -42,11 +56,7 @@ app.use((req, res, next) => {
         info_log("Black logo image got loaded. This probably means a confirmation email was viewed");
     }
     next();
-})
-
-
-// Schotel de files vanuit web-frontend voor
-app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
+});
 
 // NOT SAFE
 app.use(cors());
