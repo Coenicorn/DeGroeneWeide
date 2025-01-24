@@ -31,7 +31,10 @@ function getDate(){
 }
 
 function reserve() {
-    validity_check();
+    if(!validity_check()){
+        console.log("invalid information");
+        return;
+    }
     let checked_aankomsttijd = "";
     let checked_notities = "";
 
@@ -71,7 +74,7 @@ function reserve() {
 }
 
 function validity_check() {
-    console.log(eind_datum.value)
+    resetBorders();
     let valid = "true";
     if(voornaam.value.trim() == "") {
         voornaam.style.border = "2px solid red";
@@ -89,7 +92,7 @@ function validity_check() {
         land_code.style.border = "2px solid red";
         valid = false;
     }
-    if(telefoonnummer.value.trim() == "") {
+    if(telefoonnummer.value.trim() == "" | telefoonnummer.value.trim().length != 10) {
         telefoonnummer.style.border = "2px solid red";
         valid = false;
     }
@@ -101,9 +104,34 @@ function validity_check() {
         eind_datum.style.border = "2px solid red";
         valid = false;
     }
+    if(begin_datum.value < eind_datum.value) {
+        eind_datum.style.border = "2px solid red";
+        valid = false;
+    }
+    if(aantal_gasten.value.trim() == "" | aantal_gasten.value.trim() < 1){
+        aantal_gasten.style.border = "2px solid red";
+        valid = false;
+    }
+    if(accommodatie.value == "default") {
+        accommodatie.style.border = "2px solid red";
+        valid = false;
+    }
 
     if(valid){
         confirmationContainer.classList.toggle("hidden");
+        return true;
     }
-    return
+    return false;
+}
+
+function resetBorders(){
+    voornaam.style.border = "2px solid white";
+    achternaam.style.border = "2px solid white";
+    email.style.border = "2px solid white";
+    land_code.style.border = "2px solid white";
+    telefoonnummer.style.border = "2px solid white";
+    begin_datum.style.border = "2px solid white";
+    eind_datum.style.border = "2px solid white";
+    aantal_gasten.style.border = "2px solid border";
+    accommodatie.style.border = "2px solid border";
 }
