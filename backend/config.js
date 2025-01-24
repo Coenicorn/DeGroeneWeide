@@ -15,6 +15,9 @@ config.maxInactiveSeconds = process.env.MAX_INACTIVE_SECONDS
 config.enableAPIKey = process.env.ENABLEAPIKEY;
 config.keyAdminPanel = process.env.KEYADMINPANEL;
 
+config.googleEmailAccount = process.env.GOOGLE_EMAIL_ACCOUNT;
+config.googleAppPassword = process.env.GOOGLE_APP_PASSWD;
+
 
 // verify configuration
 (() => {
