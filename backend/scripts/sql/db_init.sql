@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS TempReservations (
     startDate DATETIME,
     endDate DATETIME,
     amountPeople INT,
-    dateReservationSent DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    dateReservationSent DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Payments (

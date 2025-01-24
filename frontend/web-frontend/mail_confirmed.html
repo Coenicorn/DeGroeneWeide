@@ -23,6 +23,7 @@
             <p>Door de link in je inbox te klikken heb je je identiteit bevestigd.</p>
             <p>Je reservering moet alleen nog goedgekeurd worden door onze staf, wij gaan zo snel mogelijk aan de slag om dat voor elkaar te krijgen.</p>
             <p>Tot snel!</p>
+            <p>We sturen je terug naar de hoofdpagina over <span id="seconds-until-redirect"></span> seconden</p>
         </div>
         <div id="not-confirmed" class="hidden">
             <h1>Sorry!</h1>
@@ -37,17 +38,32 @@
         const nameElm = document.getElementById("client-name");
         const confirmedElement = document.getElementById("confirmed");
         const notConfirmedElement = document.getElementById("not-confirmed");
+        const secondsElement = document.getElementById("seconds-until-redirect");
+        let remainingSeconds = 10;
 
         function main() {
 
+            // get url parameters (https://site.com?urlParam=someValue)
             const params = new URLSearchParams(window.location.search);
 
-            console.log(params);
-
-            const confirmed = params.get("confirmed"), name = params.get("name");
+            const 
+                confirmed = params.get("confirmed"), 
+                name = params.get("name");
 
             if (confirmed === "yes") {
                 if (name !== undefined) nameElm.innerText = name;
+
+                secondsElement.innerText = remainingSeconds.toString();
+
+                setInterval(() => {
+
+                    remainingSeconds--;
+
+                    if (remainingSeconds <= 0) window.location.href = "/";
+
+                    secondsElement.innerText = remainingSeconds.toString();
+
+                }, 1000);
 
                 confirmedElement.classList.remove("hidden");
             } else {

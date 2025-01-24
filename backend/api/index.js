@@ -5,7 +5,7 @@ import ReadersRouter from "./readers/index.js";
 import AuthRouter from "./auth/index.js";
 import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
-import { db_execute, db_query } from "../db.js";
+import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from "../db.js";
 import config from "../config.js";
 import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
@@ -53,60 +53,62 @@ doc.route("send-reservation", doc.POST, "send a temporary reservation from the f
 
 APIRouter.post("/send-reservation", async (req, res) => {
 
-    // if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
+    if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
 
-    // const reservation = req.body;
+    const reservation = req.body;
 
-    // if (reservation.firstName === undefined) return respondwithstatus(res, 400, "missing firstname");
-    // if (reservation.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
-    // if (reservation.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
-    // if (reservation.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
-    // if (reservation.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
-    // if (reservation.birthDate === undefined) return respondwithstatus(res, 400, "missing lastNbirthDateame");
-    // if (reservation.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
-    // if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
-    // if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
-    // if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+    if (reservation.firstName === undefined) return respondwithstatus(res, 400, "missing firstname");
+    if (reservation.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
+    if (reservation.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
+    if (reservation.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
+    if (reservation.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
+    if (reservation.birthDate === undefined) return respondwithstatus(res, 400, "missing lastNbirthDateame");
+    if (reservation.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
+    if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
+    if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
+    if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
 
     const tempReservationUid = uid(32);
 
-    // try {
+    try {
 
-    //     await db_execute(`
-    //         INSERT INTO
-    //             TempReservations (
-    //             id,
-    //             firstName,
-    //             lastName,
-    //             mailAddress,
-    //             phoneNumber,
-    //             blacklisted,
-    //             birthDate,
-    //             maySave,
-    //             startdate,
-    //             endDate,
-    //             amountPeople    
-    //         )
-    //         VALUES (?,?,?,?,?,?,?,?,?,?,?)
-    //     `, [
-    //         tempReservationUid,
-    //         reservation.firstName,
-    //         reservation.lastName,
-    //         reservation.mailAddress,
-    //         reservation.phoneNumber,
-    //         reservation.blacklisted,
-    //         reservation.birthDate,
-    //         reservation.maySave,
-    //         reservation.startDate,
-    //         reservation.endDate,
-    //         reservation.amountPeople
-    //     ]);
+        await db_execute(`
+            INSERT INTO
+                TempReservations (
+                id,
+                firstName,
+                lastName,
+                mailAddress,
+                phoneNumber,
+                blacklisted,
+                birthDate,
+                maySave,
+                startdate,
+                endDate,
+                amountPeople,
+                notes
+            )
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+        `, [
+            tempReservationUid,
+            reservation.firstName,
+            reservation.lastName,
+            reservation.mailAddress,
+            reservation.phoneNumber,
+            reservation.blacklisted,
+            reservation.birthDate,
+            reservation.maySave,
+            reservation.startDate,
+            reservation.endDate,
+            reservation.amountPeople,
+            reservation.notes
+        ]);
 
-    // } catch(e) {
-    //     err_log("error in /send-reservation", e);
+    } catch(e) {
+        err_log("error in /send-reservation", e);
 
-    //     return respondwithstatus(res, 500, "something went wrong");
-    // }
+        return respondwithstatus(res, 500, "something went wrong");
+    }
 
     // SEND MAIL
     const link = req.protocol + "://" + req.get("host") + "/api/verify-mail/" + tempReservationUid;
@@ -118,6 +120,8 @@ APIRouter.post("/send-reservation", async (req, res) => {
     respondwithstatus(res, 200, "OK");
 
 });
+
+doc.route("verify-mail/:reservation_uid", doc.GET, "verifies mail with reservation_uid. Only supposed to be used from link sent in mail")
 
 APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
 
@@ -151,12 +155,58 @@ APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
     }
 
     const reservation = tempReservations[0];
+
+    info_log(`reservation for '${reservation.mailAddress}' was confirmed through link`);
+
+    // delete temp reservation
+    try {
+        console.log(reservation.id)
+        await db_execute("DELETE FROM TempReservations WHERE id=?", [reservation.id]);
+    } catch(e) {
+        err_log("non-fatel error in /verify-mail: Temp reservation was verified, but couldn't be deleted. This error COULD result in a booking getting added multiple times, please look into it.", e);
+    }
+
+    // reservation is legit, add customer and booking with confirmed=0
+    try {
+        const customerId = uid();
+
+        await insertCustomer(
+            customerId,
+            reservation.firstName,
+            "",
+            reservation.lastName,
+            reservation.birthDate,
+            reservation.maySave,
+            reservation.blacklisted,
+            reservation.phoneNumber,
+            reservation.mailAddress
+        );
+        info_log(`added new customer '${reservation.firstName} ${reservation.lastName}' with id (${customerId})`);
+        
+        const bookingId = uid();
+
+        await insertBooking(
+            bookingId,
+            customerId,
+            reservation.startDate,
+            reservation.endDate,
+            reservation.amountPeople,
+            reservation.notes
+        );
+        info_log(`added new booking with id (${bookingId}) for customer id (${customerId})`)
+
+    } catch(e) {
+        err_log("error in /verify-mail", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
     const params = new URLSearchParams([
         ["confirmed", "yes"]
     ]);
 
     try {
-        params.set("name", reservation.name);
+        params.set("name", reservation.firstName);
     } catch(e) { /* do nothing, proceed to redirect */ }
 
     res.redirect("/mail_confirmed.html?" + params.toString());

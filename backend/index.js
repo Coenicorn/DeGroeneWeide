@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import config from './config.js';
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
-import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash } from "./util.js";
+import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash, deleteOldTempReservations, periodicActivityUpdate } from "./util.js";
 import { uid } from "uid";
 import APIRouter from "./api/index.js";
 
@@ -57,9 +57,8 @@ app.use((err, req, res, next) => {
     if (config.environment === "dev") str = err.message;
     else str = "something went wrong!";
 
-    err_log("caught error with message: " + err.message);
+    err_log("caught route error", err);
     // log full error, this is fine because it does not send it to the client
-    console.log(err);
 
     respondwithstatus(res, err.status || 500, str);
 });
@@ -67,6 +66,9 @@ app.use((err, req, res, next) => {
 app.listen(config.serverPort, async () => {
     info_log(`Started API server on port ${config.serverPort}`);
     info_log(`Started public server on http://localhost:${config.serverPort}`);
+
+    await deleteOldTempReservations();
+    await periodicActivityUpdate();
 
     // add default auth levels
     insertAuthLevel(uid(), "gast").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
