@@ -104,7 +104,7 @@ function validity_check() {
         eind_datum.style.border = "2px solid red";
         valid = false;
     }
-    if(begin_datum.value < eind_datum.value) {
+    if(begin_datum.value > eind_datum.value) {
         eind_datum.style.border = "2px solid red";
         valid = false;
     }
