@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-image: url(./img/BoerBertIMG/reserveren_background.avif); margin: 0;">
+    
+
+
+
+    <section id="confirmation-fullscreen-wrapper" style="font-family: 'Poppins', sans-serif;width: 100vw; height: 100vh; position: fixed; background-color: rgba(255, 255, 255, 0.542); display: flex; align-items: center; justify-content: center;">
+        <div id="confirmation-box-wrapper" style="background-color: white; max-width: 400px; height: auto; display: flex; flex-direction: column; align-items: center;">
+
+            <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" style="width: 150px; padding-left: 10vw; padding-right: 10vw;">
+
+            <h1 style="text-align: center; font-size: 2.2em;">Nog 1 stap</h1>
+
+
+        </div>
+    </section>
+
+
+
+
+
+    <script>
+        document.addEventListener("keypress", (e) => {
+            let elm = document.getElementById("confirmation-fullscreen-wrapper");
+            if (e.key === " ") {
+                elm.style.display = (elm.style.display === "none") ? "flex" : "none";
+            }
+        })
+    </script>
+</body>
+</html>
