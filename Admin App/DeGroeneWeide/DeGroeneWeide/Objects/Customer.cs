@@ -40,7 +40,16 @@ namespace DeGroeneWeide.Objects
         [JsonPropertyName("mailAddress")]
         public string? Email { get; set; }
         public Customer() { }
-
+        public Customer(string id, string firstname, string middlename, string lastname, DateTime birthdate, string phonenumber, string mailaddress)
+        {
+            Id = id;
+            FirstName = firstname;
+            MiddleName = middlename;
+            LastName = lastname;
+            BirthDate = birthdate;
+            PhoneNumber = phonenumber;
+            Email = mailaddress;
+        }
         public void DumpInfo()
         {
             Debug.WriteLine($"Customer - ID: {Id}, Name: {FirstName} {MiddleName} {LastName}, May Save: {MaySave}, Birth Date: {BirthDate}, Creation Date: {CreationDate}, Blacklisted: {BlackListed}, Phone Number: {PhoneNumber}, Email: {Email}");
