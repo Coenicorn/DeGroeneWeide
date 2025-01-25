@@ -16,7 +16,6 @@ namespace DeGroeneWeide.Forms
     public partial class Edit_Boeking : Form
     {
         private Booking? Booking;
-        private Customer? Customer;
         public Edit_Boeking()
         {
             InitializeComponent();
@@ -32,9 +31,9 @@ namespace DeGroeneWeide.Forms
             date_birth.MaxDate = DateTime.Today.AddYears(-16);
         }
 
-        public void FillInfo(Booking booking, Customer customer)
+        public void FillInfo(Booking booking)
         {
-            Booking = booking; Customer = customer;
+            Booking = booking;
             date_start.Value = booking.StartDate;
             date_start.MinDate = booking.StartDate;
             date_end.Value = booking.EndDate;
@@ -48,13 +47,13 @@ namespace DeGroeneWeide.Forms
             }
             date_start.MaxDate = date_end.Value;
             amout_people.Text = booking.AmountPeople.ToString();
-            firstname.Text = customer.FirstName;
-            middlename.Text = customer.MiddleName;
-            lastname.Text = customer.LastName;
-            date_birth.Value = customer.BirthDate ?? DateTime.Today;
+            firstname.Text = booking.FirstName;
+            middlename.Text = booking.MiddleName;
+            lastname.Text = booking.LastName;
+            date_birth.Value = booking.BirthDate;
             date_birth.MaxDate = DateTime.Today.AddYears(-16);
-            phoneNumber.Text = customer.PhoneNumber;
-            email.Text = customer.Email;
+            phoneNumber.Text = booking.PhoneNumber;
+            email.Text = booking.Email;
         }
 
         private void date_end_ValueChanged(object sender, EventArgs e)
@@ -81,7 +80,7 @@ namespace DeGroeneWeide.Forms
         {
             if (Booking != null)
             {
-                //await CustomerApi.UpdateCustomer(new Customer());
+                await CustomerApi.UpdateCustomer(new Customer(Booking.CustomerId, firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text));
                 await BookingApi.UpdateBooking(new Booking(Booking.Id, Booking.CustomerId, date_start.Value.ToString(), date_end.Value.ToString(), int.Parse(amout_people.Text)));
                 this.Close();
             }
