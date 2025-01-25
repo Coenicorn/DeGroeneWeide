@@ -9,15 +9,13 @@ config.generateDocumentation = process.env.GENDOC | null;
 
 config.serverPort = process.env.SERVERPORT;
 
-config.maxInactiveSeconds = process.env.MAX_INACTIVE_SECONDS
 
 // API keys
 config.enableAPIKey = process.env.ENABLEAPIKEY;
 config.keyAdminPanel = process.env.KEYADMINPANEL;
 
 
-// verify configuration
-(() => {
+export async function verifyCorrectConfiguration() {
 
     // still uses console.log because util.js, which defines the helper functions, imports this file
     // don't want circular imports :/
@@ -33,8 +31,7 @@ config.keyAdminPanel = process.env.KEYADMINPANEL;
         let value = entry[1];
 
         if (value === undefined) {
-            console.log(`\n\nconfig value '${name}' is undefined`);
-            console.log(`please view config.js, find the "config.${name} = process.env.SOME_OPTION" and add "SOME_OPTION = SOME_VALUE" to your .env!\n\n`);
+            console.log(`config value '${name}' is undefined`);
             throw new Error();
         }
 
@@ -42,6 +39,6 @@ config.keyAdminPanel = process.env.KEYADMINPANEL;
 
     console.log("all environment values are assigned");
 
-})()
+}
 
 export default config;

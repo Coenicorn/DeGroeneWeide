@@ -35,7 +35,7 @@ class DocGenerator {
 
         setTimeout(() => {
             info_log("cleaning up documentation generation for " + name + "...");
-            this._end();
+            this.end();
         }, 5000);
     }
 
@@ -53,7 +53,7 @@ class DocGenerator {
         this._file = fs.createWriteStream(this.filePath, {flags:"a"});
     }
 
-    _end() { this._file.end(); }
+    end() { this._file.end(); }
 }
 
 export class APIDocGenerator extends DocGenerator {
@@ -86,7 +86,7 @@ export class APIDocGenerator extends DocGenerator {
     }
 
     route(routeName, routeMethod, routeDescription, isPublic = false) {
-        this.writeString(`## \`${routeMethod} ${this.baseURL}/${routeName}\` ${this._toIsPublicString(isPublic)}`);
+        this.writeString(`## \`${routeMethod} ${this.baseURL}/${routeName}\` ${this._toIsPublicString(isPublicRoute(routeName))}`);
         this.writeString(`${routeDescription}`);
 
         this.endResponseBlock();
@@ -149,7 +149,6 @@ export class APIDocGenerator extends DocGenerator {
         let str;
         if (yes) str = "![img_public](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/public.png?raw=true)";
         else str = "![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true)";
-        str += " [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)"
         return str;
     }
 

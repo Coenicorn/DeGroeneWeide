@@ -100,6 +100,7 @@ class TextBox {
      */
     addOption(text, callback = null) {
         if (callback === null) callback = () => {};
+        console.log(callback);
         this.options.push(new TextBoxOption(text, () => {
             this.detach();
             callback();

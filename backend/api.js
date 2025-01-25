@@ -1,24 +1,17 @@
-import cors from 'cors';
 import express from "express";
-import { fileURLToPath } from "url";
-import path from "path";
-import config, { verifyCorrectConfiguration } from './config.js';
+import cors from "cors";
 import APIRouter from "./api/index.js";
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
 import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash } from "./util.js";
+import * as fs from "fs";
+
+import config from "./config.js";
+import path from "path";
 import { uid } from "uid";
 
-await verifyCorrectConfiguration();
-
-// exposed to public
+// private api
 const app = express();
-let routes = [];
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Schotel de files vanuit web-frontend voor
-app.use(express.static(path.join(__dirname, "../frontend/web-frontend")));
+let routes;
 
 // NOT SAFE
 app.use(cors());
@@ -66,9 +59,8 @@ app.use((err, req, res, next) => {
     respondwithstatus(res, err.status || 500, str);
 });
 
-app.listen(config.serverPort, async () => {
-    info_log(`Started API server on port ${config.serverPort}`);
-    info_log(`Started public server on http://localhost:${config.serverPort}`);
+app.listen(config.privateServerPort, async () => {
+    info_log(`Started API server on port ${config.privateServerPort}`);
 
     // add default auth levels
     insertAuthLevel(uid(), "gast").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
