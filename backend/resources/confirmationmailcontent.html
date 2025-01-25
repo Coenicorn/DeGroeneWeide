@@ -1,37 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-
-    <div id="wrapper" style="background-color: rgb(80, 20, 20); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;font-weight: 400;font-style: normal;">
-        <div id="main-body" style="font-size: 1em; display: flex; justify-content: center; color: #fff8e4;">
-            <div id="main-text-wrapper" style="max-width: 80%; background-color: rgb(107, 27, 27); padding-left: 1em; padding-right: 1em;">
-                <h1>Hey Coen!</h1>
-                <p>We hebben je reserveringsverzoek ontvangen! Je moet je reservering alleen nog bevestigen voordat hij geldig is.</p>
-                <br>
-                <br>
-                <div id="button-wrapper" style="display: flex; justify-content: center;">
-                    <!-- <button id="bevestig" style="padding: .5em; border: none; border-radius: 15px; font-size: 23px; font-weight: 700; background-color: rgb(0, 126, 223); color: white">reservering bevestigen</button> -->
-                    <a href="$CONFIRMATIONLINk" style="background-color: rgb(0, 145, 29); padding: 1em; border-radius: 18px; text-decoration: none;">
-                        <h3 style="color: white; padding: 0; margin: 0">reservering bevestigen</h3>
-                    </a>
-                </div>
-                <br>
-                <br>
-                <p><b>LET OP! Je hebt nog 10 minuten om te bevestigen.</b></p>
-                <p>Heb jij niet gereserveerd? Dan hoef je nu niks te doen!</p>
-                <h2>Tot snel!</h2>
-                <br>
-                <div id="img-wrapper" style="display: flex; justify-content: center;">
-                    <img src="../../frontend/web-frontend/img/Shoco-mellow_logo_zwart.png" alt="shoco-mellow" style="max-width: 100%; height: auto; display: block;">
-                </div>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html>
+<table id="wrapper" style="width: 100%; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 1.2em; border-spacing: 0; border-collapse: collapse; background-color: rgb(236, 236, 236);">
+    <tr>
+        <td align="center" style="width: 100%;">
+            <table id="main-body" style="max-width: 560px; background-color: white; font-size: 1em; border-spacing: 0; border-collapse: collapse;">
+                <tr>
+                    <td style="color: black; padding: 1em">
+                        <h1 style="margin: 0; padding: 0; text-align: center;">Hey Coen!</h1>
+                        <p>We hebben je reserveringsverzoek ontvangen! Je moet je reservering alleen nog bevestigen voordat hij geldig is.</p>
+                        <br>
+                        <br>
+                        <table id="button-wrapper" style="width: 100%; border-spacing: 0; border-collapse: collapse;">
+                            <tr>
+                                <td align="center">
+                                    <a href="$CONFIRMATIONLINK" style="background-color: rgb(0, 145, 29); padding: 1em; border-radius: 12px; text-decoration: none; display: inline-block;">
+                                        <h3 style="color: white; padding: 0; margin: 0; font-size: 23px; font-weight: 700;">reservering bevestigen</h3>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <br>
+                        <p style="margin: 1em 0; text-align: center;"><b>LET OP! Je hebt nog 10 minuten om te bevestigen.</b></p>
+                        <p style="margin: 1em 0;">Heb jij niet gereserveerd? Dan worden deze gegevens automatisch verwijderd na 10 minuten. Als je je toch zorgen maakt over je data kan je reageren op deze mail, dan lossen we het samen op!</p>
+                        <h2 style="margin: 1em 0; text-align: center;">Tot snel!</h2>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
