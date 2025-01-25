@@ -1,30 +1,37 @@
 import config from "./config.js";
+import { info_log, respondwithstatus } from "./util.js";
+import { rateLimit } from "express-rate-limit";
 
 // these routes don't get checked for an API key
 const publicRoutes = [
-    "/booking/insertBooking",
-    "/customers/insertCustomer"
+    "/api/send-reservation",
+    "/api/verify-mail"
 ];
 
-export function isPublicRoute(routeName) {
-    if (config.enableAPIKey == 0) return true;
-
-    return publicRoutes.includes(routeName);
+export function isPublicRoute(fullRouteName) {
+    for (let i = 0, route; i < publicRoutes.length, route = publicRoutes[i]; i++) {
+        if (fullRouteName.startsWith(route)) return true;
+    }
 }
 
-// middleware that checks if the request has access to the route
-export function onlyAdminPanel(req, res, next) {
-    console.log(req.url, isPublicRoute(req.url))
-    if (isPublicRoute(req.url)) {
-        next();
-        return;
+export function authenticateRequest(req) {
+    if (isPublicRoute(req.originalUrl)) {
+        return 1;
     }
 
     const apiKey = req.header("x-api-key");
 
     if (apiKey !== config.keyAdminPanel) {
-        return res.status(403).send("Invalid API key");
+        info_log("blocked access to route " + req.originalUrl);
+
+        return 0;
     }
 
-    next();
+    return 1;
+}
+
+// middleware that checks if the request has access to the route
+export function onlyAdminPanel(req, res, next) {
+    if (authenticateRequest(req)) next();
+    else respondwithstatus(res, 401, "incorrect API key");
 }

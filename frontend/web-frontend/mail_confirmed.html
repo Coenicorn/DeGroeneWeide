@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mail confirmation</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+
+        <div id="confirmed" class="hidden">
+            <h1>
+                Hallo <span id="client-name">daar</span>!
+            </h1>
+            <!-- zou leuk zijn om "De Groene Weide" een coole achtergrond te geven of iets dergelijks! -->
+            <p>Leuk dat je hebt gekozen voor <span id="groeneweide-brand-name">De Groene Weide</span>!</p>
+            <p>Door de link in je inbox te klikken heb je je identiteit bevestigd.</p>
+            <p>Je reservering moet alleen nog goedgekeurd worden door onze staf, wij gaan zo snel mogelijk aan de slag om dat voor elkaar te krijgen.</p>
+            <p>Tot snel!</p>
+            <p>We sturen je terug naar de hoofdpagina over <span id="seconds-until-redirect"></span> seconden</p>
+        </div>
+        <div id="not-confirmed" class="hidden">
+            <h1>Sorry!</h1>
+            <p>We hebben geen reservering gevonden!</p>
+            <p>Als dit een foutje is, probeer dan <a href="/reserveren.html">hier</a> alstjeblieft opnieuw te reserveren.</p>
+        </div>
+
+    </div>
+
+    <script>
+
+        const nameElm = document.getElementById("client-name");
+        const confirmedElement = document.getElementById("confirmed");
+        const notConfirmedElement = document.getElementById("not-confirmed");
+        const secondsElement = document.getElementById("seconds-until-redirect");
+        let remainingSeconds = 10;
+
+        function main() {
+
+            // get url parameters (https://site.com?urlParam=someValue)
+            const params = new URLSearchParams(window.location.search);
+
+            const 
+                confirmed = params.get("confirmed"), 
+                name = params.get("name");
+
+            if (confirmed === "yes") {
+                if (name !== undefined) nameElm.innerText = name;
+
+                secondsElement.innerText = remainingSeconds.toString();
+
+                setInterval(() => {
+
+                    remainingSeconds--;
+
+                    if (remainingSeconds <= 0) window.location.href = "/";
+
+                    secondsElement.innerText = remainingSeconds.toString();
+
+                }, 1000);
+
+                confirmedElement.classList.remove("hidden");
+            } else {
+                notConfirmedElement.classList.remove("hidden");
+            }
+
+        }
+
+        document.addEventListener("DOMContentLoaded", main);
+
+    </script>
+</body>
+</html>

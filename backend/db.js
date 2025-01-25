@@ -227,6 +227,7 @@ export async function confirmBooking(id) {
     return db_execute("UPDATE Bookings SET confirmed = 1 WHERE id = ?", [id]);
 }
 
+deleteBooking
 export async function updateCustomer(id, firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress) {
     return db_execute(`
         UPDATE
@@ -245,6 +246,7 @@ export async function updateCustomer(id, firstName, middleName, lastName, birthD
     `, [firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress, id]);
 }
 
+main
 export async function deleteBooking(id) {
     return db_execute("DELETE FROM Bookings WHERE id = ?", [id]);
 }

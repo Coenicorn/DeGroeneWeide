@@ -2,13 +2,13 @@ import cors from 'cors';
 import express from "express";
 import { fileURLToPath } from "url";
 import path from "path";
-import config, { verifyCorrectConfiguration } from './config.js';
-import APIRouter from "./api/index.js";
+import config from './config.js';
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
-import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash } from "./util.js";
+import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash, deleteOldTempReservations, periodicActivityUpdate } from "./util.js";
 import { uid } from "uid";
-
-await verifyCorrectConfiguration();
+import APIRouter from "./api/index.js";
+import { authenticateRequest } from './apiKey.js';
+import rateLimit from 'express-rate-limit';
 
 // exposed to public
 const app = express();
@@ -17,12 +17,48 @@ let routes = [];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// rate limiting for pages
+if (config.enableRateLimiting != "0") {
+    app.use(rateLimit({
+        windowMs: 10 * 60 * 1000,
+        limit: 200,
+        standardHeaders: 'draft-8',
+        legacyHeaders: false
+    }));
+}
+
 // Schotel de files vanuit web-frontend voor
-app.use(express.static(path.join(__dirname, "../frontend/web-frontend")));
+app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));
+
+
+// on server behind reverse proxy
+app.set('trust proxy', 1)
+
+// rate limiting
+if (config.enableRateLimiting != "0") {
+app.use(rateLimit({
+    windowMs: 5 * 60 * 1000,
+    limit: 5,
+    standardHeaders: 'draft-8',
+    legacyHeaders: false,
+    skip: (req) => {
+        return authenticateRequest(req);
+    }
+}));
+}
+
+// check if image is viewed lmao
+app.use((req, res, next) => {
+    if (req.url === "/img/Shoco-mellow_logo_zwart.png") {
+        info_log("Black logo image got loaded. This probably means a confirmation email was viewed");
+    }
+    next();
+});
 
 // NOT SAFE
 app.use(cors());
 
+let n= 0;
 app.use((req, res, next) => {
     if (config.environment !== "dev") {
         next();
@@ -38,7 +74,7 @@ app.use(hastoAcceptJson);
 await initializeDB(); info_log("initialized database");
 
 app.use("/api", APIRouter);
-  
+
 // 404 fallthrough
 app.use((req, res, next) => {
     let str;
@@ -59,9 +95,8 @@ app.use((err, req, res, next) => {
     if (config.environment === "dev") str = err.message;
     else str = "something went wrong!";
 
-    err_log("caught error with message: " + err.message);
+    err_log("caught route error", err);
     // log full error, this is fine because it does not send it to the client
-    console.log(err);
 
     respondwithstatus(res, err.status || 500, str);
 });
@@ -69,6 +104,9 @@ app.use((err, req, res, next) => {
 app.listen(config.serverPort, async () => {
     info_log(`Started API server on port ${config.serverPort}`);
     info_log(`Started public server on http://localhost:${config.serverPort}`);
+
+    await deleteOldTempReservations();
+    await periodicActivityUpdate();
 
     // add default auth levels
     insertAuthLevel(uid(), "gast").catch(e => { if (e.code !== "SQLITE_CONSTRAINT_UNIQUE") throw e; });
@@ -82,16 +120,5 @@ app.listen(config.serverPort, async () => {
         const host = "http://localhost:" + config.privateServerPort;
     }
 
-    periodicActivityUpdate();
+    import("./cronjobs.js");
 });
-
-// periodically update the inactive readers
-async function periodicActivityUpdate() {
-
-    const rows = await readerFailedPingSetInactive(24 * 60 * 60);
-
-    if (rows.length) info_log("flagged " + rows.length + " readers as inactive");
-
-    setTimeout(periodicActivityUpdate, 300000);
-
-}
