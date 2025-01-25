@@ -43,9 +43,6 @@ app.use(rateLimit({
     legacyHeaders: false,
     skip: (req) => {
         return authenticateRequest(req);
-    },
-    handler: (req, res, next) => {
-        info_log("rate limited ip " + req.ip);
     }
 }));
 }
