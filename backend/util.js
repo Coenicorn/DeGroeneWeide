@@ -120,14 +120,11 @@ export async function deleteOldTempReservations() {
     const res = await db_execute(`
         DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-10 minutes')
     `);
-    info_log(`deleted ${res.changes} old temp reservations`);
 }
 
 // periodically update the inactive readers
 export async function periodicActivityUpdate() {
 
     const rows = await readerFailedPingSetInactive(config.maxInactiveSeconds);
-
-    info_log("flagged " + rows.changes + " readers as inactive");
 
 }
