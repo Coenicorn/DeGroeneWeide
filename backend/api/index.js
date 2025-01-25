@@ -7,7 +7,7 @@ import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
 import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from "../db.js";
 import config from "../config.js";
-import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate } from "../util.js";
+import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, verifyDateString } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
@@ -69,6 +69,14 @@ APIRouter.post("/send-reservation", async (req, res) => {
     if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+
+    console.log(reservation);
+
+    const datePlaceholder = "1999-01-01 00:00:00";
+
+    if (!verifyDateString(reservation.birthDate)) reservation.birthDate = datePlaceholder;
+    if (!verifyDateString(reservation.startDate)) reservation.startDate = datePlaceholder;
+    if (!verifyDateString(reservation.endDate)) reservation.endDate = datePlaceholder;
 
     const tempReservationUid = uid(32);
 

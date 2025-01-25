@@ -131,3 +131,9 @@ export async function periodicActivityUpdate() {
     info_log("flagged " + rows.changes + " readers as inactive");
 
 }
+
+export function verifyDateString(dateString) {
+    if (typeof(dateString) !== "string") return false;
+    if (dateString == "") return false; /* weak comparison, idk what behaviour that could cause */
+    return true;
+}
