@@ -146,8 +146,6 @@ export async function periodicActivityUpdate() {
  * @returns {boolean} true if verified, false if not
  */
 export async function verifyCaptchaStringWithGoogle(captchaString) {
-    console.log(captchaString);
-
     const googleUrl = "https://www.google.com/recaptcha/api/siteverify";
 
     const params = new URLSearchParams([
