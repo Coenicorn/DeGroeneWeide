@@ -15,7 +15,28 @@ const confirmationContainer = document.getElementById("confirmation-fullscreen-w
 let customer_id = "";
 
 
-window.onload = function() {begin_datum.min = new Date().toISOString().split("T")[0]; eind_datum.min = new Date().toISOString().split("T")[0];}
+function mock() {
+    voornaam.value = "John";
+    tussenvoegsel.value = "J.";
+    achternaam.value = "Doe";
+    email.value = "shocomellow.boerbert@gmail.com";
+    land_code.value = "31";
+    telefoonnummer.value = "0612345678";
+
+    let d1 = new Date(), d2 = new Date();
+    d2.setDate(d1.getDate() + 1);
+
+    begin_datum.value = d1.toISOString().split("T")[0];
+    eind_datum.value = d2.toISOString().split("T")[0];
+
+    aankomsttijd.value = "06:09";
+    aantal_gasten.value = 1;
+    accommodatie.children[1].setAttribute("selected", true);
+    notities.innerText = "Lorem ipsum dolor sit amet";
+}
+
+
+window.onload = function() {begin_datum.min = new Date().toISOString().split("T")[0]; eind_datum.min = new Date().toISOString().split("T")[0]; mock()}
 
 function getDate(){
     const today = new Date();
