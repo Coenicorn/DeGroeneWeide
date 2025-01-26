@@ -96,7 +96,23 @@ function reserve(captchaString) {
             captcha: captchaString
         })
     }).then(r => {
-        // console.log("reservering verstuurd");
+        if (r.status === 409) {
+            // mail already pending
+            document.getElementById("confirmation-duplicate").classList.remove("hidden");
+            document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
+            document.getElementById("close-confirmation-box-button").onclick = () => confirmationContainer.classList.add("hidden");
+        } else if (r.status === 200) {
+            // nothing wrong
+            document.getElementById("confirmation-success").classList.remove("hidden");
+            document.getElementById("close-confirmation-box-button").onclick = () => window.location.href = "/";
+        } else {
+            // server error
+            document.getElementById("confirmation-other-error").classList.remove("hidden");
+            document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
+            document.getElementById("close-confirmation-box-button").onclick = () => confirmationContainer.classList.add("hidden");
+        }
+
+        confirmationContainer.classList.remove("hidden");
     })
 }
 
@@ -145,7 +161,6 @@ function validity_check() {
     }
 
     if(valid){
-        confirmationContainer.classList.remove("hidden");
         return true;
     }
     return false;
