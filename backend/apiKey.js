@@ -1,5 +1,5 @@
 import config from "./config.js";
-import { info_log, respondwithstatus } from "./util.js";
+import { debug_log, info_log, respondwithstatus } from "./util.js";
 import { rateLimit } from "express-rate-limit";
 
 // these routes don't get checked for an API key

@@ -1,5 +1,3 @@
-import { debug_log } from "../../backend/util";
-
 const voornaam = document.getElementById('voornaam');
 const tussenvoegsel = document.getElementById('tussenvoegsel');
 const achternaam = document.getElementById('achternaam');
