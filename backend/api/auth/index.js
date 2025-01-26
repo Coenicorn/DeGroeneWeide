@@ -282,8 +282,6 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
 
     const readerId = md5hash(macAddress);
 
-    info_log("authenticating with cardId " + cardId + " and readerId " + readerId + " (mac: " + macAddress + ") and token " + cardToken);
-
     try {
         // const matches = await db_query(`
         //     SELECT DISTINCT Cards.id, Readers.id, Cards.token
@@ -298,12 +296,12 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
 
         if (matches.length === 0) {
             // failed to authenticate
-            info_log("access denied");
+            info_log("access denied for cardId " + cardId + " and readerId " + readerId + " (mac: " + macAddress + ") and token " + cardToken);
 
             return respondwithstatus(res, 401, "failed to authenticate");
         }
         
-        info_log("access granted");
+        info_log("access granted to cardId " + cardId + " and readerId " + readerId + " (mac: " + macAddress + ") and token " + cardToken);
         return respondwithstatus(res, 200, "OK");
     } catch(e) {
         err_log("error in /authenticateCard", e);

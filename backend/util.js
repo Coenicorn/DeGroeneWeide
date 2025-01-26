@@ -51,6 +51,13 @@ export function err_log(msg, err = null) {
     console.error(err);
 }
 
+// use this when you're not sure if the message is important for info_log
+// we might want to know anyway
+// only logged to file
+export function debug_log(msg) {
+    log_console.log(_log_get_full_prefix(msg, "DEBUG"));
+}
+
 export function md5hash(str) {
     return createHash("md5").update(str).digest('hex');
 }
@@ -120,6 +127,7 @@ export async function deleteOldTempReservations() {
     const res = await db_execute(`
         DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-10 minutes')
     `);
+    if (res.changes === 0) return;
     info_log(`deleted ${res.changes} old temp reservations`);
 }
 
@@ -127,7 +135,7 @@ export async function deleteOldTempReservations() {
 export async function periodicActivityUpdate() {
 
     const rows = await readerFailedPingSetInactive(config.maxInactiveSeconds);
-
+    if (res.changes === 0) return;
     info_log("flagged " + rows.changes + " readers as inactive");
 
 }
