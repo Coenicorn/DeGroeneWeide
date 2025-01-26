@@ -30,7 +30,9 @@ function getDate(){
     return formattedToday;
 }
 
-function reserve() {
+function reserve(captchaString) {
+    console.log(captchaString);
+
     if(!validity_check()){
         console.log("invalid information");
         return;
@@ -66,7 +68,9 @@ function reserve() {
             startDate: begin_datum.value,
             endDate: eind_datum.value,
             amountPeople: aantal_gasten.value,
-            notes: notities.value
+            notes: notities.value,
+
+            captcha: captchaString
         })
     }).then(r => {
         console.log("reservering verstuurd");
@@ -118,7 +122,7 @@ function validity_check() {
     }
 
     if(valid){
-        confirmationContainer.classList.toggle("hidden");
+        confirmationContainer.classList.remove("hidden");
         return true;
     }
     return false;
