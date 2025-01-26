@@ -135,7 +135,7 @@ export async function deleteOldTempReservations() {
 export async function periodicActivityUpdate() {
 
     const rows = await readerFailedPingSetInactive(config.maxInactiveSeconds);
-    if (res.changes === 0) return;
+    if (rows.changes === 0) return;
     debug_log("flagged " + rows.changes + " readers as inactive");
 
 }
