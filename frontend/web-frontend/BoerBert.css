@@ -135,7 +135,7 @@ nav .fa {
   }
   
   nav .fa{
-    display: none;
+    display: block;
     color: #fff;
     margin: 10px;
     font-size: 22px;
@@ -420,7 +420,7 @@ ul {
 }
 
 #logo-div img {
-  position: absolute; /* Set the image as an absolutely positioned element */
+  position: absolute;
   left: 35%;
   transform: translateX(-50%);
 }
@@ -430,8 +430,6 @@ ul {
   text-align: left;
   width: 100%;
 }
-
-/* Reserveren section */
 
 #reserveren-section {
   margin-top: 5%;
@@ -476,7 +474,7 @@ ul {
   border-radius: 40px;
   width: 60%;
   left: 20%;
-  top: 35%;
+  top: 5%;
   transition: 0.75s;
   text-decoration: none;
 }
@@ -489,4 +487,10 @@ ul {
 #reserveren-btn-text {
   color: #fff;
   font-size: 33px;
+}
+
+@media (max-width: 700px){
+  .reserveren-btn{
+    height: 85px;
+  }
 }
