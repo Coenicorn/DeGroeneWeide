@@ -50,7 +50,9 @@
                 document.getElementById("globalHeader").style.backgroundImage = "linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(./img/theoneandonly.png)";
                 document.body.style.backgroundImage = "linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(./img/theoneandonly.png)";
               })
-              .addOption("no")
+              .addOption("no", () => {
+                window.location.href = "/";
+              })
               .attach(document.body)
               .reveal(50);
 
