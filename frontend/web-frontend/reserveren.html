@@ -105,25 +105,36 @@
     <div id="confirmation-fullscreen-wrapper">
       <div id="confirmation-box-wrapper">
 
-        <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" id="mail-notification-icon">
+        <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" id="confirmation-popup-icon">
 
-        <div class="red-circle-wrapper">
-          <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+        <div id="confirmation-success" class="hidden">
+          <div class="red-circle-wrapper">
+            <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+          </div>
+
+          <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
+
+          <h2>Let op!</h2>
+          <div class="red-circle-wrapper">
+            <p>Je hebt nog <b>10</b> minuten om je reservering te bevestigen.</p>
+          </div>
         </div>
 
-        <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
-
-        <h2>Let op!</h2>
-        <div class="red-circle-wrapper">
-          <p>Je hebt nog <b>10</b> minuten om je reservering te bevestigen.</p>
+        <div id="confirmation-duplicate" class="hidden">
+          <h1>Oeps!</h1>
+          <p>Het lijkt alsof we je al een mail hebben gestuurd! Heb je geen mail ontvangen? Probeer dan over 10 minuten nog eens te reserveren.</p>
         </div>
 
-        <a href="/" id="close-confirmation-box-button"><h2>Ik snap het</h2></a>
+        <div id="confirmation-other-error" class="hidden">
+          <br>
+          <p>Er is iets fout gegaan. Probeer het later opnieuw.</p>
+        </div>
+
+        <button id="close-confirmation-box-button"><h2>Ik snap het</h2></button>
 
       </div>
     </div>
   </section>
-
   <section class="footer">
     <div class="footer-container">
       <div class="row">

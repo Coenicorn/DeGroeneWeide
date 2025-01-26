@@ -86,6 +86,16 @@ APIRouter.post("/send-reservation", async (req, res) => {
     if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
 
+    // if (config.environment != "dev") {
+        try {
+            const existingTempReservations = await db_query("SELECT * FROM TempReservations WHERE mailAddress=?", [reservation.mailAddress]);
+        
+            if (existingTempReservations.length > 0) return respondwithstatus(res, 409, "mailaddress already pending");
+        } catch(e) {
+            err_log("error fetching temp reservations with existing mailaddress", e);
+        }
+    // }
+
     const tempReservationUid = uid(32);
 
     try {
