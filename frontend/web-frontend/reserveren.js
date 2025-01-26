@@ -16,6 +16,11 @@ let customer_id = "";
 
 
 function mock() {
+    if (!window.location.host.startsWith("localhost")) return;
+    let te = document.createElement("div");
+    te.style.color = "blue";
+    te.innerText = "[DEV] test waardes toegevoegd";
+    document.getElementById("forum-title").appendChild(te);
     voornaam.value = "John";
     tussenvoegsel.value = "J.";
     achternaam.value = "Doe";
