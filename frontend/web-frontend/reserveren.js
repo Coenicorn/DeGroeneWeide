@@ -11,7 +11,7 @@ const aantal_gasten = document.getElementById('amountGuests');
 const accommodatie = document.getElementById('typeAccommodatie');
 const notities = document.getElementById('note');
 const confirmButton = document.getElementById("confirm-btn");
-const confirmationContainer = document.getElementById("confirmation-fullscreen-wrapper");
+const confirmationContainer = document.getElementById("confirmation-wrapper");
 let customer_id = "";
 
 
@@ -144,8 +144,7 @@ function validity_check() {
     }
 
     if(valid){
-        // confirmationContainer.classList.toggle("hidden");
-        confirmationContainer.style.display = "flex";
+        confirmationContainer.classList.toggle("hidden");
         return true;
     }
     return false;

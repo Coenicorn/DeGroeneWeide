@@ -127,11 +127,12 @@ body {
     top: 0;
     left: 0;
     z-index: 5;
+    display: flex;
     font-family: 'Poppins', sans-serif;
     width: 100vw;
     height: 100vh;
     background-color: rgba(182, 48, 38, 0.13);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -179,7 +180,7 @@ body {
     aspect-ratio: 1;
     height: 1em;
     border-radius: 50%;
-    background-color: rgb(182, 47, 38);
+    background-color: rgb(220, 60, 49);
     padding: 10px;
     color: rgb(255, 255, 255);
 }
