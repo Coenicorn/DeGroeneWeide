@@ -31,10 +31,9 @@ function getDate(){
 }
 
 function reserve(captchaString) {
-    console.log(captchaString);
 
     if(!validity_check()){
-        console.log("invalid information");
+        // console.log("invalid information");
         return;
     }
     let checked_aankomsttijd = "";
@@ -73,7 +72,7 @@ function reserve(captchaString) {
             captcha: captchaString
         })
     }).then(r => {
-        console.log("reservering verstuurd");
+        // console.log("reservering verstuurd");
     })
 }
 

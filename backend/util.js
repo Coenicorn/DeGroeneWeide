@@ -138,6 +138,8 @@ export async function periodicActivityUpdate() {
  * @returns {boolean} true if verified, false if not
  */
 export async function verifyCaptchaStringWithGoogle(captchaString) {
+    console.log(captchaString);
+
     const googleUrl = "https://www.google.com/recaptcha/api/siteverify";
 
     const params = new URLSearchParams([
@@ -149,10 +151,13 @@ export async function verifyCaptchaStringWithGoogle(captchaString) {
 
     try {
 
-        const result = await fetch(finalUrl, { method: "POST" });
+        const result = await fetch(finalUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        });
         const resultBodyJson = await result.json();
 
-        console.log(resultBodyJson);
+        return resultBodyJson.success;
 
     } catch(e) {
 
