@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-image: url(./img/BoerBertIMG/reserveren_background.avif);
+        }
+
+        #confirmation-fullscreen-wrapper {
+            font-family: 'Poppins', sans-serif;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            background-color: rgba(255, 255, 255, 0.542);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #confirmation-box-wrapper {
+            background-color: rgb(255, 255, 255);
+            max-width: 80vw;
+            width: 400px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            padding: 1em;
+
+            text-align: center;
+
+            border-radius: 10px;
+        }
+
+        #mail-notification-icon {
+            width: 150px;
+            padding-left: 10vw;
+            padding-right: 10vw;
+
+            max-width: 40vw;
+        }
+
+        #last-step-text {
+            font-size: 2.2em;
+        }
+
+        .red-circle-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .red-circle-span {
+            display: inline-block;
+            aspect-ratio: 1;
+            height: 1em;
+            border-radius: 50%;
+            background-color: rgb(182, 47, 38);
+            padding: 10px;
+            color: rgb(255, 255, 255);
+        }
+
+        #confirmation-box-wrapper p {
+            margin: 0;
+            padding: 0;
+        }
+
+        #close-confirmation-box-button {
+            border: none;
+            background-color: rgb(182, 47, 38);
+            color: white;
+            border-radius: 25px;
+
+            padding: 1em;
+
+            margin-top: 2em;
+
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #close-confirmation-box-button:hover {
+            background-color: rgb(146, 38, 30);
+        }
+
+        #close-confirmation-box-button h2 {
+            padding: 0;
+            margin: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <section class="hidden" id="confirmation-fullscreen-wrapper">
+        <div id="confirmation-box-wrapper">
+
+            <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" id="mail-notification-icon">
+
+            <div class="red-circle-wrapper">
+                <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+            </div>
+
+            <p>We hebben je een email gestuurd waarin je je reservering kan bevestigen.</p>
+
+            <h2>Let op!</h2>
+            <div class="red-circle-wrapper">
+                <p>Je hebt nog <b>10</b> minuten om je reservering te bevestigen.</p>
+            </div>
+
+            <a href="/" id="close-confirmation-box-button"><h2>Ik snap het</h2></a>
+
+        </div>
+    </section>
+
+
+
+
+
+    <script>
+        document.addEventListener("keypress", (e) => {
+            let elm = document.getElementById("confirmation-fullscreen-wrapper");
+            if (e.key === " ") {
+                elm.style.display = (elm.style.display === "none") ? "flex" : "none";
+            }
+        });
+    </script>
+</body>
+
+</html>

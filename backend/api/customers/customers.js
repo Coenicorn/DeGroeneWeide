@@ -1,8 +1,15 @@
 import express, { Router } from "express";
-import {blacklistCustomer, getAllCustomers, insertCustomer} from "../../db.js";
+import {
+    deleteCustomerById,
+    getAllCustomers,
+    getCustomerById,
+    insertCustomer,
+    updateCustomer
+} from "../../db.js";
 import { APIDocGenerator } from "../../docgen/doc.js";
 import {uid} from "uid";
-import { respondwithstatus } from "../../util.js";
+import {err_log, respondwithstatus} from "../../util.js";
+import BookingRouter from "../booking/booking.js";
 
 const CustomersRouter = express.Router(), doc = new APIDocGenerator("customers API", "everything customers", import.meta.dirname, "api/customers");
 
@@ -42,7 +49,7 @@ CustomersRouter.get("/getAllCustomers", async (req, res) => {
         const customers = await getAllCustomers();
         res.status(200).json(customers);
     } catch (error) {
-        console.log("Error while getting customers from server: " + error);
+        err_log("Error while getting customers from server: ", error);
         res.status(500).send("Error while getting customers from server: " + error);
     }
 });
@@ -73,8 +80,6 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
     try {
         const customer = req.body;
 
-        console.log(customer);
-
         if (
             customer.firstName === undefined ||
             customer.lastName === undefined ||
@@ -104,8 +109,101 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
 
         return respondwithstatus(res, 500, "something went wrong");
     }
+});
+
+doc.route("deleteCustomer", doc.POST, "deletes a single customer")
+    .request({
+        customerId: doc.STRING
+    }, "NOT TESTED")
+    .response(200, "succesfully deleted customer", {
+        customerId: doc.STRING
+    });
+
+CustomersRouter.post("/deleteCustomer", async (req, res) => {
+
+   try {
+       const customer = req.body;
+
+       if(customer.customerId === undefined) {
+           return res.status(400).send("customerId ontbreekt.")
+       }
+
+       await deleteCustomerById(customer.customerId);
+       res.status(200).json({ customerId: customer.customerId });
+
+   } catch(error) {
+       err_log("Error while deleting customer", error);
+       return respondwithstatus(res, 500, "something went wrong");
+   }
 
 
+doc.route("updateCustomer", doc.POST, "updates customer values")
+    .request({
+        customerId: doc.STRING,
+        firstName: doc.STRING,
+        middleName: doc.STRING,
+        lastName: doc.STRING,
+        maySave: doc.NUMBER,
+        birthDate: doc.STRING,
+        creationDate: doc.STRING,
+        blacklisted: doc.NUMBER,
+        phoneNumber: doc.STRING,
+        mailAddress: doc.STRING
+    })
+    .response(200, "succesfully updated customer");
+
+BookingRouter.post("/updateCustomer", async (req, res) => {
+    const customer = req.body;
+
+    if (customer === undefined) return respondwithstatus(res, 400, "missing request body");
+    if (customer.customerId === undefined) return respondwithstatus(res, 400, "missing id");
+
+    // check if booking currently exists
+    try {
+        const existingBookingsList = await getCustomerById(customer.customerId);
+
+        if (existingBookingsList.length === 0) {
+            // no booking exists
+            return respondwithstatus(res, 400, "no customer with id (" + customer.customerId + ") exists");
+        }
+    } catch(e) {
+        err_log("error getting existing booking in /updateCustomer", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
+    if (customer.firstName === undefined) return respondwithstatus(res, 400, "missing firstName");
+    if (customer.middleName === undefined) return respondwithstatus(res, 400, "missing middleName");
+    if (customer.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
+    if (customer.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
+    if (customer.birthDate === undefined) return respondwithstatus(res, 400, "missing birthDate");
+    if (customer.creationDate === undefined) return respondwithstatus(res, 400, "missing creationDate");
+    if (customer.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
+    if (customer.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
+    if (customer.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
+
+    try {
+
+        await updateCustomer(
+            customer.firstName,
+            customer.middleName,
+            customer.lastName,
+            customer.maySave,
+            customer.birthDate,
+            customer.creationDate,
+            customer.blacklisted,
+            customer.phoneNumber,
+            customer.mailAddress
+        );
+
+    } catch(e) {
+        err_log("error in /updateCustomer", e);
+
+        return respondwithstatus(res, 500, "something went wrong!");
+    }
+
+    respondwithstatus(res, 200, "OK");
+});
 
 });
 

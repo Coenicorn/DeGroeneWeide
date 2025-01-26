@@ -29,7 +29,7 @@ namespace DeGroeneWeide
         {
             await ReaderApi.GetReaders();
             await BookingApi.GetBooking();
-            await CustomerApi.GetCards();
+            //await CustomerApi.GetCustomers();
             //ApiCalls.GetLastCard();
 
             pasjesPagina = new();

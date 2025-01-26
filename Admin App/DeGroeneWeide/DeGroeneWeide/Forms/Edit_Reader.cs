@@ -17,13 +17,7 @@ namespace DeGroeneWeide.Forms
     public partial class Edit_Reader : Form
     {
         List<AuthLevel>? authLevels;
-        List<AuthLevel> allAuthLevels = new List<AuthLevel>{
-            new AuthLevel(id: "301e7bb66c9", name: "Gast"),
-            new AuthLevel(id: "01e7bb66c91", name: "Bezoeker"),
-            new AuthLevel(id: "1e7bb66c91e", name: "Medewerker"),
-            new AuthLevel(id: "e7bb66c91e7", name: "Administrator")
-            };
-        bool nameChanged = false;
+        List<AuthLevel>? allAuthLevels;
         string readerId = "";
         public Edit_Reader()
         {
@@ -36,19 +30,19 @@ namespace DeGroeneWeide.Forms
             {
                 switch (authLevel.Name)
                 {
-                    case "Gast":
+                    case "gast":
                         gast.Checked = true;
                         break;
 
-                    case "Bezoeker":
+                    case "bezoeker":
                         bezoeker.Checked = true;
                         break;
 
-                    case "Medewerker":
+                    case "medewerker":
                         medewerker.Checked = true;
                         break;
 
-                    case "Administrator":
+                    case "administrator":
                         administrator.Checked = true;
                         break;
 
@@ -63,19 +57,27 @@ namespace DeGroeneWeide.Forms
             readerId = reader.Id;
         }
 
-        private void name_TextChanged(object sender, EventArgs e)
-        {
-            nameChanged = true;
-        }
-
         private async void btn_save_Click(object sender, EventArgs e)
         {
+            allAuthLevels = await AuthLevelApi.GetAllAuthLevels();
+            if(allAuthLevels != null)
+            {
+                string? gast_id = allAuthLevels.FirstOrDefault(a => a.Name == "gast")?.Id;
+                string? bezoeker_id = allAuthLevels.FirstOrDefault(a => a.Name == "bezoeker")?.Id;
+                string? medewerker_id = allAuthLevels.FirstOrDefault(a => a.Name == "medewerker")?.Id;
+                string? admin_id = allAuthLevels.FirstOrDefault(a => a.Name == "admin")?.Id;
+
+                if (gast_id != null)
+                { if (gast.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, gast_id); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, gast_id); } }
+                if (bezoeker_id != null)
+                { if (bezoeker.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, bezoeker_id); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, bezoeker_id); } }
+                if(medewerker_id != null)
+                { if (medewerker.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, medewerker_id); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, medewerker_id); } }
+                if(admin_id != null)
+                { if (administrator.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, admin_id); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, admin_id); } }
+            }
             Debug.WriteLine(name.Text);
             await ReaderApi.UpdateReader(readerId, name.Text);
-            if (gast.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, "301e7bb66c9"); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, "301e7bb66c9"); }
-            if (bezoeker.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, "01e7bb66c91"); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, "01e7bb66c91"); }
-            if (medewerker.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, "1e7bb66c91e"); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, "1e7bb66c91e"); }
-            if (administrator.Checked) { await AuthLevelApi.LinkReaderAuth(readerId, "e7bb66c91e7"); } else { await AuthLevelApi.UnlinkReaderAuth(readerId, "e7bb66c91e7"); }
 
             this.Close();
         }

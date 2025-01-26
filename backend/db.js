@@ -190,7 +190,8 @@ export async function getAllBookings() {
             c.creationDate as customerCreationDate,
             c.blacklisted,
             c.phonenumber,
-            c.mailAddress
+            c.mailAddress,
+            c.notes
         FROM
             Bookings
         LEFT JOIN
@@ -203,11 +204,11 @@ export async function insertCard(id, bookingId, token, blocked) {
     return db_execute("INSERT INTO Cards (id, bookingId, token, blocked) VALUES (?,?,?,?)", [id, bookingId, token, blocked]);
 }
 
-export async function insertBooking(id, customerId, startDate, endDate, amountPeople){
-    return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople) VALUES (?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople]);
+export async function insertBooking(id, customerId, startDate, endDate, amountPeople, notes){
+    return db_execute("INSERT INTO Bookings (id, customerId, startDate, endDate, amountPeople, notes) VALUES (?, ?, ?, ?, ?, ?)", [id, customerId, startDate, endDate, amountPeople, notes]);
 }
 
-export async function updateBooking(id, customerId, startDate, endDate, amountPeople) {
+export async function updateBooking(id, customerId, startDate, endDate, amountPeople, notes) {
     return db_execute(`
         UPDATE
             Bookings
@@ -215,10 +216,33 @@ export async function updateBooking(id, customerId, startDate, endDate, amountPe
             customerId = ?,
             startDate = ?,
             endDate = ?,
-            amountPeople = ?
+            amountPeople = ?,
+            notes = ?
         WHERE
             id = ?
-    `, [customerId, startDate, endDate, amountPeople, id]);
+    `, [customerId, startDate, endDate, amountPeople, notes, id]);
+}
+
+export async function confirmBooking(id) {
+    return db_execute("UPDATE Bookings SET confirmed = 1 WHERE id = ?", [id]);
+}
+
+export async function updateCustomer(id, firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress) {
+    return db_execute(`
+        UPDATE
+            Customers
+        SET
+            firstName = ?,
+            middleName = ?,
+            lastName = ?,
+            birthDate = ?,
+            maySave = ?,
+            blacklisted = ?,
+            phoneNumber = ?,
+            mailAddress = ?
+        WHERE
+            id = ?
+    `, [firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress, id]);
 }
 
 export async function deleteBooking(id) {
@@ -282,8 +306,12 @@ export async function blacklistCustomer(mailAddress, active) {
     return db_execute("UPDATE Customers SET blacklisted = ? WHERE id = ?", [active, mailAddress]);
 }
 
-export async function deleteCustomer(mailAddress){
+export async function deleteCustomerByMail(mailAddress){
     return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
+}
+
+export async function deleteCustomerById(id) {
+    return db_execute("DELETE FROM Customers WHERE id = ?", [id]);
 }
 
 export async function insertAuthLevel(id, name) {

@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script async src="https://www.google.com/recaptcha/api.js?render=6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF"></script>
 </head>
 
 <header>
@@ -26,7 +27,7 @@
   <h1 id="title" class="margintop25">Online reserveringsformulier</h1>
   <section class="reserveren-forum">
     <div class="reserveren-container">
-      <p class="forum-title">Persoonlijke gegevens</p>
+      <p class="forum-title" id="forum-title">Persoonlijke gegevens</p>
       <div class="forum-box-group">
         <div class="forum-box">
           <label for="voornaam" class="forum-label">Voornaam <span class="required">*</span></label>
@@ -77,7 +78,7 @@
         </div>
         <div class="forum-box">
           <label for="typeAccommodatie" class="forum-label">Type Accommodatie<span class="required">*</span></label>
-          <select id="typeAccommodatie" >
+          <select id="typeAccommodatie">
             <option value="default">Selecteer type accommodatie</option>
             <option value="tent">Tent</option>
             <option value="stacaravan">Stacaravan</option>
@@ -96,7 +97,29 @@
       </div>
 
       <div class="confirm-btn-div">
-        <button type="button" id="confirm-btn" onclick="sendMail()">Verzenden</button>
+        <button type="button" id="confirm-btn" class="g-recaptcha" data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
+      </div>
+    </div>
+  </section>
+  <section id="confirmation-wrapper" class="hidden">
+    <div id="confirmation-fullscreen-wrapper">
+      <div id="confirmation-box-wrapper">
+
+        <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" id="mail-notification-icon">
+
+        <div class="red-circle-wrapper">
+          <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+        </div>
+
+        <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
+
+        <h2>Let op!</h2>
+        <div class="red-circle-wrapper">
+          <p>Je hebt nog <b>10</b> minuten om je reservering te bevestigen.</p>
+        </div>
+
+        <a href="/" id="close-confirmation-box-button"><h2>Ik snap het</h2></a>
+
       </div>
     </div>
   </section>
@@ -147,9 +170,7 @@
       </div>
     </div>
   </section>
-
-  <script type="text/javascript" src="reserveren_mail.js"></script>
-
+  <script type="text/javascript" src="reserveren.js"></script>
 </body>
 
 </html>

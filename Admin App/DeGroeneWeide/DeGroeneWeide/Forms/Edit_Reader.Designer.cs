@@ -60,7 +60,6 @@
             name.ShadowDecoration.CustomizableEdges = customizableEdges2;
             name.Size = new Size(174, 36);
             name.TabIndex = 0;
-            name.TextChanged += name_TextChanged;
             // 
             // gast
             // 
