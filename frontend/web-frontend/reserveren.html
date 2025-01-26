@@ -27,7 +27,7 @@
   <h1 id="title" class="margintop25">Online reserveringsformulier</h1>
   <section class="reserveren-forum">
     <div class="reserveren-container">
-      <p class="forum-title">Persoonlijke gegevens</p>
+      <p class="forum-title" id="forum-title">Persoonlijke gegevens</p>
       <div class="forum-box-group">
         <div class="forum-box">
           <label for="voornaam" class="forum-label">Voornaam <span class="required">*</span></label>
@@ -99,12 +99,26 @@
       </div>
     </div>
   </section>
-  <section class="confirmation-container hidden" id="confirm-container">
-    <div class="confirmation-box">
-      <div class="confirmation-box-title">Hartelijk dank voor uw reservering.</div>
-      <p class="confirmation-undertitle">We hopen u binnenkort te zien op de camping.</p>
-      <a id="backToHome" href="index.html">Bevestig</a>
-      <img src="img/BoerBertIMG/checkmark.svg" alt="checkmark" class="confirm-checkmark">
+  <section id="confirmation-wrapper" class="hidden">
+    <div id="confirmation-fullscreen-wrapper">
+      <div id="confirmation-box-wrapper">
+
+        <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" id="mail-notification-icon">
+
+        <div class="red-circle-wrapper">
+          <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+        </div>
+
+        <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
+
+        <h2>Let op!</h2>
+        <div class="red-circle-wrapper">
+          <p>Je hebt nog <b>10</b> minuten om je reservering te bevestigen.</p>
+        </div>
+
+        <a href="/" id="close-confirmation-box-button"><h2>Ik snap het</h2></a>
+
+      </div>
     </div>
   </section>
   <section class="footer">
