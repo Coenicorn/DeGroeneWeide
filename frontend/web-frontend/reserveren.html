@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF"></script>
 </head>
 
 <header>
@@ -94,7 +95,7 @@
         </div>
       </div>
       <div class="confirm-btn-div">
-        <button type="button" id="confirm-btn" onclick="reserve()">Verzenden</button>
+        <button type="button" id="confirm-btn" onclick="reserve()" class="g-recaptcha" data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
       </div>
     </div>
   </section>
