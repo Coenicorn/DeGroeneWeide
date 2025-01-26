@@ -205,7 +205,7 @@ body {
 }
 
 #close-confirmation-box-button:hover {
-    background-color: rgb(146, 38, 30);
+    background-color: rgb(220, 60, 49);
 }
 
 #close-confirmation-box-button h2 {
@@ -479,7 +479,7 @@ input {
 }
 
 #confirm-btn {
-    background: rgb(182, 47, 38);
+    background-color: rgb(219, 52, 41);
     cursor: pointer;
     border-radius: 40px;
     text-decoration: none;
