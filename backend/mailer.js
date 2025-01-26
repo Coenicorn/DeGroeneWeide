@@ -1,6 +1,6 @@
 import * as nodemailer from "nodemailer";
 import config from "./config.js";
-import { err_log, info_log } from "./util.js";
+import { debug_log, err_log, info_log } from "./util.js";
 import * as fs from "fs";
 import path from "path";
 
@@ -34,7 +34,7 @@ export async function sendMailConfirmationEmail(confirmationLink, mailAddress, c
 
         transporter.sendMail(mailOptions, (err) => {
             if (err) err_log("error in mail callback", err);
-            else info_log("confirmation mail sent");
+            else debug_log("mail callback; mail was actually sent");
         });
     } catch(e) {
         err_log("error while sending confirmation mail", e);

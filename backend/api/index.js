@@ -7,7 +7,7 @@ import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
 import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from "../db.js";
 import config from "../config.js";
-import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate } from "../util.js";
+import { debug_log, deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, verifyCaptchaStringWithGoogle } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
@@ -56,6 +56,22 @@ doc.route("send-reservation", doc.POST, "send a temporary reservation from the f
 APIRouter.post("/send-reservation", async (req, res) => {
 
     if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
+
+    const captchaString = req.body.captcha;
+
+    if (captchaString === undefined) {
+        err_log("didn't receive a captcha string in reservation request");
+        
+        return respondwithstatus(res, 400, "missing captcha");
+    }
+
+    const captchaVerified = verifyCaptchaStringWithGoogle(captchaString);
+
+    if (!captchaVerified) {
+        debug_log("ip " + req.ip + " failed captcha");
+
+        return respondwithstatus(res, 400, "failed captcha");
+    }
 
     const reservation = req.body;
 

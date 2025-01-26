@@ -1,5 +1,5 @@
 import config from "./config.js";
-import { info_log, respondwithstatus } from "./util.js";
+import { debug_log, info_log, respondwithstatus } from "./util.js";
 import { rateLimit } from "express-rate-limit";
 
 // these routes don't get checked for an API key
@@ -22,7 +22,7 @@ export function authenticateRequest(req) {
     const apiKey = req.header("x-api-key");
 
     if (apiKey !== config.keyAdminPanel) {
-        info_log("blocked access to route " + req.originalUrl);
+        debug_log("blocked access to route " + req.originalUrl);
 
         return 0;
     }

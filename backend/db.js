@@ -227,6 +227,24 @@ export async function confirmBooking(id) {
     return db_execute("UPDATE Bookings SET confirmed = 1 WHERE id = ?", [id]);
 }
 
+export async function updateCustomer(id, firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress) {
+    return db_execute(`
+        UPDATE
+            Customers
+        SET
+            firstName = ?,
+            middleName = ?,
+            lastName = ?,
+            birthDate = ?,
+            maySave = ?,
+            blacklisted = ?,
+            phoneNumber = ?,
+            mailAddress = ?
+        WHERE
+            id = ?
+    `, [firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress, id]);
+}
+
 export async function deleteBooking(id) {
     return db_execute("DELETE FROM Bookings WHERE id = ?", [id]);
 }
@@ -288,8 +306,12 @@ export async function blacklistCustomer(mailAddress, active) {
     return db_execute("UPDATE Customers SET blacklisted = ? WHERE id = ?", [active, mailAddress]);
 }
 
-export async function deleteCustomer(mailAddress){
+export async function deleteCustomerByMail(mailAddress){
     return db_execute("DELETE FROM Customers WHERE mailAddress = ?", [mailAddress]);
+}
+
+export async function deleteCustomerById(id) {
+    return db_execute("DELETE FROM Customers WHERE id = ?", [id]);
 }
 
 export async function insertAuthLevel(id, name) {
