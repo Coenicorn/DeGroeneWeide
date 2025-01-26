@@ -131,3 +131,34 @@ export async function periodicActivityUpdate() {
     info_log("flagged " + rows.changes + " readers as inactive");
 
 }
+
+/**
+ * verifies a captcha string with google
+ * @param {string} captchaString 
+ * @returns {boolean} true if verified, false if not
+ */
+export async function verifyCaptchaStringWithGoogle(captchaString) {
+    const googleUrl = "https://www.google.com/recaptcha/api/siteverify";
+
+    const params = new URLSearchParams([
+        ["secret", config.captchaPrivateKey],
+        ["response", captchaString]
+    ]);
+
+    const finalUrl = googleUrl + "?" + params.toString();
+
+    try {
+
+        const result = await fetch(finalUrl, { method: "POST" });
+        const resultBodyJson = await result.json();
+
+        console.log(resultBodyJson);
+
+    } catch(e) {
+
+        err_log("error in captcha", e);
+
+        return false;
+
+    }
+}
