@@ -1,6 +1,6 @@
 import * as nodemailer from "nodemailer";
 import config from "./config.js";
-import { err_log, info_log } from "./util.js";
+import { debug_log, err_log, info_log } from "./util.js";
 import * as fs from "fs";
 import path from "path";
 
