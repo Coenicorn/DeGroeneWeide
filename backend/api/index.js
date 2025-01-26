@@ -7,7 +7,7 @@ import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
 import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from "../db.js";
 import config from "../config.js";
-import { deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, verifyCaptchaStringWithGoogle } from "../util.js";
+import { debug_log, deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, verifyCaptchaStringWithGoogle } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
@@ -67,7 +67,11 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
     const captchaVerified = verifyCaptchaStringWithGoogle(captchaString);
 
-    if (!captchaVerified) return respondwithstatus(res, 400, "failed captcha");
+    if (!captchaVerified) {
+        debug_log("ip " + req.ip + " failed captcha");
+
+        return respondwithstatus(res, 400, "failed captcha");
+    }
 
     const reservation = req.body;
 

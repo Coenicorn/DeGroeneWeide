@@ -49,7 +49,7 @@ CustomersRouter.get("/getAllCustomers", async (req, res) => {
         const customers = await getAllCustomers();
         res.status(200).json(customers);
     } catch (error) {
-        console.log("Error while getting customers from server: " + error);
+        err_log("Error while getting customers from server: ", error);
         res.status(500).send("Error while getting customers from server: " + error);
     }
 });
@@ -79,8 +79,6 @@ CustomersRouter.post("/insertCustomer", async (req, res) => {
 
     try {
         const customer = req.body;
-
-        console.log(customer);
 
         if (
             customer.firstName === undefined ||
