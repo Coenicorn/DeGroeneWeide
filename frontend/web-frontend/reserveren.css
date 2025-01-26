@@ -138,6 +138,7 @@ body {
     .forum-box {
         width: fit-content;
         height: fit-content;
+    }
 }
 
 #confirmation-fullscreen-wrapper {
@@ -511,9 +512,3 @@ input {
 .confirm-btn-div {
     width: 100%;
 }
-
-@media (max-width: 700px){
-    .confirm-btn-div{
-      width: 345px;
-    }
-  }
