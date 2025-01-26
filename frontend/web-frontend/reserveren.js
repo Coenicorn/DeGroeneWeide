@@ -1,3 +1,5 @@
+import { debug_log } from "../../backend/util";
+
 const voornaam = document.getElementById('voornaam');
 const tussenvoegsel = document.getElementById('tussenvoegsel');
 const achternaam = document.getElementById('achternaam');
@@ -32,10 +34,8 @@ function getDate(){
 
 function reserve(captchaString) {
 
-    if(!validity_check()){
-        // console.log("invalid information");
-        return;
-    }
+    if(!validity_check()) return;
+    
     let checked_aankomsttijd = "";
     let checked_notities = "";
 

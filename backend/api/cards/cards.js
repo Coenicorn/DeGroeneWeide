@@ -43,7 +43,7 @@ CardsRouter.get("/getAllCards", async (req, res) => {
         const cards = await getAllCards();
         res.status(200).json(cards);
     } catch (error) {
-        console.log("Error while getting cards from server: " + error);
+        err_log("Error while getting cards from server: ", error);
         res.status(500).send("Sorry! Er heeft een interne fout opgetreden.");
     }
 });
@@ -343,8 +343,6 @@ CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
             info_log("no card yet exists with id " + card.id + "! inserting it into database...");
             return respondwithstatus(res, 400, "no card exists with id " + card.id);
         }
-        // double database call -0-
-        console.log(existingCard);
         await updateCard(existingCard.id, existingCard.card_uuid, existingCard.booking_id, existingCard.token, existingCard.level, existingCard.blocked);
         latestScannedCardToWriteID = await getCardById(card.id);
     } catch(e) {
@@ -373,9 +371,6 @@ CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
     let epoch = Date.now();
 
     let cardEpoch = latestScannedCardToWriteID.last_update;
-
-    console.log(epoch);
-    console.log(cardEpoch);
 
     if (Math.round((epoch - cardEpoch) / 1000) > 60) {
         return res.json({ card: undefined });

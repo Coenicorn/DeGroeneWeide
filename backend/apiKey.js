@@ -22,7 +22,7 @@ export function authenticateRequest(req) {
     const apiKey = req.header("x-api-key");
 
     if (apiKey !== config.keyAdminPanel) {
-        info_log("blocked access to route " + req.originalUrl);
+        debug_log("blocked access to route " + req.originalUrl);
 
         return 0;
     }

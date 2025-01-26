@@ -34,7 +34,7 @@ export async function sendMailConfirmationEmail(confirmationLink, mailAddress, c
 
         transporter.sendMail(mailOptions, (err) => {
             if (err) err_log("error in mail callback", err);
-            else info_log("confirmation mail sent");
+            else debug_log("mail callback; mail was actually sent");
         });
     } catch(e) {
         err_log("error while sending confirmation mail", e);
