@@ -281,7 +281,8 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
         card.booking_id === undefined ||
         card.token === undefined ||
         card.level === undefined ||
-        card.blocked === undefined
+        card.blocked === undefined ||
+        card.timeLastUpdate === undefined
     ) {
         return respondwithstatus(res, 400, "missing one or more properties");
     }
