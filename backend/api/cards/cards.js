@@ -258,7 +258,6 @@ doc.route("updateCard", doc.POST, "updates card values. MIGHT BE OUTDATED!")
     level: doc.STRING,
     blocked: doc.STRING,
     timeLastUpdate: doc.STRING
-
 })
 .response(200, "succesfully updated card");
 
@@ -280,7 +279,8 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
         card.booking_id === undefined ||
         card.token === undefined ||
         card.level === undefined ||
-        card.blocked === undefined
+        card.blocked === undefined ||
+        card.timeLastUpdate === undefined
     ) {
         return respondwithstatus(res, 400, "missing one or more properties");
     }
