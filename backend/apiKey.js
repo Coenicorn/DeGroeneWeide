@@ -16,7 +16,10 @@ export function isPublicRoute(fullRouteName) {
 
 export function authenticateRequest(req) {
     if (isPublicRoute(req.originalUrl)) {
+    
+        debug_log("access granted to public page + ", req.originalUrl);
         return 1;
+    
     }
 
     const apiKey = req.header("x-api-key");
@@ -26,6 +29,8 @@ export function authenticateRequest(req) {
 
         return 0;
     }
+
+    debug_log("access granted with api key to route " + req.originalUrl);
 
     return 1;
 }

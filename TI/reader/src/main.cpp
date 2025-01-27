@@ -141,6 +141,7 @@ int dumbPostRequest(String payload, String route)
 	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
 	http.addHeader("accept", "application/json");
 	http.addHeader("content-type", "application/json"); // required by server for post
+	http.addHeader("x-api-key", X_API_KEY);
 
 	int httpResponseCode = http.POST(payload), ret; // Send POST with payload
 
@@ -392,6 +393,14 @@ void setup()
 
 
 	// Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
+
+
+
+
+	flash_led(RED_LED_PIN);
+	flash_led(GREEN_LED_PIN);
+	flash_led(BLUE_LED_PIN);
+	flash_led(ERR_STATUS_LED_PIN);
 }
 
 /**
