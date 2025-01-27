@@ -11,32 +11,36 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script async src="https://www.google.com/recaptcha/api.js?render=6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF"></script>
   <style>
-    
+
   </style>
 </head>
 
 <header>
-  <nav>
-    <div class="nav-links" id="navLinks">
-      <i class="fa fa-times" onclick="hideMenu()"></i>
-      <ul>
-        <li><a href="index.html#Home">Home</a></li>
-        <li><a href="index.html#Faciliteiten">Faciliteiten</a></li>
-        <li><a href="index.html#Accommodaties">Accommodaties</a></li>
-        <li><a href="index.html#Locatie">Locatie</a></li>
-        <li><a href="/reserveren.html">Reserveren</a></li>
-      </ul>
+  <section class="header" id="globalHeader">
+    <nav>
+
+      <div class="nav-links" id="navLinks">
+        <i class="fa fa-times" onclick="hideMenu()"></i>
+        <ul>
+          <li><a href="index.html#Home">Home</a></li>
+          <li><a href="index.html#Faciliteiten">Faciliteiten</a></li>
+          <li><a href="index.html#Accommodaties">Accommodaties</a></li>
+          <li><a href="index.html#Locatie">Locatie</a></li>
+          <li><a href="/reserveren.html">Reserveren</a></li>
+        </ul>
+      </div>
+      <i class="fa fa-times" onclick="showMenu()"></i>
+    </nav>
+    <div class="text-box">
+      <h1>Reserveren</h1>
+      <h2>De Groene Weide</h2>
+      <div class="svg-container">
+        <img src="img/BoerBertIMG/white_mouse.svg" alt="Mouse icon" width="50" height="50" class="svg">
+        <img src="img/BoerBertIMG/arrow_down.svg" alt="Arrow down icon" width="50" height="50" class="svg">
+      </div>
     </div>
-    <i class="fa fa-times" onclick="showMenu()"></i>
-  </nav>
-  <div class="text-box">
-    <h1>Reserveren</h1>
-    <h2>De Groene Weide</h2>
-    <div class="svg-container">
-      <img src="img/BoerBertIMG/white_mouse.svg" alt="Mouse icon" width="50" height="50" class="svg">
-      <img src="img/BoerBertIMG/arrow_down.svg" alt="Arrow down icon" width="50" height="50" class="svg">
-    </div>
-  </div>
+  </section>
+
 
 
 </header>
@@ -91,11 +95,11 @@
             <label for="telefoonnummer" class="forum-label">Telefoonnummer <span class="required">*</span></label>
           </td>
           <td>
-            <input type="tel" id="telefoonnummer" class="reserveren-form-text"   minlength="9" maxlength="14">
+            <input type="tel" id="telefoonnummer" class="reserveren-form-text" minlength="9" maxlength="14">
           </td>
         </tr>
       </table>
-  
+
       <p class="forum-title">Verblijf gegevens</p>
       <table class="forum-table">
         <tr>
@@ -154,13 +158,14 @@
           </td>
         </tr>
       </table>
-  
+
       <div class="confirm-btn-div">
-        <button type="button" id="confirm-btn" class="g-recaptcha" data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
+        <button type="button" id="confirm-btn" class="g-recaptcha"
+          data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
       </div>
     </div>
   </section>
-  
+
   <!-- <section class="reserveren-forum">
     <div class="reserveren-container">
       <p class="forum-title" id="forum-title">Persoonlijke gegevens</p>
