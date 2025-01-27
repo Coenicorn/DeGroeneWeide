@@ -249,7 +249,7 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
     return res.status(200).json({bericht:"Kaart is verwijderd", resultaat:result})
 });
 
-doc.route("updateCard", doc.POST, "updates card values. MIGHT BE OUTDATED!")
+doc.route("updateCard", doc.POST, "updates card values")
 .request({
     id: doc.STRING,
     card_uuid: doc.STRING,
