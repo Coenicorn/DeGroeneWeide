@@ -152,7 +152,7 @@ doc.route("updateCustomer", doc.POST, "updates customer values")
     })
     .response(200, "succesfully updated customer");
 
-BookingRouter.post("/updateCustomer", async (req, res) => {
+CustomersRouter.post("/updateCustomer", async (req, res) => {
     const customer = req.body;
 
     if (customer === undefined) return respondwithstatus(res, 400, "missing request body");
