@@ -82,5 +82,27 @@ namespace DeGroeneWeide.ApiCalls
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine("Add card: " + responseString);
         }
+
+        public static async Task UpdateCard(string id, string card_uuid, string booking_id, string token, string level, string blocked)
+        {
+            await AddHeaders.AddHeadersToClient(client);
+
+            var data = new
+            {
+                //id = b.Id,
+                //customerId = b.CustomerId,
+                //startDate = b.StartDate,
+                //endDate = b.EndDate,
+                //amountPeople = b.AmountPeople,
+                //notes = ""
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/updateBooking", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
     }
 }

@@ -35,7 +35,14 @@ namespace DeGroeneWeide.Forms
         {
             Booking = booking;
             date_start.Value = booking.StartDate;
-            date_start.MinDate = booking.StartDate;
+            if (booking.StartDate > DateTime.Today)
+            {
+                date_start.MinDate = DateTime.Today;
+            }
+            else
+            {
+                date_start.MinDate = booking.StartDate;
+            }
             date_end.Value = booking.EndDate;
             if (booking.StartDate > DateTime.Today)
             {
@@ -78,7 +85,7 @@ namespace DeGroeneWeide.Forms
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            if (Booking != null)
+            if (Booking != null && Booking.CustomerId != null)
             {
                 await CustomerApi.UpdateCustomer(new Customer(Booking.CustomerId, firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text));
                 await BookingApi.UpdateBooking(new Booking(Booking.Id, Booking.CustomerId, date_start.Value.ToString(), date_end.Value.ToString(), int.Parse(amout_people.Text)));
