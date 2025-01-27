@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import config from './config.js';
 import { readerFailedPingSetInactive, initializeDB, insertCard, getAllCards, registerReader, getAllReaders, getAllExtensiveCards, updateCard, deleteCards, removeCardByID, insertAuthLevel } from "./db.js";
-import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash, deleteOldTempReservations, periodicActivityUpdate } from "./util.js";
+import { info_log, hastoAcceptJson, err_log, respondwithstatus, routesFromApp, md5hash, deleteOldTempReservations, periodicActivityUpdate, debug_log } from "./util.js";
 import { uid } from "uid";
 import APIRouter from "./api/index.js";
 import { authenticateRequest } from './apiKey.js';
@@ -57,6 +57,7 @@ app.use((req, res, next) => {
         return;
     }
     info_log("got request for " + req.url);
+    debug_log(req.headers);
     next();
 });
 

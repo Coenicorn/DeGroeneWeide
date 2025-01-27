@@ -34,7 +34,8 @@ doc.route("getAllCards", doc.GET, "gets all cards")
         id: doc.STRING,
         bookingId: doc.STRING_OR_NULL,
         token: doc.STRING_OR_NULL,
-        blocked: doc.NUMBER
+        blocked: doc.NUMBER,
+        timeLastUpdate: doc.STRING
     }
 ])
 
@@ -97,7 +98,8 @@ doc.route("getCard", doc.GET, "gets a single card")
     id: doc.STRING,
     bookingId: doc.STRING_OR_NULL,
     token: doc.STRING_OR_NULL,
-    blocked: doc.NUMBER
+    blocked: doc.NUMBER,
+    timeLastUpdate: doc.STRING
 });
 
 CardsRouter.get("/getCard", async (req, res) => {
@@ -317,68 +319,6 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
     respondwithstatus(res, 200, "updated card");
 });
 
-// this can be just a variable, doesn't need to live in a database
-// can be reset at any time
-let latestScannedCardToWriteID;
-
-doc.route("setNewestCardToWrite", doc.POST, "NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o")
-.request({
-    card: {
-        id: doc.STRING
-    }
-})
-.response(200, "succesfully set newest card to write");
-
-CardsRouter.post("/setNewestCardToWrite", async (req, res, next) => {
-
-    const card = req.body.card;
-
-    if (card === undefined) {
-        return respondwithstatus(res, 400, "missing card object");
-    }
-
-    try {
-        let existingCard = await getCardById(card.id);
-        if (existingCard === undefined) {
-            info_log("no card yet exists with id " + card.id + "! inserting it into database...");
-            return respondwithstatus(res, 400, "no card exists with id " + card.id);
-        }
-        await updateCard(existingCard.id, existingCard.card_uuid, existingCard.booking_id, existingCard.token, existingCard.level, existingCard.blocked);
-        latestScannedCardToWriteID = await getCardById(card.id);
-    } catch(e) {
-        if (e.errno !== undefined && e.errno === 19) {
-            // not null failed
-            return respondwithstatus(res, 400, "some values weren't defined");
-        }
-        next(e);
-    }
-  
-    res.end();
-
-});
-
-doc.route("getNewestCardToWrite", doc.GET, "NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!")
-.response(200, null, {
-    card: doc.STRING + " // latest scanned card ID"
-})
-
-CardsRouter.get("/getNewestCardToWrite", (req, res, next) => {
-  
-    if (latestScannedCardToWriteID === undefined) {
-        return res.json({ card: undefined });
-    }
-
-    let epoch = Date.now();
-
-    let cardEpoch = latestScannedCardToWriteID.last_update;
-
-    if (Math.round((epoch - cardEpoch) / 1000) > 60) {
-        return res.json({ card: undefined });
-    }
-
-    res.status(200).json({ card: latestScannedCardToWriteID });
-});
-
 doc.route("getAllAuthLevels", doc.POST, "gets all auth levels of this card")
 .request({
     id: doc.STRING
@@ -432,7 +372,7 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
     if (typeof(newToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
 
     try {
-        await db_execute("UPDATE Cards SET token=? WHERE id=?", [newToken, cardId]);
+        await db_execute("UPDATE Cards SET token=?, timeLastUpdate=CURRENT_TIMESTAMP WHERE id=?", [newToken, cardId]);
         info_log("updated card " + cardId + " with token " + newToken);
         return respondwithstatus(res, 200, "OK");
     } catch(e) {

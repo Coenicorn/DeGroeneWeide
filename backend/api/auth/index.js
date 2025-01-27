@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
-import { deleteAuthLevel, getAllAuthLevels, getReaderCardAuthLevelMatchesWithToken, insertAuthLevel, linkCardToAuthLevel, linkReaderToAuthLevel, unlinkCardFromAuthLevel, unlinkReaderFromAuthLevel, updateAuthLevelName } from "../../db.js";
+import { debug_log, err_log, info_log, md5hash, respondwithstatus } from "../../util.js";
+import { db_execute, deleteAuthLevel, getAllAuthLevels, getReaderCardAuthLevelMatchesWithToken, insertAuthLevel, insertCard, linkCardToAuthLevel, linkReaderToAuthLevel, unlinkCardFromAuthLevel, unlinkReaderFromAuthLevel, updateAuthLevelName } from "../../db.js";
 import { uid } from "uid";
 import { APIDocGenerator } from "../../docgen/doc.js"
 
@@ -281,6 +281,15 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
     if (typeof(cardToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
 
     const readerId = md5hash(macAddress);
+
+    try {
+        await insertCard(cardId, null, cardToken, 0);
+
+        debug_log("added new card with id " + cardId);
+    } catch(e) {
+        // constraint primary key means a card with that id already exists, expected behaviour
+        if (e.code !== "SQLITE_CONSTRAINT_PRIMARYKEY") err_log("error inserting new card in /authenticateCard", e);
+    }
 
     try {
         // const matches = await db_query(`
