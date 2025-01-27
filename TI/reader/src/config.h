@@ -26,3 +26,6 @@
 #define EEPROM_SIZE_BYTES (TOKEN_SIZE_BYTES)	// De aantal bytes die opgeslagen kunnen worden in de EEPROM
 
 #define BAT_ADC 36
+
+// comment to make device a writer
+#define READER_ROLE
