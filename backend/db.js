@@ -190,7 +190,7 @@ export async function getAllBookings() {
             c.creationDate as customerCreationDate,
             c.blacklisted,
             c.phonenumber,
-            c.mailAddress
+            c.mailAddress 
         FROM
             Bookings
         LEFT JOIN

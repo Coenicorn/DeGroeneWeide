@@ -15,10 +15,7 @@ namespace DeGroeneWeide.ApiCalls
         public static HttpClient client = new();
         public static async Task<Card?> GetLastCard()
         {
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             try
             {
@@ -39,10 +36,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task GetCards()
         {
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             try
             {
@@ -70,11 +64,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task AddCard(int booking_Id, string card_Uuid)
         {
-
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {

@@ -16,10 +16,7 @@ namespace DeGroeneWeide.ApiCalls
         public static HttpClient client = new();
         public static async Task GetCustomers()
         {
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             try
             {
@@ -48,10 +45,7 @@ namespace DeGroeneWeide.ApiCalls
         public static async Task<string?> UpdateCustomer(Customer c)
         {
             string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
@@ -78,11 +72,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, string birthdate, string phonenumber, string mailaddress)
         {
-
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {

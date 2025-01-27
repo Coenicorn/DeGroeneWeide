@@ -26,10 +26,7 @@ namespace DeGroeneWeide.ApiCalls
         {
             string URL = $"{MainForm._settings.URL}/readers/getAllReaders";
             Debug.WriteLine("GetReaders URL: " + URL);
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             try
             {
@@ -56,11 +53,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task UpdateReader(string reader_Id, string reader_name)
         {
-
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
