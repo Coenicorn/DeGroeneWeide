@@ -32,7 +32,7 @@ namespace DeGroeneWeide.Objects
         public string? Notes { get; set; }
 
         [JsonPropertyName("confirmed")]
-        public bool Confirmed { get; set; }
+        public string Confirmed { get; set; }
 
         [JsonPropertyName("firstName")]
         public string? FirstName { get; set; }
@@ -44,7 +44,7 @@ namespace DeGroeneWeide.Objects
         public string? LastName { get; set; }
 
         [JsonPropertyName("maySave")]
-        public bool MaySave { get; set; }
+        public string MaySave { get; set; }
 
         [JsonPropertyName("birthDate")]
         public DateTime BirthDate { get; set; }
@@ -53,7 +53,7 @@ namespace DeGroeneWeide.Objects
         public DateTime CustomerCreationDate { get; set; }
 
         [JsonPropertyName("blacklisted")]
-        public bool BlackListed { get; set; }
+        public string BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]
         public string? PhoneNumber { get; set; }
@@ -71,14 +71,14 @@ namespace DeGroeneWeide.Objects
             EndDate = DateTime.Parse(endDate);
             AmountPeople = amountPeople;
             CreationDate = DateTime.Parse(creationDate);
-            Confirmed = bool.Parse(confirmed);
+            Confirmed = confirmed;
             FirstName = firstName;
             MiddleName = middleName;
             LastName = lastName;
-            MaySave = bool.Parse(maySave);
+            MaySave = maySave;
             BirthDate = DateTime.Parse(birthDate);
             CustomerCreationDate = DateTime.Parse(customerCreationDate);
-            BlackListed = bool.Parse(blackListed);
+            BlackListed = blackListed;
             PhoneNumber = phoneNumber;
             Email = email;
         }
