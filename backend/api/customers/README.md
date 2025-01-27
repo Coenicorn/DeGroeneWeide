@@ -64,3 +64,23 @@ NOT TESTED
 	"customerId": string,
 }
 ```
+## `POST api/customers/updateCustomer` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
+updates customer values
+## request
+```javascript
+// request body
+{
+	"customerId": string,
+	"firstName": string,
+	"middleName": string,
+	"lastName": string,
+	"maySave": number,
+	"birthDate": string,
+	"creationDate": string,
+	"blacklisted": number,
+	"phoneNumber": string,
+	"mailAddress": string,
+}
+```
+## response
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated customer<br>

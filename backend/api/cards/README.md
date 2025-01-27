@@ -90,15 +90,6 @@ inserts a card into the db
 deletes ALL cards
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed all cards x_x<br>
-## `POST api/cards/removeCardByCardUuid` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
-NOT FINISHED @tobias
-## request
-```javascript
-// request body
-{
-	"card_uuid": string,
-}
-```
 ## `POST api/cards/removeCardByBookingId` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
 @tobias
 ## request
@@ -122,19 +113,13 @@ NOT FINISHED @tobias
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully removed card<br>
 ## `POST api/cards/updateCard` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
-updates card values. MIGHT BE OUTDATED!
+updates card values
 ## request
 ```javascript
 // request body
 {
-	"card": {
-		"id": string,
-		"card_uuid": string,
-		"booking_id": string,
-		"token": string,
-		"level": string,
-		"blocked": string,
-	},
+	"id": string,
+	"booking_id": string,
 }
 ```
 ## response
