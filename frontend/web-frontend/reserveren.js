@@ -88,8 +88,8 @@ function reserve(captchaString) {
             blacklisted: 0,
             birthDate: new Date(),
             maySave: 1,
-            startDate: begin_datum.value,
-            endDate: eind_datum.value,
+            startDate: new Date(begin_datum.value),
+            endDate: new Date(eind_datum.value),
             amountPeople: aantal_gasten.value,
             notes: notities.value,
 
