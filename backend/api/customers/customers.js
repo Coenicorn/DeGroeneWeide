@@ -185,6 +185,7 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
     try {
 
         await updateCustomer(
+            customer.customerId,
             customer.firstName,
             customer.middleName,
             customer.lastName,
