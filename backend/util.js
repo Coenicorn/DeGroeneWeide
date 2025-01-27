@@ -1,4 +1,4 @@
-import { Console } from "console";
+import { Console, debug } from "console";
 import config from "./config.js";
 import { createHash } from "crypto";
 import * as fs from "fs";
@@ -8,7 +8,9 @@ import { db_execute, db_query, readerFailedPingSetInactive } from "./db.js";
 const log_dir_path = path.join(import.meta.dirname, "log/");
 const log_stdout = fs.createWriteStream(path.join(log_dir_path, "stdout.log"), {flags: "a"});
 const log_stderr = fs.createWriteStream(path.join(log_dir_path, "stderr.log"), {flags: "a"});
+const log_debug = fs.createWriteStream(path.join(log_dir_path, "debug.log"), {flags: "a"});
 const log_console = new Console({stdout: log_stdout, stderr: log_stderr});
+const debug_console = new Console({stdout: log_debug});
 
 function _log_get_prefix_time() {
     let d = new Date();
@@ -55,7 +57,11 @@ export function err_log(msg, err = null) {
 // we might want to know anyway
 // only logged to file
 export function debug_log(msg) {
-    log_console.log(_log_get_full_prefix(msg, "DEBUG"));
+    if (typeof(msg) === "string") debug_console.log(_log_get_full_prefix(msg, "DEBUG"));
+    else {
+        debug_console.log(_log_get_full_prefix("non-string log", "DEBUG"));
+        debug_console.log(msg);
+    }
 }
 
 export function md5hash(str) {

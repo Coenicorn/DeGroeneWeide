@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS Cards (
     bookingId TEXT,
     token TEXT,
     blocked BOOLEAN NOT NULL,
+    timeLastUpdate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (bookingId) REFERENCES Bookings (id)
 );
 

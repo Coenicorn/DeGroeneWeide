@@ -141,6 +141,7 @@ int dumbPostRequest(String payload, String route)
 	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
 	http.addHeader("accept", "application/json");
 	http.addHeader("content-type", "application/json"); // required by server for post
+	http.addHeader("x-api-key", X_API_KEY);
 
 	int httpResponseCode = http.POST(payload), ret; // Send POST with payload
 
@@ -364,13 +365,6 @@ void initPins(void) {
 	pinMode(ERR_STATUS_LED_PIN, OUTPUT);
 	pinMode(PCB_BUTTON_PIN, INPUT);
 
-#ifdef IS_DEV_BOARD
-	// tool pins
-	pinMode(PIN_TOOL_WIPE, INPUT);
-	pinMode(PIN_TOOL_NEW_CORRECT_TOKEN, INPUT);
-	pinMode(PIN_TOOL_PINGALIVE, INPUT);
-#endif
-
 }
 
 void setup()
@@ -379,6 +373,12 @@ void setup()
 
 	Serial.begin(115200);
 	Serial.println(F("serial test confirmed"));	
+
+#ifdef READER_ROLE
+	Serial.println(F("This device is a READER"));
+#else
+	Serial.println(F("This device is a WRITER"));
+#endif
 
 	SPI.begin();			   // SPI bus initialiseren, geen idee hoe het werkt tbh maar het is nodig om de data van de MFRC522 te kunnen lezen
 	mfrc522.PCD_Init();		   // De MFRC522 kaart initialiseren, deze leest van en schrijft naar het NFC-pasje
@@ -393,6 +393,14 @@ void setup()
 
 
 	// Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
+
+
+
+
+	flash_led(RED_LED_PIN);
+	flash_led(GREEN_LED_PIN);
+	flash_led(BLUE_LED_PIN);
+	flash_led(ERR_STATUS_LED_PIN);
 }
 
 /**
@@ -440,13 +448,6 @@ void loop()
 	if (!mfrc522.PICC_ReadCardSerial())
 		return;
 
-#ifdef IS_DEV_BOARD
-	// slaat op of er een functietoets is gebruikt
-	int
-		toolWipePressed = digitalRead(PIN_TOOL_WIPE),
-		toolNewTokenPressed = digitalRead(PIN_TOOL_NEW_CORRECT_TOKEN);
-#endif
-
 	MFRC522::StatusCode status;
 
 	// maak buffer om de huidige token van de kaart in op te slaan
@@ -471,7 +472,8 @@ void loop()
 	Serial.print(F("Data in token block: ")); print_byte_array(scannedCardTokenBuffer, TOKEN_SIZE_BYTES); Serial.println();
 
 
-
+// only authenticate if device is a reader
+#ifdef READER_ROLE
 
 	authRet = authenticateToken(byte_array_to_string(scannedCardTokenBuffer, TOKEN_SIZE_BYTES), get_uid_string());
 
@@ -487,6 +489,10 @@ void loop()
 
 	// token is geldig
 	Serial.println(F("authenticated succesfully"));
+
+#else
+	Serial.println(F("Writing new token unconditionally"));
+#endif
 
 	// genereer een nieuwe token
 	byte newToken[TOKEN_SIZE_BYTES];

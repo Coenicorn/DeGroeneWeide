@@ -12,6 +12,7 @@ gets all cards
 		"bookingId": string | null,
 		"token": string | null,
 		"blocked": number,
+		"timeLastUpdate": string,
 	},
 ]
 ```
@@ -57,6 +58,7 @@ at least one value must be defined
 	"bookingId": string | null,
 	"token": string | null,
 	"blocked": number,
+	"timeLastUpdate": string,
 }
 ```
 ## `GET api/cards/getCardTokenByCardUuid` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
@@ -137,29 +139,6 @@ updates card values. MIGHT BE OUTDATED!
 ```
 ## response
 [`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully updated card<br>
-## `POST api/cards/setNewestCardToWrite` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
-NOT TESTED, I DON'T KNOW WHAT THE FUCK THIS DOES 0_o
-## request
-```javascript
-// request body
-{
-	"card": {
-		"id": string,
-	},
-}
-```
-## response
-[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) succesfully set newest card to write<br>
-## `GET api/cards/getNewestCardToWrite` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
-NOT TESTED, I AGAIN DON'T KNOW WHAT THIS DOES!!!!
-## response
-[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```javascript
-// 200 response body
-{
-	"card": string // latest scanned card ID,
-}
-```
 ## `POST api/cards/getAllAuthLevels` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
 gets all auth levels of this card
 ## request
