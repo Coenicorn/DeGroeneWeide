@@ -109,5 +109,41 @@ namespace DeGroeneWeide.ApiCalls
             HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/unlinkreaderauth", content);
             string responseString = await response.Content.ReadAsStringAsync();
         }
+
+        public static async Task linkCardAuth(string card_id, string authlevel_Id)
+        {
+            await AddHeaders.AddHeadersToClient(client);
+
+            var data = new
+            {
+                authLevelId = authlevel_Id,
+                cardId = card_id
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/linkCardAuth", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
+
+        public static async Task unlinkCardAuth(string card_id, string authlevel_Id)
+        {
+            await AddHeaders.AddHeadersToClient(client);
+
+            var data = new
+            {
+                authLevelId = authlevel_Id,
+                cardId = card_id
+            };
+
+            string json = JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/unlinkCardAuth", content);
+            string responseString = await response.Content.ReadAsStringAsync();
+        }
     }
 }

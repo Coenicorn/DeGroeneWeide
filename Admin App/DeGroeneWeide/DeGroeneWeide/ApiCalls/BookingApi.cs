@@ -101,10 +101,12 @@ namespace DeGroeneWeide.ApiCalls
                 startDate = StartDate,
                 endDate = EndDate,
                 amountPeople = AmountPeople,
-                notes = ""
+                notes = "",
+                confirmed = true
             };
 
             string json = JsonSerializer.Serialize(data);
+            Debug.WriteLine($"{json}");
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
