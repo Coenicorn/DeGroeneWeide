@@ -1,0 +1,38 @@
+body{
+    margin: 0;
+    padding: 0;
+    background: url(/img/BoerBertIMG/659ded443f775.avif);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Eula-box{
+    max-width: 460px;
+    background-color: rgba(255, 255, 255, 0.703);
+    color: #fff;
+    font-family: "Poppins" "Sans-serif";
+    padding: 60px 30px;
+}
+.Eula-text{
+    padding: 0 20px;
+    height: 400px;
+    overflow-y: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+}
+
+.Eula-text::-webkit-scrollbar{
+    width: 2px;
+    background-color: #282828;
+}
+
+.Eula-text::-webkit-scrollbar-thumb{
+    background-color: #d13639;
+}
+
+.Eula-text h3{
+    text-transform: uppercase;
+}
