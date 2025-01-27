@@ -209,26 +209,6 @@ CardsRouter.post("/deleteAllCards", async (req, res) => {
 });
 
 /*
-    /cards/removeCardByCardUuid POST Request. Verwijder een kaart op card_uuid. Vereist veld: card_uuid
-    Voorbeeld body:
-    '{"card_uuid":"CARD UUID HIER"}'
- */
-
-doc.route("removeCardByCardUuid", doc.POST, "NOT FINISHED @tobias")
-.request({
-    card_uuid: doc.STRING
-})
-
-CardsRouter.post("/removeCardByCardUuid", async (req, res) => {
-    const card = req.body;
-
-    if(card.card_uuid == null){
-        return res.status(400).send("Card_UUID is vereiste.");
-    }
-
-});
-
-/*
     /cards/removeCardByBookingId POST Request. Verwijder kaart bij boeking ID. Vereist veld: booking_id
     Voorbeeld body:
     '{"booking_uuid":"ID HIER"}'
@@ -277,7 +257,8 @@ doc.route("updateCard", doc.POST, "updates card values. MIGHT BE OUTDATED!")
         booking_id: doc.STRING,
         token: doc.STRING,
         level: doc.STRING,
-        blocked: doc.STRING
+        blocked: doc.STRING,
+        timeLastUpdate: doc.STRING
     }
 })
 .response(200, "succesfully updated card");
@@ -300,14 +281,15 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
         card.booking_id === undefined ||
         card.token === undefined ||
         card.level === undefined ||
-        card.blocked === undefined
+        card.blocked === undefined ||
+        card.timeLastUpdate === undefined
     ) {
         return respondwithstatus(res, 400, "missing one or more properties");
     }
 
     // remove old card if it exists
     try {
-        const dbres = await updateCard(card.id, card.card_uuid, card.booking_id, card.token, card.level, card.blocked);
+        const dbres = await updateCard(card.id, card.booking_id, card.token, card.blocked, card.timeLastUpdate);
         if (dbres === 0) {
             // no matching cards found
             return respondwithstatus(res, 400, "no matching cards found");
