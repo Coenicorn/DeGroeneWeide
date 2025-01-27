@@ -135,7 +135,7 @@ CustomersRouter.post("/deleteCustomer", async (req, res) => {
        err_log("Error while deleting customer", error);
        return respondwithstatus(res, 500, "something went wrong");
    }
-
+}); 
 
 doc.route("updateCustomer", doc.POST, "updates customer values")
     .request({
@@ -188,8 +188,8 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
             customer.firstName,
             customer.middleName,
             customer.lastName,
-            customer.maySave,
             customer.birthDate,
+            customer.maySave,
             customer.creationDate,
             customer.blacklisted,
             customer.phoneNumber,
@@ -203,8 +203,6 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
     }
 
     respondwithstatus(res, 200, "OK");
-});
-
 });
 
 function isValidDate(stringDate) {

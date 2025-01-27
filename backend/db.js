@@ -296,7 +296,7 @@ export async function getAllCustomers(){
 }
 
 export async function getCustomerById(id){
-    return db_query("SELECT * FROM Customers WHERE id = ?", []);
+    return db_query("SELECT * FROM Customers WHERE id = ?", [id]);
 }
 
 export async function insertCustomer(id, firstName, middleName, lastName, birthDate, maySave, blacklisted, phoneNumber, mailAddress){
