@@ -110,6 +110,7 @@ app.listen(config.serverPort, async () => {
 
     if (config.environment === "dev") {
         routes = routesFromApp(app);
+        console.log(routes);
 
         const host = "http://localhost:" + config.privateServerPort;
     }

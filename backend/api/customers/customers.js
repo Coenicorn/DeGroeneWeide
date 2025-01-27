@@ -135,7 +135,7 @@ CustomersRouter.post("/deleteCustomer", async (req, res) => {
        err_log("Error while deleting customer", error);
        return respondwithstatus(res, 500, "something went wrong");
    }
-
+}); 
 
 doc.route("updateCustomer", doc.POST, "updates customer values")
     .request({
@@ -177,7 +177,6 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
     if (customer.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
     if (customer.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
     if (customer.birthDate === undefined) return respondwithstatus(res, 400, "missing birthDate");
-    if (customer.creationDate === undefined) return respondwithstatus(res, 400, "missing creationDate");
     if (customer.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
     if (customer.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
     if (customer.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
@@ -185,12 +184,12 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
     try {
 
         await updateCustomer(
+            customer.customerId,
             customer.firstName,
             customer.middleName,
             customer.lastName,
-            customer.maySave,
             customer.birthDate,
-            customer.creationDate,
+            customer.maySave,
             customer.blacklisted,
             customer.phoneNumber,
             customer.mailAddress
@@ -203,8 +202,6 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
     }
 
     respondwithstatus(res, 200, "OK");
-});
-
 });
 
 function isValidDate(stringDate) {
