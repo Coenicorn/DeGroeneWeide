@@ -14,13 +14,11 @@ namespace DeGroeneWeide.ApiCalls
             if (!client.DefaultRequestHeaders.Contains("Accept"))
             {
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-                return client;
             }
 
             if (!client.DefaultRequestHeaders.Contains("x-api-key"))
             {
                 client.DefaultRequestHeaders.Add("x-api-key", MainForm._settings.KEY);
-                return client;
             }
 
             await Task.CompletedTask;

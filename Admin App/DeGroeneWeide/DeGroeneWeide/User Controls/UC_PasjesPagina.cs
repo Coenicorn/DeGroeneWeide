@@ -26,5 +26,10 @@ namespace DeGroeneWeide
                 }
             }
         }
+
+        private void btn_refresh_Click(object sender, EventArgs e)
+        {
+            LoadCards();
+        }
     }
 }
