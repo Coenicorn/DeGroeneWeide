@@ -36,6 +36,7 @@ static MFRC522 mfrc522(SS_PIN, RST_PIN); // Een instance van de NFC-reader/write
 static MFRC522::MIFARE_Key key = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }; // Een instancie van een key maken
 
 static HTTPClient http;
+static WiFiClientSecure *client = new WiFiClientSecure;
 
 /* function definition */
 void flash_led(uint pin);
@@ -43,7 +44,8 @@ void flash_led(uint pin);
 /* how many times the error led must flash for every error */
 typedef enum
 {
-	ERR_WIFI_NOT_CONNECTED = 1
+	ERR_WIFI_NOT_CONNECTED = 1,
+	ERR_WIFI_NO_HTTPS = 2
 } LedErrorFlashes;
 
 /* halts program and flashes err led. ONLY INTENDED FOR FATAL ERRORS */
@@ -138,7 +140,7 @@ int dumbPostRequest(String payload, String route)
 		return -1;
 	}
 
-	http.begin(SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route);
+	http.begin(*client, SERVER_HOST, SERVER_PORT, String(SERVER_URI_BASE) + route, true);
 	http.addHeader("accept", "application/json");
 	http.addHeader("content-type", "application/json"); // required by server for post
 	http.addHeader("x-api-key", X_API_KEY);
@@ -226,6 +228,10 @@ void initWiFi(const char *ssid, const char *password)
 	// DEBUG log ip
 	Serial.print(F("Got IP address "));
 	Serial.println(WiFi.localIP());
+
+	if(!client) fatal_err_flash(ERR_WIFI_NO_HTTPS);
+
+	client->setCACert(SSL_CERT);
 
 	// DEBUG log mac-address
 	Serial.print("ESP32 Board MAC Address: ");
@@ -371,6 +377,11 @@ void setup()
 {
 	initPins();
 
+	flash_led(RED_LED_PIN);
+	flash_led(GREEN_LED_PIN);
+	flash_led(BLUE_LED_PIN);
+	flash_led(ERR_STATUS_LED_PIN);
+
 	Serial.begin(115200);
 	Serial.println(F("serial test confirmed"));	
 
@@ -393,14 +404,6 @@ void setup()
 
 
 	// Serial.print("Correct token: "); print_byte_array(correctToken, TOKEN_SIZE_BYTES); Serial.println();
-
-
-
-
-	flash_led(RED_LED_PIN);
-	flash_led(GREEN_LED_PIN);
-	flash_led(BLUE_LED_PIN);
-	flash_led(ERR_STATUS_LED_PIN);
 }
 
 /**
