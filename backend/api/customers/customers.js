@@ -192,7 +192,6 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
             customer.birthDate,
             customer.maySave,
             customer.blacklisted,
-            customer.creationDate,
             customer.phoneNumber,
             customer.mailAddress
         );
