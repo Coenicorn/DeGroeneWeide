@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mail confirmation</title>
+    <link rel="stylesheet" href="mail_confirmed.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .hidden {
             display: none;
@@ -15,6 +18,8 @@
     <div>
 
         <div id="confirmed" class="hidden">
+            <div class="container">
+                <div class="popup">
             <h1>
                 Hallo <span id="client-name">daar</span>!
             </h1>
@@ -30,9 +35,10 @@
             <p>We hebben geen reservering gevonden!</p>
             <p>Als dit een foutje is, probeer dan <a href="/reserveren.html">hier</a> alstjeblieft opnieuw te reserveren.</p>
         </div>
-
+        </div>
+      </div>
     </div>
-
+    
     <script>
 
         const nameElm = document.getElementById("client-name");
