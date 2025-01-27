@@ -113,6 +113,8 @@ function reserve(captchaString) {
         }
 
         confirmationContainer.classList.remove("hidden");
+        
+        grecaptcha.reset();
     })
 }
 

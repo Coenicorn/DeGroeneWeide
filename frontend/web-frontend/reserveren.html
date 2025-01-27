@@ -10,6 +10,9 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script async src="https://www.google.com/recaptcha/api.js?render=6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF"></script>
+  <style>
+    
+  </style>
 </head>
 
 <header>
@@ -24,8 +27,126 @@
 </header>
 
 <body>
-  <h1 id="title" class="margintop25">Online reserveringsformulier</h1>
   <section class="reserveren-forum">
+    <div class="reserveren-container">
+      <p class="forum-title" id="forum-title">Persoonlijke gegevens</p>
+      <table class="forum-table">
+        <tr>
+          <td>
+            <label for="voornaam" class="forum-label">Voornaam <span class="required">*</span></label>
+          </td>
+          <td colspan="2">
+            <input type="text" id="voornaam" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="tussenvoegsel" class="forum-label">Tussenvoegsel</label>
+          </td>
+          <td colspan="2">
+            <input type="text" id="tussenvoegsel" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="achternaam" class="forum-label">Achternaam <span class="required">*</span></label>
+          </td>
+          <td colspan="2">
+            <input type="text" id="achternaam" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="email" class="forum-label">E-mailadres <span class="required">*</span></label>
+          </td>
+          <td colspan="2">
+            <input type="text" id="email" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="land_code" class="forum-label">Land code <span class="required">*</span></label>
+          </td>
+          <td>
+            <input type="number" id="land_code" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="telefoonnummer" class="forum-label">Telefoonnummer <span class="required">*</span></label>
+          </td>
+          <td>
+            <input type="tel" id="telefoonnummer" class="reserveren-form-text"   minlength="9" maxlength="14">
+          </td>
+        </tr>
+      </table>
+  
+      <p class="forum-title">Verblijf gegevens</p>
+      <table class="forum-table">
+        <tr>
+          <td>
+            <label for="startDate" class="forum-label">Begin datum <span class="required">*</span></label>
+          </td>
+          <td>
+            <input type="date" id="startDate" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="endDate" class="forum-label">Eind datum <span class="required">*</span></label>
+          </td>
+          <td>
+            <input type="date" id="endDate" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="aankomsttijd" class="forum-label">Verwachtte aankomsttijd</label>
+          </td>
+          <td>
+            <input type="time" id="aankomsttijd" class="reserveren-form-text">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="amountGuests" class="forum-label">Aantal gasten <span class="required">*</span></label>
+          </td>
+          <td>
+            <input type="number" id="amountGuests" class="reserveren-form-text" min="0" max="100">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="typeAccommodatie" class="forum-label">Type Accommodatie <span class="required">*</span></label>
+          </td>
+          <td>
+            <select id="typeAccommodatie">
+              <option value="default">Selecteer type accommodatie</option>
+              <option value="tent">Tent</option>
+              <option value="stacaravan">Stacaravan</option>
+              <option value="camper">Camper</option>
+              <option value="chalet">Chalet</option>
+              <option value="lodge">Lodge</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="note" class="forum-label">Notities voor de camping</label>
+          </td>
+          <td colspan="2">
+            <textarea cols="5" id="note" rows="5"></textarea>
+          </td>
+        </tr>
+      </table>
+  
+      <div class="confirm-btn-div">
+        <button type="button" id="confirm-btn" class="g-recaptcha" data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- <section class="reserveren-forum">
     <div class="reserveren-container">
       <p class="forum-title" id="forum-title">Persoonlijke gegevens</p>
       <div class="forum-box-group">
