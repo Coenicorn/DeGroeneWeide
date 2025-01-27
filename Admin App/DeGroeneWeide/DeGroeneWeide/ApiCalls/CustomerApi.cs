@@ -24,16 +24,8 @@ namespace DeGroeneWeide.ApiCalls
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
-                Debug.WriteLine("Customers JSON: " +json);
 
                 Customers = JsonSerializer.Deserialize<List<Customer>>(json);
-                if (Customers != null)
-                {
-                    foreach (Customer customer in Customers)
-                    {
-                        customer.DumpInfo();
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -70,7 +62,7 @@ namespace DeGroeneWeide.ApiCalls
             }
         }
 
-        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, string birthdate, string phonenumber, string mailaddress)
+        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, DateTime birthdate, string phonenumber, string mailaddress)
         {
             await AddHeaders.AddHeadersToClient(client);
 
@@ -79,9 +71,10 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = firstname,
                 middleName = middlename,
                 lastName = lastname,
-                maySave = 0,
                 birthDate = birthdate,
-                blacklisted = false,
+                maySave = "false",
+                creationDate = DateTime.Now,
+                blacklisted = "false",
                 phoneNumber = phonenumber,
                 mailAddress = mailaddress
             };
@@ -93,10 +86,10 @@ namespace DeGroeneWeide.ApiCalls
             HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/customers/insertCustomer", content);
             string responseString = await response.Content.ReadAsStringAsync();
 
-
             if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Serialize(responseString);
+                var dictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(responseString);
+                return dictionary?["customerId"];
             }
             else
             {

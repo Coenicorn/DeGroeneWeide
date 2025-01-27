@@ -35,7 +35,14 @@ namespace DeGroeneWeide.Forms
         {
             Booking = booking;
             date_start.Value = booking.StartDate;
-            date_start.MinDate = booking.StartDate;
+            if (booking.StartDate > DateTime.Today)
+            {
+                date_start.MinDate = DateTime.Today;
+            }
+            else
+            {
+                date_start.MinDate = booking.StartDate;
+            }
             date_end.Value = booking.EndDate;
             if (booking.StartDate > DateTime.Today)
             {
@@ -78,7 +85,7 @@ namespace DeGroeneWeide.Forms
 
         private async void btn_save_Click(object sender, EventArgs e)
         {
-            if (Booking != null)
+            if (Booking != null && Booking.CustomerId != null)
             {
                 await CustomerApi.UpdateCustomer(new Customer(Booking.CustomerId, firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text));
                 await BookingApi.UpdateBooking(new Booking(Booking.Id, Booking.CustomerId, date_start.Value.ToString(), date_end.Value.ToString(), int.Parse(amout_people.Text)));
@@ -98,13 +105,14 @@ namespace DeGroeneWeide.Forms
 
         private async void btn_add_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(lbl_amountofpeople.Text) || string.IsNullOrEmpty(firstname.Text) || string.IsNullOrEmpty(lastname.Text) ||string.IsNullOrEmpty(email.Text))
+            if (string.IsNullOrEmpty(lbl_amountofpeople.Text) || string.IsNullOrEmpty(firstname.Text) || string.IsNullOrEmpty(lastname.Text) ||string.IsNullOrEmpty(email.Text) || string.IsNullOrEmpty(amout_people.Text))
             {
+                MessageBox.Show("Een of meerdere velden zijn leeg");
                 return;
             }
 
-            string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, date_birth.Value.ToString(), phoneNumber.Text, email.Text) ?? "";
-            await BookingApi.InsertBooking(CustomerId, date_start.Value.ToString(), date_end.Value.ToString(), int.Parse(amout_people.Text));
+            string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text) ?? "";
+            await BookingApi.InsertBooking(CustomerId, date_start.Value, date_end.Value, int.Parse(amout_people.Text));
             this.Close();
         }
     }

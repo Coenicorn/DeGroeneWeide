@@ -5,6 +5,9 @@
     <Compile Update="Forms\Edit_Boeking.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Edit_Card.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\Edit_Reader.cs">
       <SubType>Form</SubType>
     </Compile>

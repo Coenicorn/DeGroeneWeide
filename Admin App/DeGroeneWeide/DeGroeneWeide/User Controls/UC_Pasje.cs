@@ -1,4 +1,5 @@
-﻿using DeGroeneWeide.Objects;
+﻿using DeGroeneWeide.Forms;
+using DeGroeneWeide.Objects;
 
 namespace DeGroeneWeide
 {
@@ -15,27 +16,31 @@ namespace DeGroeneWeide
         {
             if (card == null) { return; }
 
-            switch (Convert.ToInt32(card.Id))
+            switch (card.authLevelName)
             {
-                case 0:
+                case "gast":
                     level_color.FillColor = Colors.Gast;
                     level_name.Text = "Gast";
                     break;
-                case 1:
+                case "bezoeker":
                     level_color.FillColor = Colors.Bezoeker;
                     level_name.Text = "Bezoeker";
                     break;
-                case 2:
+                case "medewerker":
                     level_color.FillColor = Colors.MedeWerker;
                     level_name.Text = "Medewerker";
                     break;
-                case 3:
+                case "admin":
                     level_color.FillColor = Colors.Admin;
                     level_name.Text = "Admin";
                     break;
+                default:
+                    level_color.FillColor = Colors.Cross;
+                    level_name.Text = "Geen";
+                    break;
             }
 
-            if(card.BookingId == null || card.FirstName == null)
+            if (card.BookingId == null || card.FirstName == null)
             {
                 bookings_name.Visible = false;
                 bookings_number.Visible = false;
@@ -47,8 +52,11 @@ namespace DeGroeneWeide
             bookings_date.Text = $"van {card.StartDate:dd-MM-yyyy} tot {card.EndDate:dd-MM-yyyy}";
         }
 
-        private void guna2Panel1_Paint(object sender, PaintEventArgs e)
+        private void btn_edit_Click(object sender, EventArgs e)
         {
+            Edit_Card edit = new();
+            edit.FillComboBox();
+            edit.ShowDialog();
 
         }
     }
