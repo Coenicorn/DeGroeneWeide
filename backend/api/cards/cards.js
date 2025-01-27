@@ -252,7 +252,6 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
 doc.route("updateCard", doc.POST, "updates card values")
 .request({
     id: doc.STRING,
-    card_uuid: doc.STRING,
     booking_id: doc.STRING,
     token: doc.STRING,
     level: doc.STRING,
@@ -275,7 +274,6 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
     }
 
     if (
-        card.card_uuid === undefined ||
         card.booking_id === undefined ||
         card.token === undefined ||
         card.level === undefined ||
