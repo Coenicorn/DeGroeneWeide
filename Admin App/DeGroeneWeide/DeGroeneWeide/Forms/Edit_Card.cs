@@ -45,6 +45,9 @@ namespace DeGroeneWeide.Forms
                 case "admin":
                     btn_admin.Checked = true;
                     break;
+                default:
+                    btn_none.Checked = true;
+                    break;
             }
         }
 

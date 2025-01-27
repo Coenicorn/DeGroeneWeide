@@ -112,6 +112,7 @@ namespace DeGroeneWeide.Forms
             }
 
             string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text) ?? "";
+            Debug.WriteLine("");
             await BookingApi.InsertBooking(CustomerId, date_start.Value, date_end.Value, int.Parse(amout_people.Text));
             this.Close();
         }
