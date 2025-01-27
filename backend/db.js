@@ -172,8 +172,8 @@ export async function getAllExtensiveCards(){
 /**
  * @note updated to schema 13.dec.2024
  */
-export async function updateCard(id, bookingId, token, blocked, timeLastUpdate) {
-    return db_execute("UPDATE Cards SET bookingId=?, token=?, blocked=?, timeLastUpdate=? WHERE id=?", [bookingId, token, blocked, id, timeLastUpdate]);
+export async function updateCard(id, bookingId, token, blocked) {
+    return db_execute("UPDATE Cards SET bookingId=?, token=?, blocked=?, timeLastUpdate=CURRENT_TIMESTAMP WHERE id=?", [bookingId, token, blocked, id]);
 
 }
 
@@ -199,8 +199,8 @@ export async function getAllBookings() {
     `, []);
 }
 
-export async function insertCard(id, bookingId, token, blocked, timeLastUpdate) {
-    return db_execute("INSERT INTO Cards (id, bookingId, token, blocked, timeLastUpdate) VALUES (?,?,?,?,?)", [id, bookingId, token, blocked, timeLastUpdate]);
+export async function insertCard(id, bookingId, token, blocked) {
+    return db_execute("INSERT INTO Cards (id, bookingId, token, blocked, timeLastUpdate) VALUES (?,?,?,?,CURRENT_TIMESTAMP)", [id, bookingId, token, blocked]);
 }
 
 export async function insertBooking(id, customerId, startDate, endDate, amountPeople, notes){

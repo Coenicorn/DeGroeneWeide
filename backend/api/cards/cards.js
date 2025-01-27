@@ -281,15 +281,14 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
         card.booking_id === undefined ||
         card.token === undefined ||
         card.level === undefined ||
-        card.blocked === undefined ||
-        card.timeLastUpdate === undefined
+        card.blocked === undefined
     ) {
         return respondwithstatus(res, 400, "missing one or more properties");
     }
 
     // remove old card if it exists
     try {
-        const dbres = await updateCard(card.id, card.booking_id, card.token, card.blocked, card.timeLastUpdate);
+        const dbres = await updateCard(card.id, card.booking_id, card.token, card.blocked);
         if (dbres === 0) {
             // no matching cards found
             return respondwithstatus(res, 400, "no matching cards found");
