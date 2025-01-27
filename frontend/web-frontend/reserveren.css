@@ -194,6 +194,18 @@ body {
     .reserveren-container input {
         font-size: 1.2rem;
     }
+
+    .reserveren-container select {
+        font-size: 1.2rem;
+    }
+
+    .reserveren-container textarea {
+        font-size: 1.2rem;
+    }
+
+    .reserveren-container button {
+        font-size: 1.2rem;
+    }
 }
 
 ul {
