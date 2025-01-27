@@ -177,7 +177,6 @@ CustomersRouter.post("/updateCustomer", async (req, res) => {
     if (customer.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
     if (customer.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
     if (customer.birthDate === undefined) return respondwithstatus(res, 400, "missing birthDate");
-    if (customer.creationDate === undefined) return respondwithstatus(res, 400, "missing creationDate");
     if (customer.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
     if (customer.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
     if (customer.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
