@@ -21,6 +21,54 @@ html, body {
     --information-background: #FFF3F3;
 }
 
+nav {
+    display: flex;
+    padding: 2% 6%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .nav img {
+    width: 150px;
+  }
+  
+  .nav-links {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .nav-links ul {
+    padding: 0;
+  }
+  
+  .nav-links ul li {
+    list-style: none;
+    display: inline-block;
+    padding: 8px 12px;
+    position: relative;
+  }
+  
+  .nav-links ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.5s;
+  }
+  
+  .nav-links ul li::after {
+    content: '';
+    width:  0%;
+    height: 2px;
+    background: #f44336;
+    display: block;
+    margin: auto;
+    transition: 0.5s;
+  }
+  
+  .nav-links ul li:hover::after {
+    width: 100%;
+  }
+
 header {
     min-height: 100vh;
     background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(./img/BoerBertIMG/reserveren_background.avif);
