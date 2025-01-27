@@ -11,6 +11,7 @@ inserts a new booking
 	"endDate": string,
 	"amountPeople": number,
 	"notes": string,
+	"confirmed": number,
 }
 ```
 ## response
@@ -39,6 +40,7 @@ gets all bookings
 		"phoneNumber": string | null,
 		"mailAddress": string | null,
 		"notes": string,
+		"confirmed": number,
 	},
 ]
 ```
@@ -54,6 +56,7 @@ updates booking values
 	"endDate": string,
 	"amountPeople": string,
 	"notes": string,
+	"confirmed": number,
 }
 ```
 ## response
