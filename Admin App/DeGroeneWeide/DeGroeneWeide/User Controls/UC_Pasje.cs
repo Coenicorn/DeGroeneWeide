@@ -5,6 +5,8 @@ namespace DeGroeneWeide
 {
     public partial class UC_Pasje : UserControl
     {
+        private Card c;
+        private UC_PasjesPagina p;
         public UC_Pasje()
         {
             InitializeComponent();
@@ -12,8 +14,10 @@ namespace DeGroeneWeide
 
 
         // Laad voor elk pasje de goede gegevens in zodat deze goed weer gegeven worden.
-        public void LoadData(Card card)
+        public void LoadData(Card card, UC_PasjesPagina pagina)
         {
+            c = card;
+            p = pagina;
             if (card == null) { return; }
 
             switch (card.authLevelName)
@@ -56,8 +60,9 @@ namespace DeGroeneWeide
         {
             Edit_Card edit = new();
             edit.FillComboBox();
+            edit.Fill(c);
             edit.ShowDialog();
-
+            p.LoadCards();
         }
     }
 }

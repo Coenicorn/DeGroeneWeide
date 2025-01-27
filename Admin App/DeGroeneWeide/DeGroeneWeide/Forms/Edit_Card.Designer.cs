@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            combox_boekingen = new ComboBox();
             label1 = new Label();
             btn_gast = new Guna.UI2.WinForms.Guna2RadioButton();
             btn_bezoeker = new Guna.UI2.WinForms.Guna2RadioButton();
@@ -39,15 +40,8 @@
             label2 = new Label();
             btn_save = new Guna.UI2.WinForms.Guna2Button();
             btn_none = new Guna.UI2.WinForms.Guna2RadioButton();
+            combox_boekingen = new Guna.UI2.WinForms.Guna2ComboBox();
             SuspendLayout();
-            // 
-            // combox_boekingen
-            // 
-            combox_boekingen.FormattingEnabled = true;
-            combox_boekingen.Location = new Point(12, 29);
-            combox_boekingen.Name = "combox_boekingen";
-            combox_boekingen.Size = new Size(186, 23);
-            combox_boekingen.TabIndex = 0;
             // 
             // label1
             // 
@@ -141,7 +135,7 @@
             // 
             // btn_save
             // 
-            btn_save.CustomizableEdges = customizableEdges3;
+            btn_save.CustomizableEdges = customizableEdges1;
             btn_save.DisabledState.BorderColor = Color.DarkGray;
             btn_save.DisabledState.CustomBorderColor = Color.DarkGray;
             btn_save.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -150,7 +144,7 @@
             btn_save.ForeColor = Color.White;
             btn_save.Location = new Point(12, 233);
             btn_save.Name = "btn_save";
-            btn_save.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btn_save.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btn_save.Size = new Size(186, 45);
             btn_save.TabIndex = 7;
             btn_save.Text = "opslaan";
@@ -174,11 +168,29 @@
             btn_none.UncheckedState.FillColor = Color.Transparent;
             btn_none.UncheckedState.InnerColor = Color.Transparent;
             // 
+            // combox_boekingen
+            // 
+            combox_boekingen.BackColor = Color.Transparent;
+            combox_boekingen.CustomizableEdges = customizableEdges3;
+            combox_boekingen.DrawMode = DrawMode.OwnerDrawFixed;
+            combox_boekingen.DropDownStyle = ComboBoxStyle.DropDownList;
+            combox_boekingen.FocusedColor = Color.FromArgb(94, 148, 255);
+            combox_boekingen.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            combox_boekingen.Font = new Font("Segoe UI", 10F);
+            combox_boekingen.ForeColor = Color.FromArgb(68, 88, 112);
+            combox_boekingen.ItemHeight = 30;
+            combox_boekingen.Location = new Point(12, 27);
+            combox_boekingen.Name = "combox_boekingen";
+            combox_boekingen.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            combox_boekingen.Size = new Size(186, 36);
+            combox_boekingen.TabIndex = 9;
+            // 
             // Edit_Card
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(210, 290);
+            Controls.Add(combox_boekingen);
             Controls.Add(btn_none);
             Controls.Add(btn_save);
             Controls.Add(label2);
@@ -187,7 +199,6 @@
             Controls.Add(btn_bezoeker);
             Controls.Add(btn_gast);
             Controls.Add(label1);
-            Controls.Add(combox_boekingen);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -198,8 +209,6 @@
         }
 
         #endregion
-
-        private ComboBox combox_boekingen;
         private Label label1;
         private Guna.UI2.WinForms.Guna2RadioButton btn_gast;
         private Guna.UI2.WinForms.Guna2RadioButton btn_bezoeker;
@@ -208,5 +217,6 @@
         private Label label2;
         private Guna.UI2.WinForms.Guna2Button btn_save;
         private Guna.UI2.WinForms.Guna2RadioButton btn_none;
+        private Guna.UI2.WinForms.Guna2ComboBox combox_boekingen;
     }
 }

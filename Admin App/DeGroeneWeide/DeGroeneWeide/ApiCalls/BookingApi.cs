@@ -27,12 +27,18 @@ namespace DeGroeneWeide.ApiCalls
 
                 string json = await result.Content.ReadAsStringAsync();
                 json = Regex.Replace(json, @"(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})", "$1T$2");
-                json = json.Replace("\"confirmed\":0", "\"confirmed\":false")
-                           .Replace("\"confirmed\":1", "\"confirmed\":true");
-                json = json.Replace("\"maySave\":\"false\"", "\"maySave\":false")
-                           .Replace("\"maySave\":\"true\"", "\"maySave\":true")
-                           .Replace("\"blacklisted\":\"false\"", "\"blacklisted\":false")
-                           .Replace("\"blacklisted\":\"true\"", "\"blacklisted\":true");
+                json = json.Replace("\"confirmed\":false", "\"confirmed\":\"false\"")
+                           .Replace("\"confirmed\":true", "\"confirmed\":\"true\"")
+                           .Replace("\"maySave\":false", "\"maySave\":\"false\"")
+                           .Replace("\"maySave\":true", "\"maySave\":\"true\"")
+                           .Replace("\"blacklisted\":false", "\"blacklisted\":\"false\"")
+                           .Replace("\"blacklisted\":true", "\"blacklisted\":\"true\"");
+                json = json.Replace("\"confirmed\":0", "\"confirmed\":\"false\"")
+                           .Replace("\"confirmed\":1", "\"confirmed\":\"true\"")
+                           .Replace("\"maySave\":0", "\"maySave\":\"false\"")
+                           .Replace("\"maySave\":1", "\"maySave\":\"true\"")
+                           .Replace("\"blacklisted\":0", "\"blacklisted\":\"false\"")
+                           .Replace("\"blacklisted\":1", "\"blacklisted\":\"true\"");
                 Debug.WriteLine("Booking Json: " + json);
 
                 Bookings = JsonSerializer.Deserialize<List<Booking>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<Booking>();

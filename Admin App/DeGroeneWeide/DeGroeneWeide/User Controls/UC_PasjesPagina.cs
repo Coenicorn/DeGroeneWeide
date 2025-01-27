@@ -22,7 +22,7 @@ namespace DeGroeneWeide
                 {
                     UC_Pasje pasje = new();
                     cards_container.Controls.Add(pasje);
-                    pasje.LoadData(card);
+                    pasje.LoadData(card, this);
                 }
             }
         }
