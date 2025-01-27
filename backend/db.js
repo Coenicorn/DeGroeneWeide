@@ -120,7 +120,7 @@ export async function deleteCards() {
  * @note updated to schema 13.dec.2024
  */
 export async function getAllCards() {
-        return db_query("SELECT * FROM Cards", []);
+        return db_query("SELECT * FROM Cards ORDER BY timeLastUpdate ASC", []);
 }
 
 /**
@@ -166,6 +166,8 @@ export async function getAllExtensiveCards(){
         LEFT JOIN 
             AuthLevels AS al 
             ON al.id = caj.authLevelId
+        ORDER BY
+            Cards.timeLastUpdate ASC
     `, []);
 }
 
