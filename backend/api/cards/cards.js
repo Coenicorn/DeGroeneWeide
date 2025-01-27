@@ -289,7 +289,7 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
 
     // remove old card if it exists
     try {
-        const dbres = await updateCard(card.id, card.booking_id, card.token, card.blocked, card.timeLastUpdate);
+        const dbres = await updateCard(card.id, card.booking_id, card.token, card.blocked);
         if (dbres === 0) {
             // no matching cards found
             return respondwithstatus(res, 400, "no matching cards found");
