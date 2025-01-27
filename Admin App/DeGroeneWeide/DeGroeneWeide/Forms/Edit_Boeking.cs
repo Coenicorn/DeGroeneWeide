@@ -105,14 +105,14 @@ namespace DeGroeneWeide.Forms
 
         private async void btn_add_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(lbl_amountofpeople.Text) || string.IsNullOrEmpty(firstname.Text) || string.IsNullOrEmpty(lastname.Text) ||string.IsNullOrEmpty(email.Text))
+            if (string.IsNullOrEmpty(lbl_amountofpeople.Text) || string.IsNullOrEmpty(firstname.Text) || string.IsNullOrEmpty(lastname.Text) ||string.IsNullOrEmpty(email.Text) || string.IsNullOrEmpty(amout_people.Text))
             {
+                MessageBox.Show("Een of meerdere velden zijn leeg");
                 return;
             }
 
-            string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, date_birth.Value.ToString(), phoneNumber.Text, email.Text) ?? "";
-            Debug.WriteLine($"\n\nNew CustomerId: {CustomerId}");
-            await BookingApi.InsertBooking(CustomerId, date_start.Value.ToString(), date_end.Value.ToString(), int.Parse(amout_people.Text));
+            string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text) ?? "";
+            await BookingApi.InsertBooking(CustomerId, date_start.Value, date_end.Value, int.Parse(amout_people.Text));
             this.Close();
         }
     }

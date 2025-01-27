@@ -11,6 +11,7 @@ import { authenticateRequest } from './apiKey.js';
 import rateLimit from 'express-rate-limit';
 
 // exposed to public
+console.log(import.meta.dirmame)
 const app = express();
 let routes = [];
 

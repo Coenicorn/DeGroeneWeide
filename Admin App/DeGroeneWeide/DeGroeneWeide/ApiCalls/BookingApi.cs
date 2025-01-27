@@ -18,7 +18,6 @@ namespace DeGroeneWeide.ApiCalls
         public static async Task GetBooking()
         {
             string URL = $"{MainForm._settings.URL}/booking/getAllBookings";
-            Debug.WriteLine("GetBooking URL: " + URL);
             await AddHeaders.AddHeadersToClient(client);
 
             try
@@ -37,11 +36,6 @@ namespace DeGroeneWeide.ApiCalls
                 Debug.WriteLine("Booking Json: " + json);
 
                 Bookings = JsonSerializer.Deserialize<List<Booking>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<Booking>();
-
-                foreach (Booking booking in Bookings)
-                {
-                    booking.DumpInfo();
-                }
             }
             catch (HttpRequestException httpEx)
             {
@@ -97,7 +91,7 @@ namespace DeGroeneWeide.ApiCalls
             Debug.WriteLine(responseString);
         }
 
-        public static async Task InsertBooking(string CustomerId, string StartDate, string EndDate, int AmountPeople)
+        public static async Task InsertBooking(string CustomerId, DateTime StartDate, DateTime EndDate, int AmountPeople)
         {
             await AddHeaders.AddHeadersToClient(client);
 
