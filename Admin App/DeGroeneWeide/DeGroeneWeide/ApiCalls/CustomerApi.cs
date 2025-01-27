@@ -36,12 +36,20 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task<string?> UpdateCustomer(Customer c)
         {
-            string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
+            string URL = $"{MainForm._settings.URL}/customers/updateCustomer";
             await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
-                id = c.Id,
+                customerId = c.Id,
+                firstName = c.FirstName,
+                middleName = c.MiddleName,
+                lastName =  c.LastName,
+                maySave = "false",
+                birthDate = c.BirthDate,
+                blacklisted = "false",
+                phoneNumber = c.PhoneNumber,
+                mailAddress = c.Email
             };
 
             string json = JsonSerializer.Serialize(data);

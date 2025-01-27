@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             name = new Guna.UI2.WinForms.Guna2TextBox();
             gast = new Guna.UI2.WinForms.Guna2CheckBox();
             bezoeker = new Guna.UI2.WinForms.Guna2CheckBox();
@@ -43,7 +43,7 @@
             // 
             // name
             // 
-            name.CustomizableEdges = customizableEdges1;
+            name.CustomizableEdges = customizableEdges5;
             name.DefaultText = "";
             name.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             name.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -57,7 +57,7 @@
             name.PasswordChar = '\0';
             name.PlaceholderText = "";
             name.SelectedText = "";
-            name.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            name.ShadowDecoration.CustomizableEdges = customizableEdges6;
             name.Size = new Size(174, 36);
             name.TabIndex = 0;
             // 
@@ -131,7 +131,7 @@
             // 
             // btn_save
             // 
-            btn_save.CustomizableEdges = customizableEdges3;
+            btn_save.CustomizableEdges = customizableEdges7;
             btn_save.DisabledState.BorderColor = Color.DarkGray;
             btn_save.DisabledState.CustomBorderColor = Color.DarkGray;
             btn_save.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -140,7 +140,7 @@
             btn_save.ForeColor = Color.White;
             btn_save.Location = new Point(36, 188);
             btn_save.Name = "btn_save";
-            btn_save.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btn_save.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btn_save.Size = new Size(117, 41);
             btn_save.TabIndex = 5;
             btn_save.Text = "Opslaan";
@@ -167,6 +167,9 @@
             Controls.Add(bezoeker);
             Controls.Add(gast);
             Controls.Add(name);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Edit_Reader";
             Text = "Aanpassen";
             ResumeLayout(false);

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             combox_boekingen = new ComboBox();
             label1 = new Label();
             btn_gast = new Guna.UI2.WinForms.Guna2RadioButton();
@@ -141,7 +141,7 @@
             // 
             // btn_save
             // 
-            btn_save.CustomizableEdges = customizableEdges1;
+            btn_save.CustomizableEdges = customizableEdges3;
             btn_save.DisabledState.BorderColor = Color.DarkGray;
             btn_save.DisabledState.CustomBorderColor = Color.DarkGray;
             btn_save.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -150,7 +150,7 @@
             btn_save.ForeColor = Color.White;
             btn_save.Location = new Point(12, 233);
             btn_save.Name = "btn_save";
-            btn_save.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btn_save.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btn_save.Size = new Size(186, 45);
             btn_save.TabIndex = 7;
             btn_save.Text = "opslaan";
@@ -188,6 +188,9 @@
             Controls.Add(btn_gast);
             Controls.Add(label1);
             Controls.Add(combox_boekingen);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Edit_Card";
             Text = "Edit_Card";
             ResumeLayout(false);
