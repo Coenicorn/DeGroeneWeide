@@ -182,6 +182,10 @@ body {
     margin-top: 50px;
 }
 
+#eula-text {
+    font-size: 0.9rem;
+}
+
 @media(min-width: 700px) {
     .forum-title {
         font-size: 1.5rem;
