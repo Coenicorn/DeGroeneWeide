@@ -252,11 +252,7 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
 doc.route("updateCard", doc.POST, "updates card values")
 .request({
     id: doc.STRING,
-    booking_id: doc.STRING,
-    token: doc.STRING,
-    level: doc.STRING,
-    blocked: doc.STRING,
-    timeLastUpdate: doc.STRING
+    booking_id: doc.STRING
 })
 .response(200, "succesfully updated card");
 
@@ -274,18 +270,14 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
     }
 
     if (
-        card.booking_id === undefined ||
-        card.token === undefined ||
-        card.level === undefined ||
-        card.blocked === undefined ||
-        card.timeLastUpdate === undefined
+        card.booking_id === undefined
     ) {
         return respondwithstatus(res, 400, "missing one or more properties");
     }
 
     // remove old card if it exists
     try {
-        const dbres = await updateCard(card.id, card.booking_id, card.token, card.blocked);
+        const dbres = await updateCard(card.id, card.booking_id);
         if (dbres === 0) {
             // no matching cards found
             return respondwithstatus(res, 400, "no matching cards found");
