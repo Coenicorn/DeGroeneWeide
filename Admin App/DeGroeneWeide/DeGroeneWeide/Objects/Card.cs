@@ -26,13 +26,22 @@ namespace DeGroeneWeide.Objects
         public string? CustomerId { get; set; }
 
         [JsonPropertyName("startDate")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [JsonPropertyName("endDate")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [JsonPropertyName("amountPeople")]
-        public int AmountPeople { get; set; }
+        public int? AmountPeople { get; set; }
+
+        [JsonPropertyName("bookingCreationDate")]
+        public string? bookingCreationDate { get; set; }
+
+        [JsonPropertyName("authLevelId")]
+        public string? authLevelId { get; set; }
+
+        [JsonPropertyName("authLevelName")]
+        public string? authLevelName { get; set; }
 
         [JsonPropertyName("firstName")]
         public string? FirstName { get; set; }
@@ -43,16 +52,10 @@ namespace DeGroeneWeide.Objects
         [JsonPropertyName("lastName")]
         public string? LastName { get; set; }
 
-        [JsonPropertyName("maySave")]
-        public string? MaySave { get; set; }
-
         [JsonPropertyName("birthDate")]
-        public DateTime BirthDate { get; set; }
+        public string? BirthDate { get; set; }
 
-        [JsonPropertyName("creationDate")]
-        public DateTime CreationDate { get; set; }
-
-        [JsonPropertyName("blacklisted")]
+        [JsonPropertyName("blackListed")]
         public string? BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]
@@ -61,11 +64,14 @@ namespace DeGroeneWeide.Objects
         [JsonPropertyName("mailAddress")]
         public string? Email { get; set; }
 
+        [JsonPropertyName("customerCreationDate")]
+        public string? customerCreationDate { get; set; }
+
         public Card() { }
 
         public void DumpInfo()
         {
-            Debug.WriteLine($"Card - ID: {Id}, BookingID: {BookingId}, Name: {FirstName} {MiddleName} {LastName}, Start Date: {StartDate}, End Date: {EndDate}, Amount: {AmountPeople}, May Save: {MaySave}, Creation Date: {CreationDate}, Blacklisted: {BlackListed}, Phone: {PhoneNumber}, Email: {Email}");
+            Debug.WriteLine($"Card - ID: {Id}, BookingID: {BookingId}, Name: {FirstName} {MiddleName} {LastName}, Start Date: {StartDate}, End Date: {EndDate}, Amount: {AmountPeople}, Blacklisted: {BlackListed}, Phone: {PhoneNumber}, Email: {Email}");
         }
     }
 }

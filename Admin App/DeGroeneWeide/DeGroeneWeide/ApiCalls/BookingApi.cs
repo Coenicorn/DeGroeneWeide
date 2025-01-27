@@ -19,10 +19,7 @@ namespace DeGroeneWeide.ApiCalls
         {
             string URL = $"{MainForm._settings.URL}/booking/getAllBookings";
             Debug.WriteLine("GetBooking URL: " + URL);
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             try
             {
@@ -62,10 +59,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task UpdateBooking(Booking b)
         {
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
@@ -87,10 +81,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task DeleteBooking(string Id)
         {
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
@@ -108,10 +99,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task InsertBooking(string CustomerId, string StartDate, string EndDate, int AmountPeople)
         {
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {

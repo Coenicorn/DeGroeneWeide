@@ -1,4 +1,5 @@
 ﻿using DeGroeneWeide.Objects;
+using DeGroeneWeide.ApiCalls;
 using DeGroeneWeide;
 using DeGroeneWeide.Settings;
 using System;
@@ -20,10 +21,7 @@ namespace DeGroeneWeide.ApiCalls
         {
             string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
             Debug.WriteLine("GetAllAuthLevels URL: " + URL);
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
@@ -53,10 +51,7 @@ namespace DeGroeneWeide.ApiCalls
         public static async Task<List<AuthLevel>?> GetAllAuthLevels()
         {
             List<AuthLevel>? authLevels = new();
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             try
             {
@@ -81,11 +76,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task LinkReaderAuth(string reader_Id, string authlevel_Id)
         {
-
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
@@ -103,11 +94,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task UnlinkReaderAuth(string reader_Id, string authlevel_Id)
         {
-
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-            {
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            }
+            await AddHeaders.AddHeadersToClient(client);
 
             var data = new
             {
