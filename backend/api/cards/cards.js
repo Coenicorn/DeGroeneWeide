@@ -251,20 +251,18 @@ CardsRouter.post("/removeCardByEntryId", async (req, res) => {
 
 doc.route("updateCard", doc.POST, "updates card values. MIGHT BE OUTDATED!")
 .request({
-    card: {
-        id: doc.STRING,
-        card_uuid: doc.STRING,
-        booking_id: doc.STRING,
-        token: doc.STRING,
-        level: doc.STRING,
-        blocked: doc.STRING,
-        timeLastUpdate: doc.STRING
-    }
+    id: doc.STRING,
+    card_uuid: doc.STRING,
+    booking_id: doc.STRING,
+    token: doc.STRING,
+    level: doc.STRING,
+    blocked: doc.STRING,
+    timeLastUpdate: doc.STRING
 })
 .response(200, "succesfully updated card");
 
 CardsRouter.post("/updateCard", async (req, res, next) => {
-    const card = req.body.card;
+    const card = req.body;
 
     if (card === undefined) {
         return respondwithstatus(res, 400, "Missing card object");
