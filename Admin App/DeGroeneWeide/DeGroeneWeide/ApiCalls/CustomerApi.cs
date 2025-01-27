@@ -24,16 +24,8 @@ namespace DeGroeneWeide.ApiCalls
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
-                Debug.WriteLine("Customers JSON: " +json);
 
                 Customers = JsonSerializer.Deserialize<List<Customer>>(json);
-                if (Customers != null)
-                {
-                    foreach (Customer customer in Customers)
-                    {
-                        customer.DumpInfo();
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -79,8 +71,9 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = firstname,
                 middleName = middlename,
                 lastName = lastname,
-                maySave = 0,
                 birthDate = birthdate,
+                maySave = false,
+                creationDate = DateTime.Now,
                 blacklisted = false,
                 phoneNumber = phonenumber,
                 mailAddress = mailaddress
@@ -92,7 +85,7 @@ namespace DeGroeneWeide.ApiCalls
 
             HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/customers/insertCustomer", content);
             string responseString = await response.Content.ReadAsStringAsync();
-
+            Debug.WriteLine($"InsertCustomer Responsecode {response.IsSuccessStatusCode}, {response}");
 
             if (response.IsSuccessStatusCode)
             {
