@@ -366,5 +366,5 @@ export async function getReaderCardAuthLevelMatchesWithToken(cardId, readerId, c
     return db_query(`
         SELECT Cards.id
         FROM Cards
-    `, [cardId, readerId]);
+    `, []);
 }
