@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS Readers (
     id TEXT PRIMARY KEY NOT NULL UNIQUE,
     batteryPercentage INT,
     amenityId TEXT,
-    lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    lastPing DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     name TEXT NOT NULL,
     active BOOLEAN,
     FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
