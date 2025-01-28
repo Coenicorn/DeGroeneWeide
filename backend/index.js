@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 if (config.enableRateLimiting != "0") {
     app.use(rateLimit({
         windowMs: 1000 * 5,
-        limit: 10,
+        limit: 50,
         standardHeaders: 'draft-8',
         legacyHeaders: false
     }));
