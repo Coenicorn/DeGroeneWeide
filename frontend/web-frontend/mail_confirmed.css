@@ -6,9 +6,10 @@
 }
 
 .container{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    background: url(/img/BoerBertIMG/family-camping-COVER.jpg);
+    background: url("/img/BoerBertIMG/family-camping-COVER.jpg");
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,11 +23,17 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    padding: 0, 30px, 30px;
+    padding: 1em;
     color: #333;
 }
-.popup h1{
+
+h1{
+    margin: 0px;
+    padding: 0px;
     font-size: 38px;
     font-weight: 500;
-    margin: 30px 0 10px;
+}
+
+p {
+    font-size: 20px;
 }
