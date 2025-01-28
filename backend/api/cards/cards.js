@@ -283,7 +283,7 @@ CardsRouter.post("/updateCard", async (req, res, next) => {
             return respondwithstatus(res, 400, "no matching cards found");
         }
     } catch(e) {
-        next(e);
+        return respondwithstatus(res, 500, "something went wrong");
     }
 
     respondwithstatus(res, 200, "updated card");
