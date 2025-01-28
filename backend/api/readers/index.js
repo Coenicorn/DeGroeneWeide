@@ -75,7 +75,7 @@ doc.route("getAllReaders", doc.GET, "...gets all readers")
 ReadersRouter.get("/getAllReaders", async (req, res) => {
     try {
         // const readers = await getAllReaders();
-        const readers = await db_query(`SELECT * FROM Readers`);
+        const readers = await getAllReaders();
 
         res.json(readers);
     } catch(e) {
