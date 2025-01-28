@@ -3,8 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls\\readerapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls\\readerapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls\\customerapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls\\customerapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls\\cardapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls\\cardapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls\\bookingapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls\\bookingapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\apicalls\\authlevelapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\apicalls\\authlevelapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\degroeneweide.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\degroeneweide.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\settings\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|solutionrelative:degroeneweide\\settings\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B5DBEE7-A54D-4926-8FBD-1191A893C087}|DeGroeneWeide\\DeGroeneWeide.csproj|c:\\users\\jurre\\onedrive\\ict-onedrive\\boer bert\\degroeneweide\\admin app\\degroeneweide\\degroeneweide\\forms\\edit_card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,6 +63,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
@@ -45,25 +89,148 @@
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReaderApi.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\ReaderApi.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls\\ReaderApi.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\ReaderApi.cs",
+              "RelativeToolTip": "DeGroeneWeide\\ApiCalls\\ReaderApi.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwEoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:24:54.374Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "CustomerApi.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\CustomerApi.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls\\CustomerApi.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\CustomerApi.cs",
+              "RelativeToolTip": "DeGroeneWeide\\ApiCalls\\CustomerApi.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAA5wEgAAACqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:24:20.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BookingApi.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\BookingApi.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls\\BookingApi.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\BookingApi.cs",
+              "RelativeToolTip": "DeGroeneWeide\\ApiCalls\\BookingApi.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAowHwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:22:52.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthLevelApi.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\AuthLevelApi.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls\\AuthLevelApi.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\AuthLevelApi.cs",
+              "RelativeToolTip": "DeGroeneWeide\\ApiCalls\\AuthLevelApi.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAA9wJUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:21:31.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Properties\\Settings.settings",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Properties\\Settings.settings",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Properties\\Settings.settings",
+              "RelativeToolTip": "DeGroeneWeide\\Properties\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2025-01-28T08:19:55.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DeGroeneWeide",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\DeGroeneWeide.csproj",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\DeGroeneWeide.csproj",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\DeGroeneWeide.csproj",
+              "RelativeToolTip": "DeGroeneWeide\\DeGroeneWeide.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-01-28T08:19:44.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs",
+              "RelativeToolTip": "DeGroeneWeide\\Forms\\MainForm.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:18:44.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MainForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Forms\\MainForm.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\MainForm.cs [Design]",
+              "RelativeToolTip": "DeGroeneWeide\\Forms\\MainForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:18:36.621Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Settings\\appsettings.json",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Settings\\appsettings.json",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Settings\\appsettings.json",
+              "RelativeToolTip": "DeGroeneWeide\\Settings\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-28T08:17:41.358Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Program.cs",
+              "RelativeDocumentMoniker": "DeGroeneWeide\\Program.cs",
+              "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Program.cs",
+              "RelativeToolTip": "DeGroeneWeide\\Program.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwB8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T08:15:17.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "CardApi.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\CardApi.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\ApiCalls\\CardApi.cs",
               "ToolTip": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\ApiCalls\\CardApi.cs",
               "RelativeToolTip": "DeGroeneWeide\\ApiCalls\\CardApi.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAGUAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAgwBAAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-27T22:08:42.927Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 11,
               "Title": "Edit_Card.cs",
               "DocumentMoniker": "C:\\Users\\jurre\\OneDrive\\ICT-Onedrive\\Boer Bert\\DeGroeneWeide\\Admin App\\DeGroeneWeide\\DeGroeneWeide\\Forms\\Edit_Card.cs",
               "RelativeDocumentMoniker": "DeGroeneWeide\\Forms\\Edit_Card.cs",
@@ -71,8 +238,7 @@
               "RelativeToolTip": "DeGroeneWeide\\Forms\\Edit_Card.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAowC4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-27T22:03:01.385Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-27T22:03:01.385Z"
             }
           ]
         },

@@ -20,7 +20,7 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/customers/getAllCustomers");
+                HttpResponseMessage result = await client.GetAsync(Properties.Settings.Default.URL + "/customers/getAllCustomers");
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
@@ -36,7 +36,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task<string?> UpdateCustomer(Customer c)
         {
-            string URL = $"{MainForm._settings.URL}/customers/updateCustomer";
+            string URL = $"{Properties.Settings.Default.URL}/customers/updateCustomer";
             await AddHeaders.AddHeadersToClient(client);
 
             var data = new
@@ -91,7 +91,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/customers/insertCustomer", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/customers/insertCustomer", content);
             string responseString = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)

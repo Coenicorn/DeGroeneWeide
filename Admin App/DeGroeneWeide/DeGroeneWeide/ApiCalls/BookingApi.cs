@@ -17,7 +17,7 @@ namespace DeGroeneWeide.ApiCalls
         public static HttpClient client = new();
         public static async Task GetBooking()
         {
-            string URL = $"{MainForm._settings.URL}/booking/getAllBookings";
+            string URL = $"{Properties.Settings.Default.URL}/booking/getAllBookings";
             await AddHeaders.AddHeadersToClient(client);
 
             try
@@ -75,7 +75,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/updateBooking", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/booking/updateBooking", content);
             string responseString = await response.Content.ReadAsStringAsync();
         }
 
@@ -92,7 +92,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/deleteBooking", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/booking/deleteBooking", content);
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine(responseString);
         }
@@ -116,7 +116,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/insertBooking", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/booking/insertBooking", content);
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine(responseString);
         }

@@ -18,7 +18,7 @@ namespace DeGroeneWeide.ApiCalls
 
             if (!client.DefaultRequestHeaders.Contains("x-api-key"))
             {
-                client.DefaultRequestHeaders.Add("x-api-key", MainForm._settings.KEY);
+                client.DefaultRequestHeaders.Add("x-api-key", Properties.Settings.Default.KEY);
             }
 
             await Task.CompletedTask;

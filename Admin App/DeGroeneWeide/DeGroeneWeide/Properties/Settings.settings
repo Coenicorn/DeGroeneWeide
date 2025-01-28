@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DeGroeneWeide.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://shoco.coenicorn.nl/api</Value>
+    </Setting>
+    <Setting Name="KEY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PPKuEZqfzXhnCqcWZXk1ixSTZPe+q5R9/j8TU7/az4sde9N8/AZub9dltP2cL5zO</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

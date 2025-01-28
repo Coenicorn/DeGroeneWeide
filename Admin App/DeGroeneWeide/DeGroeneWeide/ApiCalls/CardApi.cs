@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Guna.UI2.WinForms.Suite.Descriptions;
 
 namespace DeGroeneWeide.ApiCalls
 {
@@ -19,7 +20,7 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/cards/getNewestCardToWrite");
+                HttpResponseMessage result = await client.GetAsync(Properties.Settings.Default.URL + "/cards/getNewestCardToWrite");
                 result.EnsureSuccessStatusCode();
 
                 string json = result.Content.ReadAsStringAsync().Result;
@@ -40,7 +41,7 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/cards/getallextensivecards");
+                HttpResponseMessage result = await client.GetAsync(Properties.Settings.Default.URL + "/cards/getallextensivecards");
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
@@ -78,7 +79,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/cards/insertCard", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/cards/insertCard", content);
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine("Add card: " + responseString);
         }
@@ -97,7 +98,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/booking/updateCard", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/booking/updateCard", content);
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine($"Response String: {responseString}");
         }

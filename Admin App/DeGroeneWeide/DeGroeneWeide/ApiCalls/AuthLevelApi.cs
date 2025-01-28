@@ -19,7 +19,7 @@ namespace DeGroeneWeide.ApiCalls
         public static HttpClient client = new();
         public static async Task<List<AuthLevel>> GetAllAuthLevelsReaders(string readerId)
         {
-            string URL = $"{MainForm._settings.URL}/readers/getAllAuthLevels";
+            string URL = $"{Properties.Settings.Default.URL}/readers/getAllAuthLevels";
             Debug.WriteLine("GetAllAuthLevels URL: " + URL);
             await AddHeaders.AddHeadersToClient(client);
 
@@ -55,7 +55,7 @@ namespace DeGroeneWeide.ApiCalls
 
             try
             {
-                HttpResponseMessage result = await client.GetAsync(MainForm._settings.URL + "/auth/getallauthlevels");
+                HttpResponseMessage result = await client.GetAsync(Properties.Settings.Default.URL + "/auth/getallauthlevels");
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
@@ -88,7 +88,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/linkreaderauth", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/auth/linkreaderauth", content);
             string responseString = await response.Content.ReadAsStringAsync();
         }
 
@@ -106,7 +106,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/unlinkreaderauth", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/auth/unlinkreaderauth", content);
             string responseString = await response.Content.ReadAsStringAsync();
         }
 
@@ -124,7 +124,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/linkCardAuth", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/auth/linkCardAuth", content);
             string responseString = await response.Content.ReadAsStringAsync();
         }
 
@@ -142,7 +142,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/auth/unlinkCardAuth", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/auth/unlinkCardAuth", content);
             string responseString = await response.Content.ReadAsStringAsync();
         }
     }

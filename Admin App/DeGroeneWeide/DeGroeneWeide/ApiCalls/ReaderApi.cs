@@ -24,7 +24,7 @@ namespace DeGroeneWeide.ApiCalls
 
         public static async Task GetReaders()
         {
-            string URL = $"{MainForm._settings.URL}/readers/getAllReaders";
+            string URL = $"{Properties.Settings.Default.URL}/readers/getAllReaders";
             Debug.WriteLine("GetReaders URL: " + URL);
             await AddHeaders.AddHeadersToClient(client);
 
@@ -66,7 +66,7 @@ namespace DeGroeneWeide.ApiCalls
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(MainForm._settings.URL + "/readers/updateReader", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/readers/updateReader", content);
             string responseString = await response.Content.ReadAsStringAsync();
             Debug.WriteLine(responseString);
         }
