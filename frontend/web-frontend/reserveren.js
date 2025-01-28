@@ -57,7 +57,6 @@ function getDate(){
 }
 
 function reserve(captchaString) {
-
     if(!validity_check()) return;
     
     let checked_aankomsttijd = "";
@@ -120,7 +119,7 @@ function reserve(captchaString) {
 
 function validity_check() {
     resetBorders();
-    let valid = "true";
+    let valid = true;
     if(voornaam.value.trim() == "") {
         voornaam.style.border = "2px solid red";
         valid = false;
