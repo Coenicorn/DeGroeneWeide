@@ -371,6 +371,6 @@ export async function getReaderCardAuthLevelMatchesWithToken(cardId, readerId, c
         JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
         JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
         JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
-        WHERE Cards.id = ? AND readerId = ?
-    `, [cardId, readerId]);
+        WHERE Cards.id = ? AND readerId = ? AND Cards.token = ?
+    `, [cardId, readerId, cardToken]);
 }
