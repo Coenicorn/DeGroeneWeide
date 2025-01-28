@@ -11,7 +11,7 @@ import {
     removeCardByBookingId, removeCardByID,
     updateCard
 } from "../../db.js";
-import { respondwithstatus, err_log, info_log } from "../../util.js";
+import { respondwithstatus, err_log, info_log, debug_log } from "../../util.js";
 import { uid } from "uid";
 import { APIDocGenerator } from "../../docgen/doc.js";
 
@@ -341,6 +341,15 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
     if (newToken === undefined) return respondwithstatus(res, 400, "token is undefined");
     if (typeof(newToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
 
+    try {
+        await insertCard(cardId, null, cardToken, 0);
+
+        debug_log("added new card with id " + cardId);
+    } catch(e) {
+        // constraint primary key means a card with that id already exists, expected behaviour
+        if (e.code !== "SQLITE_CONSTRAINT_PRIMARYKEY") err_log("error inserting new card in /authenticateCard", e);
+    }
+    
     try {
         await db_execute("UPDATE Cards SET token=?, timeLastUpdate=CURRENT_TIMESTAMP WHERE id=?", [newToken, cardId]);
         info_log("updated card " + cardId + " with token " + newToken);
