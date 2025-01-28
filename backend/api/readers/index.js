@@ -143,7 +143,7 @@ ReadersRouter.post("/updateReader", async (req, res) => {
 
     try {
 
-        await db_execute("UPDATE Readers SET name=?,amenityId=?", [reader.name, reader.amenityId]);
+        await db_execute("UPDATE Readers SET name=?,amenityId=? WHERE id=?", [reader.name, reader.amenityId, reader.id]);
 
     } catch(e) {
         
