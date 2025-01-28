@@ -413,6 +413,8 @@ int authenticateToken(String token, String uuid)
 {
 	int ret = dumbPostRequest("{\"macAddress\":\"" + macAddress + "\",\"cardId\":\"" + uuid + "\",\"token\":\"" + token + "\"}", "/auth/authenticateCard");
 
+	Serial.print("return code: "); Serial.println(ret);
+
 	if (ret < 0) return 1;
 	else if (ret == 200) return 0;
 	else return 1;

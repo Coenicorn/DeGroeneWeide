@@ -86,7 +86,7 @@ export async function registerReader(
  */
 export async function getAllReaders() {
 
-    return db_query("SELECT * FROM Readers", []);
+    return db_query("SELECT * FROM Readers ORDER BY lastPing DESC", []);
 
 }
 
@@ -120,7 +120,7 @@ export async function deleteCards() {
  * @note updated to schema 13.dec.2024
  */
 export async function getAllCards() {
-        return db_query("SELECT * FROM Cards ORDER BY timeLastUpdate ASC", []);
+        return db_query("SELECT * FROM Cards ORDER BY timeLastUpdate DESC", []);
 }
 
 /**
@@ -167,7 +167,7 @@ export async function getAllExtensiveCards(){
             AuthLevels AS al 
             ON al.id = caj.authLevelId
         ORDER BY
-            Cards.timeLastUpdate ASC
+            Cards.timeLastUpdate DESC
     `, []);
 }
 
@@ -175,7 +175,7 @@ export async function getAllExtensiveCards(){
  * @note updated to schema 13.dec.2024
  */
 export async function updateCard(id, bookingId, token, blocked) {
-    return db_execute("UPDATE Cards SET bookingId=? timeLastUpdate=CURRENT_TIMESTAMP WHERE id=?", [bookingId, id]);
+    return db_execute("UPDATE Cards SET bookingId=?, timeLastUpdate=CURRENT_TIMESTAMP WHERE id=?", [bookingId, id]);
 
 }
 
@@ -364,12 +364,12 @@ export async function unlinkCardFromAuthLevel(cardId, authLevelId) {
 // queries a list of known cards and readers matching the given id's with the same authentication level only if the card has the same authentication token
 export async function getReaderCardAuthLevelMatchesWithToken(cardId, readerId, cardToken) {
     return db_query(`
-        SELECT DISTINCT Cards.id, Readers.id, Cards.token
+        SELECT Cards.id, Readers.id AS readerId, Cards.token
         FROM Cards
         JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
         JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
         JOIN ReaderAuthJunctions ON AuthLevels.id = ReaderAuthJunctions.authLevelId
         JOIN Readers ON ReaderAuthJunctions.readerId = Readers.id
-        WHERE Cards.token = ? AND Cards.id = ? AND Readers.id = ?
-    `, [cardToken, cardId, readerId]);
+        WHERE Cards.id = ? AND readerId = ? AND Cards.token = ?
+    `, [cardId, readerId, cardToken]);
 }

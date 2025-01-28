@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS Readers (
     id TEXT PRIMARY KEY NOT NULL UNIQUE,
     batteryPercentage INT,
     amenityId TEXT,
-    lastPing TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    lastPing DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     name TEXT NOT NULL,
     active BOOLEAN,
     FOREIGN KEY (amenityId) REFERENCES AmenityTypes (id)
@@ -126,7 +126,7 @@ AFTER INSERT ON Readers
 FOR EACH ROW
 BEGIN
     UPDATE Readers
-    SET lastPing = strftime('%s', 'now')
+    SET lastPing = CURRENT_TIMESTAMP
     WHERE rowid = new.rowid;
 END;
 
@@ -135,7 +135,7 @@ AFTER UPDATE ON Readers
 FOR EACH ROW
 BEGIN
     UPDATE Readers
-    SET lastPing = strftime('%s', 'now')
+    SET lastPing = CURRENT_TIMESTAMP
     WHERE rowid = new.rowid;
 END;
 

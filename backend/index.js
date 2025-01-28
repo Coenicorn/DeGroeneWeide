@@ -11,7 +11,6 @@ import { authenticateRequest } from './apiKey.js';
 import rateLimit from 'express-rate-limit';
 
 // exposed to public
-console.log(import.meta.dirmame)
 const app = express();
 let routes = [];
 
@@ -21,8 +20,8 @@ const __dirname = path.dirname(__filename);
 // rate limiting for pages
 if (config.enableRateLimiting != "0") {
     app.use(rateLimit({
-        windowMs: 10 * 60 * 1000,
-        limit: 200,
+        windowMs: 1000 * 5,
+        limit: 50,
         standardHeaders: 'draft-8',
         legacyHeaders: false
     }));
@@ -74,10 +73,12 @@ app.use((req, res, next) => {
     let str;
 
     let finalRoute = req.url.split("/").pop();
-    if (config.environment === "dev" && routes.includes(finalRoute)) {
-        str = "Route exists but failed, did you use the right method?";
-    } else {
-        str = "Route not found. Hier niks gevonden man, volgende keer beter";
+    if (!routes.includes(finalRoute)) {
+        if (config.environment === "dev") {
+            str = "Route exists but failed, did you use the right method?";
+        } else {
+            str = "Route not found. Hier niks gevonden man, volgende keer beter";
+        }
     }
     res.status(404).send(str);
 });
@@ -110,7 +111,6 @@ app.listen(config.serverPort, async () => {
 
     if (config.environment === "dev") {
         routes = routesFromApp(app);
-        console.log(routes);
 
         const host = "http://localhost:" + config.privateServerPort;
     }

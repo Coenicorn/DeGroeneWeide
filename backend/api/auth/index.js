@@ -283,15 +283,6 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
     const readerId = md5hash(macAddress);
 
     try {
-        await insertCard(cardId, null, cardToken, 0);
-
-        debug_log("added new card with id " + cardId);
-    } catch(e) {
-        // constraint primary key means a card with that id already exists, expected behaviour
-        if (e.code !== "SQLITE_CONSTRAINT_PRIMARYKEY") err_log("error inserting new card in /authenticateCard", e);
-    }
-
-    try {
         // const matches = await db_query(`
         //     SELECT DISTINCT Cards.id, Readers.id, Cards.token
         //     FROM Cards
