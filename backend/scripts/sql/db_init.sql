@@ -126,7 +126,7 @@ AFTER INSERT ON Readers
 FOR EACH ROW
 BEGIN
     UPDATE Readers
-    SET lastPing = strftime('%s', 'now')
+    SET lastPing = CURRENT_TIMESTAMP
     WHERE rowid = new.rowid;
 END;
 
@@ -135,7 +135,7 @@ AFTER UPDATE ON Readers
 FOR EACH ROW
 BEGIN
     UPDATE Readers
-    SET lastPing = strftime('%s', 'now')
+    SET lastPing = CURRENT_TIMESTAMP
     WHERE rowid = new.rowid;
 END;
 
