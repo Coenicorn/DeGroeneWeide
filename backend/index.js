@@ -52,12 +52,13 @@ app.use(cors());
 
 let n= 0;
 app.use((req, res, next) => {
+    debug_log("got request for " + req.url);
+    debug_log(req.headers);
     if (config.environment !== "dev") {
         next();
         return;
     }
     info_log("got request for " + req.url);
-    debug_log(req.headers);
     next();
 });
 
