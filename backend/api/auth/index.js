@@ -92,7 +92,7 @@ AuthRouter.post("/deleteAuthLevel", async (req, res) => {
 });
 
 doc.route("getAllAuthLevels", doc.GET, "gets ALL auth levels")
-.response(200, [
+.response(200, "", [
     {
         id: doc.STRING,
         name: doc.STRING
