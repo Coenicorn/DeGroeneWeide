@@ -86,7 +86,7 @@ export async function registerReader(
  */
 export async function getAllReaders() {
 
-    return db_query("SELECT * FROM Readers ORDER BY lastPing ASC", []);
+    return db_query("SELECT * FROM Readers ORDER BY lastPing DESC", []);
 
 }
 
@@ -120,7 +120,7 @@ export async function deleteCards() {
  * @note updated to schema 13.dec.2024
  */
 export async function getAllCards() {
-        return db_query("SELECT * FROM Cards ORDER BY timeLastUpdate ASC", []);
+        return db_query("SELECT * FROM Cards ORDER BY timeLastUpdate DESC", []);
 }
 
 /**
@@ -167,7 +167,7 @@ export async function getAllExtensiveCards(){
             AuthLevels AS al 
             ON al.id = caj.authLevelId
         ORDER BY
-            Cards.timeLastUpdate ASC
+            Cards.timeLastUpdate DESC
     `, []);
 }
 
