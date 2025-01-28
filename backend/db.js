@@ -86,7 +86,7 @@ export async function registerReader(
  */
 export async function getAllReaders() {
 
-    return db_query("SELECT * FROM Readers", []);
+    return db_query("SELECT * FROM Readers ORDER BY lastPing ASC", []);
 
 }
 
