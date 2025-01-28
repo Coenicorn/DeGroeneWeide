@@ -364,7 +364,7 @@ export async function unlinkCardFromAuthLevel(cardId, authLevelId) {
 // queries a list of known cards and readers matching the given id's with the same authentication level only if the card has the same authentication token
 export async function getReaderCardAuthLevelMatchesWithToken(cardId, readerId, cardToken) {
     return db_query(`
-        SELECT DISTINCT Cards.id, Readers.id, Cards.token
+        SELECT Cards.id, Readers.id, Cards.token
         FROM Cards
         JOIN CardAuthJunctions ON Cards.id = CardAuthJunctions.cardId
         JOIN AuthLevels ON CardAuthJunctions.authLevelId = AuthLevels.id
