@@ -11,7 +11,6 @@ import { authenticateRequest } from './apiKey.js';
 import rateLimit from 'express-rate-limit';
 
 // exposed to public
-console.log(import.meta.dirmame)
 const app = express();
 let routes = [];
 
@@ -74,8 +73,6 @@ app.use((req, res, next) => {
     let str;
 
     let finalRoute = req.url.split("/").pop();
-    console.log("final route: " + finalRoute);
-    console.log(routes.includes(finalRoute));
     if (!routes.includes(finalRoute)) {
         if (config.environment === "dev") {
             str = "Route exists but failed, did you use the right method?";
@@ -114,7 +111,6 @@ app.listen(config.serverPort, async () => {
 
     if (config.environment === "dev") {
         routes = routesFromApp(app);
-        console.log(routes);
 
         const host = "http://localhost:" + config.privateServerPort;
     }
