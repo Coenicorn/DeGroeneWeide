@@ -141,15 +141,15 @@ function validity_check() {
         telefoonnummer.style.border = "2px solid red";
         valid = false;
     }
-    if(begin_datum.value < new Date().toISOString().split("T")[0] | begin_datum.value.trim() == "") {
+    if(new Date(begin_datum.value).now < new Date().toISOString().split("T")[0] | new Date(begin_datum.value).now == "") {
         begin_datum.style.border = "2px solid red";
         valid = false;
     }
-    if(eind_datum.value < new Date().toISOString().split("T")[0] | eind_datum.value.trim() == "") {
+    if(new Date(eind_datum.value).now < new Date().toISOString().split("T")[0] | new Date(eind_datum.value).now == "") {
         eind_datum.style.border = "2px solid red";
         valid = false;
     }
-    if(begin_datum.value > eind_datum.value) {
+    if(new Date(begin_datum.value).now > new Date(eind_datum.value).now) {
         eind_datum.style.border = "2px solid red";
         valid = false;
     }
