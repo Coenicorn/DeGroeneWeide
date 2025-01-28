@@ -20,8 +20,8 @@ const __dirname = path.dirname(__filename);
 // rate limiting for pages
 if (config.enableRateLimiting != "0") {
     app.use(rateLimit({
-        windowMs: 10 * 60 * 1000,
-        limit: 200,
+        windowMs: 1000 * 5,
+        limit: 10,
         standardHeaders: 'draft-8',
         legacyHeaders: false
     }));
