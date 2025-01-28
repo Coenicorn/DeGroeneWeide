@@ -342,7 +342,7 @@ CardsRouter.post("/updateCardToken", async (req, res) => {
     if (typeof(newToken) !== "string") return respondwithstatus(res, 400, "token is not of type 'string'");
 
     try {
-        await insertCard(cardId, null, cardToken, 0);
+        await insertCard(cardId, null, newToken, 0);
 
         debug_log("added new card with id " + cardId);
     } catch(e) {
