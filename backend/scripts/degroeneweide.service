@@ -3,7 +3,7 @@ Description=De Groene Weide backend server
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/npm run deploy
+ExecStart=/opt/shocomellow/.nvm/versions/node/v22.13.1/bin/node index.js
 WorkingDirectory=/opt/shocomellow/DeGroeneWeide/backend
 Environment=PATH=/usr/bin:/usr/local/bin
 Environment=ENVIRONMENT=production
