@@ -294,8 +294,6 @@ AuthRouter.post("/authenticateCard", async (req, res) => {
         // `, [cardToken, cardId, readerId]);
         const matches = await getReaderCardAuthLevelMatchesWithToken(cardId, readerId, cardToken);
 
-        console.log(matches);
-
         if (matches.length === 0) {
             // failed to authenticate
             info_log("access denied for cardId " + cardId + " and readerId " + readerId + " (mac: " + macAddress + ") and token " + cardToken);
