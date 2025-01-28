@@ -41,7 +41,7 @@ function mock() {
 }
 
 
-window.onload = function() {begin_datum.min = new Date().toISOString().split("T")[0]; eind_datum.min = new Date().toISOString().split("T")[0]; if (window.location.host.startsWith("localhost")) mock():}
+window.onload = function() {begin_datum.min = new Date().toISOString().split("T")[0]; eind_datum.min = new Date().toISOString().split("T")[0]; if (window.location.host.startsWith("localhost")) mock();}
 
 function getDate(){
     const today = new Date();
