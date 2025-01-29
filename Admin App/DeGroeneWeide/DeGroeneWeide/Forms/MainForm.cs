@@ -66,5 +66,10 @@ namespace DeGroeneWeide
         {
             LoadPage("Boeking");
         }
+
+        private void pagina_container_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

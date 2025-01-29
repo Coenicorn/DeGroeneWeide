@@ -45,9 +45,9 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = c.FirstName,
                 middleName = c.MiddleName,
                 lastName =  c.LastName,
-                maySave = "false",
-                birthDate = c.BirthDate,
-                blacklisted = "false",
+                maySave = 0,
+                blacklisted = 0,
+                birthDate = "",
                 phoneNumber = c.PhoneNumber,
                 mailAddress = c.Email
             };
@@ -58,6 +58,8 @@ namespace DeGroeneWeide.ApiCalls
 
             HttpResponseMessage response = await client.PostAsync(URL, content);
             string responseString = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine(responseString);
 
             if (response.IsSuccessStatusCode)
             {
@@ -70,7 +72,7 @@ namespace DeGroeneWeide.ApiCalls
             }
         }
 
-        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, DateTime birthdate, string phonenumber, string mailaddress)
+        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, string phonenumber, string mailaddress)
         {
             await AddHeaders.AddHeadersToClient(client);
 
@@ -79,10 +81,9 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = firstname,
                 middleName = middlename,
                 lastName = lastname,
-                birthDate = birthdate,
-                maySave = "false",
+                maySave = 0,
                 creationDate = DateTime.Now,
-                blacklisted = "false",
+                blacklisted = 0,
                 phoneNumber = phonenumber,
                 mailAddress = mailaddress
             };

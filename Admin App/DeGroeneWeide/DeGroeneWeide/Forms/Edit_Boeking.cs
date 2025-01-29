@@ -57,7 +57,6 @@ namespace DeGroeneWeide.Forms
             firstname.Text = booking.FirstName;
             middlename.Text = booking.MiddleName;
             lastname.Text = booking.LastName;
-            date_birth.Value = booking.BirthDate;
             date_birth.MaxDate = DateTime.Today.AddYears(-16);
             phoneNumber.Text = booking.PhoneNumber;
             email.Text = booking.Email;
@@ -87,7 +86,7 @@ namespace DeGroeneWeide.Forms
         {
             if (Booking != null && Booking.CustomerId != null)
             {
-                await CustomerApi.UpdateCustomer(new Customer(Booking.CustomerId, firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text));
+                await CustomerApi.UpdateCustomer(new Customer(Booking.CustomerId, firstname.Text, middlename.Text, lastname.Text, phoneNumber.Text, email.Text));
                 await BookingApi.UpdateBooking(new Booking(Booking.Id, Booking.CustomerId, date_start.Value.ToString(), date_end.Value.ToString(), int.Parse(amout_people.Text)));
                 this.Close();
             }
@@ -111,7 +110,7 @@ namespace DeGroeneWeide.Forms
                 return;
             }
 
-            string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, date_birth.Value, phoneNumber.Text, email.Text) ?? "";
+            string CustomerId = await CustomerApi.InsertCustomer(firstname.Text, middlename.Text, lastname.Text, phoneNumber.Text, email.Text) ?? "";
             await BookingApi.InsertBooking(CustomerId, date_start.Value, date_end.Value, int.Parse(amout_people.Text));
             this.Close();
         }

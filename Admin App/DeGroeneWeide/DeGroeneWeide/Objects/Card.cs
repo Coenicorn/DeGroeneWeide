@@ -20,7 +20,7 @@ namespace DeGroeneWeide.Objects
         public string? Token { get; set; }
 
         [JsonPropertyName("blocked")]
-        public string? Blocked { get; set; }
+        public int? Blocked { get; set; }
 
         [JsonPropertyName("customerId")]
         public string? CustomerId { get; set; }
@@ -52,11 +52,8 @@ namespace DeGroeneWeide.Objects
         [JsonPropertyName("lastName")]
         public string? LastName { get; set; }
 
-        [JsonPropertyName("birthDate")]
-        public string? BirthDate { get; set; }
-
         [JsonPropertyName("blackListed")]
-        public string? BlackListed { get; set; }
+        public int? BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]
         public string? PhoneNumber { get; set; }
