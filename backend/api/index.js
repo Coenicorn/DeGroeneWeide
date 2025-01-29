@@ -269,6 +269,21 @@ APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
 
 })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 APIRouter.use("/cards", CardsRouter);
 APIRouter.use("/customers", CustomersRouter)
 APIRouter.use("/readers", ReadersRouter);
