@@ -165,13 +165,17 @@ function handleIncomingData(data) {
 
 }
 
-function main() {
-
+function initWebSocket() {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     websocket = new WebSocket(wsProtocol + window.location.host + "/ws");
 
-    websocket.onmessage = (ev) => handleIncomingData(JSON.parse(ev.data))
+    websocket.onmessage = (ev) => handleIncomingData(JSON.parse(ev.data));
+    websocket.onclose = () => initWebSocket();
+}
 
+function main() {
+
+    initWebSocket();
     fillOutLegend();
 
     setTimeout(() => {
