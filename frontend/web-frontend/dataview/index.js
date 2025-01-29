@@ -39,7 +39,6 @@ function fillOutLegend() {
 }
 
 function sourceToElm(entity) {
-    console.log(entity);
     switch (entity) {
         case DataViewTypes.ENTITY_CLIENT: return visual_client_elm;
         case DataViewTypes.ENTITY_ADMIN: return visual_admin_elm;
