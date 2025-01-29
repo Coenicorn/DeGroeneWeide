@@ -5,7 +5,9 @@
 
 
 
-- Frontend information icon met als je hovert een popup waarin staat hoe de form field eruit moet zien
+- Frontend information icon met als je hovert een popup waarin staat hoe de form field eruit moet zien bij elke input
+
+
 - Temp reservations zijn geldig voor 1 uur
 - Je kan 5 temp reservations sturen per mailadres
 - Als een mailadres wordt bevestigd wordt alleen die temp reservation doorgepassed, alle andere met die mail worden verwijderd
