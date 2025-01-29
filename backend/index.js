@@ -39,7 +39,7 @@ app.set('trust proxy', 1)
 if (config.enableRateLimiting != "0") {
 app.use(rateLimit({
     windowMs: 5 * 60 * 1000,
-    limit: 5,
+    limit: 100,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     skip: (req) => {
