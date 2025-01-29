@@ -9,7 +9,7 @@ import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from 
 import config from "../config.js";
 import { debug_log, deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, validateIncomingFormData, verifyCaptchaStringWithGoogle } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
-import { isPublicRoute, onlyAdminPanel } from "../apiKey.js";
+import { authenticateRequest, isPublicRoute, onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
 import { sendMailConfirmationEmail } from "../mailer.js";
 import * as fs from "fs";
@@ -27,12 +27,12 @@ APIRouter.use(express.static(path.join(import.meta.dirname, "../resources/datavi
 // dataview
 APIRouter.use((req, _res, next) => {
 
-    const isProbablyBrowser = isPublicRoute(req.originalUrl);
-    const isProbablyReader = req.originalUrl.includes("imalive");
+    const isPublic = isPublicRoute(req.originalUrl);
     let sourceEntity;
-    if (isProbablyReader) sourceEntity = DataViewTypes.ENTITY_READER;
-    else if (isProbablyBrowser) sourceEntity = DataViewTypes.ENTITY_CLIENT;
-    else sourceEntity = DataViewTypes.ENTITY_ADMIN;
+
+    if (isPublic) sourceEntity = DataViewTypes.ENTITY_CLIENT;
+    else if (authenticateRequest(req) === 1) sourceEntity = DataViewTypes.ENTITY_ADMIN;
+    else sourceEntity = DataViewTypes.ENTITY_READER;
 
     const u = req.originalUrl;
     const m = req.method === "GET"? DataViewTypes.F_GET : DataViewTypes.F_POST;
