@@ -12,6 +12,8 @@ import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
 import { sendMailConfirmationEmail } from "../mailer.js";
+import * as fs from "fs";
+import path from "path";
 
 const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
 
@@ -156,6 +158,35 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
 });
 
+function sendToMailConfirmedPage(res, confirmed = false, name = null) {
+
+    const confirmedHTML = `
+        <div id="confirmed">
+            <h1>
+                Hallo $NAAM!
+            </h1>
+            <p>Leuk dat je hebt gekozen voor <span id="groeneweide-brand-name">De Groene Weide</span>!</p>
+            <p>Door de link in je inbox te klikken heb je je identiteit bevestigd.</p>
+            <p>Je reservering moet alleen nog goedgekeurd worden door onze staf, wij gaan zo snel mogelijk aan de slag om dat voor elkaar te krijgen.</p>
+            <h3>Tot snel!</h3>
+        </div>
+    `;
+    const notConfirmedHTML = `
+        <div id="not-confirmed">
+            <h1>Sorry!</h1>
+            <p>We hebben geen reservering gevonden.</p>
+            <p>Als dit een foutje is, probeer dan alstjeblieft opnieuw te reserveren.</p>
+        </div>
+    `;
+    let totalPage = fs.readFileSync(path.join(import.meta.dirname, "../resources/mail_confirmed.html"), "utf-8");
+
+    totalPage = totalPage.replace("$CONFIRMED_HTML", (confirmed === true)? confirmedHTML : notConfirmedHTML);
+    totalPage = totalPage.replace("$NAAM", name);
+    totalPage = totalPage.replace("$PAGINA", (confirmed === true)? "<a href='/' id='what-page'>hoofdpagina</a>" : "<a href='/reserveren.html' id='what-page'>reserveringspagina</a>")
+
+    res.status(200).send(totalPage);
+}
+
 doc.route("verify-mail/:reservation_uid", doc.GET, "verifies mail with reservation_uid. Only supposed to be used from link sent in mail", true)
 .response(301, "redirect naar mail_confirmed.html");
 
@@ -183,11 +214,7 @@ APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
         tempReservations.length > 1
     ) {
         // link not valid, redirect to uid not found page
-        const uidNotFoundParams = new URLSearchParams([
-            ["confirmed", "no"]
-        ]);
-
-        return res.redirect("/mail_confirmed.html?" + uidNotFoundParams.toString());
+        return sendToMailConfirmedPage(res, false);
     }
 
     const reservation = tempReservations[0];
@@ -236,15 +263,9 @@ APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
         return respondwithstatus(res, 500, "something went wrong!");
     }
 
-    const params = new URLSearchParams([
-        ["confirmed", "yes"]
-    ]);
+    // delete new booking
 
-    try {
-        params.set("name", reservation.firstName);
-    } catch(e) { /* do nothing, proceed to redirect */ }
-
-    res.redirect("/mail_confirmed.html?" + params.toString());
+    return sendToMailConfirmedPage(res, true, reservation.firstName);
 
 })
 

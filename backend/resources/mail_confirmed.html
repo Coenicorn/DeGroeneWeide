@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mail confirmation</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: "Poppins", "Sans-sarif";
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: url("/img/BoerBertIMG/family-camping-COVER.jpg");
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup{
+            width: 400px;
+            background: #fff;
+            border-radius: 6px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 1em;
+            color: #333;
+        }
+
+        h1{
+            margin: 0px;
+            padding: 0px;
+            font-size: 38px;
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="popup">
+            $CONFIRMED_HTML
+            <p>We sturen je terug naar de $PAGINA over <span id="seconds-until-redirect"></span> seconden</p>
+        </div>
+    </div>
+    
+    <script>
+
+        const secondsElement = document.getElementById("seconds-until-redirect");
+        let remainingSeconds = 10;
+
+        function main() {
+
+            // get url parameters (https://site.com?urlParam=someValue)
+
+            secondsElement.innerText = remainingSeconds.toString();
+
+            setInterval(() => {
+
+                remainingSeconds--;
+
+                if (remainingSeconds <= 0) document.getElementById("what-page").click();
+
+                secondsElement.innerText = remainingSeconds.toString();
+
+            }, 1000);
+
+        }
+
+        document.addEventListener("DOMContentLoaded", main);
+
+    </script>
+</body>
+</html>

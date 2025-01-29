@@ -133,7 +133,7 @@ function reserve(captchaString) {
         if (mvn) {
             // some values are malformed
             Object.entries(mvn).forEach((key) => {
-                document.getElementById(key[0]).style.border = "";
+                rstBorder(document.getElementById(key[0]))
                 key[1].forEach(str => {
                 
 
@@ -147,29 +147,29 @@ function reserve(captchaString) {
                     document.getElementById(key[0]).style.border = "2px solid red";
                 
                 })
-            })
-        }
+            });
 
-
-
-        function showPopup(id, isError = false) {
-            for (let node of document.getElementById("confirmation-states").children) {
-                node.classList.add("hidden")
+            grecaptcha.reset();
+        } else {
+            function showPopup(id, isError = false) {
+                for (let node of document.getElementById("confirmation-states").children) {
+                    node.classList.add("hidden")
+                }
+                const elm = document.getElementById(id);
+                elm.classList.remove("hidden");
+                if (isError) document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
+                document.getElementById("close-confirmation-box-button").onclick = () => confirmationContainer.classList.add("hidden");
+                confirmationContainer.classList.remove("hidden");
             }
-            const elm = document.getElementById(id);
-            elm.classList.remove("hidden");
-            if (isError) document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
-            document.getElementById("close-confirmation-box-button").onclick = () => confirmationContainer.classList.add("hidden");
-            confirmationContainer.classList.remove("hidden");
-        }
 
-        switch (r.status) {
-            case "duplicate": showPopup("confirmation-duplicate"); break;
-            case "success": showPopup("confirmation-success"); break;
-            case "toomany": showPopup("confirmation-too-many", true); break;
-            default: showPopup("confirmation-other-error", true); break;
-        }
+            switch (r.status) {
+                case "duplicate": showPopup("confirmation-duplicate"); break;
+                case "success": showPopup("confirmation-success"); break;
+                case "toomany": showPopup("confirmation-too-many", true); break;
+                default: showPopup("confirmation-other-error", true); break;
+            }
 
-        grecaptcha.reset();
+            grecaptcha.reset();
+        }
     })
 }
