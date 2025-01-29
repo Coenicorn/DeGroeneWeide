@@ -7,7 +7,7 @@ import { DataViewTypes } from "./dataviewtypes.js";
 
 class _DataViewManager {
 
-    port = 35529;
+    port = 8080;
     webSocketServer;
     clients = [];
 

@@ -166,7 +166,7 @@ function handleIncomingData(data) {
 
 function main() {
 
-    websocket = new WebSocket("ws://localhost:35529");
+    websocket = new WebSocket("ws://localhost:8080");
 
     websocket.onmessage = (ev) => handleIncomingData(JSON.parse(ev.data))
 
