@@ -7,15 +7,14 @@ import { DataViewTypes } from "./dataviewtypes.js";
 
 class _DataViewManager {
 
-    port = 8080;
     webSocketServer;
     clients = [];
 
-    constructor() {
+    constructor() {}
+
+    initServer(app) {
         this.webSocketServer = new WebSocketServer({
-            port: this.port,
-        }, () => {
-            info_log("started websocket on port " + this.port);
+            server: app
         });
 
         this.webSocketServer.on("connection", (ws) => {

@@ -98,7 +98,7 @@ app.use((err, req, res, next) => {
     respondwithstatus(res, err.status || 500, str);
 });
 
-app.listen(config.serverPort, async () => {
+DataViewManager.initServer(app.listen(config.serverPort, async () => {
     info_log(`Started API server on port ${config.serverPort}`);
     info_log(`Started public server on http://localhost:${config.serverPort}`);
 
@@ -118,4 +118,4 @@ app.listen(config.serverPort, async () => {
     }
 
     import("./cronjobs.js");
-});
+}));

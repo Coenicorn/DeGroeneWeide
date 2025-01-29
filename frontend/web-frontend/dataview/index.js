@@ -166,7 +166,8 @@ function handleIncomingData(data) {
 
 function main() {
 
-    websocket = new WebSocket("ws://localhost:8080");
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    websocket = new WebSocket(wsProtocol + window.location.host);
 
     websocket.onmessage = (ev) => handleIncomingData(JSON.parse(ev.data))
 
