@@ -44,9 +44,7 @@ doc.route("send-reservation", doc.POST, "send a temporary reservation from the f
     lastName: doc.STRING,
     mailAddress: doc.STRING,
     phoneNumber: doc.STRING,
-    blacklisted: doc.NUMBER,
     birthDate: doc.STRING,
-    maySave: doc.NUMBER,
     startDate: doc.STRING,
     endDate: doc.STRING,
     amountPeople: doc.STRING
@@ -79,9 +77,7 @@ APIRouter.post("/send-reservation", async (req, res) => {
     if (reservation.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
     if (reservation.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
     if (reservation.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
-    if (reservation.blacklisted === undefined) return respondwithstatus(res, 400, "missing blacklisted");
     if (reservation.birthDate === undefined) return respondwithstatus(res, 400, "missing lastNbirthDateame");
-    if (reservation.maySave === undefined) return respondwithstatus(res, 400, "missing maySave");
     if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
@@ -92,9 +88,7 @@ APIRouter.post("/send-reservation", async (req, res) => {
         reservation.lastName,
         reservation.mailAddress,
         reservation.phoneNumber,
-        reservation.blacklisted,
         reservation.birthDate,
-        reservation.maySave,
         reservation.startDate,
         reservation.endDate,
         reservation.amountPeople

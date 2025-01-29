@@ -200,12 +200,31 @@ export function validateIncomingFormData(
         email: [],
         telefoonnummer: [],
         beginDatum: [],
-        eindDatum: []
+        eindDatum: [],
+        hoeveelheidMensen: []
     };
 
+    function mvnIsValid() {
+        let isEmpty = true;
+        Object.values(mvn).forEach(k => {
+            if (k.length === 0) isEmpty = false;
+        });
+        return isEmpty;
+    }
 
-    if (typeof(3))
 
+    if (typeof(firstName) !== "string") mvn.voornaam.push("voornaam is geen woord");
+    if (typeof(lastName) !== "string") mvn.achternaam.push("achternaam is geen woord");
+    if (typeof(mailAddress) !== "string") mvn.email.push("mailaddres is geen woord");
+    if (typeof(phoneNumber) !== "string") mvn.telefoonnummer.push("telefoonnummer is geen woord");
+    if (typeof(startDate) !== "string") mvn.beginDatum.push("startdatum is geen woord");
+    if (typeof(endDate) !== "string") mvn.eindDatum.push("einddatum is geen woord");
+    if (typeof(amountPeople) !== "number") mvn.hoeveelheidMensen.push("hoeveelheid mensen is geen nummer");
+
+    if (!mvnIsValid) {
+        mvn.valid = false;
+        return mvn;
+    }
 
     if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
     if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
@@ -214,19 +233,7 @@ export function validateIncomingFormData(
     if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
     if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
 
-    console.log(startDate);
 
-
-
-    let isEmpty = true;
-    Object.values(mvn).forEach(k => {
-        if (k.length === 0) isEmpty = false;
-    });
-
-    if (isEmpty) mvn.valid = true;
-    else mvn.valid = false;
-
-    return mvn;
 }
 
 
