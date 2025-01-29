@@ -5,7 +5,7 @@
 
 
 
-- Frontend information icon met als je hovert een popup waarin staat hoe de form field eruit moet zien bij elke input
+- Frontend information icon met als je hovert een popup waarin staat hoe de form field eruit moet zien bij elke input en die regeert op backend errors
 
 
 - Temp reservations zijn geldig voor 1 uur
@@ -24,3 +24,9 @@ doing
 - Frontend form checks naar backend verplaatsen
 
 - reset captcha op de correcte manier
+
+
+
+
+- enable captcha
+- remove console.logs
