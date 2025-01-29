@@ -20,8 +20,6 @@ class _DataViewManager {
         this.webSocketServer.on("connection", (ws) => {
             this._initWebSocketClient(ws);
         });
-
-        setInterval(() => this._broadcastMessage("hey"), 1000);
     }
 
     _initWebSocketClient(ws) {
