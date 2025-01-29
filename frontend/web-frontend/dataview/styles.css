@@ -1,0 +1,178 @@
+.fira-mono-regular {
+    font-family: "Fira Mono", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.fira-mono-medium {
+    font-family: "Fira Mono", serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.fira-mono-bold {
+    font-family: "Fira Mono", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+  
+
+body, html {
+    margin: 0;
+    color: white;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+    background-color: rgb(49, 49, 49);
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+    height: 100%;
+}
+
+.view-outer-container {
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+}
+
+.view-inner-container {
+    border: 1px solid rgb(110, 110, 110);
+    background-color: rgb(65, 65, 65);
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+#visual-legend {
+    background-color: rgb(97, 97, 97);
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
+    border-bottom: 1px solid rgb(110, 110, 110);
+}
+
+.legend-color {
+    background-color: white;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+#visual-architecture {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#visual-architecture-container {
+    width: 30%;
+    height: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 0;
+}
+
+#visual-images-grid {
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    flex: 1;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+#visual-images-grid img {
+    max-height: 100%;
+    max-width: 100%;
+    position: relative;
+    background-color: rgb(65, 65, 65);
+    border-radius: 15px;
+}
+
+#img-5 {
+    grid-column: span 1;
+}
+#img-1 {
+    grid-column: span 1;
+}
+#img-2 {
+    grid-column: span 1;
+}
+#img-3 {
+    grid-column: span 3;
+}
+#img-4 {
+    grid-column: span 3;
+}
+
+#visual-legend p {
+    margin: 3px;
+    color: white;
+}
+
+#text-data-wrapper {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.text-data-item {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.text-data-item .view-inner-container {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.view-text-lines {
+    padding: 10px;
+}
+
+.view-text-lines p {
+    margin: 0;
+    width: 100%;
+    margin: 1px;
+    border-radius: 5px;
+    padding: 3px;
+    background-color: rgb(85, 85, 255);
+    border: 1px solid rgb(110, 110, 110);
+    font-size: .7em;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.view-text-lines span {
+    border: 1px solid rgb(65, 65, 65);
+    background-color: rgb(66, 66, 66);
+    margin-right: 1px;
+    padding: 2px
+}
+
+.view-text-lines .view-title {
+    font-weight: 600;
+}
+
+.view-text-lines .view-content {
+    color: rgb(0, 204, 255);
+    flex: 1;
+}

@@ -11,6 +11,8 @@ import { err_log, info_log, md5hash } from './util.js';
 import config from './config.js';
 import * as fs from "fs";
 import { abort } from 'process';
+import { DataViewManager } from "./dataview/manager.js";
+import { DataViewTypes } from "./dataview/dataviewtypes.js";
 
 const dbPath = path.join(import.meta.dirname, 'data.db');
 const db = new Database(dbPath);
@@ -23,12 +25,22 @@ db.pragma('journal_mode = WAL');
  * @returns {Promise<Database.SqliteError|any[]>}
  */
 export async function db_query(query, params) {
+    // dataview
+    DataViewManager.database_req(DataViewTypes.SQL_QUERY, query);
+
     return new Promise((resolve, reject) => {
         try {
             if (params === undefined) params = [];
             resolve(db.prepare(query).all(...params));
+
+            // dataview
+            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, false);
+
         } catch(e) {
             reject(e);
+
+            // dataview
+            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, true);
         }
     });
 }
@@ -40,12 +52,22 @@ export async function db_query(query, params) {
  * @returns {Promise<Database.SqliteError|null>}
  */
 export async function db_execute(query, params) {
+    // dataview
+    DataViewManager.database_req(DataViewTypes.SQL_EXECUTE, query);
+
     return new Promise((resolve, reject) => {
         try {
             if (params === undefined) params = [];
             resolve(db.prepare(query).run(...params));
+
+            // dataview
+            DataViewManager.database_res(DataViewTypes.SQL_EXECUTE, query, false);
+
         } catch(e) {
             reject(e);
+
+            // dataview
+            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, true);
         }
     });
 }

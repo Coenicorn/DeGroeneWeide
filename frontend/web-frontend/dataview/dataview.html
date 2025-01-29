@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Data View</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="dataviewtypes.js"></script>
+</head>
+<body class="fira-mono-regular">
+    <div id="wrapper">
+        <div class="view-outer-container" id="visual-architecture-container">
+            <div class="view-inner-container" id="visual-architecture">
+                <canvas id="visual-canvas"></canvas>
+                <div id="visual-legend">
+                </div>
+                <div id="visual-images-grid">
+                    <img src="img/browser.png" alt="admin" id="img-1">
+                    <img src="img/card.png" alt="rfid" id="img-5">
+                    <img src="img/admin.png" alt="browser" id="img-2">
+                    <img src="img/server.png" alt="server" id="img-3">
+                    <img src="img/database.png" alt="database" id="img-4">
+                </div>
+            </div>
+        </div>
+        <div id="text-data-wrapper">
+            <div class="view-outer-container text-data-item">
+                <div class="view-inner-container">
+                    <div class="view-text-lines" id="server-log">
+                    </div>
+                </div>
+            </div>
+            <div class="view-outer-container text-data-item">
+                <div class="view-inner-container">
+                    <div class="view-text-lines" id="database-log">
+                    </div>
+                </div>
+            </div>
+            <div class="view-outer-container text-data-item">
+                <div class="view-inner-container">
+                    <div class="view-text-lines" id="server-log-out">
+                    </div>
+                </div>
+            </div>
+            <div class="view-outer-container text-data-item">
+                <div class="view-inner-container">
+                    <div class="view-text-lines" id="database-log-out">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

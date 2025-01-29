@@ -1,6 +1,1 @@
-- Temp reservations zijn geldig voor 1 uur
-
-- Als een mailadres wordt bevestigd wordt alleen die temp reservation doorgepassed, alle andere met die mail worden verwijderd
-
-
-- ALLES TESTEN
+- DateViewRequest object
