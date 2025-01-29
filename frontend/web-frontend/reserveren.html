@@ -92,7 +92,6 @@
                 strictMode: true,
                 loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/js/utils.js"),
               });
-              console.log(window)
             </script>
           </td>
         </tr>
@@ -161,9 +160,9 @@
       <p id="eula-text">Door op verzendt te klikken ga je automatisch akkoord met de algemene voorwaarden van deze <a href="/eula.html" target="_blank">Eula</a></p>
 
       <div class="confirm-btn-div">
-        <!-- <button type="button" id="confirm-btn" class="g-recaptcha"
-          data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button> -->
-          <button type="button" id="confirm-btn" onclick="reserve(0)">Verzenden</button>
+        <button type="button" id="confirm-btn" class="g-recaptcha"
+          data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
+          <!-- <button type="button" id="confirm-btn" onclick="reserve(0)">Verzenden</button> -->
       </div>
     </div>
   </section>
@@ -174,37 +173,39 @@
 
         <img src="img/mail_notification_icon.png" alt="mail notificatie plaatje" id="confirmation-popup-icon">
 
-        <div id="confirmation-success" class="hidden">
-          <div class="red-circle-wrapper">
-            <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+        <div id="confirmation-states">
+          <div id="confirmation-success" class="hidden">
+            <div class="red-circle-wrapper">
+              <h1 id="last-step-text">Nog <span class="red-circle-span">1</span> stap</h1>
+            </div>
+
+            <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
+            <p>Als je een foutje hebt gemaakt kan je opnieuw reserveren.</p>
+
+            <h2>Let op!</h2>
+            <ul>
+              <li>Je hebt <b>30</b> minuten om te reserveren voordat wij je aanvraag verwijderen</li>
+              <li>Wij kunnen 5 reserveringen ontvangen voordat je er 1 moet bevestigen</li>
+            </ul>
+            <br>
           </div>
 
-          <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
-          <p>Als je een foutje hebt gemaakt kan je opnieuw reserveren.</p>
+          <div id="confirmation-duplicate" class="hidden">
+            <h1>Oeps!</h1>
+            <p>Het lijkt alsof we je al een mail hebben gestuurd! We hebben je nieuwe reservering opgeslagen, als je via de mail bevestigd kan je kiezen welke er klopt.</p>
+          </div>
 
-          <h2>Let op!</h2>
-          <ul>
-            <li>Je hebt <b>30</b> minuten om te reserveren voordat wij je aanvraag verwijderen</li>
-            <li>Wij kunnen 5 reserveringen ontvangen voordat je er 1 moet bevestigen</li>
-          </ul>
-          <br>
-        </div>
+          <div id="confirmation-too-many" class="hidden">
+            <h1>Error</h1>
+            <p>We hebben te veel reserveringen van jou die staan te wachten. Probeer alstjeblieft je reservering te bevestigen in je mailinbox</p>
+            <br>
+            <p>Is dit een foutje en wil je toch iets aanpassen? Wacht dan 30 minuten of stuur een mailtje naar <a href="mailto:shocomellow.boerbert@gmail.com">onze servicebalie</a></p>
+          </div>
 
-        <div id="confirmation-duplicate" class="hidden">
-          <h1>Oeps!</h1>
-          <p>Het lijkt alsof we je al een mail hebben gestuurd! We hebben je nieuwe reservering opgeslagen, als je via de mail bevestigd kan je kiezen welke er klopt.</p>
-        </div>
-
-        <div id="confirmation-too-many" class="hidden">
-          <h1>Error</h1>
-          <p>Wij hebben te veel reserveringen van jou die staan te wachten. Probeer alstjeblieft je reservering te bevestigen in je mailinbox</p>
-          <br>
-          <p>Is dit een foutje en wil je toch iets aanpassen? Stuur dan een mailtje naar <a href="mailto:shocomellow.boerbert@gmail.com">onze servicebalie</a></p>
-        </div>
-
-        <div id="confirmation-other-error" class="hidden">
-          <br>
-          <p>Er is iets fout gegaan. Probeer het later opnieuw.</p>
+          <div id="confirmation-other-error" class="hidden">
+            <br>
+            <p>Er is iets fout gegaan. Probeer het later opnieuw.</p>
+          </div>
         </div>
 
         <button id="close-confirmation-box-button"><h2>Ik snap het</h2></button>

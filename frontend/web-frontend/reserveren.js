@@ -153,6 +153,9 @@ function reserve(captchaString) {
 
 
         function showPopup(id, isError = false) {
+            for (let node of document.getElementById("confirmation-states").children) {
+                node.classList.add("hidden")
+            }
             const elm = document.getElementById(id);
             elm.classList.remove("hidden");
             if (isError) document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";

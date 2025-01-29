@@ -1,11 +1,3 @@
-- Bestaande customer wordt gelinkt aan nieuwe booking met zelfde mailadres
-
-
-
-
-- popup showt alleen op echte errors
-
-
 - Temp reservations zijn geldig voor 1 uur
 
 - Als een mailadres wordt bevestigd wordt alleen die temp reservation doorgepassed, alle andere met die mail worden verwijderd
