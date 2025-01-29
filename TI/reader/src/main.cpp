@@ -144,6 +144,7 @@ int dumbPostRequest(String payload, String route)
 	http.addHeader("accept", "application/json");
 	http.addHeader("content-type", "application/json"); // required by server for post
 	http.addHeader("x-api-key", X_API_KEY);
+	http.addHeader("reader", READER_HEADER);
 
 	int httpResponseCode = http.POST(payload), ret; // Send POST with payload
 

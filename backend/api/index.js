@@ -29,10 +29,11 @@ APIRouter.use((req, _res, next) => {
 
     const isPublic = isPublicRoute(req.originalUrl);
     let sourceEntity;
+    let readerHeader = req.get("reader");
 
-    if (isPublic) sourceEntity = DataViewTypes.ENTITY_CLIENT;
+    if (readerHeader === config.readerHeader) sourceEntity = DataViewTypes.ENTITY_READER;
     else if (authenticateRequest(req) === 1) sourceEntity = DataViewTypes.ENTITY_ADMIN;
-    else sourceEntity = DataViewTypes.ENTITY_READER;
+    else sourceEntity = DataViewTypes.ENTITY_CLIENT;
 
     const u = req.originalUrl;
     const m = req.method === "GET"? DataViewTypes.F_GET : DataViewTypes.F_POST;

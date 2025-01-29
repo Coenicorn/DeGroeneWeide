@@ -13,6 +13,8 @@ config.generateDocumentation = process.env.GENDOC | null;
 
 config.serverPort = process.env.SERVERPORT;
 
+config.readerHeader = process.env.READER_HEADER;
+
 config.maxInactiveSeconds = process.env.MAX_INACTIVE_SECONDS
 
 // API keys
