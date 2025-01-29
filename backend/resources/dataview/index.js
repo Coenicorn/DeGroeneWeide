@@ -95,7 +95,7 @@ function updateCanvas() {
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    context.lineWidth = 5;
+    context.lineWidth = 10;
     context.lineCap = "round";
 
     // draw constant lines

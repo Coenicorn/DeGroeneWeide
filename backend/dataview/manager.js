@@ -39,7 +39,7 @@ class _DataViewManager {
     }
 
     _getSQLMethodFromString(_str) {
-        const str = _str.toUpperCase();
+        const str = _str.toUpperCase().trim();
         if (str.startsWith("INSERT")) return DataViewTypes.F_INSERT;
         else if (str.startsWith("SELECT")) return DataViewTypes.F_SELECT;
         else if (str.startsWith("UPDATE")) return DataViewTypes.F_UPDATE;
