@@ -15,13 +15,6 @@ export function isPublicRoute(fullRouteName) {
 }
 
 export function authenticateRequest(req) {
-    if (isPublicRoute(req.originalUrl)) {
-    
-        debug_log("access granted to public page + ", req.originalUrl);
-        return 1;
-    
-    }
-
     const apiKey = req.header("x-api-key");
 
     if (apiKey !== config.keyAdminPanel) {
@@ -37,6 +30,6 @@ export function authenticateRequest(req) {
 
 // middleware that checks if the request has access to the route
 export function onlyAdminPanel(req, res, next) {
-    if (authenticateRequest(req)) next();
+    if (isPublicRoute(req.originalUrl) || authenticateRequest(req)) next();
     else respondwithstatus(res, 401, "incorrect API key");
 }
