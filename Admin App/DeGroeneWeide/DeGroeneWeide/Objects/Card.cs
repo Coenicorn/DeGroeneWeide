@@ -20,7 +20,7 @@ namespace DeGroeneWeide.Objects
         public string? Token { get; set; }
 
         [JsonPropertyName("blocked")]
-        public string? Blocked { get; set; }
+        public int? Blocked { get; set; }
 
         [JsonPropertyName("customerId")]
         public string? CustomerId { get; set; }
