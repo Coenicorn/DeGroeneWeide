@@ -1,12 +1,9 @@
 const voornaam = document.getElementById('voornaam');
-const tussenvoegsel = document.getElementById('tussenvoegsel');
 const achternaam = document.getElementById('achternaam');
 const email = document.getElementById('email');
-const land_code = document.getElementById('land_code');
 const telefoonnummer = document.getElementById('telefoonnummer');
 const begin_datum = document.getElementById('startDate');
 const eind_datum = document.getElementById('endDate');
-const aankomsttijd = document.getElementById('aankomsttijd');
 const aantal_gasten = document.getElementById('amountGuests');
 const accommodatie = document.getElementById('typeAccommodatie');
 const notities = document.getElementById('note');
@@ -22,19 +19,17 @@ function mock() {
     te.innerText = "[DEV] test waardes toegevoegd";
     document.getElementById("forum-title").appendChild(te);
     voornaam.value = "John";
-    tussenvoegsel.value = "J.";
     achternaam.value = "Doe";
     email.value = "shocomellow.boerbert@gmail.com";
-    land_code.value = "31";
-    telefoonnummer.value = "0612345678";
+    telefoonnummer.value = "12345678";
 
     let d1 = new Date(), d2 = new Date();
     d2.setDate(d1.getDate() + 1);
 
-    begin_datum.value = d1.toISOString().split("T")[0];
+    // begin_datum.value = d1.toISOString().split("T")[0];
+    begin_datum.value = "test";
     eind_datum.value = d2.toISOString().split("T")[0];
 
-    aankomsttijd.value = "06:09";
     aantal_gasten.value = 1;
     accommodatie.children[1].setAttribute("selected", true);
     notities.innerText = "Lorem ipsum dolor sit amet";
@@ -57,21 +52,6 @@ function getDate(){
 }
 
 function reserve(captchaString) {
-    let checked_aankomsttijd = "";
-    let checked_notities = "";
-
-    if(aankomsttijd.value === "") {
-        checked_aankomsttijd = "onbekend";
-    } else {
-        checked_aankomsttijd = aankomsttijd.value;
-    }
-
-    if(notities.value === ""){
-        checked_notities = "Er zijn geen notities mee gegeven.";
-    } else {
-        checked_notities = notities.value;
-    }
-
     fetch("/api/send-reservation", {
     method: "POST",
     headers: {
@@ -79,36 +59,44 @@ function reserve(captchaString) {
         },
         body: JSON.stringify({
             firstName: voornaam.value,
-            lastName: tussenvoegsel.value + " " + achternaam.value,
+            lastName: achternaam.value,
             mailAddress: email.value,
-            phoneNumber: land_code.value + telefoonnummer.value,
-            birthDate: new Date(),
+            phoneNumber: telefoonnummer.value,
             startDate: new Date(begin_datum.value),
             endDate: new Date(eind_datum.value),
-            amountPeople: aantal_gasten.value,
+            amountPeople: Number(aantal_gasten.value),
             notes: notities.value,
 
             captcha: captchaString
         })
-    }).then(r => {
-        if (r.status === 409) {
-            // mail already pending
-            document.getElementById("confirmation-duplicate").classList.remove("hidden");
-            document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
+    })
+    .then(r => r.json())
+    .then(r => {
+
+        const mvn = r.mvn;
+        console.log(mvn);
+        return;
+
+
+
+
+        function showPopup(id, isError = false) {
+            const elm = document.getElementById(id);
+            elm.classList.remove("hidden");
+            if (isError) document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
             document.getElementById("close-confirmation-box-button").onclick = () => confirmationContainer.classList.add("hidden");
-        } else if (r.status === 200) {
-            // nothing wrong
-            document.getElementById("confirmation-success").classList.remove("hidden");
-            document.getElementById("close-confirmation-box-button").onclick = () => window.location.href = "/";
-        } else {
-            // server error
-            document.getElementById("confirmation-other-error").classList.remove("hidden");
-            document.getElementById("confirmation-popup-icon").src = "/img/exclamation-mark.png";
-            document.getElementById("close-confirmation-box-button").onclick = () => confirmationContainer.classList.add("hidden");
+            confirmationContainer.classList.remove("hidden");
         }
 
-        confirmationContainer.classList.remove("hidden");
-        
+        const responseStatus = r.status;
+
+        switch (r.status) {
+            case "duplicate": showPopup("confirmation-duplicate"); break;
+            case "success": showPopup("confirmation-success"); break;
+            case "toomany": showPopup("confirmation-too-many", true); break;
+            default: showPopup("confirmation-other-error", true); break;
+        }
+
         grecaptcha.reset();
     })
 }

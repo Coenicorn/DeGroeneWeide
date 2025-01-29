@@ -44,7 +44,6 @@ doc.route("send-reservation", doc.POST, "send a temporary reservation from the f
     lastName: doc.STRING,
     mailAddress: doc.STRING,
     phoneNumber: doc.STRING,
-    birthDate: doc.STRING,
     startDate: doc.STRING,
     endDate: doc.STRING,
     amountPeople: doc.STRING
@@ -52,6 +51,8 @@ doc.route("send-reservation", doc.POST, "send a temporary reservation from the f
 .response(200, "successfully added temporary reservation. A link has been sent to the mailaddress entered in the request, when the link isn't clicked withint 10 minutes the temporary reservation gets deleted!")
 
 APIRouter.post("/send-reservation", async (req, res) => {
+
+    console.log(req.body);
 
     if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
 
@@ -73,28 +74,22 @@ APIRouter.post("/send-reservation", async (req, res) => {
 
     const reservation = req.body;
 
-    if (reservation.firstName === undefined) return respondwithstatus(res, 400, "missing firstname");
-    if (reservation.lastName === undefined) return respondwithstatus(res, 400, "missing lastName");
-    if (reservation.mailAddress === undefined) return respondwithstatus(res, 400, "missing mailAddress");
-    if (reservation.phoneNumber === undefined) return respondwithstatus(res, 400, "missing phoneNumber");
-    if (reservation.birthDate === undefined) return respondwithstatus(res, 400, "missing lastNbirthDateame");
-    if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
-    if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
-    if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
-
     // check data format
-    validateIncomingFormData(
+    const mvn = validateIncomingFormData(
         reservation.firstName,
         reservation.lastName,
         reservation.mailAddress,
         reservation.phoneNumber,
-        reservation.birthDate,
         reservation.startDate,
         reservation.endDate,
         reservation.amountPeople
-    )
+    );
 
-    return respondwithstatus(res, 200, "pluh");
+    console.log(mvn);
+
+    if (mvn) return res.status(400).json({mvn});
+
+    return respondwithstatus(res, 200, "error");
 
     // if (config.environment != "dev") {
         try {
