@@ -212,35 +212,47 @@ export function validateIncomingFormData(
         return isEmpty;
     }
 
-
     if (typeof(firstName) !== "string") mvn.voornaam.push("voornaam is geen woord");
     if (typeof(lastName) !== "string") mvn.achternaam.push("achternaam is geen woord");
     if (typeof(mailAddress) !== "string") mvn.email.push("mailaddres is geen woord");
     if (typeof(phoneNumber) !== "string") mvn.telefoonnummer.push("telefoonnummer is geen woord");
-    if (typeof(startDate) !== "string") mvn.beginDatum.push("startdatum is geen woord");
-    if (typeof(endDate) !== "string") mvn.eindDatum.push("einddatum is geen woord");
+    if (typeof(startDate) !== "string") mvn.beginDatum.push("startdatum is niet geldig");
+    if (typeof(endDate) !== "string") mvn.eindDatum.push("einddatum is niet geldig");
     if (typeof(amountPeople) !== "number") mvn.hoeveelheidMensen.push("hoeveelheid mensen is geen nummer");
 
-    if (!mvnIsValid) {
-        mvn.valid = false;
+    if (!mvnIsValid()) {
         return mvn;
     }
 
-    console.log(Date.parse(startDate));
+    if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
+    if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
+    if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
+    if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
+    if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
+    if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
+    if (amountPeople <= 0) mvn.hoeveelheidMensen.push("hoeveelheid mensen mag minder zijn dan 1");
+
+    if (!Date.parse(startDate)) mvn.beginDatum.push("begindatum is niet geldig");
+    if (!Date.parse(endDate)) mvn.eindDatum.push("einddatum is niet geldig");
+
+    if (!mvnIsValid()) {
+        return mvn;
+    }
 
     const startDate_d = new Date(startDate);
     const endDate_d = new Date(endDate);
+    const currentDate = new Date();
 
-    console.log(startDate_d);
-    console.log(endDate_d);
+    if (endDate_d < startDate_d) mvn.eindDatum.push("einddatum mag niet eerder zijn dan begindatum");
+    if (endDate_d < currentDate) mvn.eindDatum.push("einddatum mag niet in het verleden zijn");
+    if (startDate_d < currentDate) mvn.beginDatum.push("begindatum mag niet in het verleden zijn");
 
-    // if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
-    // if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
-    // if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
-    // if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
-    // if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
-    // if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
-
+    if (!mvnIsValid()) {
+        mvn.valid = false;
+        return mvn;
+    } else {
+        return undefined;
+    }
 
 }
 
