@@ -58,7 +58,6 @@
             lastname = new Guna.UI2.WinForms.Guna2TextBox();
             date_start = new Guna.UI2.WinForms.Guna2DateTimePicker();
             date_end = new Guna.UI2.WinForms.Guna2DateTimePicker();
-            date_birth = new Guna.UI2.WinForms.Guna2DateTimePicker();
             email = new Guna.UI2.WinForms.Guna2TextBox();
             phoneNumber = new Guna.UI2.WinForms.Guna2TextBox();
             amout_people = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -167,21 +166,6 @@
             date_end.TabIndex = 4;
             date_end.Value = new DateTime(2025, 1, 23, 11, 10, 21, 632);
             date_end.ValueChanged += date_end_ValueChanged;
-            // 
-            // date_birth
-            // 
-            date_birth.Checked = true;
-            date_birth.CustomizableEdges = customizableEdges11;
-            date_birth.Font = new Font("Segoe UI", 9F);
-            date_birth.Format = DateTimePickerFormat.Long;
-            date_birth.Location = new Point(30, 190);
-            date_birth.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            date_birth.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            date_birth.Name = "date_birth";
-            date_birth.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            date_birth.Size = new Size(200, 36);
-            date_birth.TabIndex = 5;
-            date_birth.Value = new DateTime(2025, 1, 23, 11, 10, 21, 632);
             // 
             // email
             // 
@@ -394,7 +378,6 @@
             Controls.Add(amout_people);
             Controls.Add(phoneNumber);
             Controls.Add(email);
-            Controls.Add(date_birth);
             Controls.Add(date_end);
             Controls.Add(date_start);
             Controls.Add(lastname);
@@ -417,7 +400,6 @@
         private Guna.UI2.WinForms.Guna2TextBox lastname;
         private Guna.UI2.WinForms.Guna2DateTimePicker date_start;
         private Guna.UI2.WinForms.Guna2DateTimePicker date_end;
-        private Guna.UI2.WinForms.Guna2DateTimePicker date_birth;
         private Guna.UI2.WinForms.Guna2TextBox email;
         private Guna.UI2.WinForms.Guna2TextBox phoneNumber;
         private Guna.UI2.WinForms.Guna2ComboBox amout_people;

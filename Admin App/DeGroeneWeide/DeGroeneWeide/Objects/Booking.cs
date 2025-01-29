@@ -32,7 +32,7 @@ namespace DeGroeneWeide.Objects
         public string? Notes { get; set; }
 
         [JsonPropertyName("confirmed")]
-        public string Confirmed { get; set; }
+        public int Confirmed { get; set; }
 
         [JsonPropertyName("firstName")]
         public string? FirstName { get; set; }
@@ -44,16 +44,13 @@ namespace DeGroeneWeide.Objects
         public string? LastName { get; set; }
 
         [JsonPropertyName("maySave")]
-        public string MaySave { get; set; }
-
-        [JsonPropertyName("birthDate")]
-        public DateTime BirthDate { get; set; }
+        public int? MaySave { get; set; }
 
         [JsonPropertyName("customerCreationDate")]
         public DateTime CustomerCreationDate { get; set; }
 
         [JsonPropertyName("blacklisted")]
-        public string BlackListed { get; set; }
+        public int BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]
         public string? PhoneNumber { get; set; }
@@ -63,7 +60,7 @@ namespace DeGroeneWeide.Objects
 
         //public string Notes
 
-        public Booking(string? id, string? customerId, string startDate, string endDate, int? amountPeople, string creationDate, string notes, string confirmed, string firstName, string middleName, string lastName, string maySave, string birthDate, string customerCreationDate, string blackListed, string phoneNumber, string email)
+        public Booking(string? id, string? customerId, string startDate, string endDate, int? amountPeople, string creationDate, string notes, int confirmed, string firstName, string middleName, string lastName, int maySave, string customerCreationDate, int blackListed, string phoneNumber, string email)
         {
             Id = id;
             CustomerId = customerId;
@@ -76,7 +73,6 @@ namespace DeGroeneWeide.Objects
             MiddleName = middleName;
             LastName = lastName;
             MaySave = maySave;
-            BirthDate = DateTime.Parse(birthDate);
             CustomerCreationDate = DateTime.Parse(customerCreationDate);
             BlackListed = blackListed;
             PhoneNumber = phoneNumber;

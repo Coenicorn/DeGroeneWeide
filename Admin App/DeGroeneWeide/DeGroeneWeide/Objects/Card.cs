@@ -52,11 +52,8 @@ namespace DeGroeneWeide.Objects
         [JsonPropertyName("lastName")]
         public string? LastName { get; set; }
 
-        [JsonPropertyName("birthDate")]
-        public string? BirthDate { get; set; }
-
         [JsonPropertyName("blackListed")]
-        public string? BlackListed { get; set; }
+        public int? BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]
         public string? PhoneNumber { get; set; }

@@ -12,7 +12,7 @@ namespace DeGroeneWeide.ApiCalls
 {
     internal class CustomerApi
     {
-        public static List<Customer>? Customers;
+        public static List<Customer> Customers = new List<Customer>();
         public static HttpClient client = new();
         public static async Task GetCustomers()
         {
@@ -25,7 +25,8 @@ namespace DeGroeneWeide.ApiCalls
 
                 string json = await result.Content.ReadAsStringAsync();
 
-                Customers = JsonSerializer.Deserialize<List<Customer>>(json);
+                var c = JsonSerializer.Deserialize<List<Customer>>(json) ?? null;
+                if (c != null) Customers = c;
             }
             catch (Exception ex)
             {
@@ -45,9 +46,8 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = c.FirstName,
                 middleName = c.MiddleName,
                 lastName =  c.LastName,
-                maySave = "false",
-                birthDate = c.BirthDate,
-                blacklisted = "false",
+                maySave = 0,
+                blacklisted = 0,
                 phoneNumber = c.PhoneNumber,
                 mailAddress = c.Email
             };
@@ -70,7 +70,7 @@ namespace DeGroeneWeide.ApiCalls
             }
         }
 
-        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, DateTime birthdate, string phonenumber, string mailaddress)
+        public static async Task<string?> InsertCustomer(string firstname, string middlename, string lastname, string phonenumber, string mailaddress)
         {
             await AddHeaders.AddHeadersToClient(client);
 
@@ -79,7 +79,6 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = firstname,
                 middleName = middlename,
                 lastName = lastname,
-                birthDate = birthdate,
                 maySave = "false",
                 creationDate = DateTime.Now,
                 blacklisted = "false",
