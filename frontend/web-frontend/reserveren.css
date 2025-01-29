@@ -186,13 +186,6 @@ body {
     font-size: 0.9rem;
 }
 
-@media(max-width: 700px) {
-    tr {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
 @media(min-width: 700px) {
     .forum-title {
         font-size: 1.5rem;
@@ -252,12 +245,6 @@ ul {
     text-align: center;
 
     border-radius: 10px;
-}
-
-#confirmation-box-wrapper ul {
-    list-style: inside;
-    text-align: left;
-    font-size: .9em;
 }
 
 #confirmation-popup-icon {
@@ -555,14 +542,4 @@ input {
 
 .confirm-btn-div {
     width: 100%;
-}
-
-
-.errnote {
-    color: rgb(255, 0, 0);
-    padding: 0;
-    margin: 0;
-    border-radius: 6px;
-    font-size: .8em;
-    text-align: left;
 }

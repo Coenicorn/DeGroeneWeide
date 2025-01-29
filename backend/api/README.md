@@ -14,12 +14,12 @@ send a temporary reservation from the frontend to the backend. Needs to be confi
 	"lastName": string,
 	"mailAddress": string,
 	"phoneNumber": string,
+	"blacklisted": number,
+	"birthDate": string,
+	"maySave": number,
 	"startDate": string,
 	"endDate": string,
 	"amountPeople": string,
-	"accomodation": string,
-	"notes": string,
-	"captcha": string,
 }
 ```
 ## response

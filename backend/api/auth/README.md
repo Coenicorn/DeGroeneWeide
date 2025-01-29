@@ -37,16 +37,7 @@ deletes an auth level
 ## `GET api/auth/getAllAuthLevels` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
 gets ALL auth levels
 ## response
-[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) <br>
-```javascript
-// 200 response body
-[
-	{
-		"id": string,
-		"name": string,
-	},
-]
-```
+[`200`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) [object Object]<br>
 ## `POST api/auth/linkReaderAuth` ![img_private](https://github.com/Coenicorn/DeGroeneWeide/blob/main/backend/docgen/private.png?raw=true) [<sup>?</sup>](https://github.com/Coenicorn/DeGroeneWeide/blob/conformation-mail/backend/api/DOCS.md)
 links a reader to an authentication level
 ## request
