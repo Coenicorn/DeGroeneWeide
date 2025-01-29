@@ -65,9 +65,6 @@ export async function db_execute(query, params) {
 
         } catch(e) {
             reject(e);
-
-            // dataview
-            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, true);
         }
     });
 }

@@ -89,7 +89,7 @@ class Line {
 
 const constantLines = [];
 const lines = [];
-const alphaChange = 0.05;
+const alphaChange = 0.03;
 
 function updateCanvas() {
 
