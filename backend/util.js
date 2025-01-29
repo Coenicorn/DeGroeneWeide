@@ -237,6 +237,7 @@ export function validateIncomingFormData(
     if (startDate.trim() === "") mvn.startDate.push("begindatum is leeg");
     if (endDate.trim() === "") mvn.endDate.push("einddatum is leeg");
     if (amountPeople <= 0) mvn.amountGuests.push("hoeveelheid mensen mag niet minder zijn dan 1");
+    if (amountPeople > 100) mvn.amountGuests.push("hoeveelheid mensen mag niet meer zijn dan 100");
     if (accomodation.trim() === "") mvn.typeAccommodatie.push("accomodatie is leeg");
 
     if (accomodation === "default") mvn.typeAccommodatie.push("selecteer alstjeblieft een type accomodatie");

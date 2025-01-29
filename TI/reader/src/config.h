@@ -28,4 +28,4 @@
 #define BAT_ADC 36
 
 // comment to make device a writer
-#define READER_ROLE
+// #define READER_ROLE
