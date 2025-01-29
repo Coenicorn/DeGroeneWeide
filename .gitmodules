@@ -1,0 +1,3 @@
+[submodule "TI/reader/lib/rfid"]
+	path = TI/reader/lib/rfid
+	url = https://github.com/miguelbalboa/rfid
