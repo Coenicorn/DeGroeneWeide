@@ -131,7 +131,7 @@ export function sqliteDATETIMEToDate( dateAsString ) {
 
 export async function deleteOldTempReservations() {
     const res = await db_execute(`
-        DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-30 minutes')
+        DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-10 minutes')
     `);
     if (res.changes === 0) return;
     debug_log(`deleted ${res.changes} old temp reservations`);
@@ -178,91 +178,4 @@ export async function verifyCaptchaStringWithGoogle(captchaString) {
         return false;
 
     }
-}
-
-
-
-
-export function validateIncomingFormData(
-    firstName,
-    lastName,
-    mailAddress,
-    phoneNumber,
-    startDate,
-    endDate,
-    amountPeople,
-    accomodation,
-    notes
-) {
-
-    // MalformedValueNotes
-    const mvn = {
-        voornaam: [],
-        achternaam: [],
-        email: [],
-        telefoonnummer: [],
-        startDate: [],
-        endDate: [],
-        amountGuests: [],
-        typeAccommodatie: [],
-        note: []
-    };
-
-    function mvnIsValid() {
-        let isEmpty = true;
-        Object.values(mvn).forEach(k => {
-            if (k.length > 0) isEmpty = false;
-        });
-        return isEmpty;
-    }
-
-    if (typeof(firstName) !== "string") mvn.voornaam.push("voornaam is geen woord");
-    if (typeof(lastName) !== "string") mvn.achternaam.push("achternaam is geen woord");
-    if (typeof(mailAddress) !== "string") mvn.email.push("mailaddres is geen woord");
-    if (typeof(phoneNumber) !== "string") mvn.telefoonnummer.push("telefoonnummer is geen woord");
-    if (typeof(startDate) !== "string") mvn.startDate.push("startdatum is niet geldig");
-    if (typeof(endDate) !== "string") mvn.endDate.push("einddatum is niet geldig");
-    if (typeof(amountPeople) !== "number") mvn.amountGuests.push("hoeveelheid mensen is geen nummer");
-    if (typeof(accomodation) !== "string") mvn.typeAccommodatie.push("accomodatie is niet geldig");
-    if (typeof(notes) !== "string") mvn.note.push("notities is geen woord");
-
-    if (!mvnIsValid()) {
-        return mvn;
-    }
-
-    if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
-    if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
-    if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
-    if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
-    if (startDate.trim() === "") mvn.startDate.push("begindatum is leeg");
-    if (endDate.trim() === "") mvn.endDate.push("einddatum is leeg");
-    if (amountPeople <= 0) mvn.amountGuests.push("hoeveelheid mensen mag niet minder zijn dan 1");
-    if (accomodation.trim() === "") mvn.typeAccommodatie.push("accomodatie is leeg");
-
-    if (accomodation === "default") mvn.typeAccommodatie.push("selecteer alstjeblieft een type accomodatie");
-
-    if (!Date.parse(startDate)) mvn.startDate.push("begindatum is niet geldig");
-    if (!Date.parse(endDate)) mvn.endDate.push("einddatum is niet geldig");
-
-    if (!mvnIsValid()) {
-        return mvn;
-    }
-
-    const startDate_d = new Date(startDate);
-    const endDate_d = new Date(endDate);
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0);
-
-    if (endDate_d.getTime() < startDate_d.getTime()) mvn.endDate.push("einddatum mag niet eerder zijn dan begindatum");
-    if (endDate_d.getTime() < currentDate.getTime()) mvn.endDate.push("einddatum mag niet in het verleden zijn");
-    if (startDate_d.getTime() < currentDate.getTime()) mvn.startDate.push("begindatum mag niet in het verleden zijn");
-
-    if (!mailAddress.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) mvn.email.push("email is niet geldig");
-
-    if (!mvnIsValid()) {
-        return mvn;
-    } else {
-        return undefined;
-    }
-
 }
