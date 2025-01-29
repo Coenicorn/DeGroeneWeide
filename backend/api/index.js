@@ -27,7 +27,8 @@ APIRouter.use(express.static(path.join(import.meta.dirname, "../resources/datavi
 // dataview
 APIRouter.use((req, _res, next) => {
 
-    const isPublic = isPublicRoute(req.originalUrl);
+    console.log(req);
+
     let sourceEntity;
     let readerHeader = req.get("reader");
 

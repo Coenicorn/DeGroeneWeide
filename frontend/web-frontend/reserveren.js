@@ -106,6 +106,8 @@ function reserve(captchaString) {
         return addErrNoteToInputElement("telefoonnummer", ["telefoonnummer is niet geldig"])
     }
 
+    
+
     fetch("/api/send-reservation", {
     method: "POST",
     headers: {
