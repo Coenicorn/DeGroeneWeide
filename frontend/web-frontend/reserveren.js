@@ -57,8 +57,6 @@ function getDate(){
 }
 
 function reserve(captchaString) {
-    if(!validity_check()) return;
-    
     let checked_aankomsttijd = "";
     let checked_notities = "";
 
@@ -115,66 +113,4 @@ function reserve(captchaString) {
         
         grecaptcha.reset();
     })
-}
-
-function validity_check() {
-    resetBorders();
-    let valid = true;
-    if(voornaam.value.trim() == "") {
-        voornaam.style.border = "2px solid red";
-        valid = false;
-    }
-    if(achternaam.value.trim() == "") {
-        achternaam.style.border = "2px solid red";
-        valid = false;
-    }
-    if(email.value.trim() == "" | email.value.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == false){
-        email.style.border = "2px solid red";
-        valid = false;
-    }
-    if(land_code.value.trim() == "") {
-        land_code.style.border = "2px solid red";
-        valid = false;
-    }
-    if(telefoonnummer.value.trim() == "" | telefoonnummer.value.trim().length != 10) {
-        telefoonnummer.style.border = "2px solid red";
-        valid = false;
-    }
-    if(new Date(begin_datum.value).now < new Date().toISOString().split("T")[0] | new Date(begin_datum.value).now == "") {
-        begin_datum.style.border = "2px solid red";
-        valid = false;
-    }
-    if(new Date(eind_datum.value).now < new Date().toISOString().split("T")[0] | new Date(eind_datum.value).now == "") {
-        eind_datum.style.border = "2px solid red";
-        valid = false;
-    }
-    if(new Date(begin_datum.value).now > new Date(eind_datum.value).now) {
-        eind_datum.style.border = "2px solid red";
-        valid = false;
-    }
-    if(aantal_gasten.value.trim() == "" | aantal_gasten.value.trim() < 1){
-        aantal_gasten.style.border = "2px solid red";
-        valid = false;
-    }
-    if(accommodatie.value == "default") {
-        accommodatie.style.border = "2px solid red";
-        valid = false;
-    }
-
-    if(valid){
-        return true;
-    }
-    return false;
-}
-
-function resetBorders(){
-    voornaam.style.border = "2px solid white";
-    achternaam.style.border = "2px solid white";
-    email.style.border = "2px solid white";
-    land_code.style.border = "2px solid white";
-    telefoonnummer.style.border = "2px solid white";
-    begin_datum.style.border = "2px solid white";
-    eind_datum.style.border = "2px solid white";
-    aantal_gasten.style.border = "2px solid border";
-    accommodatie.style.border = "2px solid border";
 }

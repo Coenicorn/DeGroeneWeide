@@ -7,7 +7,7 @@ import CustomersRouter from "./customers/customers.js";
 import BookingRouter from "./booking/booking.js";
 import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from "../db.js";
 import config from "../config.js";
-import { debug_log, deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, verifyCaptchaStringWithGoogle } from "../util.js";
+import { debug_log, deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, validateIncomingFormData, verifyCaptchaStringWithGoogle } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
 import { onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
@@ -85,6 +85,22 @@ APIRouter.post("/send-reservation", async (req, res) => {
     if (reservation.startDate === undefined) return respondwithstatus(res, 400, "missing startDate");
     if (reservation.endDate === undefined) return respondwithstatus(res, 400, "missing endDate");
     if (reservation.amountPeople === undefined) return respondwithstatus(res, 400, "missing amountPeople");
+
+    // check data format
+    validateIncomingFormData(
+        reservation.firstName,
+        reservation.lastName,
+        reservation.mailAddress,
+        reservation.phoneNumber,
+        reservation.blacklisted,
+        reservation.birthDate,
+        reservation.maySave,
+        reservation.startDate,
+        reservation.endDate,
+        reservation.amountPeople
+    )
+
+    return respondwithstatus(res, 200, "pluh");
 
     // if (config.environment != "dev") {
         try {

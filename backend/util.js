@@ -179,3 +179,119 @@ export async function verifyCaptchaStringWithGoogle(captchaString) {
 
     }
 }
+
+
+
+
+export function validateIncomingFormData(
+    firstName,
+    lastName,
+    mailAddress,
+    phoneNumber,
+    startDate,
+    endDate,
+    amountPeople,
+) {
+
+    // MalformedValueNotes
+    const mvn = {
+        voornaam: [],
+        achternaam: [],
+        email: [],
+        telefoonnummer: [],
+        beginDatum: [],
+        eindDatum: []
+    };
+
+
+    if (typeof(3))
+
+
+    if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
+    if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
+    if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
+    if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
+    if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
+    if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
+
+    console.log(startDate);
+
+
+
+    let isEmpty = true;
+    Object.values(mvn).forEach(k => {
+        if (k.length === 0) isEmpty = false;
+    });
+
+    if (isEmpty) mvn.valid = true;
+    else mvn.valid = false;
+
+    return mvn;
+}
+
+
+
+
+
+
+function validity_check() {
+    resetBorders();
+    let valid = true;
+    if(voornaam.value.trim() == "") {
+        voornaam.style.border = "2px solid red";
+        valid = false;
+    }
+    if(achternaam.value.trim() == "") {
+        achternaam.style.border = "2px solid red";
+        valid = false;
+    }
+    if(email.value.trim() == "" | email.value.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == false){
+        email.style.border = "2px solid red";
+        valid = false;
+    }
+    if(land_code.value.trim() == "") {
+        land_code.style.border = "2px solid red";
+        valid = false;
+    }
+    if(telefoonnummer.value.trim() == "" | telefoonnummer.value.trim().length != 10) {
+        telefoonnummer.style.border = "2px solid red";
+        valid = false;
+    }
+    if(new Date(begin_datum.value).now < new Date().toISOString().split("T")[0] | new Date(begin_datum.value).now == "") {
+        begin_datum.style.border = "2px solid red";
+        valid = false;
+    }
+    if(new Date(eind_datum.value).now < new Date().toISOString().split("T")[0] | new Date(eind_datum.value).now == "") {
+        eind_datum.style.border = "2px solid red";
+        valid = false;
+    }
+    if(new Date(begin_datum.value).now > new Date(eind_datum.value).now) {
+        eind_datum.style.border = "2px solid red";
+        valid = false;
+    }
+    if(aantal_gasten.value.trim() == "" | aantal_gasten.value.trim() < 1){
+        aantal_gasten.style.border = "2px solid red";
+        valid = false;
+    }
+    if(accommodatie.value == "default") {
+        accommodatie.style.border = "2px solid red";
+        valid = false;
+    }
+
+    if(valid){
+        return true;
+    }
+    return false;
+}
+
+function resetBorders(){
+    voornaam.style.border = "2px solid white";
+    achternaam.style.border = "2px solid white";
+    email.style.border = "2px solid white";
+    land_code.style.border = "2px solid white";
+    telefoonnummer.style.border = "2px solid white";
+    begin_datum.style.border = "2px solid white";
+    eind_datum.style.border = "2px solid white";
+    aantal_gasten.style.border = "2px solid border";
+    accommodatie.style.border = "2px solid border";
+}

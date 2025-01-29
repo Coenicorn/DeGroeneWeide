@@ -1,5 +1,10 @@
 - Bestaande customer wordt gelinkt aan nieuwe booking met zelfde mailadres
-- Frontend form checks naar backend verplaatsen
+
+
+
+
+
+
 - Frontend information icon met als je hovert een popup waarin staat hoe de form field eruit moet zien
 - Temp reservations zijn geldig voor 1 uur
 - Je kan 5 temp reservations sturen per mailadres
@@ -9,3 +14,11 @@
     - Het lijkt alsof we je al een mail hebben gestuurd...
     - We hebben je een mail gestuurd!
     - Er is iets fout gegaan
+
+
+
+doing
+
+- Frontend form checks naar backend verplaatsen
+
+- reset captcha op de correcte manier
