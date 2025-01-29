@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 if (config.enableRateLimiting != "0") {
     app.use(rateLimit({
         windowMs: 1000 * 5,
-        limit: 50,
+        limit: 150,
         standardHeaders: 'draft-8',
         legacyHeaders: false
     }));
@@ -39,7 +39,7 @@ app.set('trust proxy', 1)
 if (config.enableRateLimiting != "0") {
 app.use(rateLimit({
     windowMs: 5 * 60 * 1000,
-    limit: 100,
+    limit: 500,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     skip: (req) => {
