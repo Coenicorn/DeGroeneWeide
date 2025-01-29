@@ -87,11 +87,12 @@
             <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/js/intlTelInput.min.js"></script>
             <script>
               const input = document.querySelector("#telefoonnummer");
-              window.intlTelInput(input, {
+              window.iti = window.intlTelInput(input, {
                 initialCountry: "nl",
                 strictMode: true,
                 loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/js/utils.js"),
               });
+              console.log(window)
             </script>
           </td>
         </tr>
@@ -179,11 +180,14 @@
           </div>
 
           <p>Om zeker te weten dat jij het bent hebben we je een email gestuurd waarin je je reservering kan bevestigen.</p>
+          <p>Als je een foutje hebt gemaakt kan je opnieuw reserveren.</p>
 
           <h2>Let op!</h2>
-          <div class="red-circle-wrapper">
-            <p>Je hebt nog <b>30</b> minuten om je reservering te bevestigen.</p>
-          </div>
+          <ul>
+            <li>Je hebt <b>30</b> minuten om te reserveren voordat wij je aanvraag verwijderen</li>
+            <li>Wij kunnen 5 reserveringen ontvangen voordat je er 1 moet bevestigen</li>
+          </ul>
+          <br>
         </div>
 
         <div id="confirmation-duplicate" class="hidden">

@@ -191,6 +191,8 @@ export function validateIncomingFormData(
     startDate,
     endDate,
     amountPeople,
+    accomodation,
+    notes
 ) {
 
     // MalformedValueNotes
@@ -199,15 +201,17 @@ export function validateIncomingFormData(
         achternaam: [],
         email: [],
         telefoonnummer: [],
-        beginDatum: [],
-        eindDatum: [],
-        hoeveelheidMensen: []
+        startDate: [],
+        endDate: [],
+        amountGuests: [],
+        typeAccommodatie: [],
+        note: []
     };
 
     function mvnIsValid() {
         let isEmpty = true;
         Object.values(mvn).forEach(k => {
-            if (k.length === 0) isEmpty = false;
+            if (k.length > 0) isEmpty = false;
         });
         return isEmpty;
     }
@@ -216,9 +220,11 @@ export function validateIncomingFormData(
     if (typeof(lastName) !== "string") mvn.achternaam.push("achternaam is geen woord");
     if (typeof(mailAddress) !== "string") mvn.email.push("mailaddres is geen woord");
     if (typeof(phoneNumber) !== "string") mvn.telefoonnummer.push("telefoonnummer is geen woord");
-    if (typeof(startDate) !== "string") mvn.beginDatum.push("startdatum is niet geldig");
-    if (typeof(endDate) !== "string") mvn.eindDatum.push("einddatum is niet geldig");
-    if (typeof(amountPeople) !== "number") mvn.hoeveelheidMensen.push("hoeveelheid mensen is geen nummer");
+    if (typeof(startDate) !== "string") mvn.startDate.push("startdatum is niet geldig");
+    if (typeof(endDate) !== "string") mvn.endDate.push("einddatum is niet geldig");
+    if (typeof(amountPeople) !== "number") mvn.amountGuests.push("hoeveelheid mensen is geen nummer");
+    if (typeof(accomodation) !== "string") mvn.typeAccommodatie.push("accomodatie is niet geldig");
+    if (typeof(notes) !== "string") mvn.note.push("notities is geen woord");
 
     if (!mvnIsValid()) {
         return mvn;
@@ -228,12 +234,15 @@ export function validateIncomingFormData(
     if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
     if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
     if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
-    if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
-    if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
-    if (amountPeople <= 0) mvn.hoeveelheidMensen.push("hoeveelheid mensen mag minder zijn dan 1");
+    if (startDate.trim() === "") mvn.startDate.push("begindatum is leeg");
+    if (endDate.trim() === "") mvn.endDate.push("einddatum is leeg");
+    if (amountPeople <= 0) mvn.amountGuests.push("hoeveelheid mensen mag niet minder zijn dan 1");
+    if (accomodation.trim() === "") mvn.typeAccommodatie.push("accomodatie is leeg");
 
-    if (!Date.parse(startDate)) mvn.beginDatum.push("begindatum is niet geldig");
-    if (!Date.parse(endDate)) mvn.eindDatum.push("einddatum is niet geldig");
+    if (accomodation === "default") mvn.typeAccommodatie.push("selecteer alstjeblieft een type accomodatie");
+
+    if (!Date.parse(startDate)) mvn.startDate.push("begindatum is niet geldig");
+    if (!Date.parse(endDate)) mvn.endDate.push("einddatum is niet geldig");
 
     if (!mvnIsValid()) {
         return mvn;
@@ -242,83 +251,18 @@ export function validateIncomingFormData(
     const startDate_d = new Date(startDate);
     const endDate_d = new Date(endDate);
     const currentDate = new Date();
+    currentDate.setHours(0, 0, 0);
 
-    if (endDate_d < startDate_d) mvn.eindDatum.push("einddatum mag niet eerder zijn dan begindatum");
-    if (endDate_d < currentDate) mvn.eindDatum.push("einddatum mag niet in het verleden zijn");
-    if (startDate_d < currentDate) mvn.beginDatum.push("begindatum mag niet in het verleden zijn");
+    if (endDate_d.getTime() < startDate_d.getTime()) mvn.endDate.push("einddatum mag niet eerder zijn dan begindatum");
+    if (endDate_d.getTime() < currentDate.getTime()) mvn.endDate.push("einddatum mag niet in het verleden zijn");
+    if (startDate_d.getTime() < currentDate.getTime()) mvn.startDate.push("begindatum mag niet in het verleden zijn");
+
+    if (!mailAddress.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) mvn.email.push("email is niet geldig");
 
     if (!mvnIsValid()) {
-        mvn.valid = false;
         return mvn;
     } else {
         return undefined;
     }
 
-}
-
-
-
-
-
-
-function validity_check() {
-    resetBorders();
-    let valid = true;
-    if(voornaam.value.trim() == "") {
-        voornaam.style.border = "2px solid red";
-        valid = false;
-    }
-    if(achternaam.value.trim() == "") {
-        achternaam.style.border = "2px solid red";
-        valid = false;
-    }
-    if(email.value.trim() == "" | email.value.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == false){
-        email.style.border = "2px solid red";
-        valid = false;
-    }
-    if(land_code.value.trim() == "") {
-        land_code.style.border = "2px solid red";
-        valid = false;
-    }
-    if(telefoonnummer.value.trim() == "" | telefoonnummer.value.trim().length != 10) {
-        telefoonnummer.style.border = "2px solid red";
-        valid = false;
-    }
-    if(new Date(begin_datum.value).now < new Date().toISOString().split("T")[0] | new Date(begin_datum.value).now == "") {
-        begin_datum.style.border = "2px solid red";
-        valid = false;
-    }
-    if(new Date(eind_datum.value).now < new Date().toISOString().split("T")[0] | new Date(eind_datum.value).now == "") {
-        eind_datum.style.border = "2px solid red";
-        valid = false;
-    }
-    if(new Date(begin_datum.value).now > new Date(eind_datum.value).now) {
-        eind_datum.style.border = "2px solid red";
-        valid = false;
-    }
-    if(aantal_gasten.value.trim() == "" | aantal_gasten.value.trim() < 1){
-        aantal_gasten.style.border = "2px solid red";
-        valid = false;
-    }
-    if(accommodatie.value == "default") {
-        accommodatie.style.border = "2px solid red";
-        valid = false;
-    }
-
-    if(valid){
-        return true;
-    }
-    return false;
-}
-
-function resetBorders(){
-    voornaam.style.border = "2px solid white";
-    achternaam.style.border = "2px solid white";
-    email.style.border = "2px solid white";
-    land_code.style.border = "2px solid white";
-    telefoonnummer.style.border = "2px solid white";
-    begin_datum.style.border = "2px solid white";
-    eind_datum.style.border = "2px solid white";
-    aantal_gasten.style.border = "2px solid border";
-    accommodatie.style.border = "2px solid border";
 }

@@ -46,13 +46,14 @@ doc.route("send-reservation", doc.POST, "send a temporary reservation from the f
     phoneNumber: doc.STRING,
     startDate: doc.STRING,
     endDate: doc.STRING,
-    amountPeople: doc.STRING
+    amountPeople: doc.STRING,
+    accomodation: doc.STRING,
+    notes: doc.STRING,
+    captcha: doc.STRING
 })
 .response(200, "successfully added temporary reservation. A link has been sent to the mailaddress entered in the request, when the link isn't clicked withint 10 minutes the temporary reservation gets deleted!")
 
 APIRouter.post("/send-reservation", async (req, res) => {
-
-    console.log(req.body);
 
     if (req.body === undefined) return respondwithstatus(res, 400, "missing request body");
 
@@ -82,24 +83,24 @@ APIRouter.post("/send-reservation", async (req, res) => {
         reservation.phoneNumber,
         reservation.startDate,
         reservation.endDate,
-        reservation.amountPeople
+        reservation.amountPeople,
+        reservation.accomodation,
+        reservation.notes
     );
-
-    console.log(mvn);
 
     if (mvn) return res.status(400).json({mvn});
 
-    return respondwithstatus(res, 200, "error");
+    let existingTempReservations;
 
-    // if (config.environment != "dev") {
-        try {
-            const existingTempReservations = await db_query("SELECT * FROM TempReservations WHERE mailAddress=?", [reservation.mailAddress]);
-        
-            if (existingTempReservations.length > 0) return respondwithstatus(res, 409, "mailaddress already pending");
-        } catch(e) {
-            err_log("error fetching temp reservations with existing mailaddress", e);
-        }
-    // }
+    try {
+        existingTempReservations = await db_query("SELECT * FROM TempReservations WHERE mailAddress=?", [reservation.mailAddress]);
+    } catch(e) {
+        err_log("error fetching temp reservations with existing mailaddress", e);
+
+        return respondwithstatus(res, 500, "something went wrong");
+    }
+
+    if (existingTempReservations.length >= 5) return respondwithstatus(res, 400, "toomany");
 
     const tempReservationUid = uid(32);
 
@@ -121,16 +122,15 @@ APIRouter.post("/send-reservation", async (req, res) => {
                 amountPeople,
                 notes
             )
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?,?,?,?)
         `, [
             tempReservationUid,
             reservation.firstName,
             reservation.lastName,
             reservation.mailAddress,
             reservation.phoneNumber,
-            reservation.blacklisted,
-            reservation.birthDate,
-            reservation.maySave,
+            0,
+            0,
             reservation.startDate,
             reservation.endDate,
             reservation.amountPeople,
@@ -150,7 +150,9 @@ APIRouter.post("/send-reservation", async (req, res) => {
     // send email with nice html styling to the mailaddress of the reservation with the link
     sendMailConfirmationEmail(link, reservation.mailAddress, reservation.firstName);
 
-    respondwithstatus(res, 200, "OK");
+    if (existingTempReservations.length > 0) return respondwithstatus(res, 200, "duplicate");
+
+    respondwithstatus(res, 200, "success");
 
 });
 
