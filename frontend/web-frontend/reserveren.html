@@ -9,6 +9,8 @@
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/css/intlTelInput.css">
+
   <script async src="https://www.google.com/recaptcha/api.js?render=6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF"></script>
   <style>
 
@@ -62,14 +64,6 @@
         </tr>
         <tr>
           <td>
-            <label for="tussenvoegsel" class="forum-label">Tussenvoegsel</label>
-          </td>
-          <td colspan="2">
-            <input type="text" id="tussenvoegsel" class="reserveren-form-text">
-          </td>
-        </tr>
-        <tr>
-          <td>
             <label for="achternaam" class="forum-label">Achternaam <span class="required">*</span></label>
           </td>
           <td colspan="2">
@@ -86,23 +80,24 @@
         </tr>
         <tr>
           <td>
-            <label for="land_code" class="forum-label">Land code <span class="required">*</span></label>
-          </td>
-          <td>
-            <input type="number" id="land_code" class="reserveren-form-text">
-          </td>
-        </tr>
-        <tr>
-          <td>
             <label for="telefoonnummer" class="forum-label">Telefoonnummer <span class="required">*</span></label>
           </td>
           <td>
             <input type="tel" id="telefoonnummer" class="reserveren-form-text" minlength="9" maxlength="14">
+            <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/js/intlTelInput.min.js"></script>
+            <script>
+              const input = document.querySelector("#telefoonnummer");
+              window.intlTelInput(input, {
+                initialCountry: "nl",
+                strictMode: true,
+                loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/js/utils.js"),
+              });
+            </script>
           </td>
         </tr>
       </table>
 
-      <p class="forum-title">Verblijf gegevens</p>
+      <p class="forum-title">Verblijfsgegevens</p>
       <table class="forum-table">
         <tr>
           <td>
@@ -120,14 +115,15 @@
             <input type="date" id="endDate" class="reserveren-form-text">
           </td>
         </tr>
-        <tr>
+        <!-- wordt niet gebruikt -->
+        <!-- <tr>
           <td>
             <label for="aankomsttijd" class="forum-label">Verwachtte aankomsttijd</label>
           </td>
           <td>
             <input type="time" id="aankomsttijd" class="reserveren-form-text">
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <td>
             <label for="amountGuests" class="forum-label">Aantal gasten <span class="required">*</span></label>
@@ -164,8 +160,9 @@
       <p id="eula-text">Door op verzendt te klikken ga je automatisch akkoord met de algemene voorwaarden van deze <a href="/eula.html" target="_blank">Eula</a></p>
 
       <div class="confirm-btn-div">
-        <button type="button" id="confirm-btn" class="g-recaptcha"
-          data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button>
+        <!-- <button type="button" id="confirm-btn" class="g-recaptcha"
+          data-sitekey="6Lf-u8MqAAAAAHeDIUBAN5lrSdcq945n3vj0KynF" data-callback="reserve">Verzenden</button> -->
+          <button type="button" id="confirm-btn" onclick="reserve(0)">Verzenden</button>
       </div>
     </div>
   </section>
@@ -185,13 +182,20 @@
 
           <h2>Let op!</h2>
           <div class="red-circle-wrapper">
-            <p>Je hebt nog <b>10</b> minuten om je reservering te bevestigen.</p>
+            <p>Je hebt nog <b>30</b> minuten om je reservering te bevestigen.</p>
           </div>
         </div>
 
         <div id="confirmation-duplicate" class="hidden">
           <h1>Oeps!</h1>
-          <p>Het lijkt alsof we je al een mail hebben gestuurd! Heb je geen mail ontvangen? Probeer dan over 10 minuten nog eens te reserveren.</p>
+          <p>Het lijkt alsof we je al een mail hebben gestuurd! We hebben je nieuwe reservering opgeslagen, als je via de mail bevestigd kan je kiezen welke er klopt.</p>
+        </div>
+
+        <div id="confirmation-too-many" class="hidden">
+          <h1>Error</h1>
+          <p>Wij hebben te veel reserveringen van jou die staan te wachten. Probeer alstjeblieft je reservering te bevestigen in je mailinbox</p>
+          <br>
+          <p>Is dit een foutje en wil je toch iets aanpassen? Stuur dan een mailtje naar <a href="mailto:shocomellow.boerbert@gmail.com">onze servicebalie</a></p>
         </div>
 
         <div id="confirmation-other-error" class="hidden">
