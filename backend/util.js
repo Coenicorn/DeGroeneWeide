@@ -131,7 +131,7 @@ export function sqliteDATETIMEToDate( dateAsString ) {
 
 export async function deleteOldTempReservations() {
     const res = await db_execute(`
-        DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-10 minutes')
+        DELETE FROM TempReservations AS tr WHERE tr.dateReservationSent < DATETIME('now', '-30 minutes')
     `);
     if (res.changes === 0) return;
     debug_log(`deleted ${res.changes} old temp reservations`);
@@ -226,12 +226,20 @@ export function validateIncomingFormData(
         return mvn;
     }
 
-    if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
-    if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
-    if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
-    if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
-    if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
-    if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
+    console.log(Date.parse(startDate));
+
+    const startDate_d = new Date(startDate);
+    const endDate_d = new Date(endDate);
+
+    console.log(startDate_d);
+    console.log(endDate_d);
+
+    // if (firstName.trim() === "") mvn.voornaam.push("voornaam is leeg");
+    // if (lastName.trim() === "") mvn.achternaam.push("achternaam is leeg");
+    // if (mailAddress.trim() === "") mvn.email.push("mailadres is leeg");
+    // if (phoneNumber.trim() === "") mvn.telefoonnummer.push("telefoonnummer is leeg");
+    // if (startDate.trim() === "") mvn.beginDatum.push("begindatum is leeg");
+    // if (endDate.trim() === "") mvn.eindDatum.push("einddatum is leeg");
 
 
 }
