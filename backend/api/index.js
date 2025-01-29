@@ -9,13 +9,43 @@ import { db_execute, db_query, insertBooking, insertCard, insertCustomer } from 
 import config from "../config.js";
 import { debug_log, deleteOldTempReservations, err_log, info_log, respondwithstatus, sqliteDATETIMEToDate, validateIncomingFormData, verifyCaptchaStringWithGoogle } from "../util.js";
 import { APIDocGenerator } from "../docgen/doc.js";
-import { onlyAdminPanel } from "../apiKey.js";
+import { isPublicRoute, onlyAdminPanel } from "../apiKey.js";
 import { uid } from "uid";
 import { sendMailConfirmationEmail } from "../mailer.js";
 import * as fs from "fs";
 import path from "path";
+import express from "express";
+import { DataViewManager } from "../dataview/manager.js";
+import onFinished from "on-finished";
+import { DataViewTypes } from "../dataview/dataviewtypes.js";
 
 const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API routes", import.meta.dirname, "api");
+
+// dataview
+APIRouter.use(express.static(path.join(import.meta.dirname, "../resources/dataview")));
+
+// dataview
+APIRouter.use((req, _res, next) => {
+
+    const isProbablyBrowser = isPublicRoute(req.originalUrl);
+    const isProbablyReader = req.originalUrl.includes("imalive");
+    let sourceEntity;
+    if (isProbablyReader) sourceEntity = DataViewTypes.ENTITY_READER;
+    else if (isProbablyBrowser) sourceEntity = DataViewTypes.ENTITY_CLIENT;
+    else sourceEntity = DataViewTypes.ENTITY_ADMIN;
+
+    const u = req.originalUrl;
+    const m = req.method === "GET"? DataViewTypes.F_GET : DataViewTypes.F_POST;
+
+    DataViewManager.request(req, u, m, sourceEntity);
+
+    onFinished(req, (err, res) => {
+        DataViewManager.response(_res, u, m, sourceEntity);
+    })
+
+    next();
+
+})
 
 // API key
 // only if enabled
@@ -267,17 +297,7 @@ APIRouter.get("/verify-mail/:reservation_uid", async (req, res) => {
 
     return sendToMailConfirmedPage(res, true, reservation.firstName);
 
-})
-
-
-
-
-
-
-
-
-
-
+});
 
 
 

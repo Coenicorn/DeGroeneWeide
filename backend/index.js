@@ -9,6 +9,7 @@ import { uid } from "uid";
 import APIRouter from "./api/index.js";
 import { authenticateRequest } from './apiKey.js';
 import rateLimit from 'express-rate-limit';
+import { DataViewManager } from './dataview/manager.js';
 
 // exposed to public
 const app = express();
