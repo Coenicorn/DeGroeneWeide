@@ -153,6 +153,7 @@ function handleIncomingData(data) {
     if (destination === DataViewTypes.ENTITY_DATABASE) {
         elm = database_log_elm;
     } else {
+        console.log(content.trim().toLowerCase())
         if (!content.trim().toLowerCase().startsWith("/api") && source === DataViewTypes.ENTITY_CLIENT) {
             elm = site_log;
         }
