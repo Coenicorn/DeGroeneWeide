@@ -1,5 +1,5 @@
 export class DataViewTypes {
-    static ENTITY_CLIENT = "client";
+    static ENTITY_CLIENT = "browser";
     static ENTITY_ADMIN = "admin";
     static ENTITY_SERVER = "server";
     static ENTITY_DATABASE = "database";
