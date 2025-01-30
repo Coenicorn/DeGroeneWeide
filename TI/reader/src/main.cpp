@@ -527,10 +527,14 @@ void loop()
 
 	card_is_authorized:
 
+#ifdef READER_ROLE
 	// pass along access signal
 	Serial.println("passing access signal to peripherals...");
-	flash_led(GREEN_LED_PIN);
 
+	flash_led(GREEN_LED_PIN);
+#else
+	flash_led(BLUE_LED_PIN);
+#endif
 
 	prepare_new_card:
 
