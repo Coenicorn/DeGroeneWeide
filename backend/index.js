@@ -43,6 +43,8 @@ app.use((req, _res, next) => {
     const u = req.originalUrl;
     const m = req.method === "GET"? DataViewTypes.F_GET : DataViewTypes.F_POST;
 
+    console.log("hey")
+
     DataViewManager.request(req, u, m, sourceEntity);
 
     onFinished(req, (err, res) => {
