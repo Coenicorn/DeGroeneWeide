@@ -160,7 +160,7 @@ function addResponseTooltip(elm, data) {
 function addLogLine(parent, title, content, color, data, func) {
     let newElm = document.createElement("div");
     newElm.classList.add("log-item");
-    newElm.innerHTML = `<p class="log-text" style="background-color: ${color}"><span>${new Date().toLocaleTimeString().split(" ")[0]}</span><span>method:<b>${title}</b></span>${data.source?"<span>from:<b>"+data.source+"</b></span>":""}<span class="view-content code">${content}</span><span style="background-color:white; max-height: fit-content; color:${data.isResponse?'red':'green'}"><b>${data.isResponse?"[->":"[<-"}</b></span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
+    newElm.innerHTML = `<p class="log-text" style="background-color: ${color}"><span>${new Date().toLocaleTimeString().split(" ")[0]}</span><span>method:<b>${title}</b></span>${data.source?"<span>from:<b>"+data.source+"</b></span>":""}<span class="view-content code">${content}</span><span style="background-color:white; height: fit-content; color:${data.isResponse?'red':'green'}"><b>${data.isResponse?"[->":"[<-"}</b></span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
     newElm.onclick = func;
     func();
     addResponseTooltip(newElm, data);
