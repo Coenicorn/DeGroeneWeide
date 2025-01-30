@@ -46,8 +46,7 @@ app.use((req, _res, next) => {
     DataViewManager.request(req, u, m, sourceEntity);
 
     onFinished(req, (err, res) => {
-        console.log(res.statusCode);
-        console.log(_res.statusCode);
+        console.log(res.statusCode, res.__customBody);
         
         DataViewManager.response(_res, u, m, sourceEntity, res.body);
     })
