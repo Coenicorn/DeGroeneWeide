@@ -70,7 +70,7 @@ function mock() {
     voornaam.value = "John";
     achternaam.value = "Doe";
     email.value = "shocomellow.boerbert@gmail.com";
-    telefoonnummer.value = "12345678";
+    telefoonnummer.value = "0614122999";
 
     let d1 = new Date(), d2 = new Date();
     d2.setDate(d1.getDate() + 1);
