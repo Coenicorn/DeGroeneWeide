@@ -64,7 +64,7 @@ namespace DeGroeneWeide.User_Controls
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 19F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.FromArgb(26, 46, 28);
-            label2.Location = new Point(15, 50);
+            label2.Location = new Point(15, 82);
             label2.Name = "label2";
             label2.Size = new Size(95, 36);
             label2.TabIndex = 1;
@@ -75,7 +75,7 @@ namespace DeGroeneWeide.User_Controls
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 19F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.FromArgb(26, 46, 28);
-            label3.Location = new Point(550, 50);
+            label3.Location = new Point(364, 84);
             label3.Name = "label3";
             label3.Size = new Size(88, 36);
             label3.TabIndex = 3;
@@ -86,7 +86,7 @@ namespace DeGroeneWeide.User_Controls
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 19F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.FromArgb(26, 46, 28);
-            label4.Location = new Point(550, 6);
+            label4.Location = new Point(364, 8);
             label4.Name = "label4";
             label4.Size = new Size(112, 36);
             label4.TabIndex = 2;
@@ -97,7 +97,7 @@ namespace DeGroeneWeide.User_Controls
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 19F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.FromArgb(26, 46, 28);
-            label5.Location = new Point(1265, 50);
+            label5.Location = new Point(15, 153);
             label5.Name = "label5";
             label5.Size = new Size(132, 36);
             label5.TabIndex = 5;
@@ -108,7 +108,7 @@ namespace DeGroeneWeide.User_Controls
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 19F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.FromArgb(26, 46, 28);
-            label6.Location = new Point(1265, 6);
+            label6.Location = new Point(364, 153);
             label6.Name = "label6";
             label6.Size = new Size(203, 36);
             label6.TabIndex = 4;
@@ -118,7 +118,7 @@ namespace DeGroeneWeide.User_Controls
             // 
             lbl_Aankomst.AutoSize = true;
             lbl_Aankomst.Font = new Font("Segoe UI", 16F);
-            lbl_Aankomst.Location = new Point(171, 12);
+            lbl_Aankomst.Location = new Point(167, 12);
             lbl_Aankomst.Name = "lbl_Aankomst";
             lbl_Aankomst.Size = new Size(127, 30);
             lbl_Aankomst.TabIndex = 6;
@@ -128,7 +128,7 @@ namespace DeGroeneWeide.User_Controls
             // 
             lbl_Vertrek.AutoSize = true;
             lbl_Vertrek.Font = new Font("Segoe UI", 16F);
-            lbl_Vertrek.Location = new Point(668, 10);
+            lbl_Vertrek.Location = new Point(482, 14);
             lbl_Vertrek.Name = "lbl_Vertrek";
             lbl_Vertrek.Size = new Size(127, 30);
             lbl_Vertrek.TabIndex = 7;
@@ -138,7 +138,7 @@ namespace DeGroeneWeide.User_Controls
             // 
             lbl_AantalMensen.AutoSize = true;
             lbl_AantalMensen.Font = new Font("Segoe UI", 16F);
-            lbl_AantalMensen.Location = new Point(1474, 12);
+            lbl_AantalMensen.Location = new Point(573, 159);
             lbl_AantalMensen.Name = "lbl_AantalMensen";
             lbl_AantalMensen.Size = new Size(25, 30);
             lbl_AantalMensen.TabIndex = 8;
@@ -148,7 +148,7 @@ namespace DeGroeneWeide.User_Controls
             // 
             lbl_Email.AutoSize = true;
             lbl_Email.Font = new Font("Segoe UI", 16F);
-            lbl_Email.Location = new Point(644, 54);
+            lbl_Email.Location = new Point(458, 90);
             lbl_Email.Name = "lbl_Email";
             lbl_Email.Size = new Size(265, 30);
             lbl_Email.TabIndex = 9;
@@ -158,11 +158,12 @@ namespace DeGroeneWeide.User_Controls
             // 
             lbl_Naam.AutoSize = true;
             lbl_Naam.Font = new Font("Segoe UI", 16F);
-            lbl_Naam.Location = new Point(116, 56);
+            lbl_Naam.Location = new Point(116, 88);
             lbl_Naam.Name = "lbl_Naam";
             lbl_Naam.Size = new Size(148, 30);
             lbl_Naam.TabIndex = 10;
             lbl_Naam.Text = "Jurre Blankers";
+            lbl_Naam.Click += lbl_Naam_Click;
             // 
             // lbl_Nummer
             // 
@@ -203,7 +204,7 @@ namespace DeGroeneWeide.User_Controls
             btn_edit.ImageOffset = new Point(0, 0);
             btn_edit.ImageRotate = 0F;
             btn_edit.ImageSize = new Size(24, 24);
-            btn_edit.Location = new Point(1820, 12);
+            btn_edit.Location = new Point(762, 14);
             btn_edit.Name = "btn_edit";
             btn_edit.PressedState.ImageSize = new Size(28, 28);
             btn_edit.ShadowDecoration.CustomizableEdges = customizableEdges1;
@@ -232,7 +233,7 @@ namespace DeGroeneWeide.User_Controls
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "UC_Boeking";
-            Size = new Size(1860, 100);
+            Size = new Size(800, 200);
             ResumeLayout(false);
             PerformLayout();
         }

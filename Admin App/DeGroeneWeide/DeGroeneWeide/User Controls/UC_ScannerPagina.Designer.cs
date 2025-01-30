@@ -40,7 +40,7 @@
             scanner_container.BackColor = Color.FromArgb(224, 251, 226);
             scanner_container.Location = new Point(31, 82);
             scanner_container.Name = "scanner_container";
-            scanner_container.Size = new Size(1872, 920);
+            scanner_container.Size = new Size(900, 600);
             scanner_container.TabIndex = 2;
             // 
             // btn_refresh
@@ -50,11 +50,11 @@
             btn_refresh.Image = (Image)resources.GetObject("btn_refresh.Image");
             btn_refresh.ImageOffset = new Point(0, 0);
             btn_refresh.ImageRotate = 0F;
-            btn_refresh.Location = new Point(1830, 13);
+            btn_refresh.Location = new Point(30, 13);
             btn_refresh.Name = "btn_refresh";
-            btn_refresh.PressedState.ImageSize = new Size(64, 64);
+            btn_refresh.ImageSize = new Size(48, 48);
             btn_refresh.ShadowDecoration.CustomizableEdges = customizableEdges1;
-            btn_refresh.Size = new Size(64, 54);
+            btn_refresh.Size = new Size(48, 48);
             btn_refresh.TabIndex = 3;
             btn_refresh.Click += btn_refresh_Click;
             // 
@@ -66,7 +66,7 @@
             Controls.Add(btn_refresh);
             Controls.Add(scanner_container);
             Name = "UC_ScannerPagina";
-            Size = new Size(1920, 998);
+            Size = new Size(900, 600);
             ResumeLayout(false);
         }
 

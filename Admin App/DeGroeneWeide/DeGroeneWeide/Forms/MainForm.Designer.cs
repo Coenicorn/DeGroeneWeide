@@ -143,7 +143,7 @@
             pagina_container.Location = new Point(0, 32);
             pagina_container.Margin = new Padding(0);
             pagina_container.Name = "pagina_container";
-            pagina_container.Size = new Size(1920, 998);
+            pagina_container.Size = new Size(900, 600);
             pagina_container.TabIndex = 2;
             pagina_container.Paint += pagina_container_Paint;
             // 
@@ -151,7 +151,7 @@
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.FromArgb(224, 251, 226);
-            ClientSize = new Size(1920, 1032);
+            ClientSize = new Size(900, 600);
             Controls.Add(pagina_container);
             Controls.Add(topbar);
             Icon = (Icon)resources.GetObject("$this.Icon");

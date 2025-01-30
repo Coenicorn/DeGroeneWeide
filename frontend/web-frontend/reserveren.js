@@ -100,6 +100,8 @@ function getDate(){
 }
 
 function reserve(captchaString) {
+    grecaptcha.reset();
+
     // only check phone number
     // I am just WAAAYY to lazy to check that in the backend
     if (!window.iti.isValidNumber()) {
@@ -150,8 +152,6 @@ function reserve(captchaString) {
                 
                 })
             });
-
-            grecaptcha.reset();
         } else {
             function showPopup(id, isError = false) {
                 for (let node of document.getElementById("confirmation-states").children) {
@@ -170,8 +170,6 @@ function reserve(captchaString) {
                 case "toomany": showPopup("confirmation-too-many", true); break;
                 default: showPopup("confirmation-other-error", true); break;
             }
-
-            grecaptcha.reset();
         }
     })
 }

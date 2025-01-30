@@ -54,7 +54,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Edit_Boeking));
             firstname = new Guna.UI2.WinForms.Guna2TextBox();
-            middlename = new Guna.UI2.WinForms.Guna2TextBox();
+
             lastname = new Guna.UI2.WinForms.Guna2TextBox();
             date_start = new Guna.UI2.WinForms.Guna2DateTimePicker();
             date_end = new Guna.UI2.WinForms.Guna2DateTimePicker();
@@ -277,15 +277,6 @@
             lbl_firstname.TabIndex = 12;
             lbl_firstname.Text = "Voornaam *";
             // 
-            // lbl_middlename
-            // 
-            lbl_middlename.BackColor = Color.Transparent;
-            lbl_middlename.Location = new Point(270, 90);
-            lbl_middlename.Name = "lbl_middlename";
-            lbl_middlename.Size = new Size(80, 17);
-            lbl_middlename.TabIndex = 13;
-            lbl_middlename.Text = "Tussenvoegsel";
-            // 
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
@@ -365,7 +356,7 @@
             btn_add.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btn_add.Font = new Font("Segoe UI", 9F);
             btn_add.ForeColor = Color.White;
-            btn_add.Location = new Point(30, 330);
+            btn_add.Location = new Point(200, 330);
             btn_add.Name = "btn_add";
             btn_add.ShadowDecoration.CustomizableEdges = customizableEdges24;
             btn_add.Size = new Size(150, 36);

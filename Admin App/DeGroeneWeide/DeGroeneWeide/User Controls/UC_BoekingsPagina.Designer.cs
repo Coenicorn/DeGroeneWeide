@@ -40,9 +40,10 @@ namespace DeGroeneWeide.User_Controls
             // 
             // container
             // 
-            container.Location = new Point(30, 80);
+            container.AutoScroll = true;
+            container.Location = new Point(0, 73);
             container.Name = "container";
-            container.Size = new Size(1860, 918);
+            container.Size = new Size(900, 528);
             container.TabIndex = 0;
             // 
             // btn_refresh
@@ -52,11 +53,11 @@ namespace DeGroeneWeide.User_Controls
             btn_refresh.Image = (Image)resources.GetObject("btn_refresh.Image");
             btn_refresh.ImageOffset = new Point(0, 0);
             btn_refresh.ImageRotate = 0F;
-            btn_refresh.Location = new Point(1830, 13);
+            btn_refresh.Location = new Point(25, 13);
             btn_refresh.Name = "btn_refresh";
             btn_refresh.PressedState.ImageSize = new Size(64, 64);
             btn_refresh.ShadowDecoration.CustomizableEdges = customizableEdges1;
-            btn_refresh.Size = new Size(64, 54);
+            btn_refresh.Size = new Size(48, 48);
             btn_refresh.TabIndex = 4;
             btn_refresh.Click += btn_refresh_Click;
             // 
@@ -67,7 +68,8 @@ namespace DeGroeneWeide.User_Controls
             btn_add.Image = (Image)resources.GetObject("btn_add.Image");
             btn_add.ImageOffset = new Point(0, 0);
             btn_add.ImageRotate = 0F;
-            btn_add.Location = new Point(1760, 13);
+            btn_refresh.ImageSize = new Size(48, 48);
+            btn_add.Location = new Point(94, 13);
             btn_add.Name = "btn_add";
             btn_add.PressedState.ImageSize = new Size(64, 64);
             btn_add.ShadowDecoration.CustomizableEdges = customizableEdges2;
@@ -82,7 +84,7 @@ namespace DeGroeneWeide.User_Controls
             Controls.Add(btn_refresh);
             Controls.Add(container);
             Name = "UC_BoekingsPagina";
-            Size = new Size(1920, 998);
+            Size = new Size(900, 600);
             ResumeLayout(false);
         }
 

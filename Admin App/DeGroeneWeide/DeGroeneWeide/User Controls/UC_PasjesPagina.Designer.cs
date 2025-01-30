@@ -40,7 +40,7 @@
             cards_container.BackColor = Color.Transparent;
             cards_container.Location = new Point(31, 82);
             cards_container.Name = "cards_container";
-            cards_container.Size = new Size(1872, 920);
+            cards_container.Size = new Size(900, 600);
             cards_container.TabIndex = 1;
             // 
             // btn_refresh
@@ -51,7 +51,7 @@
             btn_refresh.ImageOffset = new Point(0, 0);
             btn_refresh.ImageRotate = 0F;
             btn_refresh.ImageSize = new Size(48, 48);
-            btn_refresh.Location = new Point(1855, 12);
+            btn_refresh.Location = new Point(31, 17);
             btn_refresh.Name = "btn_refresh";
             btn_refresh.PressedState.ImageSize = new Size(52, 52);
             btn_refresh.ShadowDecoration.CustomizableEdges = customizableEdges1;
@@ -68,7 +68,7 @@
             Controls.Add(cards_container);
             Margin = new Padding(2);
             Name = "UC_PasjesPagina";
-            Size = new Size(1920, 998);
+            Size = new Size(900, 998);
             ResumeLayout(false);
         }
 

@@ -41,5 +41,10 @@ namespace DeGroeneWeide.User_Controls
             edit.ShowDialog();
             if (Pagina != null) { Pagina.LoadInfo(); }
         }
+
+        private void lbl_Naam_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
