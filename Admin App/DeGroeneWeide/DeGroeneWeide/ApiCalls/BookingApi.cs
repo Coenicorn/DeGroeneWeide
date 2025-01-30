@@ -112,7 +112,7 @@ namespace DeGroeneWeide.ApiCalls
             };
 
             string json = JsonSerializer.Serialize(data);
-            Debug.WriteLine($"{json}");
+            Debug.WriteLine($"Booking JSON: {json}");
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 

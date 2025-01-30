@@ -45,9 +45,9 @@ namespace DeGroeneWeide.ApiCalls
                 firstName = c.FirstName,
                 middleName = c.MiddleName,
                 lastName =  c.LastName,
-                maySave = "false",
+                maySave = 0,
                 birthDate = c.BirthDate,
-                blacklisted = "false",
+                blacklisted = 0,
                 phoneNumber = c.PhoneNumber,
                 mailAddress = c.Email
             };
@@ -80,9 +80,9 @@ namespace DeGroeneWeide.ApiCalls
                 middleName = middlename,
                 lastName = lastname,
                 birthDate = birthdate,
-                maySave = "false",
+                maySave = 0,
                 creationDate = DateTime.Now,
-                blacklisted = "false",
+                blacklisted = 0,
                 phoneNumber = phonenumber,
                 mailAddress = mailaddress
             };

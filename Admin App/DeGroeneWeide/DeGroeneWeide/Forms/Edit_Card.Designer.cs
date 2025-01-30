@@ -176,7 +176,7 @@
             combox_boekingen.DropDownStyle = ComboBoxStyle.DropDownList;
             combox_boekingen.FocusedColor = Color.FromArgb(94, 148, 255);
             combox_boekingen.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            combox_boekingen.Font = new Font("Segoe UI", 10F);
+            combox_boekingen.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             combox_boekingen.ForeColor = Color.FromArgb(68, 88, 112);
             combox_boekingen.ItemHeight = 30;
             combox_boekingen.Location = new Point(12, 27);

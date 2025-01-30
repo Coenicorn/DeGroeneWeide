@@ -53,7 +53,8 @@ namespace DeGroeneWeide
                 return;
             }
 
-            lbl_name.Text = reader.Name;
+            lbl_name.Text = $"{reader.Name}";
+            lbl_id.Text = reader.Id;
 
             // Als de reader niet active is een warning laten zien
             if (reader.Active == 0)

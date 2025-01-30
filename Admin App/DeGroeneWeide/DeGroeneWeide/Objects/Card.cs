@@ -55,7 +55,7 @@ namespace DeGroeneWeide.Objects
         [JsonPropertyName("birthDate")]
         public string? BirthDate { get; set; }
 
-        [JsonPropertyName("blackListed")]
+        [JsonPropertyName("blacklisted")]
         public string? BlackListed { get; set; }
 
         [JsonPropertyName("phoneNumber")]

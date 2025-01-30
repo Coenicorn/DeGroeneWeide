@@ -45,16 +45,17 @@ namespace DeGroeneWeide.ApiCalls
                 result.EnsureSuccessStatusCode();
 
                 string json = await result.Content.ReadAsStringAsync();
-                Debug.WriteLine(json);
+                json = json.Replace("\"blocked\":false", "\"blocked\":\"false\"")
+                           .Replace("\"blocked\":true", "\"confirmed\":\"true\"")
+                           .Replace("\"blacklisted\":false", "\"blacklisted\":\"false\"")
+                           .Replace("\"blacklisted\":true", "\"blacklisted\":\"true\"");
+                json = json.Replace("\"blocked\":0", "\"blocked\":\"false\"")
+                           .Replace("\"blocked\":1", "\"blocked\":\"true\"")
+                           .Replace("\"blacklisted\":0", "\"blacklisted\":\"false\"")
+                           .Replace("\"blacklisted\":1", "\"blacklisted\":\"true\"");
+                Debug.WriteLine($"Cards JSON: {json}");
 
                 Cards = JsonSerializer.Deserialize<List<Card>>(json);
-                if(Cards != null)
-                {
-                    foreach (Card c in Cards)
-                    {
-                        c.DumpInfo();
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -95,12 +96,13 @@ namespace DeGroeneWeide.ApiCalls
             };
 
             string json = JsonSerializer.Serialize(data);
+            Debug.WriteLine($"card JSON {json}");
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/booking/updateCard", content);
+            HttpResponseMessage response = await client.PostAsync(Properties.Settings.Default.URL + "/cards/updateCard", content);
             string responseString = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine($"Response String: {responseString}");
+            Debug.WriteLine($"Response is code: {response.StatusCode} Response String: {responseString}");
         }
     }
 }
