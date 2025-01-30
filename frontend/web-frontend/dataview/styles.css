@@ -74,7 +74,7 @@ body {
 }
 
 #visual-architecture-container {
-    width: 30%;
+    width: 20%;
     height: 100%;
 }
 
@@ -196,11 +196,7 @@ canvas {
     border: 1px solid rgb(65, 65, 65);
     background-color: rgb(66, 66, 66);
     margin-right: 1px;
-    padding: 2px
-}
-
-.view-text-lines .view-title {
-    font-weight: 600;
+    padding: 2px;
 }
 
 .view-text-lines .view-content {
