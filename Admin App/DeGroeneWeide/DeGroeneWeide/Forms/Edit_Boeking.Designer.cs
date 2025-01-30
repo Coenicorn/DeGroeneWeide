@@ -54,7 +54,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Edit_Boeking));
             firstname = new Guna.UI2.WinForms.Guna2TextBox();
-
+            middlename = new Guna.UI2.WinForms.Guna2TextBox();
             lastname = new Guna.UI2.WinForms.Guna2TextBox();
             date_start = new Guna.UI2.WinForms.Guna2DateTimePicker();
             date_end = new Guna.UI2.WinForms.Guna2DateTimePicker();
@@ -276,6 +276,15 @@
             lbl_firstname.Size = new Size(66, 17);
             lbl_firstname.TabIndex = 12;
             lbl_firstname.Text = "Voornaam *";
+            // 
+            // lbl_middlename
+            // 
+            lbl_middlename.BackColor = Color.Transparent;
+            lbl_middlename.Location = new Point(270, 90);
+            lbl_middlename.Name = "lbl_middlename";
+            lbl_middlename.Size = new Size(80, 17);
+            lbl_middlename.TabIndex = 13;
+            lbl_middlename.Text = "Tussenvoegsel";
             // 
             // guna2HtmlLabel6
             // 
