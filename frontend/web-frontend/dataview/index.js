@@ -141,8 +141,6 @@ function addLogLine(parent, title, content, color, data, func) {
 
 function handleIncomingData(data) {
 
-    console.log(data);
-
     // draw correct lines
     const source = data.source;
     const destination = data.destination;
