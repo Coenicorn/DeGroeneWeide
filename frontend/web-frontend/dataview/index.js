@@ -131,7 +131,6 @@ function lineFromElm(elm1, elm2, color = "blue") {
 }
 
 function addLogLine(parent, title, content, color, data, func) {
-    console.log(data);
     let newElm = document.createElement("div");
     newElm.classList.add("log-item");
     newElm.innerHTML = `<p style="background-color: ${color}"><span>${new Date().toLocaleTimeString().split(" ")[0]}</span><span>method:<b>${title}</b></span>${data.source?"<span>from:<b>"+data.source+"</b></span>":""}<span class="view-content">${content}</span><span>${data.isResponse?"[->":"[<-"}</span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
@@ -141,6 +140,8 @@ function addLogLine(parent, title, content, color, data, func) {
 }
 
 function handleIncomingData(data) {
+
+    console.log(data);
 
     // draw correct lines
     const source = data.source;
