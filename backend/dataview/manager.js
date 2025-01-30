@@ -45,7 +45,7 @@ class _DataViewManager {
         else if (str.startsWith("DELETE")) return DataViewTypes.F_DELETE;
     }
 
-    database_res(type, query, err = false) {
+    database_res(type, query, body) {
         const out = {};
 
         out.type = DataViewTypes.T_DB;
@@ -55,7 +55,7 @@ class _DataViewManager {
         out.destination = DataViewTypes.ENTITY_SERVER;
         out.content = query;
         out.isResponse = true;
-        out.isError = err;
+        out.response = body;
 
         this._broadcastMessage(JSON.stringify(out));
     }
@@ -87,15 +87,16 @@ class _DataViewManager {
         this._broadcastMessage(JSON.stringify(out));
     }
 
-    response(res, url, method, destinationEntity) {
+    response(res, url, method, destinationEntity, body) {
         const out = {};
-
+        
         out.type = DataViewTypes.T_RES;
         out.method = method;
         out.source = DataViewTypes.ENTITY_SERVER;
         out.destination = destinationEntity;
         out.content = url;
         out.isResponse = true;
+        out.response = body;
         out.responseCode = res.statusCode;
 
         this._broadcastMessage(JSON.stringify(out));

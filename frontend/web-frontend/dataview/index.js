@@ -130,12 +130,39 @@ function lineFromElm(elm1, elm2, color = "blue") {
     );
 }
 
+function addResponseTooltip(elm, data) {
+    if (!data.response) return;
+
+    elm.classList.add("tooltip-parent");
+
+    let wrapper = document.createElement("div");
+    wrapper.classList.add("tooltip-content-wrapper");
+
+    let newToolAbsWrapper = document.createElement("div");
+    newToolAbsWrapper.classList.add("tooltip-absolute-wrapper");
+
+    let newToolTitle = document.createElement("div");
+    newToolTitle.classList.add("tooltip-title");
+    newToolTitle.innerText = "response";
+
+    let newToolText = document.createElement("p");
+    newToolText.classList.add("tooltip-text");
+    newToolText.innerText = JSON.stringify(data.response, null, 2);
+    newToolText.classList.add("code");
+
+    wrapper.append(newToolTitle);
+    wrapper.append(newToolText);
+
+    elm.appendChild(wrapper);
+}
+
 function addLogLine(parent, title, content, color, data, func) {
     let newElm = document.createElement("div");
     newElm.classList.add("log-item");
-    newElm.innerHTML = `<p style="background-color: ${color}"><span>${new Date().toLocaleTimeString().split(" ")[0]}</span><span>method:<b>${title}</b></span>${data.source?"<span>from:<b>"+data.source+"</b></span>":""}<span class="view-content">${content}</span><span>${data.isResponse?"[->":"[<-"}</span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
+    newElm.innerHTML = `<p class="log-text" style="background-color: ${color}"><span>${new Date().toLocaleTimeString().split(" ")[0]}</span><span>method:<b>${title}</b></span>${data.source?"<span>from:<b>"+data.source+"</b></span>":""}<span class="view-content code">${content}</span><span>${data.isResponse?"[->":"[<-"}</span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
     newElm.onclick = func;
     func();
+    addResponseTooltip(newElm, data);
     parent.prepend(newElm);
 }
 
@@ -148,11 +175,10 @@ function handleIncomingData(data) {
     const content = data.content;
     let elm;
 
-    if (source === DataViewTypes.ENTITY_DATABASE) return;
+    // if (source === DataViewTypes.ENTITY_DATABASE) return;
     if (destination === DataViewTypes.ENTITY_DATABASE) {
         elm = database_log_elm;
     } else {
-        console.log(content.trim().toLowerCase())
         if (!content.trim().toLowerCase().startsWith("/api") && source === DataViewTypes.ENTITY_CLIENT) {
             elm = site_log;
         }

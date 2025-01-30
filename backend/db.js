@@ -31,16 +31,14 @@ export async function db_query(query, params) {
     return new Promise((resolve, reject) => {
         try {
             if (params === undefined) params = [];
-            resolve(db.prepare(query).all(...params));
+            const ret = db.prepare(query).all(...params);
+            resolve(ret);
 
             // dataview
-            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, false);
+            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, ret);
 
         } catch(e) {
             reject(e);
-
-            // dataview
-            DataViewManager.database_res(DataViewTypes.SQL_QUERY, query, true);
         }
     });
 }
@@ -59,10 +57,6 @@ export async function db_execute(query, params) {
         try {
             if (params === undefined) params = [];
             resolve(db.prepare(query).run(...params));
-
-            // dataview
-            DataViewManager.database_res(DataViewTypes.SQL_EXECUTE, query, false);
-
         } catch(e) {
             reject(e);
         }
