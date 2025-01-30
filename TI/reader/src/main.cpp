@@ -384,7 +384,7 @@ void setup()
 	flash_led(ERR_STATUS_LED_PIN);
 
 	Serial.begin(115200);
-	Serial.println(F("serial test confirmed"));	
+	Serial.println(F("serial test confirmed"));
 
 #ifdef READER_ROLE
 	Serial.println(F("This device is a READER"));
