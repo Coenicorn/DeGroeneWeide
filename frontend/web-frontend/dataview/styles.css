@@ -130,6 +130,7 @@ canvas {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 .text-data-item {
@@ -138,24 +139,54 @@ canvas {
     min-height: 0;
 }
 
-.text-data-item .view-inner-container {
-    overflow: scroll;
-    overflow-x: hidden;
+.visual-inner-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.view-text-title {
+    padding-left: 1em;
+    border-bottom: 1px solid rgb(110, 110, 110);
+}
+
+.view-text-title * {
+    margin: 0;
+    padding: 0;
+}
+
+.view-text-lines-wrapper {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 10px;
+    /* max-height: 90%; */
+    max-width: 100%;
+    height: 90%;
+    width: 100%;
 }
 
 .view-text-lines {
-    padding: 10px;
+    min-height: 0;
+    max-height: 100%;
+    border-radius: inherit;
+    overflow: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}
+
+.log-item p:hover {
+    border: 1px solid white;
+    cursor: pointer;
 }
 
 .view-text-lines p {
     margin: 0;
-    width: 100%;
+    width: 97%;
     margin: 1px;
     border-radius: 5px;
     padding: 3px;
     background-color: rgb(85, 85, 255);
     border: 1px solid rgb(110, 110, 110);
-    font-size: .7em;
+    font-size: .6em;
 
     display: flex;
     flex-direction: row;

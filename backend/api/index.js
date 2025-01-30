@@ -24,29 +24,6 @@ const APIRouter = Router(), doc = new APIDocGenerator("API root", "root API rout
 // dataview
 APIRouter.use(express.static(path.join(import.meta.dirname, "../resources/dataview")));
 
-// dataview
-APIRouter.use((req, _res, next) => {
-
-    let sourceEntity;
-    let readerHeader = req.get("reader");
-
-    if (readerHeader === config.readerHeader) sourceEntity = DataViewTypes.ENTITY_READER;
-    else if (authenticateRequest(req) === 1) sourceEntity = DataViewTypes.ENTITY_ADMIN;
-    else sourceEntity = DataViewTypes.ENTITY_CLIENT;
-
-    const u = req.originalUrl;
-    const m = req.method === "GET"? DataViewTypes.F_GET : DataViewTypes.F_POST;
-
-    DataViewManager.request(req, u, m, sourceEntity);
-
-    onFinished(req, (err, res) => {
-        DataViewManager.response(_res, u, m, sourceEntity);
-    })
-
-    next();
-
-})
-
 // API key
 // only if enabled
 if (config.enableAPIKey != 0) APIRouter.use(onlyAdminPanel);

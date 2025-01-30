@@ -10,6 +10,8 @@ import APIRouter from "./api/index.js";
 import { authenticateRequest } from './apiKey.js';
 import rateLimit from 'express-rate-limit';
 import { DataViewManager } from './dataview/manager.js';
+import { DataViewTypes } from './dataview/dataviewtypes.js';
+import onFinished from 'on-finished';
 
 // exposed to public
 const app = express();
@@ -27,6 +29,29 @@ if (config.enableRateLimiting != "0") {
         legacyHeaders: false
     }));
 }
+
+// dataview
+app.use((req, _res, next) => {
+
+    let sourceEntity;
+    let readerHeader = req.get("reader");
+
+    if (readerHeader === config.readerHeader) sourceEntity = DataViewTypes.ENTITY_READER;
+    else if (authenticateRequest(req) === 1) sourceEntity = DataViewTypes.ENTITY_ADMIN;
+    else sourceEntity = DataViewTypes.ENTITY_CLIENT;
+
+    const u = req.originalUrl;
+    const m = req.method === "GET"? DataViewTypes.F_GET : DataViewTypes.F_POST;
+
+    DataViewManager.request(req, u, m, sourceEntity);
+
+    onFinished(req, (err, res) => {
+        DataViewManager.response(_res, u, m, sourceEntity);
+    })
+
+    next();
+
+})
 
 // Schotel de files vanuit web-frontend voor
 app.use(express.static(path.join(__dirname, "../frontend/web-frontend/")));

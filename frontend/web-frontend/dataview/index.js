@@ -19,7 +19,7 @@ const updateColor = "#969214";
 const server_log_elm = document.getElementById("server-log");
 const database_log_elm = document.getElementById("database-log");
 const server_log_out_elm = document.getElementById("server-log-out");
-const database_log_out_elm = document.getElementById("database-log-out");
+const site_log = document.getElementById("site-log");
 
 const legend_elm = document.getElementById("visual-legend");
 
@@ -130,9 +130,13 @@ function lineFromElm(elm1, elm2, color = "blue") {
     );
 }
 
-function addLogLine(parent, title, content, color, data) {
+function addLogLine(parent, title, content, color, data, func) {
+    console.log(data);
     let newElm = document.createElement("div");
-    newElm.innerHTML = `<p style="background-color: ${color}"><span>${new Date().toLocaleTimeString()}</span><span class="view-title">${title}</span><span class="view-content">${content}</span><span>${data.isResponse?"[->":"[<-"}</span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
+    newElm.classList.add("log-item");
+    newElm.innerHTML = `<p style="background-color: ${color}"><span>${new Date().toLocaleTimeString().split(" ")[0]}</span><span>method:<b>${title}</b></span>${data.source?"<span>from:<b>"+data.source+"</b></span>":""}<span class="view-content">${content}</span><span>${data.isResponse?"[->":"[<-"}</span>${(data.isResponse && data.responseCode)?"<span>" + data.responseCode + "</span>":""}</p>`;
+    newElm.onclick = func;
+    func();
     parent.prepend(newElm);
 }
 
@@ -145,21 +149,24 @@ function handleIncomingData(data) {
     const content = data.content;
     let elm;
 
-    if (source === DataViewTypes.ENTITY_DATABASE || destination === DataViewTypes.ENTITY_DATABASE) {
-        if (data.isResponse) elm = database_log_out_elm;
-        else elm = database_log_elm;
+    if (source === DataViewTypes.ENTITY_DATABASE) return;
+    if (destination === DataViewTypes.ENTITY_DATABASE) {
+        elm = database_log_elm;
     } else {
-        if (data.isResponse) elm = server_log_out_elm;
+        if (!content.trim().toLowerCase().startsWith("/api") && source === DataViewTypes.ENTITY_CLIENT) {
+            elm = site_log;
+        }
+        else if (data.isResponse) elm = server_log_out_elm;
         else elm = server_log_elm;
     }
 
-    lines.push(lineFromElm(sourceToElm(source), sourceToElm(destination), methodToColor(method)))
     addLogLine(
         elm,
         method,
         content,
         methodToColor(method),
-        data
+        data,
+        () => lines.push(lineFromElm(sourceToElm(source), sourceToElm(destination), methodToColor(method)))
     );
 
 }
@@ -175,6 +182,21 @@ function initWebSocket() {
     websocket.onclose = () => initWebSocket();
 }
 
+function reloadCanvasDimensions() {
+    
+    // init canvas dimensions
+    const containerDims = canvasContainer.getBoundingClientRect();
+    canvas.width = containerDims.width
+    canvas.height = containerDims.height;
+
+    constantLines.splice(0);
+
+    constantLines.push(lineFromElm(visual_admin_elm, visual_server_elm, "rgb(36, 36, 36)"));
+    constantLines.push(lineFromElm(visual_client_elm, visual_server_elm, "rgb(36, 36, 36)"));
+    constantLines.push(lineFromElm(visual_reader_elm, visual_server_elm, "rgb(36, 36, 36)"));
+    constantLines.push(lineFromElm(visual_server_elm, visual_database_elm, "rgb(36, 36, 36)"));
+}
+
 function main() {
 
     initWebSocket();
@@ -185,18 +207,12 @@ function main() {
         canvas = document.getElementById("visual-canvas");
         context = canvas.getContext("2d");
 
-        // init canvas dimensions
-        const containerDims = canvasContainer.getBoundingClientRect();
-        canvas.width = containerDims.width
-        canvas.height = containerDims.height;
-
-        constantLines.push(lineFromElm(visual_admin_elm, visual_server_elm, "rgb(36, 36, 36)"));
-        constantLines.push(lineFromElm(visual_client_elm, visual_server_elm, "rgb(36, 36, 36)"));
-        constantLines.push(lineFromElm(visual_reader_elm, visual_server_elm, "rgb(36, 36, 36)"));
-        constantLines.push(lineFromElm(visual_server_elm, visual_database_elm, "rgb(36, 36, 36)"));
-
+        reloadCanvasDimensions();
+        window.addEventListener("resize", reloadCanvasDimensions);
+    
         requestAnimationFrame(updateCanvas);
-    }, 1000)
+        
+    }, 100);
 }
 
 document.addEventListener("DOMContentLoaded", () => setTimeout(main, 500));
