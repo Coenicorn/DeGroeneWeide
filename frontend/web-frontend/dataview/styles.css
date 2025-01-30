@@ -189,6 +189,8 @@ canvas {
 .tooltip-content-wrapper {
     position: absolute;
     z-index: 5;
+    top: 50%;
+    left: 5%;
     background-color: rgb(66, 66, 66);
     border: 1px solid white;
     border-radius: 5px;
