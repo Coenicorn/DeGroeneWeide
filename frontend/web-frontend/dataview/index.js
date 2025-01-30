@@ -132,6 +132,7 @@ function lineFromElm(elm1, elm2, color = "blue") {
 
 function addResponseTooltip(elm, data) {
     if (!data.response) return;
+    console.log(data);
 
     elm.classList.add("tooltip-parent");
 
