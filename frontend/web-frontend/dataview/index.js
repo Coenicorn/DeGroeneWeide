@@ -177,7 +177,7 @@ function handleIncomingData(data) {
     let elm;
 
     // if (source === DataViewTypes.ENTITY_DATABASE) return;
-    if (destination === DataViewTypes.ENTITY_DATABASE) {
+    if (destination === DataViewTypes.ENTITY_DATABASE || source === DataViewTypes.ENTITY_DATABASE) {
         elm = database_log_elm;
     } else {
         if (!content.trim().toLowerCase().startsWith("/api") && source === DataViewTypes.ENTITY_CLIENT) {
